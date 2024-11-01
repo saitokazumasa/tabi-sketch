@@ -3,7 +3,7 @@ name: feature_request_temp
 about: default feature request template.
 title: ''
 labels: ''
-assignees: saitokazumasa
+assignees: ''
 
 ---
 
