@@ -1,4 +1,11 @@
-# [たびすけっち](https://tabisketch.com)
+# たびすけっち
+
+## Tailwind CSS
+初期設定  
+`npm install`
+
+ビルドコマンド  
+`npx tailwindcss -i .\src\main\resources\static\css\input.css -o .\src\main\resources\static\css\tailwind.css --watch`  
 
 ## ブランチ
 - main ... メインブランチ
