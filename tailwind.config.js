@@ -11,6 +11,9 @@ module.exports = {
         "link" : "#8DA3C4",
         "danger" : "#F45555"
       },
+      fontFamily: {
+        mPlus1p: ["M PLUS 1p", "sans-serif"],
+      }
     },
   },
   plugins: [],
