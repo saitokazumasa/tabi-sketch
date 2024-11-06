@@ -12,7 +12,7 @@ module.exports = {
         "danger" : "#F45555"
       },
       fontFamily: {
-        mPlus1p: ["M PLUS 1p", "sans-serif"],
+        sans: ["M PLUS 1p", "sans-serif"],
       }
     },
   },
