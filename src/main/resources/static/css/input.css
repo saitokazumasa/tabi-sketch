@@ -3,3 +3,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer components {
+    .button-primary {
+        @apply rounded bg-interactive text-white px-4 py-2 w-32 hover:bg-sub-button transition-colors;
+    }
+    .button-secondary {
+        @apply rounded bg-white outline outline-2 outline-interactive text-interactive px-4 py-2 w-32 hover:bg-frame transition-colors;
+    }
+}
