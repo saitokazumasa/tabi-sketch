@@ -601,6 +601,19 @@ video {
   background-color: rgb(217 217 217 / var(--tw-bg-opacity));
 }
 
+.justify-start{
+  justify-content: flex-start;
+}
+
+.font-light{
+  font-weight: 300;
+}
+
+.text-red-500{
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
+}
+
 body{
   font-family: M PLUS 1p, sans-serif;
 }
