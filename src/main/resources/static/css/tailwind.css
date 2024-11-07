@@ -557,7 +557,7 @@ video {
 }
 
 .input{
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   border-width: 2px;
   --tw-border-opacity: 1;
   border-color: rgb(217 217 217 / var(--tw-border-opacity));
@@ -571,6 +571,22 @@ video {
   border-color: rgb(85 85 85 / var(--tw-border-opacity));
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+.flex{
+  display: flex;
+}
+
+.w-80{
+  width: 20rem;
+}
+
+.justify-around{
+  justify-content: space-around;
+}
+
+.align-bottom{
+  vertical-align: bottom;
 }
 
 body{
