@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<!--<th:block th:replace="~{fragment/head :: head(ログイン)}"></th:block>-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン</title>
+    <link href="/css/tailwind.css" rel="stylesheet">
+    <link rel="icon" href="/images/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p&display=swap" rel="stylesheet">
+</head>
+<body class="font-sans">
+<!--TODO:headerの適用をする-->
+<!--<th:block th:replace="~{fragment/header :: header}"></th:block>-->
+<main class="flex flex-col items-center mt-10">
+    <h2 class="text-center text-3xl font-medium text-default">ログイン</h2>
+<!--    TODO: Figmaではエラーメッセージの表示がなかったけどあってもいいかも？-->
+    <!--    エラーメッセージの表示-->
+    <!--    <div th:if="${param.error}" class="error-message">-->
+    <!--        メールアドレス、またはパスワードが違います-->
+    <!--    </div>-->
+    <form th:action="@{/login}" method="post" class="w-full max-w-sm">
+        <div class="mb-4 mt-10">
+            <label for="email" class="block text-base text-default mb-2">メールアドレス</label>
+            <input id="email" name="email" type="email" required class="w-full input"/>
+        </div>
+        <div class="mb-10 mt-10">
+            <label for="password" class="block text-base text-default mb-2">パスワード</label>
+            <input id="password" name="password" type="password" required class="w-full input"/>
+        </div>
+        <div class="flex items-center justify-center">
+            <button type="submit" class="button-primary">ログイン</button>
+        </div>
+    </form>
+    <div class="mt-10">
+        <a th:href="@{/account/password-reset}" class="text-sm text-link hover:text-link-hover underline">パスワードを忘れた方</a>
+    </div>
+</main>
+
+<!--TODO:footerの適用をする-->
+<!--<th:block th:replace="~{fragment/footer :: footer}"></th:block>-->
+</body>
+</html>
