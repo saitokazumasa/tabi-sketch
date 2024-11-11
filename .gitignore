@@ -34,3 +34,6 @@ build/
 
 ### node modules ###
 /node_modules/
+
+### Tailwind CSS ###
+/src/**/css/tailwind.css
