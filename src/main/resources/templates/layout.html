@@ -1,13 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="jp">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
     <link rel="stylesheet" href="/css/tailwind.css">
+    <title>layout</title>
 </head>
 <body>
-<button class="button-primary">ログイン</button>
-<button class="button-secondary">ログイン</button>
-<br>
+<header>
+    <nav class="box-border h-28 w-full border-2 flex items-center justify-between px-3">
+        <!--TODO: ヘッダーの画像追加-->
+        <a href="#" class="ml-3 text-2xl font-extrabold">たびすけっち</a>
+        <div>
+            <ul class="flex">
+                <li class="flex items-center">
+                    <!-- TODO: ログインしていた場合表示 -->
+                    <a href="#" class="mr-8">プラン一覧</a>
+                </li>
+                <li class="flex items-center">
+                    <!-- TODO: ログインしていた場合表示 -->
+                    <a href="#" class="mr-8">プラン作成</a>
+                </li>
+                <li class="flex items-center">
+                    <!-- TODO: ログインしていた場合表示 -->
+                    <a href="#" class="mr-8">アカウント編集</a>
+                </li>
+                <li>
+                    <!-- TODO: 新規登録画面または、TOPページだった場合表示 -->
+                    <a href="#" class="inline-flex items-center bg-[#8DC48F] border-0 py-3 px-5 focus:outline-none rounded text-base mr-4 text-white">ログイン</a>
+                </li>
+                <li>
+                    <!-- TODO: ログイン画面または、TOPページだった場合表示 -->
+                    <a href="#" class="inline-flex items-center bg-[#8DC48F] border-0 py-3 px-5 focus:outline-none rounded text-base mr-4 text-white">新規登録</a>
+                </li>
+                <li>
+                    <!-- TODO: ログインしていた場合表示 -->
+                    <form action="/logout" method="post">
+                        <button type="submit" class="inline-flex items-center bg-[#8DC48F] border-0 py-3 px-5 focus:outline-none rounded text-base mr-4 text-white">ログアウト</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
 </body>
 </html>
