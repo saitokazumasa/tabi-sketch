@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:fragment="head(title)">
+    <head>
+        <meta charset="UTF-8">
+        <!--タイトルの設定-->
+        <title th:text="${title}">Welcome</title>
+        <!--tailwind.cssよみこみ-->
+        <link href="/css/tailwind.css" rel="stylesheet">
+        <!--faviconの設定-->
+        <link rel="icon" href="/images/favicon.ico">
+        <!--フォントの設定-->
+        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p&display=swap" rel="stylesheet">
+        <style font-family="M PLUS 1p">
+            body {
+                font-family: 'M PLUS 1p', sans-serif;
+            }
+        </style>
+    </head>
+</th:block>
+
+<body>
+</body>
+</html>
