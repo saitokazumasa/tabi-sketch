@@ -13,9 +13,12 @@ module.exports = {
             },
             fontFamily: {
                 sans: ["M PLUS 1p", "sans-serif"],
+            },
+            fontSize: {
+                'title': '32px',
             }
-        },
+        }
     },
-    plugins: [],
+    plugins: [require('tailwind-hamburgers')],
 }
 
