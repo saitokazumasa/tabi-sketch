@@ -2,6 +2,7 @@
 <html lang="jp">
 <th:block th:replace="~{fragment/head :: head(layout)}"></th:block>
 <body>
+<th:block th:fragment="header">
 <header>
     <nav class="box-border w-full border-2 h-28 flex items-center justify-between px-3 whitespace-nowrap">
         <div class="flex items-center">
@@ -58,7 +59,9 @@
         </li>
     </ul>
 </header>
+</th:block>
 </body>
+<th:block th:fragment="script">
 <script>
     const tham = document.querySelector(".tham");
     const mobileMenu = document.getElementById("mobile-menu");
@@ -68,4 +71,5 @@
         mobileMenu.classList.toggle('hidden');
     });
 </script>
+</th:block>
 </html>
