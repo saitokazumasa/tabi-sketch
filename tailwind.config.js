@@ -25,6 +25,7 @@ module.exports = {
             // => @media (min-width:390px)
         }
     },
-    plugins: [],
+    plugins: [
+    ],
 }
 
