@@ -4,23 +4,23 @@
 <body class="font-sans">
 <th:block th:replace="~{fragment/header :: header}"></th:block>
 <main class="flex flex-col items-center mt-10">
-    <h2 class="text-center text-3xl font-medium text-default">ログイン</h2>
+    <h2 class="text-center sp:text-3xl text-2xl font-medium text-default">ログイン</h2>
 <!--    TODO: Figmaではエラーメッセージの表示がなかったけどあってもいいかも？-->
     <!--    エラーメッセージの表示-->
     <!--    <div th:if="${param.error}" class="error-message">-->
     <!--        メールアドレス、またはパスワードが違います-->
     <!--    </div>-->
-    <form th:action="@{/login}" method="post" class="w-full max-w-sm">
+    <form th:action="@{/login}" method="post" class="w-full sp:max-w-sm max-w-xs">
         <div class="mb-4 mt-10">
-            <label for="email" class="block text-base text-default mb-2">メールアドレス</label>
+            <label for="email" class="block sp:text-base text-sp-default text-default sp:my-1 my-0.5 text-sm">メールアドレス</label>
             <input id="email" name="email" type="email" required class="w-full input"/>
         </div>
         <div class="mb-10 mt-10">
-            <label for="password" class="block text-base text-default mb-2">パスワード</label>
+            <label for="password" class="block sp:text-base text-sp-default text-default sp:my-1 my-0.5 text-sm">パスワード</label>
             <input id="password" name="password" type="password" required class="w-full input"/>
         </div>
         <div class="flex items-center justify-center">
-            <button type="submit" class="button-primary">ログイン</button>
+            <button type="submit" class="button-primary" style="max-width: 7.375rem">ログイン</button>
         </div>
     </form>
     <div class="mt-10">
