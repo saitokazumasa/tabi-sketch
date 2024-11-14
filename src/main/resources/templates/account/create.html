@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<th:block th:replace="~{fragment/head :: head(新規登録)}"></th:block>
+<body>
+<!--TODO:headerの適用をする-->
+<th:block th:replace="~{fragment/header :: header}"></th:block>
+<main class="flex flex-col items-center mt-10">
+    <h2 class="text-center sp:text-3xl text-2xl font-medium text-default">新規登録</h2>
+    <!--TODO: Figmaではエラーメッセージの表示がなかったけどあってもいいかも？-->
+    <!--エラーメッセージの表示-->
+    <!--<div th:if="${param.error}" class="error-message">-->
+    <!--    メールアドレス、またはパスワードが違います-->
+    <!--</div>-->
+    <form th:action="@{/}" method="post" class="w-full sp:max-w-sm max-w-xs">
+        <div class="my-10">
+            <label for="email" class="block sp:text-base text-sp-default text-default sp:my-1 my-0.5 text-sm">メールアドレス</label>
+            <input id="email" name="email" type="email" required class="w-full input"/>
+        </div>
+        <div class="my-10">
+            <label for="password" class="block sp:text-base text-sp-default text-default sp:my-1 my-0.5 text-sm">パスワード</label>
+            <input id="password" name="password" type="password" required class="w-full input"/>
+        </div>
+        <div class="mb-10 mt-10">
+            <label for="rePassword" class="block sp:text-bse text-sp-default text-default sp:my-1 my-0.5 text-sm">パスワード(確認)</label>
+            <input id="rePassword" name="rePassword" type="password" required class="w-full input"/>
+        </div>
+        <div class="flex items-center justify-center">
+            <button type=   "submit" class="button-primary" style="max-width: 7.375rem">新規登録</button>
+        </div>
+    </form>
+</main>
+
+<!--TODO:footerの適用をする-->
+<!--<th:block th:replace="~{fragment/footer :: footer}"></th:block>-->
+</body>
+</html>
