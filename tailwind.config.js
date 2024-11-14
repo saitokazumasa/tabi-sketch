@@ -15,6 +15,7 @@ module.exports = {
             },
             fontSize: {
                 "sp-default": "0.8125rem",
+                'title': '32px',
             },
             fontFamily: {
                 sans: ["M PLUS 1p", "sans-serif"],
@@ -26,6 +27,6 @@ module.exports = {
         }
     },
     plugins: [
+        require('tailwind-hamburgers')
     ],
 }
-
