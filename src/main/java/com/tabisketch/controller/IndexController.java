@@ -5,8 +5,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/")
 public class IndexController {
-    @GetMapping()
+    @GetMapping("")
     public String index() {
+        return "index";
+    }
+    
+    @GetMapping("/top")
+    public String top() {
         return "index";
     }
 }
