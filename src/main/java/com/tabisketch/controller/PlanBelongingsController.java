@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("plan/belongings/{uuid}")
 public class PlanBelongingsController {
     @GetMapping()
-    public String planBelongings(@PathVariable("uuid") String uuid) {
+    public String get(@PathVariable("uuid") String uuid) {
+
         return "plan/belongings";
     }
 }
