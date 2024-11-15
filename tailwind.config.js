@@ -15,7 +15,7 @@ module.exports = {
             },
             fontSize: {
                 "sp-default": "0.8125rem",
-                'title': '32px',
+                'title': '2rem',
             },
             fontFamily: {
                 sans: ["M PLUS 1p", "sans-serif"],
