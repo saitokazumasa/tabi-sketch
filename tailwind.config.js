@@ -18,12 +18,12 @@ module.exports = {
             },
             fontFamily: {
                 sans: ["M PLUS 1p", "sans-serif"],
+            },
+            screens: {
+                'sp': '390px',
+                // => @media (min-width:390px)
             }
         },
-        screens: {
-            'sp': '390px',
-            // => @media (min-width:390px)
-        }
     },
     plugins: [
     ],
