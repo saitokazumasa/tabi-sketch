@@ -1,75 +1,74 @@
 <!DOCTYPE html>
-<html lang="jp">
-<th:block th:replace="~{fragment/head :: head(Top)}"></th:block>
+<html lang="ja">
 <body>
 <th:block th:fragment="header">
-<header>
-    <nav class="box-border w-full border-2 h-28 flex items-center justify-between px-3 whitespace-nowrap">
-        <div class="flex items-center">
-            <img src="#" alt="たびすけっちのアイコン">
-            <a href="#" class="mx-3 md:text-title font-extrabold text-xl">たびすけっち</a>
-        </div>
-        <!-- ハンバーガーメニュー (スマホ画面で表示) -->
-        <div class="tham tham-e-squeeze tham-w-6 md:hidden">
-            <div class="tham-box">
-                <div class="tham-inner"></div>
+    <header class="text-default">
+        <nav class="box-border w-full border-2 h-28 flex items-center justify-between px-3 whitespace-nowrap">
+            <div class="flex items-center">
+                <img src="#" alt="たびすけっちのアイコン">
+                <a href="#" class="mx-3 sm:text-title font-extrabold text-xl">たびすけっち</a>
             </div>
-        </div>
-        <!-- ナビゲーションメニュー -->
-        <ul class="text-base items-center justify-around hidden md:flex" id="nav-menu">
-            <li class="mx-3">
-                <!-- TODO: ログインしていた場合表示 -->
-                <a href="#">プラン一覧</a>
-            </li>
-            <li class="mx-3">
-                <!-- TODO: ログインしていた場合表示 -->
-                <a href="#">プラン作成</a>
-            </li>
-            <li class="mx-3">
-                <!-- TODO: ログインしていた場合表示 -->
-                <a href="#">アカウント編集</a>
-            </li>
-            <li class="mx-3">
-                <!-- TODO: 新規登録画面または、TOPページだった場合表示 -->
-                <a href="#" class="button-primary">ログイン</a>
-            </li>
-            <li class="mx-3">
-                <!-- TODO: ログイン画面または、TOPページだった場合表示 -->
-                <a href="#" class="button-primary">新規登録</a>
-            </li>
-            <li class="mx-3">
-                <!-- TODO: ログインしていた場合表示 -->
+            <!-- ハンバーガーメニュー (スマホ画面で表示) -->
+            <div class="tham tham-e-squeeze tham-w-6 sm:hidden">
+                <div class="tham-box">
+                    <div class="tham-inner"></div>
+                </div>
+            </div>
+            <!-- ナビゲーションメニュー -->
+            <ul class="text-base items-center justify-around hidden sm:flex" id="nav-menu">
+                <li class="mx-3">
+                    <!-- TODO: ログインしていた場合表示 -->
+                    <a href="#">プラン一覧</a>
+                </li>
+                <li class="mx-3">
+                    <!-- TODO: ログインしていた場合表示 -->
+                    <a href="#">プラン作成</a>
+                </li>
+                <li class="mx-3">
+                    <!-- TODO: ログインしていた場合表示 -->
+                    <a href="#">アカウント編集</a>
+                </li>
+                <li class="mx-3">
+                    <!-- TODO: 新規登録画面または、TOPページだった場合表示 -->
+                    <a href="#" class="button-primary">ログイン</a>
+                </li>
+                <li class="mx-3">
+                    <!-- TODO: ログイン画面または、TOPページだった場合表示 -->
+                    <a href="#" class="button-primary">新規登録</a>
+                </li>
+                <li class="mx-3">
+                    <!-- TODO: ログインしていた場合表示 -->
+                    <form action="/logout" method="post">
+                        <button type="submit" class="button-primary">ログアウト</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <!-- ハンバーガーメニュー用のメニュー (スマホ画面で表示) -->
+        <ul class="fixed right-0 h-full w-1/2 bg-white flex-col border-l-2 border-b-2 text-center pt-4 smace-y-10 hidden" id="mobile-menu">
+            <li><a href="#">プラン一覧</a></li>
+            <li><a href="#">プラン作成</a></li>
+            <li><a href="#">アカウント編集</a></li>
+            <li><a href="#" >ログイン</a></li>
+            <li><a href="#" >新規登録</a></li>
+            <li>
                 <form action="/logout" method="post">
-                    <button type="submit" class="button-primary">ログアウト</button>
+                    <button type="submit">ログアウト</button>
                 </form>
             </li>
         </ul>
-    </nav>
-    <!-- ハンバーガーメニュー用のメニュー (スマホ画面で表示) -->
-    <ul class="fixed right-0 h-full w-1/2 bg-white flex-col border-l-2 border-b-2 text-center pt-4 space-y-10 hidden" id="mobile-menu">
-        <li><a href="#">プラン一覧</a></li>
-        <li><a href="#">プラン作成</a></li>
-        <li><a href="#">アカウント編集</a></li>
-        <li><a href="#" >ログイン</a></li>
-        <li><a href="#" >新規登録</a></li>
-        <li>
-            <form action="/logout" method="post">
-                <button type="submit">ログアウト</button>
-            </form>
-        </li>
-    </ul>
-</header>
+    </header>
 </th:block>
 </body>
 <th:block th:fragment="script">
-<script>
-    const tham = document.querySelector(".tham");
-    const mobileMenu = document.getElementById("mobile-menu");
+    <script>
+        const tham = document.querySelector(".tham");
+        const mobileMenu = document.getElementById("mobile-menu");
 
-    tham.addEventListener('click', () => {
-        tham.classList.toggle('tham-active');
-        mobileMenu.classList.toggle('hidden');
-    });
-</script>
+        tham.addEventListener('click', () => {
+            tham.classList.toggle('tham-active');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
 </th:block>
 </html>
