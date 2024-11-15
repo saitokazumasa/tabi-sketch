@@ -60,15 +60,4 @@
     </header>
 </th:block>
 </body>
-<th:block th:fragment="script">
-    <script>
-        const tham = document.querySelector(".tham");
-        const mobileMenu = document.getElementById("mobile-menu");
-
-        tham.addEventListener('click', () => {
-            tham.classList.toggle('tham-active');
-            mobileMenu.classList.toggle('hidden');
-        });
-    </script>
-</th:block>
 </html>
