@@ -1,12 +1,14 @@
 package com.tabisketch.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/")
-public class IndexController {
+@Controller
+@RequestMapping("/top")
+public class TopController {
     @GetMapping
-    public String index() {
+    public String get() {
         return "index";
     }
 }

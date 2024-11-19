@@ -4,7 +4,7 @@
 <body class="flex flex-col min-h-screen">
 <th:block th:replace="fragment/header :: header"></th:block>
 <main class="flex flex-col items-center mt-10 flex-grow">
-    <h2 class="text-center sm:text-3xl text-2xl font-medium text-default">新規登録</h2>
+    <h2 class="text-center sm:text-3xl text-2xl font-medium">新規登録</h2>
     <!--TODO: Figmaではエラーメッセージの表示がなかったけどあってもいいかも？-->
     <!--エラーメッセージの表示-->
     <!--<div th:if="${param.error}" class="error-message">-->
@@ -12,15 +12,15 @@
     <!--</div>-->
     <form th:action="@{/}" method="post" class="w-full sm:max-w-lg max-w-xs">
         <div class="my-10">
-            <label for="mail" class="block sm:text-base text-sp-default text-default sm:my-1 my-0.5 text-sm">メールアドレス</label>
+            <label for="mail" class="block sm:text-base text-sp-default sm:my-1 my-0.5 text-sm">メールアドレス</label>
             <input id="mail" name="mail" type="email" required class="w-full input"/>
         </div>
         <div class="my-10">
-            <label for="password" class="block sm:text-base text-sp-default text-default sm:my-1 my-0.5 text-sm">パスワード</label>
+            <label for="password" class="block sm:text-base text-sp-default sm:my-1 my-0.5 text-sm">パスワード</label>
             <input id="password" name="password" type="password" required class="w-full input"/>
         </div>
         <div class="mb-10 mt-10">
-            <label for="rePassword" class="block sm:text-bse text-sp-default text-default sm:my-1 my-0.5 text-sm">パスワード(確認)</label>
+            <label for="rePassword" class="block sm:text-base text-sp-default sm:my-1 my-0.5 text-sm">パスワード(確認)</label>
             <input id="rePassword" name="rePassword" type="password" required class="w-full input"/>
         </div>
         <div class="flex items-center justify-center">
