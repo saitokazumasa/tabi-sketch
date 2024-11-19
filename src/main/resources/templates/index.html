@@ -4,6 +4,14 @@
 <body class="flex flex-col min-h-screen">
 <th:block th:replace="fragment/header :: header"></th:block>
 <main class="flex-grow">
+    <div class="relative">
+        <img th:src="@{https://placehold.jp/ff9d4d/ffffff/1920x780.png?text=%20}" alt="春の画像" class="">
+    </div>
+    <div class="absolute flex flex-col inset-0 items-center justify-center">
+        <h1 class="font-extrabold my-3 text-white text-opacity-80 text-7xl">たびすけっち</h1>
+        <p class="text-white text-opacity-80 text-title">あなたの旅のお供に</p>
+    </div>
+
 
 </main>
 <th:block th:replace="fragment/footer :: footer"></th:block>
