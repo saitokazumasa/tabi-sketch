@@ -19,10 +19,7 @@ public class CreateUserController {
     }
 
     @PostMapping
-    public String post(
-            final @Validated CreateUserForm createUserForm,
-            final BindingResult bindingResult
-    ) {
+    public String post(final @Validated CreateUserForm createUserForm, final BindingResult bindingResult) {
         if (createUserForm.isNotMatchPasswordAndRePassword())
             // TODO: エラーメッセージ等、ベタ書きではなく別の場所から参照する形にする
             bindingResult.rejectValue("rePassword", "error.createUserForm", "パスワードが一致しません");
