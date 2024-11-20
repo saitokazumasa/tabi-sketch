@@ -15,7 +15,7 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/", "/top").permitAll()
                         .anyRequest().denyAll()
                 ).formLogin(a -> a
                         .loginPage("/login")

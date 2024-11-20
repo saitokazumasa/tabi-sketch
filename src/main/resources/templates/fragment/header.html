@@ -1,57 +1,42 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:sec="http://www.w3.org/1999/xhtml">
 <body>
 <th:block th:fragment="header">
-    <header>
-        <nav class="box-border w-full border-2 h-28 flex items-center justify-between px-3 whitespace-nowrap">
+    <header class="w-full">
+        <nav class="box-border border-2 h-14 sm:h-28 flex items-center justify-between px-3 whitespace-nowrap">
             <div class="flex items-center">
-                <img src="#" alt="たびすけっちのアイコン">
-                <a href="#" class="mx-3 sm:text-title font-extrabold text-xl">たびすけっち</a>
+                <img th:src="@{/images/icon.png}" alt="たびすけっちのアイコン" class="h-12 w-12">
+                <a th:href="@{/}" class="mx-3 sm:text-title font-extrabold text-xl">たびすけっち</a>
             </div>
-            <!-- ハンバーガーメニュー (スマホ画面で表示) -->
-            <div class="tham tham-e-squeeze tham-w-6 sm:hidden">
+            <!-- ハンバーガーメニュー (sm未満で表示) -->
+            <button class="tham tham-e-squeeze tham-w-6 sm:hidden">
                 <div class="tham-box">
                     <div class="tham-inner"></div>
                 </div>
-            </div>
+            </button>
             <!-- ナビゲーションメニュー -->
             <ul class="text-base items-center justify-around hidden sm:flex" id="nav-menu">
-                <li class="mx-3">
-                    <!-- TODO: ログインしていた場合表示 -->
-                    <a href="#">プラン一覧</a>
-                </li>
-                <li class="mx-3">
-                    <!-- TODO: ログインしていた場合表示 -->
-                    <a href="#">プラン作成</a>
-                </li>
-                <li class="mx-3">
-                    <!-- TODO: ログインしていた場合表示 -->
-                    <a href="#">アカウント編集</a>
-                </li>
-                <li class="mx-3">
-                    <!-- TODO: 新規登録画面または、TOPページだった場合表示 -->
-                    <a href="#" class="button-primary">ログイン</a>
-                </li>
-                <li class="mx-3">
-                    <!-- TODO: ログイン画面または、TOPページだった場合表示 -->
-                    <a href="#" class="button-primary">新規登録</a>
-                </li>
-                <li class="mx-3">
-                    <!-- TODO: ログインしていた場合表示 -->
+                <!-- ログイン状態に応じた表示 -->
+                <li class="mx-1 xl:mx-3" sec:authorize="isAuthenticated()"><a href="#">プラン一覧</a></li>
+                <li class="mx-1 xl:mx-3" sec:authorize="isAuthenticated()"><a href="#">プラン作成</a></li>
+                <li class="mx-1 xl:mx-3" sec:authorize="isAuthenticated()"><a href="#">アカウント編集</a></li>
+                <li class="mx-1 xl:mx-3" sec:authorize="isAnonymous"><a href="#" class="button-primary">ログイン</a></li>
+                <li class="mx-1 xl:mx-3" sec:authorize="isAnonymous"><a href="#" class="button-primary">新規登録</a></li>
+                <li class="mx-1 xl:mx-3" sec:authorize="isAuthenticated()">
                     <form action="/logout" method="post">
                         <button type="submit" class="button-primary">ログアウト</button>
                     </form>
                 </li>
             </ul>
         </nav>
-        <!-- ハンバーガーメニュー用のメニュー (スマホ画面で表示) -->
-        <ul class="fixed right-0 h-full w-1/2 bg-white flex-col border-l-2 border-b-2 text-center pt-4 space-y-10 hidden" id="mobile-menu">
-            <li><a href="#">プラン一覧</a></li>
-            <li><a href="#">プラン作成</a></li>
-            <li><a href="#">アカウント編集</a></li>
-            <li><a href="#" >ログイン</a></li>
-            <li><a href="#" >新規登録</a></li>
-            <li>
+        <!-- ハンバーガーメニュー用のメニュー (sm未満で表示) -->
+        <ul class="fixed right-0 h-full w-1/2 bg-white flex-col border-l-2 border-b-2 text-center pt-4 space-y-10 hidden text-base" id="mobile-menu">
+            <li sec:authorize="isAuthenticated()"><a href="#">プラン一覧</a></li>
+            <li sec:authorize="isAuthenticated()"><a href="#">プラン作成</a></li>
+            <li sec:authorize="isAuthenticated()"><a href="#">アカウント編集</a></li>
+            <li sec:authorize="isAnonymous"><a href="#">ログイン</a></li>
+            <li sec:authorize="isAnonymous"><a href="#">新規登録</a></li>
+            <li sec:authorize="isAuthenticated()">
                 <form action="/logout" method="post">
                     <button type="submit">ログアウト</button>
                 </form>
