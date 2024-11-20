@@ -9,5 +9,5 @@ import java.util.List;
 @Mapper
 public interface IPlansMapper {
     @Select("SELECT * FROM plans WHERE user_id = #{userId}")
-    public List<Plan> selectByUserId(final int userId);
+    List<Plan> selectByUserId(final int userId);
 }
