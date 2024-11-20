@@ -1,18 +1,15 @@
 package com.tabisketch.bean.form;
 
-import com.tabisketch.bean.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserForm implements Serializable {
+public class CreateUserForm{
     @Email
     @NotBlank
     private String mail;
