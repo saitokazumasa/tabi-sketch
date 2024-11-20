@@ -16,6 +16,7 @@ public class WebSecurityConfiguration {
         return httpSecurity
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/", "/top").permitAll()
+                        .requestMatchers("user/**").authenticated()
                         .anyRequest().denyAll()
                 ).formLogin(a -> a
                         .loginPage("/login")
