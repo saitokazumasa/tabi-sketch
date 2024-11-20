@@ -18,6 +18,6 @@ public class TopControllerTest {
     public void 表示されるか() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/top"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("index"));
+                .andExpect(MockMvcResultMatchers.view().name("top"));
     }
 }

@@ -17,7 +17,7 @@ public class IndexControllerTest {
     @WithMockUser
     public void 表示されるか() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/"))
-               .andExpect(MockMvcResultMatchers.status().isOk())
-               .andExpect(MockMvcResultMatchers.view().name("index"));
+               .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+               .andExpect(MockMvcResultMatchers.redirectedUrl("/top"));
     }
 }
