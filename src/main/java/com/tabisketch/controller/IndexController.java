@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class IndexController {
     @GetMapping
-    public String index() {
+    public String get() {
         return "redirect:/top";
     }
 }
