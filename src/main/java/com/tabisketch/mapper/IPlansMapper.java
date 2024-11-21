@@ -1,6 +1,6 @@
 package com.tabisketch.mapper;
 
-import com.tabisketch.bean.Plan;
+import com.tabisketch.bean.entity.Plan;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

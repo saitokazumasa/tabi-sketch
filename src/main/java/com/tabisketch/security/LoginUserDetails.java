@@ -1,6 +1,6 @@
 package com.tabisketch.security;
 
-import com.tabisketch.bean.User;
+import com.tabisketch.bean.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
