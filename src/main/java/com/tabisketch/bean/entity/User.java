@@ -1,4 +1,4 @@
-package com.tabisketch.bean;
+package com.tabisketch.bean.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

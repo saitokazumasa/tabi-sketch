@@ -1,6 +1,6 @@
 package com.tabisketch.mapper;
 
-import com.tabisketch.bean.User;
+import com.tabisketch.bean.entity.User;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
