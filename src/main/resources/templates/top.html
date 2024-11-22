@@ -5,7 +5,7 @@
 <th:block th:replace="fragment/header :: header"/>
 <main class="flex-grow">
     <div class="relative">
-        <img th:src="@{https://placehold.jp/ff9d4d/ffffff/1920x780.png?text=%20}" alt="春の画像" class="">
+        <img th:src="@{/images/top1.png}" alt="スライドショー" id="images" class="w-full h-3/5">
         <div class="absolute flex flex-col inset-0 items-center justify-center">
             <h1 class="font-extrabold my-3 text-white text-opacity-80 text-4xl sm:text-7xl">たびすけっち</h1>
             <p class="text-white text-opacity-80 text-base sm:text-title">あなたの旅のお供に</p>
@@ -30,7 +30,7 @@
                     </svg>
                 </div>
                 <div class="mx-3">
-                    <h1 class="font-extrabold mb-2 text-2xl sm:text-3xl whitespace-nowrap">経路を作成</h1>
+                    <h1 class="font-extrabold mb-2 text-3xl whitespace-nowrap">経路を作成</h1>
                     <p class="font-normal text-base sm:text-xl text-label">
                         目的地・滞在時間・移動手段などを設定することで、自動的に旅行経路が作成されます。
                         編集も可能なため、自分なりのプランを作成することが出来ます。
@@ -50,7 +50,7 @@
                     </svg>
                 </div>
                 <div class="mx-3">
-                    <h1 class="font-extrabold mb-2 text-2xl sm:text-3xl whitespace-nowrap">みんなでプランを共有</h1>
+                    <h1 class="font-extrabold mb-2 text-3xl whitespace-nowrap">みんなでプランを共有</h1>
                     <p class="font-normal text-base sm:text-xl text-label">
                         一緒に旅行に行きたい友人や家族とプランを共有することが出来ます。
                         協力して理想の旅行プランを作り上げましょう。
@@ -69,7 +69,7 @@
                     </svg>
                 </div>
                 <div class="mx-3">
-                    <h1 class="font-extrabold mb-2 text-2xl sm:text-3xl whitespace-nowrap">おすすめスポットを提案</h1>
+                    <h1 class="font-extrabold mb-2 text-3xl whitespace-nowrap">おすすめスポットを提案</h1>
                     <p class="font-normal text-base sm:text-xl text-label">
                         ユーザーが今までに作成したプランの中から、おすすめの目的地を提案してくれます。
                         他のユーザーが設定した予算や滞在時間を参考にできます。
@@ -88,7 +88,7 @@
                     </svg>
                 </div>
                 <div class="mx-3">
-                    <h1 class="font-extrabold mb-2 text-2xl sm:text-3xl whitespace-nowrap">忘れ物を防止</h1>
+                    <h1 class="font-extrabold mb-2 text-3xl whitespace-nowrap">忘れ物を防止</h1>
                     <p class="font-normal text-base sm:text-xl text-label">
                         持ち物リストを作成することで、忘れ物を防止することが出来ます。
                         準備をしっかり行い楽しい旅行にしましょう。
@@ -101,5 +101,6 @@
 </main>
 <th:block th:replace="fragment/footer :: footer"/>
 <th:block th:replace="fragment/script :: header"/>
+<th:block th:replace="fragment/script :: top"/>
 </body>
 </html>
