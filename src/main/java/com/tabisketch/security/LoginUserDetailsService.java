@@ -1,6 +1,6 @@
 package com.tabisketch.security;
 
-import com.tabisketch.bean.User;
+import com.tabisketch.bean.entity.User;
 import com.tabisketch.mapper.IUsersMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
