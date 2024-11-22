@@ -1,16 +1,24 @@
-const images = [
-    '/images/top1.png',
-    '/images/top2.png',
-    '/images/top3.png',
-    '/images/top4.png',
-    '/images/top5.png',
-    '/images/top6.png',
-];
-let currentIndex = 0;
-const imagesElement = document.getElementById('images');
+class ImageUrls {
+    urls = [
+        '/images/top1.png',
+        '/images/top2.png',
+        '/images/top3.png',
+        '/images/top4.png',
+        '/images/top5.png',
+        '/images/top6.png',
+    ];
+    currentIndex = -1;
 
-setInterval(() => {
-    // 次の画像に切り替える
-    currentIndex = (currentIndex + 1) % images.length;
-    imagesElement.src = images[currentIndex];
-}, 10000); // 10秒ごとに切り替え
+    nextUrl() {
+        const nextIndex = this.currentIndex + 1;
+        this.currentIndex = nextIndex >= this.urls.length? 0 : nextIndex;
+        return this.urls[this.currentIndex];
+    }
+}
+
+const imagesElement = document.getElementById('images');
+const imageUrls = new ImageUrls();
+function nextImage() {
+    imagesElement.src = imageUrls.nextUrl();
+}
+setInterval(() => nextImage(), 10000);
