@@ -12,8 +12,14 @@
         </div>
     </div>
     <div class="flex flex-col items-center my-20 sm:text-xl">
-        <p>「らくたび」はあなたの旅のお供です。</p>
-        <p>目的地を設定するだけで旅行経路を提供してくれます。</p>
+        <!-- PC画面で表示 -->
+        <p class="text-2xl hidden sm:block">「らくたび」はあなたの旅のお供です。</p>
+        <p class="text-2xl hidden sm:block">目的地を設定するだけで旅行経路を提供してくれます。</p>
+        <!-- スマホ画面で表示 -->
+        <p class="text-2xl sm:hidden">
+            「らくたび」はあなたの旅のお供です。
+            目的地を設定するだけで旅行経路を提供してくれます。
+        </p>
     </div>
     <div class="flex justify-center whitespace-nowrap my-20">
         <a th:href="@{/}" class="button-secondary flex items-center justify-center text-center h-12 w-48">プランを作成する</a>
@@ -30,7 +36,7 @@
                     </svg>
                 </div>
                 <div class="mx-3">
-                    <h1 class="font-extrabold mb-2 text-3xl whitespace-nowrap">経路を作成</h1>
+                    <h1 class="font-extrabold mb-2 text-2xl sm:text-3xl whitespace-nowrap">経路を作成</h1>
                     <p class="font-normal text-base sm:text-xl text-label">
                         目的地・滞在時間・移動手段などを設定することで、自動的に旅行経路が作成されます。
                         編集も可能なため、自分なりのプランを作成することが出来ます。
@@ -50,7 +56,7 @@
                     </svg>
                 </div>
                 <div class="mx-3">
-                    <h1 class="font-extrabold mb-2 text-3xl whitespace-nowrap">みんなでプランを共有</h1>
+                    <h1 class="font-extrabold mb-2 text-2xl sm:text-3xl whitespace-nowrap">みんなでプランを共有</h1>
                     <p class="font-normal text-base sm:text-xl text-label">
                         一緒に旅行に行きたい友人や家族とプランを共有することが出来ます。
                         協力して理想の旅行プランを作り上げましょう。
@@ -69,7 +75,7 @@
                     </svg>
                 </div>
                 <div class="mx-3">
-                    <h1 class="font-extrabold mb-2 text-3xl whitespace-nowrap">おすすめスポットを提案</h1>
+                    <h1 class="font-extrabold mb-2 text-2xl sm:text-3xl whitespace-nowrap">おすすめスポットを提案</h1>
                     <p class="font-normal text-base sm:text-xl text-label">
                         ユーザーが今までに作成したプランの中から、おすすめの目的地を提案してくれます。
                         他のユーザーが設定した予算や滞在時間を参考にできます。
@@ -88,7 +94,7 @@
                     </svg>
                 </div>
                 <div class="mx-3">
-                    <h1 class="font-extrabold mb-2 text-3xl whitespace-nowrap">忘れ物を防止</h1>
+                    <h1 class="font-extrabold mb-2 text-2xl sm:text-3xl whitespace-nowrap">忘れ物を防止</h1>
                     <p class="font-normal text-base sm:text-xl text-label">
                         持ち物リストを作成することで、忘れ物を防止することが出来ます。
                         準備をしっかり行い楽しい旅行にしましょう。
