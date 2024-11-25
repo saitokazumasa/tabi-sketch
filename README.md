@@ -10,13 +10,3 @@
 ## 初期設定
 
 1. コマンドラインで `npm install` を実行する
-2. .run/TabisketchApplication.run.xml の環境変数を書き換える
-
-```xml
-<envs>
-    <!-- 各自の環境変数に置き換える -->
-    <env name="DATABASE_PASSWORD" value="[データベースのパスワード]"/>
-    <env name="DATABASE_URL" value="[データベースのURL]"/>
-    <env name="DATABASE_USERNAME" value="[データベースのユーザー名]"/>
-</envs>
-```
