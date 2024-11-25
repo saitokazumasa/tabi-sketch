@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserForm{
+public class RegisterForm {
     @Email
     @NotBlank
     private String mail;
@@ -20,8 +20,8 @@ public class CreateUserForm{
     @NotBlank
     private String rePassword;
 
-    public static CreateUserForm empty() {
-        return new CreateUserForm();
+    public static RegisterForm empty() {
+        return new RegisterForm();
     }
 
     public boolean isNotMatchPasswordAndRePassword() {
