@@ -18,8 +18,12 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(a -> a
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/", "/top").permitAll()
-                        .requestMatchers("user/create").permitAll()
-                        .requestMatchers("user/**").authenticated()
+                        .requestMatchers("/register/**").permitAll()
+                        .requestMatchers("/mail/**").permitAll()
+                        .requestMatchers("/password-reset/**").permitAll()
+                        .requestMatchers("/share/**").permitAll()
+                        .requestMatchers("/user/**").authenticated()
+                        .requestMatchers("/plan/**").authenticated()
                         .anyRequest().denyAll()
                 ).formLogin(a -> a
                         .loginPage("/login")
