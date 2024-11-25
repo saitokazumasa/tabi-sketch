@@ -36,4 +36,4 @@ build/
 /node_modules/
 
 ### Tailwind CSS ###
-/src/**/css/tailwind.css
+src/**/css/tailwind.css
