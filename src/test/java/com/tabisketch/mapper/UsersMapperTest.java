@@ -14,8 +14,7 @@ public class UsersMapperTest {
     private IUsersMapper usersMapper;
 
     @ParameterizedTest
-    // NOTE: 存在するテストデータに合わせて以下を書き換える
-    @ValueSource(strings = {"sample@mail.com"})
+    @ValueSource(strings = {"sample@example.com"})
     public void SELECTできるか(final String mail) {
         final User user = usersMapper.selectByMail(mail);
         assert user != null;
