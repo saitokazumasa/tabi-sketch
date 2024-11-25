@@ -16,4 +16,5 @@
 DATABASE_URL データベースのURL
 DATABASE_USERNAME データベースのユーザー名
 DATABASE_PASSWORD データベースのパスワード
+GOOGLE_MAPS_API_KEY グーグルマップのAPIキー
 ```
