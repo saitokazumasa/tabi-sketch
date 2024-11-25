@@ -10,3 +10,10 @@
 ## 初期設定
 
 1. コマンドラインで `npm install` を実行する
+2. Run/Debug Configurations の環境変数を設定する
+
+```
+DATABASE_URL データベースのURL
+DATABASE_USERNAME データベースのユーザー名
+DATABASE_PASSWORD データベースのパスワード
+```
