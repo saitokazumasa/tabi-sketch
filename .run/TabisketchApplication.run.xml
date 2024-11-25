@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="TabisketchApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <envs>
+      <!-- 各自の環境変数に置き換える -->
+      <env name="DATABASE_PASSWORD" value="" />
+      <env name="DATABASE_URL" value="" />
+      <env name="DATABASE_USERNAME" value="" />
+    </envs>
+    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+    <module name="tabisketch" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.tabisketch.TabisketchApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
