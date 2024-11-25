@@ -1,6 +1,6 @@
 package com.tabisketch.controller;
 
-import com.tabisketch.bean.form.CreateUserForm;
+import com.tabisketch.bean.form.RegisterForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,29 +10,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/user/create")
-public class CreateUserController {
+@RequestMapping("/register")
+public class RegisterController {
     @GetMapping
     public String get(final Model model) {
-        model.addAttribute("createUserForm", CreateUserForm.empty());
-        return "user/create";
+        model.addAttribute("registerForm", RegisterForm.empty());
+        return "register/index";
     }
 
     @PostMapping
-    public String post(final @Validated CreateUserForm createUserForm, final BindingResult bindingResult) {
-        if (createUserForm.isNotMatchPasswordAndRePassword())
+    public String post(final @Validated RegisterForm registerForm, final BindingResult bindingResult) {
+        if (registerForm.isNotMatchPasswordAndRePassword())
             // TODO: エラーメッセージ等、ベタ書きではなく別の場所から参照する形にする
             bindingResult.rejectValue("rePassword", "error.createUserForm", "パスワードが一致しません");
 
-        if (bindingResult.hasErrors()) return "user/create";
+        if (bindingResult.hasErrors()) return "register/index";
 
         // TODO: 確認メールを送信する
 
-        return "redirect:/user/create/confirm";
+        return "redirect:/register/send";
     }
 
-    @GetMapping("/confirm")
-    public String confirm() {
-        return "user/create-confirm";
+    @GetMapping("/send")
+    public String send() {
+        return "register/send";
     }
 }
