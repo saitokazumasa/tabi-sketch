@@ -15,9 +15,9 @@ public class TopControllerTest {
 
     @Test
     @WithMockUser
-    public void 表示されるか() throws Exception {
+    public void getが動作するか() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/top"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("index"));
+                .andExpect(MockMvcResultMatchers.view().name("top"));
     }
 }

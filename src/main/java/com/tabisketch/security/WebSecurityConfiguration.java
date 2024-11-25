@@ -1,5 +1,6 @@
 package com.tabisketch.security;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +16,14 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(a -> a
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/", "/top").permitAll()
+                        .requestMatchers("/register/**").permitAll()
+                        .requestMatchers("/mail/**").permitAll()
+                        .requestMatchers("/password-reset/**").permitAll()
+                        .requestMatchers("/share/**").permitAll()
+                        .requestMatchers("/user/**").authenticated()
+                        .requestMatchers("/plan/**").authenticated()
                         .anyRequest().denyAll()
                 ).formLogin(a -> a
                         .loginPage("/login")

@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TopController {
     @GetMapping
     public String get() {
-        return "index";
+        return "top";
     }
 }
