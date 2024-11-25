@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Build And Run" type="CompoundRunConfigurationType">
-    <toRun name="build tailwindcss" type="ShConfigurationType" />
+  <configuration default="false" name="BuildAndRun" type="CompoundRunConfigurationType">
+    <toRun name="TailwindCSSBuild" type="ShConfigurationType" />
     <toRun name="TabisketchApplication" type="SpringBootApplicationConfigurationType" />
     <method v="2" />
   </configuration>
