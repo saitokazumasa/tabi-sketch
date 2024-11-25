@@ -16,7 +16,6 @@ public class PlansMapperTest {
     private IPlansMapper plansMapper;
 
     @ParameterizedTest
-    // NOTE: 存在するテストデータに合わせて以下を書き換える
     @ValueSource(ints = {1})
     public void SELECTできるか(final int userId) throws Exception {
         final List<Plan> planList = plansMapper.selectByUserId(userId);
