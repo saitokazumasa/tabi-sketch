@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<th:block th:replace="fragment/head :: head(旅行プラン一覧)"/>
+<body class="flex flex-col min-h-screen">
+<th:block th:replace="fragment/header :: header"/>
+<main class="flex-grow my-12">
+    <div class="relative w-full">
+        <div class="flex flex-col items-center justify-center text-center">
+            <h1 class="text-title">旅行プラン一覧</h1>
+            <p class="text-base font-light">今まで作成した旅行プランを閲覧できます。</p>
+        </div>
+        <div class="absolute right-10 top-6 text-center">
+            <a th:href="@{/}" class="button-primary">プラン作成</a>
+        </div>
+    </div>
+    <div>
+        <div class="border rounded h-64">
+            <!-- TODO:カバー画像のパスを入れる -->
+            <img src="https://placehold.jp/20/b5b5b5/ffffff/435x180.png?text=%E3%82%AB%E3%83%90%E3%83%BC%E7%94%BB%E5%83%8F" class="" alt="カバー画像">
+            <span>title</span>
+        </div>
+    </div>
+</main>
+<th:block th:replace="fragment/footer :: footer"/>
+<th:block th:replace="fragment/script :: header"/>
+</body>
+</html>
