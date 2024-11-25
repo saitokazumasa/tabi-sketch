@@ -8,7 +8,7 @@
 <th:block th:fragment="start">
     <div>
         <!-- Modal toggle -->
-        <button data-modal-target="start-modal" data-modal-toggle="start-modal" class="input text-center text-label max-w-md w-4/5" type="button">
+        <button data-modal-target="start-modal" data-modal-toggle="start-modal" class="input text-center text-label max-w-md w-4/5 h-10 sm:h-12" type="button">
             出発地点を入力する
         </button>
         <!-- Main modal -->
@@ -60,7 +60,7 @@
 <th:block th:fragment="end">
     <div>
         <!-- Modal toggle -->
-        <button data-modal-target="end-modal" data-modal-toggle="end-modal" class="input text-center text-label max-w-md w-4/5" type="button">
+        <button data-modal-target="end-modal" data-modal-toggle="end-modal" class="input text-center text-label max-w-md w-4/5 h-10 sm:h-12" type="button">
             終了地点を入力する
         </button>
         <!-- Main modal -->
@@ -101,7 +101,7 @@
 <th:block th:fragment="places(num)">
     <div>
         <!-- Modal toggle -->
-        <button th:data-modal-target="'place' + ${num} + '-modal'" th:data-modal-toggle="'place' + ${num} + '-modal'" class="input border-interactive text-center text-label max-w-md w-4/5 h-auto flex justify-center items-center" type="button">
+        <button th:data-modal-target="'place' + ${num} + '-modal'" th:data-modal-toggle="'place' + ${num} + '-modal'" class="input border-interactive text-center text-label max-w-md w-4/5 flex justify-center items-center h-10 sm:h-12" type="button">
             <th:block th:replace="~{fragment/svg :: plus}"/>
             <span class="inline">目的地を追加する</span>
         </button>
