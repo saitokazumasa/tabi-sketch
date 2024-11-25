@@ -2,6 +2,9 @@
 module.exports = {
     content: ["./src/**/*.{html,js}", "./node_modules/flowbite/**/*.js"],
     theme: {
+        spacing: {
+            'list-box': '29.1875rem',
+        },
         extend: {
             colors: {
                 "label" : "#555",
