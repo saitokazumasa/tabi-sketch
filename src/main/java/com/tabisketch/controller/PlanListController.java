@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/plan/list")
 public class PlanListController {
     @GetMapping
-    public String planList() {
+    public String get() {
         return "plan/list";
     }
 
