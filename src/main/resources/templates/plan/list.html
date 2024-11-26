@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="flex justify-center my-16">
-        <div class="border rounded-lg block-list w-[29.1875rem] h-64">
+        <a th:href="@{/}" class="block border rounded-lg block-list w-[29.1875rem] h-64 hover:shadow-lg">
             <div class="flex justify-center my-3">
                 <!-- TODO:カバー画像のパスを入れる -->
                 <img src="https://placehold.jp/20/b5b5b5/ffffff/435x180.png?text=%E3%82%AB%E3%83%90%E3%83%BC%E7%94%BB%E5%83%8F" alt="カバー画像">
@@ -23,7 +23,7 @@
                 <span class="mx-4 text-xl">東京旅行！！！</span>
                 <span class="border border-black text-center mx-4 rounded-full w-16">下書き</span>
             </div>
-        </div>
+        </a>
     </div>
 </main>
 <th:block th:replace="fragment/footer :: footer"/>
