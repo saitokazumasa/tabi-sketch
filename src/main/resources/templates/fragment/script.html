@@ -12,5 +12,14 @@
 <th:block th:fragment="flowbite">
     <script src="/js/flowbite.min.js"></script>
 </th:block>
+
+<th:block th:fragment="modal">
+    <script
+        th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapsApiKey} + '&callback=InitAutocomplete&libraries=places&v=weekly'"
+        async
+        defer
+    ></script>
+    <script src="/js/autocomplete.js"></script>
+</th:block>
 </body>
 </html>
