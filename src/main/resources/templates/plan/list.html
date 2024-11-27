@@ -9,45 +9,47 @@
             <h1 class="text-title">旅行プラン一覧</h1>
             <p class="text-base font-light">今まで作成した旅行プランを閲覧できます。</p>
         </div>
-        <div class="absolute right-10 top-6 text-center">
+        <div class="absolute right-10 top-6 text-center hidden md:block">
+            <a th:href="@{/}" class="button-primary">プラン作成</a>
+        </div>
+        <div class="flex justify-center text-center my-10 md:hidden">
             <a th:href="@{/}" class="button-primary">プラン作成</a>
         </div>
     </div>
-    <div class="grid grid-cols-2 justify-items-center my-16 mx-40">
+    <div class="grid grid-cols-1 xl:grid-cols-2 justify-items-center sm:my-16 mx-40">
         <!-- TODO:バックエンドの一覧表示の処理ができたらth:eachで表示できるようにする -->
-        <a th:href="@{/}" class="block border rounded-lg block-list w-[29.1875rem] h-64 hover:shadow-lg my-10">
-            <div class="flex justify-center my-3">
+        <a th:href="@{/}" class="block border overflow-hidden rounded-lg block-list w-[22rem] sm:w-[29.1875rem] h-52 sm:h-64 hover:shadow-lg my-8">
+            <div class="flex justify-center my-3 mx-3 h-36 sm:h-48">
                 <!-- TODO:カバー画像のパスを入れる -->
-                <img src="https://placehold.jp/20/b5b5b5/ffffff/435x180.png?text=%E3%82%AB%E3%83%90%E3%83%BC%E7%94%BB%E5%83%8F" alt="カバー画像">
+                <img th:src="@{/images/top1.png}" class="object-fill sm:object-cover w-full h-full" alt="カバー画像">
             </div>
             <div class="flex justify-between">
                 <!-- TODO:<span th:text="{}">のように後で変更 -->
-                <span class="mx-4 text-xl">東京旅行！！！</span>
-                <!-- TODO:<span th:if="${}">のように後で変更 -->
-                <span class="border border-black flex items-center justify-center mx-4 rounded-full text-center text-xs w-14">下書き</span>
-
-            </div>
-        </a>
-        <a th:href="@{/}" class="block border rounded-lg block-list w-[29.1875rem] h-64 hover:shadow-lg my-10">
-            <div class="flex justify-center my-3">
-                <!-- TODO:カバー画像のパスを入れる -->
-                <img src="https://placehold.jp/20/b5b5b5/ffffff/435x180.png?text=%E3%82%AB%E3%83%90%E3%83%BC%E7%94%BB%E5%83%8F" alt="カバー画像">
-            </div>
-            <div class="flex justify-between">
-                <!-- TODO:<span th:text="{}">のように後で変更 -->
-                <span class="mx-4 text-xl">東京旅行！！！</span>
+                <span class="mx-4 text-base md:text-xl">東京旅行！！！</span>
                 <!-- TODO:<span th:if="${}">のように後で変更 -->
                 <span class="border border-black flex items-center justify-center mx-4 rounded-full text-center text-xs w-14">下書き</span>
             </div>
         </a>
-        <a th:href="@{/}" class="block border rounded-lg block-list w-[29.1875rem] h-64 hover:shadow-lg my-10">
-            <div class="flex justify-center my-3">
+        <a th:href="@{/}" class="block border overflow-hidden rounded-lg block-list w-[22rem] sm:w-[29.1875rem] h-52 sm:h-64 hover:shadow-lg my-8">
+            <div class="flex justify-center my-3 mx-3 h-36 sm:h-48">
                 <!-- TODO:カバー画像のパスを入れる -->
-                <img src="https://placehold.jp/20/b5b5b5/ffffff/435x180.png?text=%E3%82%AB%E3%83%90%E3%83%BC%E7%94%BB%E5%83%8F" alt="カバー画像">
+                <img th:src="@{/images/top1.png}" class="object-fill sm:object-cover w-full h-full" alt="カバー画像">
             </div>
             <div class="flex justify-between">
                 <!-- TODO:<span th:text="{}">のように後で変更 -->
-                <span class="mx-4 text-xl">東京旅行！！！</span>
+                <span class="mx-4 text-base md:text-xl">東京旅行！！！</span>
+                <!-- TODO:<span th:if="${}">のように後で変更 -->
+                <span class="border border-black flex items-center justify-center mx-4 rounded-full text-center text-xs w-14">下書き</span>
+            </div>
+        </a>
+        <a th:href="@{/}" class="block border overflow-hidden rounded-lg block-list w-[22rem] sm:w-[29.1875rem] h-52 sm:h-64 hover:shadow-lg my-8">
+            <div class="flex justify-center my-3 mx-3 h-36 sm:h-48">
+                <!-- TODO:カバー画像のパスを入れる -->
+                <img th:src="@{/images/top1.png}" class="object-fill sm:object-cover w-full h-full" alt="カバー画像">
+            </div>
+            <div class="flex justify-between">
+                <!-- TODO:<span th:text="{}">のように後で変更 -->
+                <span class="mx-4 text-base md:text-xl">東京旅行！！！</span>
                 <!-- TODO:<span th:if="${}">のように後で変更 -->
                 <span class="border border-black flex items-center justify-center mx-4 rounded-full text-center text-xs w-14">下書き</span>
             </div>
