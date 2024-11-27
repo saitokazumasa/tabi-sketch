@@ -43,11 +43,13 @@ function OnPlaceChanged(elementId, autocomplete) {
     } else {
         inputElement.value = place.name;
 
+        /* 各情報の取得
         console.log(`ID: ${elementId}`);
         console.log(`Name: ${place.name}`);
         console.log(`Place ID: ${place.place_id}`);
         console.log(`Latitude: ${place.geometry.location.lat()}`);
         console.log(`Longitude: ${place.geometry.location.lng()}`);
+        */
 
         // セッショントークン再生成
         sessionToken = new google.maps.places.AutocompleteSessionToken();
