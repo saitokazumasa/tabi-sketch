@@ -1,6 +1,7 @@
 let autocompleteInstances = {}; // 各インスタンスの保持
 let sessionToken;
 
+// Autocompleteの初期設定
 function InitAutocomplete() {
     sessionToken = new google.maps.places.AutocompleteSessionToken();
 
@@ -14,6 +15,7 @@ function InitAutocomplete() {
     });
 }
 
+// Autocompleteを使う要素の適用
 function SetupAutocomplete(elementId) {
     const inputElement = document.getElementById(elementId);
     if (!inputElement) {
@@ -34,6 +36,7 @@ function SetupAutocomplete(elementId) {
     autocompleteInstances[elementId] = autocomplete;
 }
 
+// 場所検索の入力時
 function OnPlaceChanged(elementId, autocomplete) {
     let place = autocomplete.getPlace();
     const inputElement = document.getElementById(elementId);
