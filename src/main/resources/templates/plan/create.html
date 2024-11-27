@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/html">
+<th:block th:replace="~{fragment/head :: head(アカウント編集)}"/>
+<body class="flex flex-col min-h-screen">
+<th:block th:replace="~{fragment/header :: header}"/>
+<main class="flex flex-col items-center flex-grow">
+<!--    ヘッダー画像をユーザーが任意で設定できるようにする-->
+    <form class="w-full">
+        <div class="flex flex-col">
+            <label class="text-center bg-red-50 h-44 flex justify-center items-center">
+                <img src="/images/icon.png" class="h-16">
+                <input class="hidden" type="file" accept=".jpg,.jpeg,.png">
+            </label>
+            <label class="border-b-2 w-title text-center mx-auto my-10">
+                <input type="text" placeholder="タイトルを入力してください" class="w-full text-3xl text-center">
+            </label>
+        </div>
+        <div class="ml-10" style="width: 90%">
+            <section class="w-1/2">
+                <!--空のタグは一部のブラウザでは機能しませんと警告が出るので以下の形式-->
+                <h1 class="text-3xl border-b">
+                    <span>1</span>日目
+                </h1>
+                <div class="flex flex-col my-10">
+                    <p>出発地点<span class="ml-2 text-sm text-danger">必須</span></p>
+                    <th:block th:replace="~{fragment/modal :: start}"/>
+                    <p>目的地</p>
+                    <th:block th:replace="~{fragment/modal :: places(1)}"/>
+                    <p>終了地点<span class="ml-2 text-sm text-danger">必須</span></p>
+                    <th:block th:replace="~{fragment/modal :: end}"/>
+                </div>
+                <div class="flex justify-center">
+                    <button type="button" class="sm:mx-10 mx-5 block items-center justify-center button-secondary" onclick="window.location.href='/plan/list'">戻る</button>
+                    <button type="submit" class="sm:mx-10 mx-5 block items-center justify-center button-primary">経路生成</button>
+                </div>
+            </section>
+            <section class="w-1/2">
+            </section>
+        </div>
+    </form>
+</main>
+<th:block th:replace="~{fragment/footer :: footer}"/>
+<th:block th:replace="~{fragment/script :: header}"/>
+<th:block th:replace="~{fragment/script :: flowbite}"/>
+</body>
+</html>
