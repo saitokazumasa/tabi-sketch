@@ -1,0 +1,15 @@
+package com.tabisketch.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/plan/list")
+public class ListPlanController {
+    @GetMapping
+    public String get() {
+        return "plan/list";
+    }
+
+}
