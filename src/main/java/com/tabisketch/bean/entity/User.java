@@ -11,4 +11,14 @@ public class User {
     public int id;
     public String mail;
     public String password;
+    public Boolean isMailVerified;
+
+    public static User generate(final String mail, final String password) {
+        return new User(
+                -1,
+                mail,
+                password,
+                false
+        );
+    }
 }
