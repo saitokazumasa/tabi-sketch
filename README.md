@@ -16,11 +16,13 @@ CREATE DATABASE tabisketch;
 ```
 3. Run/Debug Configurations の環境変数を設定する
 
-```xml
-DATABASE_URL データベースのURL
-DATABASE_USERNAME データベースのユーザー名
-DATABASE_PASSWORD データベースのパスワード
-GOOGLE_MAPS_API_KEY グーグルマップのAPIキー
+```
+DATABASE_URL        データベースのURL
+DATABASE_USERNAME   データベースのユーザー名
+DATABASE_PASSWORD   データベースのパスワード
+MAIL_USERNAME       Gmailアカウントのユーザー名
+MAIL_PASSWORD       Gmailアカウントのアプリパスワード
+GOOGLE_MAPS_API_KEY GoogleMapのAPIキー
 ```
 
 3. CreateTables.run を実行する
