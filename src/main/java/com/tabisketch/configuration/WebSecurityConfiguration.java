@@ -39,9 +39,4 @@ public class WebSecurityConfiguration {
                         .permitAll()
                 ).build();
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

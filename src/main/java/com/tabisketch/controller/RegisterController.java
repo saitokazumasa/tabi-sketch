@@ -1,6 +1,7 @@
 package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.RegisterForm;
+import com.tabisketch.service.IRegisterService;
 import com.tabisketch.service.ISendRegisterMailService;
 import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Controller;
@@ -14,9 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
+    private final IRegisterService registerService;
     private final ISendRegisterMailService sendRegisterMailService;
 
-    public RegisterController(final ISendRegisterMailService sendRegisterMailService) {
+    public RegisterController(
+            final IRegisterService registerService,
+            final ISendRegisterMailService sendRegisterMailService
+    ) {
+        this.registerService = registerService;
         this.sendRegisterMailService = sendRegisterMailService;
     }
 
@@ -34,8 +40,9 @@ public class RegisterController {
 
         if (bindingResult.hasErrors()) return "register/index";
 
+        this.registerService.execute(registerForm);
         // TODO: 送信エラーが発生した時どうするか考える
-        sendRegisterMailService.execute(registerForm.getMail());
+        this.sendRegisterMailService.execute(registerForm.getMail());
 
         return "redirect:/register/send";
     }
