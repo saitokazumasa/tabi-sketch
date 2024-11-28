@@ -1,6 +1,7 @@
 package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.RegisterForm;
+import com.tabisketch.service.IRegisterService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
+    final IRegisterService registerService;
+
+    public RegisterController(final IRegisterService registerService) {
+        this.registerService = registerService;
+    }
+
     @GetMapping
     public String get(final Model model) {
         model.addAttribute("registerForm", RegisterForm.empty());
@@ -26,6 +33,7 @@ public class RegisterController {
 
         if (bindingResult.hasErrors()) return "register/index";
 
+        this.registerService.execute(registerForm);
         // TODO: 確認メールを送信する
 
         return "redirect:/register/send";
