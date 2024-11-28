@@ -13,7 +13,7 @@ public class SendRegisterMailServiceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {""})
-    public void 送信エラーが発生しないか(final String toMail) {
+    public void 動作するか(final String toMail) {
         // NOTE: アドレスエラーは検出されない
         try {
             sendRegisterMailService.execute(toMail);
