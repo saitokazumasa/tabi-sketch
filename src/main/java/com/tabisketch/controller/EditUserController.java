@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/user/edit")
 public class EditUserController {
     @GetMapping
     public String get() {
-        return "";
+        return "user/edit/edit";
     }
 }
