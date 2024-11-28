@@ -1,5 +1,6 @@
 package com.tabisketch.service.implement;
 
+import com.tabisketch.bean.form.RegisterForm;
 import com.tabisketch.bean.valueobject.ServerMailAddress;
 import com.tabisketch.service.ISendRegisterMailService;
 import jakarta.mail.MessagingException;
@@ -23,12 +24,12 @@ public class SendRegisterMailService implements ISendRegisterMailService {
 
     @Override
     @Async
-    public void execute(final String toMail) throws MessagingException {
+    public void execute(final RegisterForm registerForm) throws MessagingException {
         final var message = mailSender.createMimeMessage();
         final var messageHelper = new MimeMessageHelper(message, true);
 
         messageHelper.setFrom(fromMail.getValue());
-        messageHelper.setTo(toMail);
+        messageHelper.setTo(registerForm.getMail());
         // TODO: どこかに文言をまとめておきたいかも
         messageHelper.setSubject("たびすけっち 登録確認メール");
         messageHelper.setText("たびすけっちの登録確認メールです。");

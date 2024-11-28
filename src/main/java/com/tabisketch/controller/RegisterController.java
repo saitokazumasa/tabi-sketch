@@ -42,7 +42,7 @@ public class RegisterController {
 
         this.registerService.execute(registerForm);
         // TODO: 送信エラーが発生した時どうするか考える
-        this.sendRegisterMailService.execute(registerForm.getMail());
+        this.sendRegisterMailService.execute(registerForm);
 
         return "redirect:/register/send";
     }
