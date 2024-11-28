@@ -28,7 +28,7 @@ public class RegisterControllerTest {
     }
 
     @ParameterizedTest
-    @MethodSource("ProvideForms")
+    @MethodSource("postが動作するかのテストデータ")
     @WithMockUser
     public void postが動作するか(final RegisterForm registerForm) throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
@@ -40,13 +40,13 @@ public class RegisterControllerTest {
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/register/send"));
     }
 
-    public static Stream<RegisterForm> ProvideForms() {
+    public static Stream<RegisterForm> postが動作するかのテストデータ() {
         final var f1 = new RegisterForm("example@mail.com", "password", "password");
         return Stream.of(f1);
     }
 
     @ParameterizedTest
-    @MethodSource("ProvideEmptyForms")
+    @MethodSource("フォームがバリデーションエラーになるかのテストデータ")
     @WithMockUser
     public void フォームがバリデーションエラーになるか(final RegisterForm registerForm) throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
@@ -60,7 +60,7 @@ public class RegisterControllerTest {
                 .andExpect(MockMvcResultMatchers.view().name("register/index"));
     }
 
-    private static Stream<RegisterForm> ProvideEmptyForms() {
+    private static Stream<RegisterForm> フォームがバリデーションエラーになるかのテストデータ() {
         final var f1 = new RegisterForm();
         final var f2 = new RegisterForm("", "password", "password");
         final var f3 = new RegisterForm("example@mail.com", "", "password");
