@@ -8,16 +8,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = ListPlanController.class)
-public class PlanListControllerTest {
+@WebMvcTest(controllers = CreatePlanController.class)
+public class CreatePlanControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     @WithMockUser
     public void getが動作するか() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/plan/list"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/plan/create"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("plan/list"));
+                .andExpect(MockMvcResultMatchers.view().name("plan/create"));
     }
 }
