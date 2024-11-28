@@ -1,11 +1,13 @@
 package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.RegisterForm;
+import com.tabisketch.service.IRegisterService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,6 +20,9 @@ import java.util.stream.Stream;
 public class RegisterControllerTest {
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private IRegisterService registerService;
 
     @Test
     @WithMockUser
