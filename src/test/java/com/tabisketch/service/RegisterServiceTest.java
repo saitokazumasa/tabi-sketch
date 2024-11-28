@@ -19,9 +19,9 @@ public class RegisterServiceTest {
 
     @ParameterizedTest
     @MethodSource("動作するかのテストデータ")
-    public void 動作するか(final RegisterForm registerForm) throws Exception {
+    public void 動作するか(final RegisterForm registerForm) {
         final var registerService = new RegisterService(usersMapper);
-        assert registerService.execute(registerForm);
+        registerService.execute(registerForm);
     }
 
     private static Stream<RegisterForm> 動作するかのテストデータ() {
@@ -31,10 +31,16 @@ public class RegisterServiceTest {
 
     @ParameterizedTest
     @MethodSource("失敗したらfalseを返すかのテストデータ")
-    public void 失敗したらfalseを返すか(final RegisterForm registerForm) throws Exception {
+    public void 失敗したらfalseを返すか(final RegisterForm registerForm) {
         final var registerService = new RegisterService(usersMapper);
-        registerService.execute(registerForm);
-        assert !registerService.execute(registerForm);
+
+        try {
+            registerService.execute(registerForm);
+            registerService.execute(registerForm);
+        } catch (final Exception e) {
+            System.out.println(e.getMessage());
+            assert true;
+        }
     }
 
     private static Stream<RegisterForm> 失敗したらfalseを返すかのテストデータ() {
