@@ -101,13 +101,13 @@
 <th:block th:fragment="places(num)">
     <div>
         <!-- Modal toggle -->
-        <button th:data-modal-target="'place' + ${num} + '-modal'" th:data-modal-toggle="'place' + ${num} + '-modal'" class="input border-interactive text-center text-label max-w-md w-4/5 flex justify-center items-center h-10 sm:h-12" type="button">
+        <button th:id="'placeToggleBtn' + ${num}" th:data-modal-target="'place' + ${num} + '-modal'" th:data-modal-toggle="'place' + ${num} + '-modal'" class="input border-interactive text-center text-label max-w-md w-4/5 flex justify-center items-center h-10 sm:h-12" type="button">
             <th:block th:replace="~{fragment/svg :: plus}" class="ml-10"/>
             <span class="flex-1 text-center text-xl">目的地を追加する</span>
             <span class="w-6 h-6 sm:w-8"></span>
         </button>
         <!-- Main modal -->
-        <div th:id="'place' + ${num} + '-modal'" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full sm:inset-0 h-[calc(100%-1rem)] max-h-full text-label text-base">
+        <div th:id="'placeModal' + ${num}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full sm:inset-0 h-[calc(100%-1rem)] max-h-full text-label text-base">
             <div class="relative p-4 w-full max-w-md max-h-full">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow">
