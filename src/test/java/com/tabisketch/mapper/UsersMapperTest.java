@@ -39,7 +39,7 @@ public class UsersMapperTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     public void isMailVerifiedをUPDATEできるか(final boolean isMailVerified) {
-        final int result = this.usersMapper.updateMailVerified(isMailVerified);
+        final int result = this.usersMapper.updateMailVerified(1, isMailVerified);
         assert result == 1;
     }
 }

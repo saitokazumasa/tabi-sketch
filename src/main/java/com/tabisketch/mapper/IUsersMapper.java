@@ -12,6 +12,6 @@ public interface IUsersMapper {
     @Select("SELECT * FROM users WHERE mail = #{mail}")
     User selectByMail(final String mail);
 
-    @Update("")
-    int updateMailVerified(final boolean isMailVerified);
+    @Update("UPDATE users SET is_mail_verified = #{isMailVerified} WHERE id = #{id}")
+    int updateMailVerified(final int id, final boolean isMailVerified);
 }
