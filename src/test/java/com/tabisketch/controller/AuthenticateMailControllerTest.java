@@ -15,7 +15,7 @@ public class AuthenticateMailControllerTest {
     private MockMvc mockMvc;
 
     @ParameterizedTest
-    @ValueSource(strings = {"a8815804-ca73-436b-b1b0-f9c76ccaec90"})
+    @ValueSource(strings = {"a2e69add-9d95-4cf1-a59b-cedbb95dcd6b"})
     @WithMockUser
     public void getが動作するか(final String token) {
         try {
