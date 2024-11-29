@@ -18,6 +18,6 @@ class EditUserControllerTest {
     public void getが動作するか() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/user/edit"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("user/edit/edit"));
+                .andExpect(MockMvcResultMatchers.view().name("user/edit/index"));
     }
 }

@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EditUserController {
     @GetMapping
     public String get() {
-        return "user/edit/edit";
+        return "user/edit/index";
     }
 }
