@@ -31,7 +31,7 @@ public class UsersMapperTest {
         assert user.id != -1;
     }
 
-    public static Stream<User> INSERTできるかのテストデータ() {
+    private static Stream<User> INSERTできるかのテストデータ() {
         final var u1 = new User(-1, "sample@example.com", "$2a$10$if7oiFZVmP9I59AOtzbSz.dWsdPUUuPTRkcIoR8iYhFpG/0COY.TO", false);
         return Stream.of(u1);
     }
