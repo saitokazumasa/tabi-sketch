@@ -14,4 +14,13 @@ public class MailAuthenticationToken {
     private String token;
     private int userId;
     private LocalDateTime createdAt;
+
+    public static MailAuthenticationToken generate(final String token, final int userId) {
+        return new MailAuthenticationToken(
+                -1,
+                token,
+                userId,
+                LocalDateTime.now()
+        );
+    }
 }
