@@ -3,6 +3,7 @@ package com.tabisketch.mapper;
 import com.tabisketch.bean.entity.MailAuthenticationToken;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -26,5 +27,13 @@ public class MailAuthenticationTokensMapperTest {
     private static Stream<MailAuthenticationToken> INSERTできるかのテストデータ() {
         final var m = MailAuthenticationToken.generate(1);
         return Stream.of(m);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"a8815804-ca73-436b-b1b0-f9c76ccaec90"})
+    public void SELECTできるか(final String token) {
+        final MailAuthenticationToken mailAuthenticationToken =
+                this.mailAuthenticationTokensMapper.selectByToken(token);
+        assert mailAuthenticationToken != null;
     }
 }
