@@ -2,6 +2,7 @@ package com.tabisketch.service;
 
 import com.tabisketch.bean.entity.MailAuthenticationToken;
 import com.tabisketch.mapper.IMailAuthenticationTokensMapper;
+import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.implement.AuthenticateMailService;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -16,14 +17,17 @@ import static org.mockito.Mockito.when;
 public class AuthenticateMailServiceTest {
     @MockBean
     private IMailAuthenticationTokensMapper mailAuthenticationTokensMapper;
+    @MockBean
+    private IUsersMapper usersMapper;
 
     @ParameterizedTest
     @ValueSource(strings = {"a2e69add-9d95-4cf1-a59b-cedbb95dcd6b"})
     public void 動作するか(final String token) {
         final var tokenUUID = UUID.fromString(token);
-        when(mailAuthenticationTokensMapper.selectByToken(tokenUUID)).thenReturn(new MailAuthenticationToken());
+        when(this.mailAuthenticationTokensMapper.selectByToken(tokenUUID)).thenReturn(new MailAuthenticationToken());
 
-        final var authenticateMailService = new AuthenticateMailService(mailAuthenticationTokensMapper);
+        final var authenticateMailService =
+                new AuthenticateMailService(this.mailAuthenticationTokensMapper, this.usersMapper);
         assert authenticateMailService.execute(token);
     }
 }
