@@ -18,11 +18,9 @@ function InitAutocomplete() {
 
     initialInstance.forEach((instanceId) => {
         const inputElement = document.getElementById(instanceId);
-        if (!inputElement) {
-            console.error(`Element with ID ${instanceId} not found`);
-            return;
+        if (inputElement) {
+            setupAutocomplete(inputElement);
         }
-        setupAutocomplete(inputElement);
     })
 }
 

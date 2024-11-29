@@ -73,7 +73,6 @@ function initializeForm() {
             closeModal();
             if (placeNum.num === 1) {
                 initializeModal();
-                console.log("1 init");
             }
             placeNum.increment();
             initializeModal();
