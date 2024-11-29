@@ -3,6 +3,7 @@ package com.tabisketch.mapper;
 import com.tabisketch.bean.entity.MailAuthenticationToken;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -40,5 +41,12 @@ public class MailAuthenticationTokensMapperTest {
     private static Stream<UUID> SELECTできるかのテストデータ() {
         final var u = UUID.fromString("a2e69add-9d95-4cf1-a59b-cedbb95dcd6b");
         return Stream.of(u);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1})
+    public void DELETEできるか(final int id) {
+        final int result = this.mailAuthenticationTokensMapper.deleteById(id);
+        assert result == 1;
     }
 }
