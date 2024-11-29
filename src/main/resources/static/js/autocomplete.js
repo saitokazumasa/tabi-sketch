@@ -1,61 +1,51 @@
-let autocompleteInstances = {}; // 各インスタンスの保持
-let sessionToken;
-
-// Autocompleteの初期設定
-function InitAutocomplete() {
+class SessionTokenManager {
     sessionToken = new google.maps.places.AutocompleteSessionToken();
-
-    // startPlaceとendPlaceに対するAutocompleteの設定
-    SetupAutocomplete('startPlace');
-    SetupAutocomplete('endPlace');
-
-    const placeInputs = document.querySelectorAll("[id^='place']");
-    placeInputs.forEach((input) => {
-        SetupAutocomplete(input.id);
-    });
+    regenerateSessionToken() {
+        this.sessionToken = new google.maps.places.AutocompleteSessionToken();
+    }
 }
 
-// Autocompleteを使う要素の適用
-function SetupAutocomplete(elementId) {
-    const inputElement = document.getElementById(elementId);
-    if (!inputElement) {
-        console.error(`Element with ID ${elementId} not found`);
-        return;
-    }
+let sessionManager;
 
-    const autocomplete = new google.maps.places.Autocomplete(inputElement, {
+function InitAutocomplete() {
+    sessionManager = new SessionTokenManager();
+
+    const initialInstance = [
+        'startPlace',
+        'endPlace',
+        'place1'
+    ];
+
+    initialInstance.forEach((instanceId) => {
+        const inputElement = document.getElementById(instanceId);
+        if (!inputElement) {
+            console.error(`Element with ID ${instanceId} not found`);
+            return;
+        }
+        setupAutocomplete(inputElement);
+    })
+}
+
+function setupAutocomplete(element) {
+    const autocomplete = new google.maps.places.Autocomplete(element, {
         types: ['establishment'],
         componentRestrictions: { country: ['JP'] },
         fields: ['place_id', 'geometry', 'name'],
     });
 
-    autocomplete.setOptions({ sessionToken: sessionToken });
-    autocomplete.addListener('place_changed', () => OnPlaceChanged(elementId, autocomplete));
-
-    // Autocomplete インスタンスを保持
-    autocompleteInstances[elementId] = autocomplete;
+    autocomplete.setOptions({ sessionToken: sessionManager.sessionToken });
+    autocomplete.addListener('place_changed', () => onPlaceChanged(element, autocomplete));
 }
 
-// 場所検索の入力時
-function OnPlaceChanged(elementId, autocomplete) {
-    let place = autocomplete.getPlace();
-    const inputElement = document.getElementById(elementId);
+function onPlaceChanged(element, autocomplete) {
+    const place = autocomplete.getPlace();
 
     if (!place.geometry) {
-        inputElement.placeholder = '場所を入力して下さい';
+        element.placeholder = '場所を入力して下さい';
     } else {
-        inputElement.value = place.name;
+        element.value = place.name;
 
-        /* 各情報の取得
-        console.log(`ID: ${elementId}`);
-        console.log(`Name: ${place.name}`);
-        console.log(`Place ID: ${place.place_id}`);
-        console.log(`Latitude: ${place.geometry.location.lat()}`);
-        console.log(`Longitude: ${place.geometry.location.lng()}`);
-        */
-
-        // セッショントークン再生成
-        sessionToken = new google.maps.places.AutocompleteSessionToken();
-        autocomplete.setOptions({ sessionToken: sessionToken });
+        sessionManager.regenerateSessionToken()
+        autocomplete.setOptions({ sessionToken: sessionManager.sessionToken });
     }
 }
