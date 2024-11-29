@@ -16,7 +16,6 @@ class PlaceNumManager {
 
 const placeNum = new PlaceNumManager();
 
-// 初回のフォームイベント登録
 initializeForm();
 
 async function getFragment() {
