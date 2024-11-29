@@ -1,4 +1,4 @@
-package com.tabisketch.security;
+package com.tabisketch.configuration;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -38,10 +38,5 @@ public class WebSecurityConfiguration {
                         .logoutSuccessUrl("/login")
                         .permitAll()
                 ).build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }

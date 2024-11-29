@@ -8,8 +8,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(TopController.class)
-public class TopControllerTest {
+@WebMvcTest(controllers = CreatePlanController.class)
+public class CreatePlanControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -17,9 +17,9 @@ public class TopControllerTest {
     @WithMockUser
     public void getが動作するか() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/top"))
+            mockMvc.perform(MockMvcRequestBuilders.get("/plan/create"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(MockMvcResultMatchers.view().name("top"));
+                    .andExpect(MockMvcResultMatchers.view().name("plan/create"));
         } catch (final Exception e) {
             System.out.println(e.getMessage());
             assert false;
