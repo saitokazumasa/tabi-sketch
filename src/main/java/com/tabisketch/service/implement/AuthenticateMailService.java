@@ -30,6 +30,7 @@ public class AuthenticateMailService implements IAuthenticateMailService {
         if (mailAuth == null) return false;
 
         this.usersMapper.updateMailVerified(mailAuth.getUserId(), true);
+        this.mailAuthenticationTokensMapper.deleteById(mailAuth.getId());
         return true;
     }
 }
