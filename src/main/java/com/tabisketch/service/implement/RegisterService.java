@@ -14,13 +14,7 @@ public class RegisterService implements IRegisterService {
     }
 
     @Override
-    public boolean execute(final RegisterForm registerForm) {
-        try {
-            final int result = this.usersMapper.insert(registerForm.toUser());
-        } catch (final Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-        return true;
+    public void execute(final RegisterForm registerForm) {
+        this.usersMapper.insert(registerForm.toUser());
     }
 }

@@ -15,9 +15,14 @@ public class ListPlanControllerTest {
 
     @Test
     @WithMockUser
-    public void getが動作するか() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/plan/list"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("plan/list"));
+    public void getが動作するか() {
+        try {
+            mockMvc.perform(MockMvcRequestBuilders.get("/plan/list"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.view().name("plan/list"));
+        } catch (final Exception e) {
+            System.out.println(e.getMessage());
+            assert false;
+        }
     }
 }
