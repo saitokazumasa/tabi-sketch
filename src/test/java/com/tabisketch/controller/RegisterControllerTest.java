@@ -2,6 +2,7 @@ package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.RegisterForm;
 import com.tabisketch.service.IRegisterService;
+import com.tabisketch.service.ISendRegisterMailService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -23,6 +24,9 @@ public class RegisterControllerTest {
 
     @MockBean
     private IRegisterService registerService;
+
+    @MockBean
+    private ISendRegisterMailService sendRegisterMailService;
 
     @Test
     @WithMockUser
@@ -55,7 +59,7 @@ public class RegisterControllerTest {
         }
     }
 
-    public static Stream<RegisterForm> postが動作するかのテストデータ() {
+    private static Stream<RegisterForm> postが動作するかのテストデータ() {
         final var f1 = new RegisterForm("example@mail.com", "password", "password");
         return Stream.of(f1);
     }
