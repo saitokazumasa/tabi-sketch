@@ -49,13 +49,15 @@ function initializeModal() {
     const modalElement = document.getElementById(`placeModal${placeNum.num}`);
     const toggleButton = document.getElementById(`placeToggleBtn${placeNum.num}`);
     const closeButton = document.getElementById(`placeClose${placeNum.num}`);
+    const inputElement = document.getElementById(`place${placeNum.num}`);
 
-    if (modalElement && toggleButton && closeButton) {
+    if (modalElement && toggleButton && closeButton && inputElement) {
         const modal = new Modal(modalElement);
 
         // トグルボタンでモーダルを開閉
         toggleButton.addEventListener('click', () => modal.toggle());
         closeButton.addEventListener('click', () => modal.hide());
+        setupAutocomplete(inputElement);
     }
 }
 
