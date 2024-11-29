@@ -7,8 +7,7 @@ import org.apache.ibatis.annotations.Options;
 
 @Mapper
 public interface IMailAuthenticationTokensMapper {
-    @Insert("INSERT INTO mail_authentication_tokens (token, user_id) " +
-            "VALUES (#{token}, #{userId})")
+    @Insert("INSERT INTO mail_authentication_tokens (user_id) VALUES (#{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(final MailAuthenticationToken mailAuthenticationToken);
 }

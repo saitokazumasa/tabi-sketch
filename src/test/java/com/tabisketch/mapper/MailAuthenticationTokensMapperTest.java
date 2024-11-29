@@ -24,7 +24,7 @@ public class MailAuthenticationTokensMapperTest {
     }
 
     private static Stream<MailAuthenticationToken> INSERTできるかのテストデータ() {
-        final var m = MailAuthenticationToken.generate("", 1);
+        final var m = MailAuthenticationToken.generate(1);
         return Stream.of(m);
     }
 }
