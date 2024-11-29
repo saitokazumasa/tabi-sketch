@@ -30,4 +30,13 @@ body {
     .svg-walk {
         @apply w-16 h-10 fill-label hover:fill-interactive transition-colors duration-75;
     }
+    .svg-car-checkbox {
+        @apply items-center w-16 peer-checked:text-interactive;
+    }
+    .svg-cycle-checkbox {
+        @apply items-center w-16 peer-checked:text-interactive;
+    }
+    .svg-train-checkbox {
+        @apply w-16 items-center peer-checked:text-interactive;
+    }
 }
