@@ -19,7 +19,7 @@ public class MailAuthenticationToken {
     public static MailAuthenticationToken generate(final int userId) {
         return new MailAuthenticationToken(
                 -1,
-                UUID.fromString(""),
+                UUID.randomUUID(),
                 userId,
                 LocalDateTime.now()
         );
