@@ -12,7 +12,7 @@ public class EditUserController {
 
     @GetMapping
     public String get(final Model model) {
-        //Todo　仮の処理
+        //Todo　以下は仮の処理のため後ほど書き換える
         final var item = new User();
         item.setMail("user@example.com");
         model.addAttribute("item", item);
