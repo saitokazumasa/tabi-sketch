@@ -2,7 +2,6 @@ package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.RegisterForm;
 import com.tabisketch.service.IRegisterService;
-import com.tabisketch.service.ISendRegisterMailService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -21,18 +20,14 @@ import java.util.stream.Stream;
 public class RegisterControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private IRegisterService registerService;
-
-    @MockBean
-    private ISendRegisterMailService sendRegisterMailService;
 
     @Test
     @WithMockUser
     public void getが動作するか() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/register"))
+            this.mockMvc.perform(MockMvcRequestBuilders.get("/register"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.view().name("register/index"));
         } catch (final Exception e) {
@@ -46,7 +41,7 @@ public class RegisterControllerTest {
     @WithMockUser
     public void postが動作するか(final RegisterForm registerForm) {
         try {
-            mockMvc.perform(MockMvcRequestBuilders
+            this.mockMvc.perform(MockMvcRequestBuilders
                             .post("/register")
                             .flashAttr("registerForm", registerForm)
                             .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -69,7 +64,7 @@ public class RegisterControllerTest {
     @WithMockUser
     public void フォームがバリデーションエラーになるか(final RegisterForm registerForm) {
         try {
-            mockMvc.perform(MockMvcRequestBuilders
+            this.mockMvc.perform(MockMvcRequestBuilders
                             .post("/register")
                             .flashAttr("registerForm", registerForm)
                             .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -97,7 +92,7 @@ public class RegisterControllerTest {
     @WithMockUser
     public void sendが動作するか() {
         try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/register/send"))
+            this.mockMvc.perform(MockMvcRequestBuilders.get("/register/send"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.view().name("register/send"));
         } catch (final Exception e) {
