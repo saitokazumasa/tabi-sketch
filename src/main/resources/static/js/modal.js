@@ -1,83 +1,102 @@
-// モーダルを閉じたときにinputからフォーカスを外す
-document.querySelectorAll('[data-modal-hide]').forEach((closeButton) => {
-    closeButton.addEventListener('click', () => {
-        setTimeout(() => {
-            document.activeElement.blur(); // 現在のアクティブ要素のフォーカスを外す
-        }, 0);
-    });
-});
+class PlaceNum {
+    #value;
 
-class PlaceNumManager {
-    num = 1;
+    constructor() {
+        this.#value = 1;
+    }
+
+    value() {
+        return this.#value;
+    }
+
     increment() {
-        this.num ++;
+        this.#value ++;
     }
 }
 
-const placeNum = new PlaceNumManager();
+class Fragment {
+    #value;
 
-initializeForm();
-
-async function getFragment() {
-    try {
-        const response = await fetch(`/fragment/modal/places?num=${placeNum.num+1}`);
-        if (!response.ok) throw new Error('フラグメントの取得に失敗しました');
-        return response.text();
-    } catch (error) {
-        console.error(error);
-        return '';
+    constructor() {
+        this.#value = null;
     }
-}
 
-function addFragment(fragment) {
-    const container = document.getElementById('destination');
-    const item = document.createElement('div');
-    item.innerHTML = fragment;
-    container.appendChild(item);
-}
-
-function closeModal() {
-    const modalElement = document.getElementById(`placeModal${placeNum.num}`);
-    if (modalElement) {
-        const modal = new Modal(modalElement);
-        modal.hide();
-    }
-}
-
-function initializeModal() {
-    const modalElement = document.getElementById(`placeModal${placeNum.num}`);
-    const toggleButton = document.getElementById(`placeToggleBtn${placeNum.num}`);
-    const closeButton = document.getElementById(`placeClose${placeNum.num}`);
-    const inputElement = document.getElementById(`place${placeNum.num}`);
-
-    if (modalElement && toggleButton && closeButton && inputElement) {
-        const modal = new Modal(modalElement);
-
-        // トグルボタンでモーダルを開閉
-        toggleButton.addEventListener('click', () => modal.toggle());
-        closeButton.addEventListener('click', () => modal.hide());
-        setupAutocomplete(inputElement);
-    }
-}
-
-function initializeForm() {
-    const form = document.getElementById(`placeForm${placeNum.num}`);
-    if (!form) return;
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        // 次のフラグメントを取得して追加
-        const fragment = await getFragment();
-        if (fragment) {
-            addFragment(fragment);
-            closeModal();
-            if (placeNum.num === 1) {
-                initializeModal();
-            }
-            placeNum.increment();
-            initializeModal();
-            initializeForm();
+    async initialize() {
+        try {
+            const response = await fetch(`/fragment/modal/places?num=${(placeNum.value()+1)}`);
+            if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
+            this.#value = await response.text();
+        } catch (error) {
+            console.error(error);
+            return '';
         }
-    });
+    }
+
+    addFragment() {
+        const container = document.getElementById('destination');
+        const item = document.createElement('div');
+        item.innerHTML = this.#value;
+        container.appendChild(item);
+    }
+
+    value() {
+        return this.#value;
+    }
 }
+
+class ModalElement {
+    #modal;
+
+    constructor() {
+        const modalElement = document.getElementById(`placeModal${placeNum.value()}`);
+        const toggleBtn = document.getElementById(`placeToggleBtn${placeNum.value()}`);
+        const closeBtn = document.getElementById(`placeClose${placeNum.value()}`);
+        const inputElement = document.getElementById(`place${placeNum.value()}`);
+
+        if (!modalElement || !toggleBtn || !closeBtn || !inputElement) { return; }
+        this.#modal = new Modal(modalElement);
+
+        toggleBtn.addEventListener('click', () => this.#modal.toggle());
+        closeBtn.addEventListener('click', () => {
+            this.#modal.hide()
+            setTimeout(() => document.activeElement.blur(), 0)
+        });
+        const autoComplete = new AutoComplete(inputElement);
+        autoCompleteList.add(autoComplete);
+    }
+
+    closeModal() {
+        this.#modal.hide();
+    }
+}
+
+class ModalForm {
+    #formElement;
+
+    constructor() {
+        this.#formElement = document.getElementById(`placeForm${placeNum.value()}`);
+        if (!this.#formElement) { return; }
+
+        this.#formElement.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const fragment = new Fragment();
+            await fragment.initialize();
+            if (!fragment.value()) {return;}
+            const modal = new ModalElement();
+            fragment.addFragment();
+            modal.closeModal();
+            placeNum.increment()
+            const newModal = new ModalElement();
+            const form = new ModalForm();
+        })
+    }
+}
+
+const placeNum = new PlaceNum();
+
+function InitModal() {
+    const form = new ModalForm();
+}
+
+InitModal();
