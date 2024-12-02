@@ -1,49 +1,74 @@
-class SessionTokenManager {
-    sessionToken = new google.maps.places.AutocompleteSessionToken();
-    regenerateSessionToken() {
-        this.sessionToken = new google.maps.places.AutocompleteSessionToken();
+class SessionToken {
+    #value;
+
+    constructor() {
+        this.#value = new google.maps.places.AutocompleteSessionToken();
+    }
+
+    value() {
+        return this.#value;
     }
 }
 
-let sessionManager;
+/**
+ * Google の AutoComplete API（場所検索のサジェスト機能）
+ */
+class AutoComplete {
+    #value;
+    #inputElement;
 
-function InitAutocomplete() {
-    sessionManager = new SessionTokenManager();
+    constructor(inputElement) {
+        this.#inputElement = inputElement;
 
-    const initialInstance = [
-        'startPlace',
-        'endPlace',
-        'place1'
-    ];
+        this.#value =
+            new google.maps.places.Autocomplete(inputElement, {
+                types: ['establishment'],
+                componentRestrictions: {country: ['JP']},
+                fields: ['place_id', 'geometry', 'name'],
+            });
 
-    initialInstance.forEach((instanceId) => {
-        const inputElement = document.getElementById(instanceId);
-        if (inputElement) {
-            setupAutocomplete(inputElement);
+        const sessionToken = new SessionToken();
+        this.#value.setOptions({sessionToken: sessionToken.value()});
+        this.#value.addListener('place_changed', () => this.onPlaceChanged());
+    }
+
+    onPlaceChanged() {
+        const place = this.#value.getPlace();
+
+        if (!place.geometry) {
+            // 確認用です
+            this.#inputElement.placeholder = '場所を入力して下さい';
+            return;
         }
-    })
-}
+        this.#inputElement.value = place.name;
 
-function setupAutocomplete(element) {
-    const autocomplete = new google.maps.places.Autocomplete(element, {
-        types: ['establishment'],
-        componentRestrictions: { country: ['JP'] },
-        fields: ['place_id', 'geometry', 'name'],
-    });
-
-    autocomplete.setOptions({ sessionToken: sessionManager.sessionToken });
-    autocomplete.addListener('place_changed', () => onPlaceChanged(element, autocomplete));
-}
-
-function onPlaceChanged(element, autocomplete) {
-    const place = autocomplete.getPlace();
-
-    if (!place.geometry) {
-        element.placeholder = '場所を入力して下さい';
-    } else {
-        element.value = place.name;
-
-        sessionManager.regenerateSessionToken()
-        autocomplete.setOptions({ sessionToken: sessionManager.sessionToken });
+        const sessionToken = new SessionToken();
+        this.#value.setOptions({sessionToken: sessionToken.value()});
     }
+}
+
+class AutoCompleteList {
+    #value = new Array(0);
+
+    add(value) {
+        this.#value.push(value);
+    }
+}
+
+const initInstanceKeys = [
+    'startPlace',
+    'endPlace',
+    'place1'
+];
+
+const autoCompleteList = new AutoCompleteList();
+
+function initAutoComplete() {
+    initInstanceKeys.forEach(key => {
+        const inputElement = document.getElementById(key);
+        if (!inputElement) return;
+
+        const autoComplete = new AutoComplete(inputElement);
+        autoCompleteList.add(autoComplete);
+    });
 }
