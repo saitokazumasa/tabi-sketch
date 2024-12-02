@@ -16,14 +16,9 @@ public class SendMailServiceTest {
 
     @ParameterizedTest
     @MethodSource("動作するかのテストデータ")
-    public void 動作するか(final Mail mail) {
+    public void 動作するか(final Mail mail) throws MessagingException {
         // NOTE: アドレスエラーは検出されない
-        try {
-            sendMailService.execute(mail);
-            assert true;
-        } catch (final MessagingException e) {
-            assert false;
-        }
+        sendMailService.execute(mail);
     }
 
     private static Stream<Mail> 動作するかのテストデータ() {
