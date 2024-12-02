@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EditUserController {
 
     @GetMapping
-    public String get(Model model) {
+    public String get(final Model model) {
         //Todo　仮の処理
-        User item = new User();
+        final var item = new User();
         item.setMail("user@example.com");
         model.addAttribute("item", item);
         return "user/edit/index";
