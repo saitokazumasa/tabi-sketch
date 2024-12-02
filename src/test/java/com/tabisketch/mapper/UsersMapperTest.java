@@ -24,15 +24,15 @@ public class UsersMapperTest {
     }
 
     @ParameterizedTest
-    @MethodSource("provideUsers")
+    @MethodSource("INSERTできるかのテストデータ")
     public void INSERTできるか(final User user) {
         final int result = usersMapper.insert(user);
         assert result == 1;
         assert user.id != -1;
     }
 
-    public static Stream<User> provideUsers() {
-        final var u1 = new User(-1, "sample2@example.com", "password", false);
+    private static Stream<User> INSERTできるかのテストデータ() {
+        final var u1 = new User(-1, "sample@example.com", "$2a$10$if7oiFZVmP9I59AOtzbSz.dWsdPUUuPTRkcIoR8iYhFpG/0COY.TO", false);
         return Stream.of(u1);
     }
 }
