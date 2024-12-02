@@ -1,4 +1,3 @@
-
 class ToggleCheckbox {
     constructor(checkboxId, targetElementId) {
         this.checkbox = document.getElementById(checkboxId);
@@ -21,7 +20,7 @@ class ToggleCheckbox {
 }
 
 const managers = [
-    new ToggleCheckbox('checkbox1', 'targetElement1'),
-    new ToggleCheckbox('checkbox2', 'targetElement2'),
-    new ToggleCheckbox('checkbox3', 'targetElement3')
+    new ToggleCheckbox('checkBoxCar', 'targetElementCar'),
+    new ToggleCheckbox('checkBoxCycle', 'targetElementCycle'),
+    new ToggleCheckbox('checkBoxTrain', 'targetElementTrain')
 ];
