@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.stream.Stream;
 
@@ -17,6 +18,7 @@ public class UsersMapperTest {
     private IUsersMapper usersMapper;
 
     @ParameterizedTest
+    @Sql("classpath:/sql/CreateUser.sql")
     @ValueSource(strings = {"sample@example.com"})
     public void SELECTできるか(final String mail) {
         final User user = this.usersMapper.selectByMail(mail);
