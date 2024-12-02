@@ -8,7 +8,7 @@ import java.util.UUID;
 @Mapper
 public interface IMailAuthenticationTokensMapper {
     @Insert("INSERT INTO mail_authentication_tokens (user_id) VALUES (#{userId})")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
+    @Options(useGeneratedKeys = true, keyProperty = "id,token")
     int insert(final MailAuthenticationToken mailAuthenticationToken);
 
     @Select("SELECT * FROM mail_authentication_tokens WHERE token = #{token}")
