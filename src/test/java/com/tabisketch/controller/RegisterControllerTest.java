@@ -2,7 +2,6 @@ package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.RegisterForm;
 import com.tabisketch.service.IRegisterService;
-import com.tabisketch.service.ISendRegisterMailService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -21,42 +20,28 @@ import java.util.stream.Stream;
 public class RegisterControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private IRegisterService registerService;
 
-    @MockBean
-    private ISendRegisterMailService sendRegisterMailService;
-
     @Test
     @WithMockUser
-    public void getが動作するか() {
-        try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/register"))
-                    .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(MockMvcResultMatchers.view().name("register/index"));
-        } catch (final Exception e) {
-            System.out.println(e.getMessage());
-            assert false;
-        }
+    public void getが動作するか() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/register"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("register/index"));
     }
 
     @ParameterizedTest
     @MethodSource("postが動作するかのテストデータ")
     @WithMockUser
-    public void postが動作するか(final RegisterForm registerForm) {
-        try {
-            mockMvc.perform(MockMvcRequestBuilders
-                            .post("/register")
-                            .flashAttr("registerForm", registerForm)
-                            .with(SecurityMockMvcRequestPostProcessors.csrf())
-                    ).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                    .andExpect(MockMvcResultMatchers.model().hasNoErrors())
-                    .andExpect(MockMvcResultMatchers.redirectedUrl("/register/send"));
-        } catch (final Exception e) {
-            System.out.println(e.getMessage());
-            assert false;
-        }
+    public void postが動作するか(final RegisterForm registerForm) throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .post("/register")
+                        .flashAttr("registerForm", registerForm)
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                ).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.model().hasNoErrors())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/register/send"));
     }
 
     private static Stream<RegisterForm> postが動作するかのテストデータ() {
@@ -67,21 +52,16 @@ public class RegisterControllerTest {
     @ParameterizedTest
     @MethodSource("フォームがバリデーションエラーになるかのテストデータ")
     @WithMockUser
-    public void フォームがバリデーションエラーになるか(final RegisterForm registerForm) {
-        try {
-            mockMvc.perform(MockMvcRequestBuilders
-                            .post("/register")
-                            .flashAttr("registerForm", registerForm)
-                            .with(SecurityMockMvcRequestPostProcessors.csrf())
-                    ).andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(MockMvcResultMatchers.model().hasErrors())
-                    .andExpect(MockMvcResultMatchers.model().attributeExists("registerForm"))
-                    .andExpect(MockMvcResultMatchers.model().attribute("registerForm", registerForm))
-                    .andExpect(MockMvcResultMatchers.view().name("register/index"));
-        } catch (final Exception e) {
-            System.out.println(e.getMessage());
-            assert false;
-        }
+    public void フォームがバリデーションエラーになるか(final RegisterForm registerForm) throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .post("/register")
+                        .flashAttr("registerForm", registerForm)
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                ).andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().hasErrors())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("registerForm"))
+                .andExpect(MockMvcResultMatchers.model().attribute("registerForm", registerForm))
+                .andExpect(MockMvcResultMatchers.view().name("register/index"));
     }
 
     private static Stream<RegisterForm> フォームがバリデーションエラーになるかのテストデータ() {
@@ -95,14 +75,9 @@ public class RegisterControllerTest {
 
     @Test
     @WithMockUser
-    public void sendが動作するか() {
-        try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/register/send"))
-                    .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(MockMvcResultMatchers.view().name("register/send"));
-        } catch (final Exception e) {
-            System.out.println(e.getMessage());
-            assert false;
-        }
+    public void sendが動作するか() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/register/send"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("register/send"));
     }
 }
