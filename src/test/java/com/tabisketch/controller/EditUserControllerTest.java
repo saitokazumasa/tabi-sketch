@@ -8,16 +8,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(CreatePlanController.class)
-public class CreatePlanControllerTest {
+@WebMvcTest(EditUserController.class)
+public class EditUserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     @WithMockUser
     public void getが動作するか() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/plan/create"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/edit"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("plan/create"));
+                .andExpect(MockMvcResultMatchers.view().name("user/edit/index"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("item"));
     }
 }

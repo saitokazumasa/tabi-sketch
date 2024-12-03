@@ -1,11 +1,13 @@
 package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.RegisterForm;
+import com.tabisketch.service.IRegisterService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,20 +20,22 @@ import java.util.stream.Stream;
 public class RegisterControllerTest {
     @Autowired
     private MockMvc mockMvc;
+    @MockBean
+    private IRegisterService registerService; // DIで使用している
 
     @Test
     @WithMockUser
     public void getが動作するか() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/register"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/register"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("register/index"));
     }
 
     @ParameterizedTest
-    @MethodSource("ProvideForms")
+    @MethodSource("postが動作するかのテストデータ")
     @WithMockUser
     public void postが動作するか(final RegisterForm registerForm) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
+        this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/register")
                         .flashAttr("registerForm", registerForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -40,16 +44,16 @@ public class RegisterControllerTest {
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/register/send"));
     }
 
-    public static Stream<RegisterForm> ProvideForms() {
+    private static Stream<RegisterForm> postが動作するかのテストデータ() {
         final var f1 = new RegisterForm("example@mail.com", "password", "password");
         return Stream.of(f1);
     }
 
     @ParameterizedTest
-    @MethodSource("ProvideEmptyForms")
+    @MethodSource("フォームがバリデーションエラーになるかのテストデータ")
     @WithMockUser
     public void フォームがバリデーションエラーになるか(final RegisterForm registerForm) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
+        this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/register")
                         .flashAttr("registerForm", registerForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -60,7 +64,7 @@ public class RegisterControllerTest {
                 .andExpect(MockMvcResultMatchers.view().name("register/index"));
     }
 
-    private static Stream<RegisterForm> ProvideEmptyForms() {
+    private static Stream<RegisterForm> フォームがバリデーションエラーになるかのテストデータ() {
         final var f1 = new RegisterForm();
         final var f2 = new RegisterForm("", "password", "password");
         final var f3 = new RegisterForm("example@mail.com", "", "password");
@@ -72,7 +76,7 @@ public class RegisterControllerTest {
     @Test
     @WithMockUser
     public void sendが動作するか() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/register/send"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/register/send"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("register/send"));
     }

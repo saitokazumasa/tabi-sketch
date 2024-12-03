@@ -16,8 +16,9 @@ public class PlansMapperTest {
     private IPlansMapper plansMapper;
 
     @ParameterizedTest
+    // TODO: 後ほどテストSQLデータを作成するスクリプトを追加する
     @ValueSource(ints = {1})
-    public void SELECTできるか(final int userId) throws Exception {
+    public void SELECTできるか(final int userId) {
         final List<Plan> planList = plansMapper.selectByUserId(userId);
         assert planList != null;
         assert !planList.isEmpty();

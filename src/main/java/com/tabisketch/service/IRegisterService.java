@@ -1,8 +1,8 @@
 package com.tabisketch.service;
 
 import com.tabisketch.bean.form.RegisterForm;
+import jakarta.mail.MessagingException;
 
 public interface IRegisterService {
-    /** @return 成功したか */
-    boolean execute(final RegisterForm registerForm);
+    void execute(final RegisterForm registerForm) throws MessagingException;
 }
