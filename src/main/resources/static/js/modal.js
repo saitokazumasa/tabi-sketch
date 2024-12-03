@@ -82,11 +82,15 @@ class ModalForm {
 
             const fragment = new Fragment();
             await fragment.initialize();
-            if (!fragment.value()) {return;}
+
+            if (!fragment.value()) { return; }
+
             const modal = new ModalElement();
+
             fragment.addFragment();
             modal.closeModal();
-            placeNum.increment()
+
+            placeNum.increment();
             const newModal = new ModalElement();
             const form = new ModalForm();
         })
