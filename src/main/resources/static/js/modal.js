@@ -33,6 +33,7 @@ class Fragment {
     }
 
     addFragment() {
+        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。')
         const container = document.getElementById('destination');
         const item = document.createElement('div');
         item.innerHTML = this.#value;
@@ -40,6 +41,7 @@ class Fragment {
     }
 
     value() {
+        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。')
         return this.#value;
     }
 }
