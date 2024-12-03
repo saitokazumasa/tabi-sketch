@@ -23,19 +23,13 @@ public class RegisterServiceTest {
 
     @ParameterizedTest
     @MethodSource("動作するかのテストデータ")
-    public void 動作するか(final RegisterForm registerForm) {
+    public void 動作するか(final RegisterForm registerForm) throws MessagingException {
         final var registerService = new RegisterService(
                 this.usersMapper,
                 this.mailAuthenticationTokensMapper,
                 this.sendMailService
         );
-
-        try {
-            registerService.execute(registerForm);
-        } catch (final MessagingException e) {
-            System.out.println(e.getMessage());
-            assert false;
-        }
+        registerService.execute(registerForm);
     }
 
     private static Stream<RegisterForm> 動作するかのテストデータ() {

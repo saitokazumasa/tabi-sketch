@@ -15,14 +15,9 @@ public class IndexControllerTest {
 
     @Test
     @WithMockUser
-    public void getが動作するか() {
-        try {
-            mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                    .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                    .andExpect(MockMvcResultMatchers.redirectedUrl("/top"));
-        } catch (final Exception e) {
-            System.out.println(e.getMessage());
-            assert false;
-        }
+    public void getが動作するか() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/top"));
     }
 }
