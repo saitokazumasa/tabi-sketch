@@ -58,8 +58,8 @@ class ModalElement {
 
         toggleBtn.addEventListener('click', () => this.#modal.toggle());
         closeBtn.addEventListener('click', () => {
-            this.#modal.hide()
-            setTimeout(() => document.activeElement.blur(), 0)
+            this.#modal.hide();
+            document.activeElement.blur();
         });
         const autoComplete = new AutoComplete(inputElement);
         autoCompleteList.add(autoComplete);
