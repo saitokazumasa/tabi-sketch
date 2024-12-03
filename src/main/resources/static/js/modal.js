@@ -99,8 +99,4 @@ class ModalForm {
 
 const placeNum = new PlaceNum();
 
-function InitModal() {
-    const form = new ModalForm();
-}
-
-InitModal();
+const form = new ModalForm();
