@@ -5,5 +5,5 @@ import com.tabisketch.bean.entity.Plan;
 import java.util.List;
 
 public interface IListPlanService {
-    List<Plan> execute();
+    List<Plan> execute(final String mail);
 }
