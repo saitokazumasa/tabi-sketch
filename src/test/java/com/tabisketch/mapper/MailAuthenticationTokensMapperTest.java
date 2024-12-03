@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -31,6 +32,10 @@ public class MailAuthenticationTokensMapperTest {
     }
 
     @ParameterizedTest
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreateMailAuthenticationToken.sql"
+    })
     @MethodSource("SELECTできるかのテストデータ")
     public void SELECTできるか(final UUID token) {
         final MailAuthenticationToken mailAuthenticationToken =
@@ -44,6 +49,10 @@ public class MailAuthenticationTokensMapperTest {
     }
 
     @ParameterizedTest
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreateMailAuthenticationToken.sql"
+    })
     @ValueSource(ints = {1})
     public void DELETEできるか(final int id) {
         final int result = this.mailAuthenticationTokensMapper.deleteById(id);

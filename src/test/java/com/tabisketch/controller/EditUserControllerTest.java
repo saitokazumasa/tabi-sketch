@@ -10,7 +10,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(EditUserController.class)
 public class EditUserControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
 
