@@ -1,25 +1,44 @@
-class RadioButtonManager {
-    constructor(radioGroupName, svgClass) {
-        this.radioButtons = document.querySelectorAll(`input[name="${radioGroupName}"]`);
-        this.svgElements = document.querySelectorAll(`.${svgClass}`);
-        if (this.radioButtons.length > 0 && this.svgElements.length > 0) {
-            this.init();
+class RadioButton {
+    #element;
+    #svgElement;
+    #parentList;
+
+    constructor(element, svgElement,parentList) {
+        this.#element = element;
+        this.#svgElement = svgElement;
+        this.#parentList = parentList;
+        this.#element.addEventListener('change', () => this.#parentList.checkAll());
+        this.onChanged();
+    }
+
+    onChanged() {
+        if (this.#element.checked) {
+            this.#svgElement.classList.remove('fill-label');
+            return;
         }
+        this.#svgElement.classList.add('fill-label');
     }
-    init() {
-        this.radioButtons.forEach(radio => {
-            radio.addEventListener('change', () => this.updateClasses());
+}
+
+class RadioButtonList {
+    #values = [];
+
+    constructor(radioGroupName, svgClass) {
+        const radioButtonElements = document.querySelectorAll(`input[name="${radioGroupName}"]`);
+        const svgElements = document.querySelectorAll(`.${svgClass}`);
+
+        if (radioButtonElements.length <= 0 || svgElements.length <= 0) return;
+
+        radioButtonElements.forEach((radio, index) => {
+            const radioButton = new RadioButton(radio, svgElements[index],this);
+            this.#values.push(radioButton);
         });
-        this.updateClasses();
     }
-    updateClasses() {
-        this.radioButtons.forEach((radio, index) => {
-            if (radio.checked) {
-                this.svgElements[index].classList.remove('fill-label');
-            } else {
-                this.svgElements[index].classList.add('fill-label');
-            }
+
+    checkAll() {
+        this.#values.forEach((radioButton) => {
+            radioButton.onChanged();
         });
     }
 }
-const radioManager = new RadioButtonManager('fourTransportation', 'fill-label');
+const radioButtonList = new RadioButtonList('fourTransportation', 'fill-label');
