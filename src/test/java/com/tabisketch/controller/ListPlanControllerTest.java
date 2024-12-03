@@ -21,7 +21,7 @@ public class ListPlanControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private IListPlanService listPlanService; // IDで使用している
+    private IListPlanService listPlanService;
 
     @Test
     @WithMockUser(username = "sample@example.com")
