@@ -21,7 +21,7 @@ public class RegisterControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private IRegisterService registerService;
+    private IRegisterService registerService; // DIで使用している
 
     @Test
     @WithMockUser
