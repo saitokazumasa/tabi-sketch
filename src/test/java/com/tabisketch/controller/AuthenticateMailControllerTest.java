@@ -17,14 +17,9 @@ public class AuthenticateMailControllerTest {
     @ParameterizedTest
     @ValueSource(strings = {"a2e69add-9d95-4cf1-a59b-cedbb95dcd6b"})
     @WithMockUser
-    public void getが動作するか(final String token) {
-        try {
-            this.mockMvc.perform(MockMvcRequestBuilders.get("/mail/confirm/" + token))
-                    .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(MockMvcResultMatchers.view().name("mail/confirm"));
-        } catch (final Exception e) {
-            System.out.println(e.getMessage());
-            assert false;
-        }
+    public void getが動作するか(final String token) throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/mail/confirm/" + token))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("mail/confirm"));
     }
 }
