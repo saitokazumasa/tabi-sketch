@@ -8,7 +8,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = CreatePlanController.class)
+@WebMvcTest(CreatePlanController.class)
 public class CreatePlanControllerTest {
     @Autowired
     private MockMvc mockMvc;
