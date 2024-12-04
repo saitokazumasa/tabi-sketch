@@ -19,7 +19,7 @@ class ToggleCheckbox {
     }
 }
 
-const managers = [
+const checkboxIdList = [
     new ToggleCheckbox('checkBoxCar', 'targetElementCar'),
     new ToggleCheckbox('checkBoxCycle', 'targetElementCycle'),
     new ToggleCheckbox('checkBoxTrain', 'targetElementTrain')
