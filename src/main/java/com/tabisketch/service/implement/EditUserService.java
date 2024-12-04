@@ -15,7 +15,7 @@ public class EditUserService {
     public User getUserByMail(final String mail) {
         return usersMapper.selectByMail(mail);
     }
-    
+
     public boolean updateUserMailVerified(final int id, final boolean isMailVerified) {
         int rowsUpdated = usersMapper.updateMailVerified(id, isMailVerified);
         return rowsUpdated > 0;
