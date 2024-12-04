@@ -7,7 +7,7 @@ class RadioButton {
         this.#element = element;
         this.#svgElement = svgElement;
         this.#parentList = parentList;
-        this.#element.addEventListener('change', () => this.#parentList.checkAll());
+        this.#element.addEventListener('change', () => this.#parentList.onChecked());
         this.onChanged();
     }
 
@@ -35,7 +35,7 @@ class RadioButtonList {
         });
     }
 
-    checkAll() {
+    onChecked() {
         this.#values.forEach((radioButton) => {
             radioButton.onChanged();
         });
