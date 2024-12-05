@@ -33,7 +33,7 @@ class Fragment {
     }
 
     addFragment() {
-        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。')
+        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
         const container = document.getElementById('destination');
         const item = document.createElement('div');
         item.innerHTML = this.#value;
@@ -41,7 +41,7 @@ class Fragment {
     }
 
     value() {
-        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。')
+        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
         return this.#value;
     }
 }
@@ -79,7 +79,7 @@ class ModalForm {
         this.#formElement = document.getElementById(`placeForm${placeNum.value()}`);
         if (!this.#formElement) { return; }
 
-        this.#formElement.addEventListener('submit', async (e) => {
+        this.#formElement.addEventListener('submit', async(e) => {
             e.preventDefault();
 
             const fragment = new Fragment();
@@ -95,7 +95,7 @@ class ModalForm {
             placeNum.increment();
             const newModal = new ModalElement();
             const form = new ModalForm();
-        })
+        });
     }
 }
 
