@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
@@ -16,7 +17,10 @@ public class PlansMapperTest {
     private IPlansMapper plansMapper;
 
     @ParameterizedTest
-    // TODO: 後ほどテストSQLデータを作成するスクリプトを追加する
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql"
+    })
     @ValueSource(ints = {1})
     public void SELECTできるか(final int userId) {
         final List<Plan> planList = plansMapper.selectByUserId(userId);
