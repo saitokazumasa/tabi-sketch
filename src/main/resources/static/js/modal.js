@@ -93,12 +93,12 @@ class ModalForm {
             modal.closeModal();
 
             placeNum.increment();
-            const newModal = new ModalElement();
-            const form = new ModalForm();
+            new ModalElement();
+            new ModalForm();
         });
     }
 }
 
 const placeNum = new PlaceNum();
 
-const form = new ModalForm();
+new ModalForm();
