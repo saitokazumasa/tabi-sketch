@@ -9,6 +9,7 @@ checkbox.addEventListener('change', () => {
     }
 });
 
+// TODO: 適切なセッションキーを設定する
 document.addEventListener('DOMContentLoaded', function() {
     const session = {
         startPoint: null,
