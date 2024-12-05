@@ -13,7 +13,7 @@ export default [
             },
         },
         files: ["src/**/*.js"], // 適用ファイル
-        ignores: ["**/*.config.js", "**/*.config.mjs"], // 除外ファイル
+        ignores: ["**/*.config.js", "**/*.config.mjs", "src/**/flowbite.min.js"], // 除外ファイル
         rules: {
             semi: "error", // セミコロン必須
             "eqeqeq": "error", // 常に === と !== を使用する
