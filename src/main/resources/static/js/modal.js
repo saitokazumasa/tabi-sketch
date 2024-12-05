@@ -33,7 +33,7 @@ class Fragment {
     }
 
     addFragment() {
-        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。')
+        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
         const container = document.getElementById('destination');
         const item = document.createElement('div');
         item.innerHTML = this.#value;
@@ -41,7 +41,7 @@ class Fragment {
     }
 
     value() {
-        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。')
+        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
         return this.#value;
     }
 }
@@ -63,7 +63,9 @@ class ModalElement {
             this.#modal.hide();
             document.activeElement.blur();
         });
+        // eslint-disable-next-line no-undef
         const autoComplete = new AutoComplete(inputElement);
+        // eslint-disable-next-line no-undef
         autoCompleteList.add(autoComplete);
     }
 
@@ -79,7 +81,7 @@ class ModalForm {
         this.#formElement = document.getElementById(`placeForm${placeNum.value()}`);
         if (!this.#formElement) { return; }
 
-        this.#formElement.addEventListener('submit', async (e) => {
+        this.#formElement.addEventListener('submit', async(e) => {
             e.preventDefault();
 
             const fragment = new Fragment();
@@ -93,12 +95,12 @@ class ModalForm {
             modal.closeModal();
 
             placeNum.increment();
-            const newModal = new ModalElement();
-            const form = new ModalForm();
-        })
+            new ModalElement();
+            new ModalForm();
+        });
     }
 }
 
 const placeNum = new PlaceNum();
 
-const form = new ModalForm();
+new ModalForm();
