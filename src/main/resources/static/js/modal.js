@@ -34,7 +34,6 @@ class Fragment {
 
     addFragment() {
         if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
-        // id=destination の子要素に追加
         const container = document.getElementById('destination');
         const item = document.createElement('div');
         item.innerHTML = this.#value;
@@ -64,7 +63,9 @@ class ModalElement {
             this.#modal.hide();
             document.activeElement.blur();
         });
+        // eslint-disable-next-line no-undef
         const autoComplete = new AutoComplete(inputElement);
+        // eslint-disable-next-line no-undef
         autoCompleteList.add(autoComplete);
     }
 
@@ -83,25 +84,23 @@ class ModalForm {
         this.#formElement.addEventListener('submit', async(e) => {
             e.preventDefault();
 
-            // 追加するフラグメントの呼び出し
             const fragment = new Fragment();
             await fragment.initialize();
+
             if (!fragment.value()) { return; }
 
             const modal = new ModalElement();
 
-            // 目的地追加のフラグメントをHTMLに挿入し、現在開いているModalを閉じる
             fragment.addFragment();
             modal.closeModal();
 
-            // 追加されたフラグメントのModal, formの初期設定
             placeNum.increment();
-            const newModal = new ModalElement();
-            const form = new ModalForm();
+            new ModalElement();
+            new ModalForm();
         });
     }
 }
 
 const placeNum = new PlaceNum();
 
-const form = new ModalForm();
+new ModalForm();

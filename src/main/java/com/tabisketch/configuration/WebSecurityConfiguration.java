@@ -28,8 +28,7 @@ public class WebSecurityConfiguration {
                 ).formLogin(a -> a
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        // TODO: ログイン成功後に遷移するページURLに書き換える
-                        .defaultSuccessUrl("/top")
+                        .defaultSuccessUrl("/plan/list")
                         .failureUrl("/login?error")
                         // NOTE: メールアドレスを "username" として扱う
                         .usernameParameter("mail")
@@ -38,5 +37,10 @@ public class WebSecurityConfiguration {
                         .logoutSuccessUrl("/login")
                         .permitAll()
                 ).build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
