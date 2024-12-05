@@ -63,7 +63,9 @@ class ModalElement {
             this.#modal.hide();
             document.activeElement.blur();
         });
+        // eslint-disable-next-line no-undef
         const autoComplete = new AutoComplete(inputElement);
+        // eslint-disable-next-line no-undef
         autoCompleteList.add(autoComplete);
     }
 
