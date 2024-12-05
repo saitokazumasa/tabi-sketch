@@ -1,4 +1,4 @@
-class ToggleCheckbox {
+class ChangeSVGColor {
     constructor(checkboxId, targetElementId) {
         this.checkbox = document.getElementById(checkboxId);
         this.targetElement = document.getElementById(targetElementId);
@@ -19,8 +19,8 @@ class ToggleCheckbox {
     }
 }
 
-const checkboxIdList = [
-    new ToggleCheckbox('checkBoxCar', 'targetElementCar'),
-    new ToggleCheckbox('checkBoxCycle', 'targetElementCycle'),
-    new ToggleCheckbox('checkBoxTrain', 'targetElementTrain')
+const changeSVGColorList = [
+    new ChangeSVGColor('checkBoxCar', 'targetElementCar'),
+    new ChangeSVGColor('checkBoxCycle', 'targetElementCycle'),
+    new ChangeSVGColor('checkBoxTrain', 'targetElementTrain')
 ];
