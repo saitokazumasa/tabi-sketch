@@ -34,6 +34,7 @@ class Fragment {
 
     addFragment() {
         if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
+        // id=destination の子要素に追加
         const container = document.getElementById('destination');
         const item = document.createElement('div');
         item.innerHTML = this.#value;
@@ -75,19 +76,61 @@ class ModalElement {
 }
 
 class ModalForm {
-    #formElement;
+    #startFormElement;
+    #placeFormElement;
+    #endFormElement;
 
     constructor() {
-        this.#formElement = document.getElementById(`placeForm${placeNum.value()}`);
-        if (!this.#formElement) { return; }
+        this.#startFormElement = document.getElementById('startPlaceForm');
+        this.#placeFormElement = document.getElementById(`placeForm${placeNum.value()}`);
+        this.#endFormElement = document.getElementById('endPlaceForm');
+        this.initFormEvent();
+    }
 
-        this.#formElement.addEventListener('submit', async(e) => {
+    initFormEvent() {
+        if (!this.#startFormElement || !this.#placeFormElement || !this.#endFormElement) return;
+        this.#startFormElement.addEventListener('submit', async(e) => {
             e.preventDefault();
 
+            sessionStorage.setItem('startPlace', document.getElementById('startPlace').value);
+            sessionStorage.setItem('startTime', document.getElementById('startTime').value);
+
+            const modal = new ModalElement();
+            modal.closeModal();
+        });
+        this.#endFormElement.addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            sessionStorage.setItem('endPlace', document.getElementById('endPlace').value);
+
+            const modal = new ModalElement();
+            modal.closeModal();
+        });
+        this.addPlaceEvent();
+    }
+
+    addPlaceEvent() {
+        this.#placeFormElement.addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            // 配列に追加
+            places.push(document.getElementById(`place${placeNum.value()}`).value);
+            budget.push(document.getElementById(`budget${placeNum.value()}`).value);
+            stayTime.push(document.getElementById(`stayTime${placeNum.value()}`).value);
+            desiredStartTime.push(document.getElementById(`desiredStartTime${placeNum.value()}`).value);
+            desiredEndTime.push(document.getElementById(`desiredEndTime${placeNum.value()}`).value);
+
+            // 配列に入れたやつをSessionに入れてる
+            sessionStorage.setItem('places', JSON.stringify(places));
+            sessionStorage.setItem('placesBudget', JSON.stringify(budget));
+            sessionStorage.setItem('placesStayTime', JSON.stringify(stayTime));
+            sessionStorage.setItem('placesDesiredStartTime', JSON.stringify(desiredStartTime));
+            sessionStorage.setItem('placesDesiredEndTime', JSON.stringify(desiredEndTime));
+
+            // 追加するフラグメントの呼び出し
             const fragment = new Fragment();
             await fragment.initialize();
-
-            if (!fragment.value()) { return; }
+            if (!fragment.value()) return;
 
             const modal = new ModalElement();
 
@@ -102,5 +145,11 @@ class ModalForm {
 }
 
 const placeNum = new PlaceNum();
+
+const places = [];
+const budget = [];
+const stayTime = [];
+const desiredStartTime = [];
+const desiredEndTime = [];
 
 new ModalForm();
