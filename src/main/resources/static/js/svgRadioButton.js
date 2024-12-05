@@ -3,20 +3,22 @@ class RadioButton {
     #svgElement;
     #parentList;
 
-    constructor(element, svgElement,parentList) {
+    constructor(element, svgElement, parentList) {
         this.#element = element;
         this.#svgElement = svgElement;
         this.#parentList = parentList;
-        this.#element.addEventListener('change', () => this.#parentList.onChecked());
+        this.#element.addEventListener('change', () => this.onChanged());
         this.onChanged();
     }
 
     onChanged() {
-        if (this.#element.checked) {
-            this.#svgElement.classList.remove('fill-label');
-            return;
-        }
-        this.#svgElement.classList.add('fill-label');
+        this.#parentList.getAllButtons().forEach((radioButton) => {
+            if (!radioButton.#element.checked) {
+                radioButton.#svgElement.classList.add('fill-label');
+                return;
+            }
+            radioButton.#svgElement.classList.remove('fill-label');
+        });
     }
 }
 
@@ -30,15 +32,13 @@ class RadioButtonList {
         if (radioButtonElements.length <= 0 || svgElements.length <= 0) return;
 
         radioButtonElements.forEach((radio, index) => {
-            const radioButton = new RadioButton(radio, svgElements[index],this);
+            const radioButton = new RadioButton(radio, svgElements[index], this);
             this.#values.push(radioButton);
         });
     }
 
-    onChecked() {
-        this.#values.forEach((radioButton) => {
-            radioButton.onChanged();
-        });
+    getAllButtons() {
+        return this.#values;
     }
 }
 const radioButtonList = new RadioButtonList('fourTransportation', 'fill-label');
