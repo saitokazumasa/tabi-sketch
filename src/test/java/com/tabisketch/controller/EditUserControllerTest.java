@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class EditUserControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
     @Test
     @WithMockUser(username = "sample@example.com")
     public void getが動作するか(final String mail) throws Exception {
@@ -23,7 +22,7 @@ public class EditUserControllerTest {
                         .get("/user/edit")
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("user/edit/index"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("user"));
+                .andExpect(MockMvcResultMatchers.model().attributeExists("user"))
+                .andExpect(MockMvcResultMatchers.view().name("user/edit/index"));
     }
 }
