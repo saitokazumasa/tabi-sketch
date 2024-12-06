@@ -14,6 +14,38 @@ class PlaceNum {
     }
 }
 
+class SessionStorageList {
+    #places;
+    #budget;
+    #stayTime;
+    #desiredStartTime;
+    #desiredEndTime;
+
+    constructor() {
+        this.#places = [];
+        this.#budget = [];
+        this.#stayTime = [];
+        this.#desiredStartTime = [];
+        this.#desiredEndTime = [];
+    }
+
+    pushList() {
+        this.#places.push(document.getElementById(`place${placeNum.value()}`).value);
+        this.#budget.push(document.getElementById(`budget${placeNum.value()}`).value);
+        this.#stayTime.push(document.getElementById(`stayTime${placeNum.value()}`).value);
+        this.#desiredStartTime.push(document.getElementById(`desiredStartTime${placeNum.value()}`).value);
+        this.#desiredEndTime.push(document.getElementById(`desiredEndTime${placeNum.value()}`).value);
+    }
+
+    addSessionStorage() {
+        sessionStorage.setItem('places', JSON.stringify(this.#places));
+        sessionStorage.setItem('placesBudget', JSON.stringify(this.#budget));
+        sessionStorage.setItem('placesStayTime', JSON.stringify(this.#stayTime));
+        sessionStorage.setItem('placesDesiredStartTime', JSON.stringify(this.#desiredStartTime));
+        sessionStorage.setItem('placesDesiredEndTime', JSON.stringify(this.#desiredEndTime));
+    }
+}
+
 class Fragment {
     #value;
 
@@ -113,19 +145,8 @@ class ModalForm {
         this.#placeFormElement.addEventListener('submit', async(e) => {
             e.preventDefault();
 
-            // 配列に追加
-            places.push(document.getElementById(`place${placeNum.value()}`).value);
-            budget.push(document.getElementById(`budget${placeNum.value()}`).value);
-            stayTime.push(document.getElementById(`stayTime${placeNum.value()}`).value);
-            desiredStartTime.push(document.getElementById(`desiredStartTime${placeNum.value()}`).value);
-            desiredEndTime.push(document.getElementById(`desiredEndTime${placeNum.value()}`).value);
-
-            // 配列に入れたやつをSessionに入れてる
-            sessionStorage.setItem('places', JSON.stringify(places));
-            sessionStorage.setItem('placesBudget', JSON.stringify(budget));
-            sessionStorage.setItem('placesStayTime', JSON.stringify(stayTime));
-            sessionStorage.setItem('placesDesiredStartTime', JSON.stringify(desiredStartTime));
-            sessionStorage.setItem('placesDesiredEndTime', JSON.stringify(desiredEndTime));
+            sessionStorageList.pushList();
+            sessionStorageList.addSessionStorage();
 
             // 追加するフラグメントの呼び出し
             const fragment = new Fragment();
@@ -145,11 +166,6 @@ class ModalForm {
 }
 
 const placeNum = new PlaceNum();
-
-const places = [];
-const budget = [];
-const stayTime = [];
-const desiredStartTime = [];
-const desiredEndTime = [];
+const sessionStorageList = new SessionStorageList();
 
 new ModalForm();
