@@ -52,4 +52,12 @@ public class UsersMapperTest {
         final int result = this.usersMapper.updateMailVerified(1, isMailVerified);
         assert result == 1;
     }
+
+    @ParameterizedTest
+    @Sql("classpath:/sql/CreateUser.sql")
+    @ValueSource(strings = {"sample@example.com"})
+    public void isExistMailが動作するか(final String mail) {
+        assert this.usersMapper.isExistMail(mail) == 1;
+        assert this.usersMapper.isExistMail(mail + "aaa") == 0;
+    }
 }
