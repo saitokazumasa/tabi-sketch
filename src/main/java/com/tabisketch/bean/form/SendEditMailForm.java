@@ -1,6 +1,5 @@
 package com.tabisketch.bean.form;
 
-import com.tabisketch.bean.valueobject.EncryptedPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -10,7 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EditMailForm {
+public class SendEditMailForm {
+    @Email
+    @NotBlank
+    private String currentMail;
+
     @Email
     @NotBlank
     private String newMail;
@@ -18,7 +21,7 @@ public class EditMailForm {
     @NotBlank
     private String currentPassword;
 
-    public static EditMailForm empty() {
-        return new EditMailForm();
+    public static SendEditMailForm empty() {
+        return new SendEditMailForm();
     }
 }

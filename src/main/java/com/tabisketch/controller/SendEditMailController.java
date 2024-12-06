@@ -1,6 +1,6 @@
 package com.tabisketch.controller;
 
-import com.tabisketch.bean.form.EditMailForm;
+import com.tabisketch.bean.form.SendEditMailForm;
 import com.tabisketch.bean.form.IsMatchPasswordForm;
 import com.tabisketch.service.IIsMatchPasswordService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,19 +25,19 @@ public class SendEditMailController {
 
     @GetMapping
     public String get(final Model model) {
-        model.addAttribute("editMailForm", EditMailForm.empty());
+        model.addAttribute("editMailForm", SendEditMailForm.empty());
         return "user/edit/mail/index";
     }
 
     @PostMapping
     public String post(
-            final @Validated EditMailForm editMailForm,
+            final @Validated SendEditMailForm sendEditMailForm,
             final BindingResult bindingResult,
             final @AuthenticationPrincipal UserDetails userDetails,
             final RedirectAttributes redirectAttributes
     ) {
 
-        if (isMatchPassword(userDetails.getPassword(), editMailForm.getCurrentPassword()))
+        if (isMatchPassword(userDetails.getPassword(), sendEditMailForm.getCurrentPassword()))
             // TODO: エラーメッセージ等、ベタ書きではなく別の場所から参照する形にする
             // パスワードが間違っていても表示せずに通して、処理だけ実行しない方がセキュリティ的には良いかも？
             bindingResult.rejectValue("currentPassword", "error.editMailForm", "パスワードが一致しません");
@@ -45,7 +45,7 @@ public class SendEditMailController {
 
         // TODO: 編集して確認メールを飛ばす
 
-        redirectAttributes.addFlashAttribute("mail", editMailForm.getNewMail());
+        redirectAttributes.addFlashAttribute("mail", sendEditMailForm.getNewMail());
         return "redirect:/user/edit/mail/send";
     }
 

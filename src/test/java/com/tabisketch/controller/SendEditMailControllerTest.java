@@ -1,6 +1,6 @@
 package com.tabisketch.controller;
 
-import com.tabisketch.bean.form.EditMailForm;
+import com.tabisketch.bean.form.SendEditMailForm;
 import com.tabisketch.bean.form.IsMatchPasswordForm;
 import com.tabisketch.service.IIsMatchPasswordService;
 import org.junit.jupiter.api.Test;
@@ -38,21 +38,21 @@ public class SendEditMailControllerTest {
     @ParameterizedTest
     @MethodSource("postが動作するかのテストデータ")
     @WithMockUser(password = "$2a$10$G7Emd1ALL6ibttkgRZtBZeX6Qps6lgEGKq.njouwtiuE4uvjD2YMO")
-    public void postが動作するか(final EditMailForm editMailForm) throws Exception {
+    public void postが動作するか(final SendEditMailForm sendEditMailForm) throws Exception {
         final var isMatchPasswordForm = new IsMatchPasswordForm();
         when(this.isMatchPasswordService.execute(isMatchPasswordForm)).thenReturn(true);
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/user/edit/mail")
-                        .flashAttr("editMailForm", editMailForm)
+                        .flashAttr("editMailForm", sendEditMailForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.model().hasNoErrors())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/user/edit/mail/send"));
     }
 
-    private static Stream<EditMailForm> postが動作するかのテストデータ() {
-        final var e1 = new EditMailForm("sample@example.com", "password");
+    private static Stream<SendEditMailForm> postが動作するかのテストデータ() {
+        final var e1 = new SendEditMailForm("sample@example.com", "sample2@example.com", "password");
         return Stream.of(e1);
     }
 
