@@ -17,7 +17,7 @@ public class EditUserControllerTest {
     private MockMvc mockMvc;
 
     @ParameterizedTest
-    @ValueSource(strings = {"sample2@example.com"})
+    @ValueSource(strings = {"sample@example.com"})
     @WithMockUser
     public void getが動作するか(final String mail) throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
