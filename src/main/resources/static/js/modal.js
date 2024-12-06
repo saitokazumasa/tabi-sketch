@@ -1,9 +1,5 @@
 class PlaceNum {
-    #value;
-
-    constructor() {
-        this.#value = 1;
-    }
+    #value = 1;
 
     value() {
         return this.#value;
@@ -15,19 +11,11 @@ class PlaceNum {
 }
 
 class SessionStorageList {
-    #places;
-    #budget;
-    #stayTime;
-    #desiredStartTime;
-    #desiredEndTime;
-
-    constructor() {
-        this.#places = [];
-        this.#budget = [];
-        this.#stayTime = [];
-        this.#desiredStartTime = [];
-        this.#desiredEndTime = [];
-    }
+    #places = new Array(0);
+    #budget = new Array(0);
+    #stayTime = new Array(0);
+    #desiredStartTime = new Array(0);
+    #desiredEndTime = new Array(0);
 
     pushList() {
         this.#places.push(document.getElementById(`place${placeNum.value()}`).value);
@@ -157,6 +145,7 @@ class ModalForm {
             fragment.addFragment();
             modal.closeModal();
 
+            // 追加したフラグメントに対して実行
             placeNum.increment();
             new ModalElement();
             new ModalForm();
