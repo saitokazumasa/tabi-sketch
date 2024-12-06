@@ -26,7 +26,7 @@ public class EditMailForm {
         if (this.currentPassword == null || encryptedPassword == null) return false;
         if (this.currentPassword.isEmpty() || encryptedPassword.isEmpty()) return false;
 
-        final var encryptedPasswordObj = new EncryptedPassword(encryptedPassword);
-        return !encryptedPasswordObj.isMatch(this.currentPassword);
+        final var password = EncryptedPassword.generateFromEncryptedPassword(encryptedPassword);
+        return !password.isMatch(this.currentPassword);
     }
 }
