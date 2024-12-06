@@ -126,16 +126,16 @@ class ModalForm {
             sessionStorage.setItem('startPlace', document.getElementById('startPlace').value);
             sessionStorage.setItem('startTime', document.getElementById('startTime').value);
 
-            const modal = new ModalElement();
-            modal.closeModal();
+            const modal = new Modal(document.getElementById('startModal'));
+            modal.hide();
         });
         this.#endFormElement.addEventListener('submit', async(e) => {
             e.preventDefault();
 
             sessionStorage.setItem('endPlace', document.getElementById('endPlace').value);
 
-            const modal = new ModalElement();
-            modal.closeModal();
+            const modal = new Modal(document.getElementById('endModal'));
+            modal.hide();
         });
         this.addPlaceEvent();
     }
