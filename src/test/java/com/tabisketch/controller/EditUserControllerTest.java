@@ -16,6 +16,7 @@ public class EditUserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Test
     @WithMockUser(username = "sample@example.com")
     public void getが動作するか(final String mail) throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
