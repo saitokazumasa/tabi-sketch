@@ -21,12 +21,4 @@ public class EditMailForm {
     public static EditMailForm empty() {
         return new EditMailForm();
     }
-
-    public boolean isNotMatchPassword(final String encryptedPassword) {
-        if (this.currentPassword == null || encryptedPassword == null) return false;
-        if (this.currentPassword.isEmpty() || encryptedPassword.isEmpty()) return false;
-
-        final var password = EncryptedPassword.generateFromEncryptedPassword(encryptedPassword);
-        return !password.isMatch(this.currentPassword);
-    }
 }

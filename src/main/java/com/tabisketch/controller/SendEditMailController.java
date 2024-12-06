@@ -1,6 +1,8 @@
 package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.EditMailForm;
+import com.tabisketch.bean.form.IsMatchPasswordForm;
+import com.tabisketch.service.IIsMatchPasswordService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user/edit/mail")
-public class EditMailController {
+public class SendEditMailController {
+    private final IIsMatchPasswordService isMatchPasswordService;
+
+    public SendEditMailController(final IIsMatchPasswordService isMatchPasswordService) {
+        this.isMatchPasswordService = isMatchPasswordService;
+    }
+
     @GetMapping
     public String get(final Model model) {
         model.addAttribute("editMailForm", EditMailForm.empty());
@@ -28,9 +36,10 @@ public class EditMailController {
             final @AuthenticationPrincipal UserDetails userDetails,
             final RedirectAttributes redirectAttributes
     ) {
-        if (editMailForm.isNotMatchPassword(userDetails.getPassword()))
+
+        if (isMatchPassword(userDetails.getPassword(), editMailForm.getCurrentPassword()))
             // TODO: エラーメッセージ等、ベタ書きではなく別の場所から参照する形にする
-            // パスワードが間違っていても表示せずに通して、処理だけ実行しない方がセキュリティ的には良いかも
+            // パスワードが間違っていても表示せずに通して、処理だけ実行しない方がセキュリティ的には良いかも？
             bindingResult.rejectValue("currentPassword", "error.editMailForm", "パスワードが一致しません");
         if (bindingResult.hasErrors()) return "user/edit/mail/index";
 
@@ -38,6 +47,11 @@ public class EditMailController {
 
         redirectAttributes.addFlashAttribute("mail", editMailForm.getNewMail());
         return "redirect:/user/edit/mail/send";
+    }
+
+    private boolean isMatchPassword(final String mail, final String password) {
+        final var isMatchPasswordForm = new IsMatchPasswordForm(mail, password);
+        return this.isMatchPasswordService.execute(isMatchPasswordForm);
     }
 
     @GetMapping("/send")
