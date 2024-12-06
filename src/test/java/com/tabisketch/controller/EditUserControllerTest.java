@@ -16,9 +16,7 @@ public class EditUserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @ParameterizedTest
-    @ValueSource(strings = {"sample@example.com"})
-    @WithMockUser
+    @WithMockUser(username = "sample@example.com")
     public void getが動作するか(final String mail) throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
                         .get("/user/edit")
