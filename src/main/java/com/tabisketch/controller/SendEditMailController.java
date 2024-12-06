@@ -2,6 +2,7 @@ package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.IsMatchPasswordForm;
 import com.tabisketch.bean.form.SendEditMailForm;
+import com.tabisketch.service.IIsExistMailService;
 import com.tabisketch.service.IIsMatchPasswordService;
 import com.tabisketch.service.ISendEditMailService;
 import jakarta.mail.MessagingException;
@@ -20,13 +21,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/user/edit/mail")
 public class SendEditMailController {
     private final IIsMatchPasswordService isMatchPasswordService;
+    private final IIsExistMailService isExistMailService;
     private final ISendEditMailService sendEditMailService;
 
     public SendEditMailController(
             final IIsMatchPasswordService isMatchPasswordService,
+            final IIsExistMailService isExistMailService,
             final ISendEditMailService sendEditMailService
     ) {
         this.isMatchPasswordService = isMatchPasswordService;
+        this.isExistMailService = isExistMailService;
         this.sendEditMailService = sendEditMailService;
     }
 
@@ -46,10 +50,12 @@ public class SendEditMailController {
             final @AuthenticationPrincipal UserDetails userDetails,
             final RedirectAttributes redirectAttributes
     ) throws MessagingException {
+        // TODO: エラーメッセージ等、ベタ書きではなく別の場所から参照する形にする
+        // パスワードが間違ってる、メールアドレスが存在する、は表示せずに通して、処理だけ実行しない方がセキュリティ的には良いかも？
         if (isNotMatchPassword(userDetails.getUsername(), sendEditMailForm.getCurrentPassword()))
-            // TODO: エラーメッセージ等、ベタ書きではなく別の場所から参照する形にする
-            // パスワードが間違っていても表示せずに通して、処理だけ実行しない方がセキュリティ的には良いかも？
             bindingResult.rejectValue("currentPassword", "error.editMailForm", "パスワードが一致しません");
+        if (isNotExistMail(sendEditMailForm.getNewMail()))
+            bindingResult.rejectValue("newMail", "error.editMailForm", "メールアドレスが存在します。");
         if (bindingResult.hasErrors()) return "user/edit/mail/index";
 
         this.sendEditMailService.execute(sendEditMailForm);
@@ -61,6 +67,10 @@ public class SendEditMailController {
     private boolean isNotMatchPassword(final String mail, final String password) {
         final var isMatchPasswordForm = new IsMatchPasswordForm(mail, password);
         return !this.isMatchPasswordService.execute(isMatchPasswordForm);
+    }
+
+    private boolean isNotExistMail(final String mail) {
+        return this.isExistMailService.execute(mail);
     }
 
     @GetMapping("/send")
