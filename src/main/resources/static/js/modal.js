@@ -11,26 +11,48 @@ class PlaceNum {
 }
 
 class SessionStorageList {
-    #places = new Array(0);
-    #budget = new Array(0);
-    #stayTime = new Array(0);
-    #desiredStartTime = new Array(0);
-    #desiredEndTime = new Array(0);
+    #startPlaceList = new Array(0);
+    #endPlaceList = new Array(0);
+    #placesList = new Array(0);
 
-    pushList() {
-        this.#places.push(document.getElementById(`place${placeNum.value()}`).value);
-        this.#budget.push(document.getElementById(`budget${placeNum.value()}`).value);
-        this.#stayTime.push(document.getElementById(`stayTime${placeNum.value()}`).value);
-        this.#desiredStartTime.push(document.getElementById(`desiredStartTime${placeNum.value()}`).value);
-        this.#desiredEndTime.push(document.getElementById(`desiredEndTime${placeNum.value()}`).value);
+    setStartPlace() {
+        this.#startPlaceList = [];
+        this.#startPlaceList.push({
+            placeId: document.getElementById('startPlaceId').value,
+            lat: document.getElementById('startLat').value,
+            lng: document.getElementById('startLng').value,
+            name: document.getElementById('startPlace').value,
+            startTime: document.getElementById('startTime').value
+        });
+
+        sessionStorage.setItem('startPlace', JSON.stringify(this.#startPlaceList));
     }
 
-    addSessionStorage() {
-        sessionStorage.setItem('places', JSON.stringify(this.#places));
-        sessionStorage.setItem('placesBudget', JSON.stringify(this.#budget));
-        sessionStorage.setItem('placesStayTime', JSON.stringify(this.#stayTime));
-        sessionStorage.setItem('placesDesiredStartTime', JSON.stringify(this.#desiredStartTime));
-        sessionStorage.setItem('placesDesiredEndTime', JSON.stringify(this.#desiredEndTime));
+    setEndPlace() {
+        this.#endPlaceList = [];
+        this.#endPlaceList.push({
+            placeId: document.getElementById('endPlaceId').value,
+            lat: document.getElementById('endLat').value,
+            lng: document.getElementById('endLng').value,
+            name: document.getElementById('endPlace').value
+        });
+
+        sessionStorage.setItem('endPlace', JSON.stringify(this.#endPlaceList));
+    }
+
+    setPlaces() {
+        this.#placesList.push({
+            placeId: document.getElementById(`placeId${placeNum}`).value,
+            lat: document.getElementById(`placeLat${placeNum}`).value,
+            lng: document.getElementById(`placeLng${placeNum}`).value,
+            name: document.getElementById(`place${placeNum}`).value,
+            budget: document.getElementById(`budget${placeNum}`).value,
+            stayTime: document.getElementById(`stayTime${placeNum}`).value,
+            desiredStartTime: document.getElementById(`desiredStartTime${placeNum}`).value,
+            desiredEndTime: document.getElementById(`desiredEndTime${placeNum}`).value,
+        });
+
+        sessionStorage.setItem('place', JSON.stringify(this.#placesList));
     }
 }
 
@@ -111,8 +133,7 @@ class ModalForm {
         this.#startFormElement.addEventListener('submit', async(e) => {
             e.preventDefault();
 
-            sessionStorage.setItem('startPlace', document.getElementById('startPlace').value);
-            sessionStorage.setItem('startTime', document.getElementById('startTime').value);
+            sessionStorageList.setStartPlace();
 
             const modal = new Modal(document.getElementById('startModal'));
             modal.hide();
@@ -120,7 +141,7 @@ class ModalForm {
         this.#endFormElement.addEventListener('submit', async(e) => {
             e.preventDefault();
 
-            sessionStorage.setItem('endPlace', document.getElementById('endPlace').value);
+            sessionStorageList.setEndPlace();
 
             const modal = new Modal(document.getElementById('endModal'));
             modal.hide();
@@ -132,8 +153,7 @@ class ModalForm {
         this.#placeFormElement.addEventListener('submit', async(e) => {
             e.preventDefault();
 
-            sessionStorageList.pushList();
-            sessionStorageList.addSessionStorage();
+            sessionStorageList.setPlaces();
 
             // 追加するフラグメントの呼び出し
             const fragment = new Fragment();
