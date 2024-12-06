@@ -20,7 +20,6 @@ public class EditUserControllerTest {
     public void getが動作するか(final String mail) throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
                         .get("/user/edit")
-                        .flashAttr("mail", mail)
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("user/edit/index"))
