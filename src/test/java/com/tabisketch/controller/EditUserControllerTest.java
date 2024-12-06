@@ -20,7 +20,7 @@ public class EditUserControllerTest {
                         .get("/user/edit")
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().attributeExists("user"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("user","sample@example.com"))
                 .andExpect(MockMvcResultMatchers.view().name("user/edit/index"));
     }
 }
