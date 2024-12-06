@@ -1,8 +1,10 @@
 package com.tabisketch.controller;
 
-import com.tabisketch.bean.form.SendEditMailForm;
 import com.tabisketch.bean.form.IsMatchPasswordForm;
+import com.tabisketch.bean.form.SendEditMailForm;
 import com.tabisketch.service.IIsMatchPasswordService;
+import com.tabisketch.service.ISendEditMailService;
+import jakarta.mail.MessagingException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -18,14 +20,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/user/edit/mail")
 public class SendEditMailController {
     private final IIsMatchPasswordService isMatchPasswordService;
+    private final ISendEditMailService sendEditMailService;
 
-    public SendEditMailController(final IIsMatchPasswordService isMatchPasswordService) {
+    public SendEditMailController(
+            final IIsMatchPasswordService isMatchPasswordService,
+            final ISendEditMailService sendEditMailService
+    ) {
         this.isMatchPasswordService = isMatchPasswordService;
+        this.sendEditMailService = sendEditMailService;
     }
 
     @GetMapping
-    public String get(final Model model) {
-        model.addAttribute("editMailForm", SendEditMailForm.empty());
+    public String get(
+            final @AuthenticationPrincipal UserDetails userDetails,
+            final Model model
+    ) {
+        model.addAttribute("sendEditMailForm", SendEditMailForm.generate(userDetails.getUsername()));
         return "user/edit/mail/index";
     }
 
@@ -35,23 +45,22 @@ public class SendEditMailController {
             final BindingResult bindingResult,
             final @AuthenticationPrincipal UserDetails userDetails,
             final RedirectAttributes redirectAttributes
-    ) {
-
-        if (isMatchPassword(userDetails.getPassword(), sendEditMailForm.getCurrentPassword()))
+    ) throws MessagingException {
+        if (isNotMatchPassword(userDetails.getUsername(), sendEditMailForm.getCurrentPassword()))
             // TODO: エラーメッセージ等、ベタ書きではなく別の場所から参照する形にする
             // パスワードが間違っていても表示せずに通して、処理だけ実行しない方がセキュリティ的には良いかも？
             bindingResult.rejectValue("currentPassword", "error.editMailForm", "パスワードが一致しません");
         if (bindingResult.hasErrors()) return "user/edit/mail/index";
 
-        // TODO: 編集して確認メールを飛ばす
+        this.sendEditMailService.execute(sendEditMailForm);
 
         redirectAttributes.addFlashAttribute("mail", sendEditMailForm.getNewMail());
         return "redirect:/user/edit/mail/send";
     }
 
-    private boolean isMatchPassword(final String mail, final String password) {
+    private boolean isNotMatchPassword(final String mail, final String password) {
         final var isMatchPasswordForm = new IsMatchPasswordForm(mail, password);
-        return this.isMatchPasswordService.execute(isMatchPasswordForm);
+        return !this.isMatchPasswordService.execute(isMatchPasswordForm);
     }
 
     @GetMapping("/send")

@@ -21,7 +21,7 @@ public class SendEditMailForm {
     @NotBlank
     private String currentPassword;
 
-    public static SendEditMailForm empty() {
-        return new SendEditMailForm();
+    public static SendEditMailForm generate(final String currentMail) {
+        return new SendEditMailForm(currentMail, "", "");
     }
 }
