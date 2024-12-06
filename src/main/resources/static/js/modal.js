@@ -59,8 +59,7 @@ class Fragment {
             if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
             this.#value = await response.text();
         } catch (error) {
-            console.error(error);
-            return '';
+            throw new Error('initialize Error : ' + error);
         }
     }
 
