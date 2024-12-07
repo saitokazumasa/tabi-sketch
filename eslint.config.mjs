@@ -21,6 +21,7 @@ export default [
             semi: "error", // セミコロン必須
             "eqeqeq": "error", // 常に === と !== を使用する
             "no-undef": "warn", // 未定義の変数を警告
+            "no-unused-vars": "warn", // 未使用の変数を警告
             "no-console": "warn", // console.log を警告 (必要に応じて "off" に変更)
             "quotes": ["error", "single", { "avoidEscape": true }], // シングルクォートを強制
 
