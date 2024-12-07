@@ -80,7 +80,6 @@ const initInstanceKeys = [
 
 const autoCompleteList = new AutoCompleteList();
 
-// eslint-disable-next-line no-unused-vars
 function initAutoComplete() {
     initInstanceKeys.forEach(key => {
         const inputElement = document.getElementById(key);

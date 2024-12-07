@@ -120,9 +120,7 @@ class ModalElement {
         this.addButtonEvent('places');
 
         const inputElement = document.getElementById(`place${placeNum.value()}`);
-        // eslint-disable-next-line no-undef
         const autoComplete = new AutoComplete(inputElement);
-        // eslint-disable-next-line no-undef
         autoCompleteList.add(autoComplete);
     }
 
