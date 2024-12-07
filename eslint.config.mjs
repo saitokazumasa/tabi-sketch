@@ -7,6 +7,7 @@ export default [
     {
         ignores: ["**/*.config.js", "**/*.config.mjs", "src/**/flowbite.min.js"], // 除外ファイル
     },
+    pluginJs.configs.recommended, // 推奨設定
     {
         languageOptions: {
             globals: {
