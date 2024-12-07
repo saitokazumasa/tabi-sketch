@@ -89,30 +89,73 @@ class Fragment {
 }
 
 class ModalElement {
-    #modal;
+    #modals;
+    #toggleButtons;
+    #closeButtons;
 
     constructor() {
-        const modalElement = document.getElementById(`placeModal${placeNum.value()}`);
-        const toggleBtn = document.getElementById(`placeToggleBtn${placeNum.value()}`);
-        const closeBtn = document.getElementById(`placeClose${placeNum.value()}`);
+        this.#modals = {
+            start: document.getElementById('startModal'),
+            end: document.getElementById('endModal'),
+            places: [document.getElementById(`placeModal${placeNum.value()}`)],
+        };
+
+        this.#toggleButtons = {
+            start: document.getElementById('startToggle'),
+            end: document.getElementById('endToggle'),
+            places: [document.getElementById(`placeToggleBtn${placeNum.value()}`)],
+        };
+
+        this.#closeButtons = {
+            start: document.getElementById('startClose'),
+            end: document.getElementById('endClose'),
+            places: [document.getElementById(`placeCloseBtn${placeNum.value()}`)],
+        };
+    }
+
+    addPlacesElement() {
+        this.#modals.places.push(document.getElementById(`placeModal${placeNum.value()}`));
+        this.#toggleButtons.places.push(document.getElementById(`placeToggleBtn${placeNum.value()}`));
+        this.#closeButtons.places.push(document.getElementById(`placeCloseBtn${placeNum.value()}`));
+        this.addButtonEvent('places');
+
         const inputElement = document.getElementById(`place${placeNum.value()}`);
-
-        if (!modalElement || !toggleBtn || !closeBtn || !inputElement) { return; }
-        this.#modal = new Modal(modalElement);
-
-        toggleBtn.addEventListener('click', () => this.#modal.toggle());
-        closeBtn.addEventListener('click', () => {
-            this.#modal.hide();
-            document.activeElement.blur();
-        });
         // eslint-disable-next-line no-undef
         const autoComplete = new AutoComplete(inputElement);
         // eslint-disable-next-line no-undef
         autoCompleteList.add(autoComplete);
     }
 
-    closeModal() {
-        this.#modal.hide();
+    /**
+     * ModalButtonイベント アタッチ
+     * @param modalType (start,end,places)が入る
+     */
+    addButtonEvent(modalType) {
+        if (modalType === 'places') {
+            const modal = new Modal(this.#modals[modalType][placeNum.value()-1]);
+            this.#toggleButtons.places[placeNum.value()-1].addEventListener('click', () => modal.toggle());
+            this.#closeButtons.places[placeNum.value()-1].addEventListener('click', () => {
+                modal.hide();
+                document.activeElement.blur(); // フォーカスを外す
+            });
+            return;
+        }
+        const modal = new Modal(this.#modals[modalType]);
+        this.#toggleButtons[modalType].addEventListener('click', () => modal.toggle());
+        this.#closeButtons[modalType].addEventListener('click', () => {
+            modal.hide();
+            document.activeElement.blur(); // フォーカスを外す
+        });
+    }
+
+    closeModal(modalType) {
+        if (modalType === 'places') {
+            const modal = new Modal(this.#modals[modalType][placeNum.value()-1]);
+            modal.hide();
+            return;
+        }
+        const modal = new Modal(this.#modals[modalType]);
+        modal.hide();
     }
 }
 
