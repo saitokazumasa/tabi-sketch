@@ -178,39 +178,42 @@ class ModalForm {
 
             sessionStorageList.setStartPlace();
 
-            const modal = new Modal(document.getElementById('startModal'));
-            modal.hide();
+            const modalType = 'start';
+            modal.closeModal(modalType);
+            modal.addButtonEvent(modalType);
         });
         this.#endFormElement.addEventListener('submit', async(e) => {
             e.preventDefault();
 
             sessionStorageList.setEndPlace();
 
-            const modal = new Modal(document.getElementById('endModal'));
-            modal.hide();
+            const modalType = 'end';
+            modal.closeModal(modalType);
+            modal.addButtonEvent(modalType);
         });
         this.addPlaceEvent();
     }
 
     addPlaceEvent() {
+        const modalType = 'places';
         this.#placeFormElement.addEventListener('submit', async(e) => {
             e.preventDefault();
 
             sessionStorageList.setPlaces();
+
+            modal.closeModal(modalType);
+            modal.addButtonEvent(modalType);
 
             // 追加するフラグメントの呼び出し
             const fragment = new Fragment();
             await fragment.initialize();
             if (!fragment.value()) return;
 
-            const modal = new ModalElement();
-
             fragment.addFragment();
-            modal.closeModal();
 
             // 追加したフラグメントに対して実行
             placeNum.increment();
-            new ModalElement();
+            modal.addPlacesElement();
             new ModalForm();
         });
     }
@@ -218,5 +221,6 @@ class ModalForm {
 
 const placeNum = new PlaceNum();
 const sessionStorageList = new SessionStorageList();
+const modal = new ModalElement();
 
 new ModalForm();
