@@ -42,14 +42,14 @@ class SessionStorageList {
 
     setPlaces() {
         this.#placesList.push({
-            placeId: document.getElementById(`placeId${placeNum}`).value,
-            lat: document.getElementById(`placeLat${placeNum}`).value,
-            lng: document.getElementById(`placeLng${placeNum}`).value,
-            name: document.getElementById(`place${placeNum}`).value,
-            budget: document.getElementById(`budget${placeNum}`).value,
-            stayTime: document.getElementById(`stayTime${placeNum}`).value,
-            desiredStartTime: document.getElementById(`desiredStartTime${placeNum}`).value,
-            desiredEndTime: document.getElementById(`desiredEndTime${placeNum}`).value,
+            placeId: document.getElementById(`placeId${placeNum.value()}`).value,
+            lat: document.getElementById(`placeLat${placeNum.value()}`).value,
+            lng: document.getElementById(`placeLng${placeNum.value()}`).value,
+            name: document.getElementById(`place${placeNum.value()}`).value,
+            budget: document.getElementById(`budget${placeNum.value()}`).value,
+            stayTime: document.getElementById(`stayTime${placeNum.value()}`).value,
+            desiredStartTime: document.getElementById(`desiredStartTime${placeNum.value()}`).value,
+            desiredEndTime: document.getElementById(`desiredEndTime${placeNum.value()}`).value,
         });
 
         sessionStorage.setItem('place', JSON.stringify(this.#placesList));
