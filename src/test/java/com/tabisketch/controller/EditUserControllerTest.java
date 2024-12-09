@@ -18,8 +18,7 @@ public class EditUserControllerTest {
     @WithMockUser(username = "sample@example.com")
     public void getが動作するか() throws Exception {
         final String mail = getCurrentMail();
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/user/edit"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/user/edit"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("mail"))
                 .andExpect(MockMvcResultMatchers.model().attribute("mail", mail))
