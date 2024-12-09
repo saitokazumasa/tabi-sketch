@@ -9,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.stream.Stream;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -23,10 +23,10 @@ public class IsExistMailServiceTest {
     @ParameterizedTest
     @MethodSource("sampleMailAddress")
     public void 動作するか(final String mailAddress) {
-        when(this.usersMapper.isExistMail(any())).thenReturn(1);
+        when(this.usersMapper.isExistMail(anyString())).thenReturn(1);
 
         assert this.isExistMailService.execute(mailAddress);
-        verify(this.usersMapper).isExistMail(any());
+        verify(this.usersMapper).isExistMail(anyString());
     }
 
     private static Stream<String> sampleMailAddress() {
