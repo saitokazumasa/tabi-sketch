@@ -3,7 +3,6 @@ package com.tabisketch.controller;
 import com.tabisketch.bean.entity.Plan;
 import com.tabisketch.service.IListPlanService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +21,9 @@ public class ListPlanController {
 
     @GetMapping
     public String get(
-            final @AuthenticationPrincipal UserDetails userDetails,
+            final @AuthenticationPrincipal(expression = "username") String mail,
             final Model model
     ) {
-        final String mail = userDetails.getUsername();
         final List<Plan> planList = listPlanService.execute(mail);
         model.addAttribute("planList", planList);
         return "plan/list";
