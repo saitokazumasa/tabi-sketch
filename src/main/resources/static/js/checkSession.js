@@ -1,5 +1,5 @@
-const checkbox = document.getElementById('交通機関を利用するまでの徒歩時間flg');
-const inputField = document.getElementById('交通機関を利用するまでの徒歩時間');
+const checkbox = document.getElementById('walkFlag');
+const inputField = document.getElementById('walkingTime');
 
 checkbox.addEventListener('change', () => {
     if (checkbox.checked) {
