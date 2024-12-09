@@ -133,30 +133,41 @@ class ModalElement {
      * @param modalType (start,end,places)が入る
      */
     addButtonEvent(modalType) {
-        if (modalType === 'places') {
-            const modal = new Modal(this.#modals[modalType][placeNum.value()-1]);
-            this.#toggleButtons.places[placeNum.value()-1].addEventListener('click', () => modal.toggle());
-            this.#closeButtons.places[placeNum.value()-1].addEventListener('click', () => {
-                modal.hide();
-                document.activeElement.blur(); // フォーカスを外す
-            });
-            return;
-        }
-        const modal = new Modal(this.#modals[modalType]);
-        this.#toggleButtons[modalType].addEventListener('click', () => modal.toggle());
-        this.#closeButtons[modalType].addEventListener('click', () => {
+        const modal = this.#getModal(modalType);
+        const toggleBtn = this.#getToggleBtn(modalType);
+        const closeBtn = this.#getCloseBtn(modalType);
+
+        // イベントのアタッチ
+        toggleBtn.addEventListener('click', () => modal.toggle() );
+        closeBtn.addEventListener('click', () => {
             modal.hide();
             document.activeElement.blur(); // フォーカスを外す
         });
     }
 
-    closeModal(modalType) {
+    #getModal(modalType) {
         if (modalType === 'places') {
-            const modal = new Modal(this.#modals[modalType][placeNum.value()-1]);
-            modal.hide();
-            return;
+            return new Modal(this.#modals[modalType][placeNum.value()-1]);
         }
-        const modal = new Modal(this.#modals[modalType]);
+        return new Modal(this.#modals[modalType]);
+    }
+
+    #getToggleBtn(modalType) {
+        if (modalType === 'places') {
+            return this.#toggleButtons.places[placeNum.value()-1];
+        }
+        return this.#toggleButtons[modalType];
+    }
+
+    #getCloseBtn(modalType) {
+        if (modalType === 'places') {
+            return this.#closeButtons.places[placeNum.value()-1];
+        }
+        return this.#closeButtons[modalType];
+    }
+
+    closeModal(modalType) {
+        const modal = this.#getModal(modalType);
         modal.hide();
     }
 }
