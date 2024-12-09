@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user/edit")
 public class EditUserController {
     @GetMapping
-    public String get(@AuthenticationPrincipal(expression = "username") String mail, Model model) {
+    public String get(@AuthenticationPrincipal(expression = "username") final String mail, final Model model) {
         model.addAttribute("mail", mail);
         return "user/edit/index";
     }
