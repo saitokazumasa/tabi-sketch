@@ -114,9 +114,13 @@ class ModalElement {
     }
 
     addPlacesElement() {
-        this.#modals.places.push(document.getElementById(`placeModal${placeNum.value()}`));
-        this.#toggleButtons.places.push(document.getElementById(`placeToggleBtn${placeNum.value()}`));
-        this.#closeButtons.places.push(document.getElementById(`placeCloseBtn${placeNum.value()}`));
+        const modal = document.getElementById(`placeModal${placeNum.value()}`);
+        const toggleButton = document.getElementById(`placeToggleBtn${placeNum.value()}`);
+        const closeButton = document.getElementById(`placeCloseBtn${placeNum.value()}`);
+
+        this.#modals.places.push(modal);
+        this.#toggleButtons.places.push(toggleButton);
+        this.#closeButtons.places.push(closeButton);
         this.addButtonEvent('places');
 
         const inputElement = document.getElementById(`place${placeNum.value()}`);
