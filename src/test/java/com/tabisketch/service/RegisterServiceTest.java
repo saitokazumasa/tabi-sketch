@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
@@ -33,7 +34,7 @@ public class RegisterServiceTest {
     public void 動作するか(final RegisterForm registerForm) throws MessagingException {
         this.registerService.execute(registerForm);
         verify(this.usersMapper).insert(any());
-        verify(this.encryptPasswordService).execute(any());
+        verify(this.encryptPasswordService).execute(anyString());
         verify(this.mailAuthenticationTokensMapper).insert(any());
         verify(this.sendMailService).execute(any());
     }

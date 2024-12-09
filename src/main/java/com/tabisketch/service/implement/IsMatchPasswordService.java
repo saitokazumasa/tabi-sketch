@@ -19,7 +19,7 @@ public class IsMatchPasswordService implements IIsMatchPasswordService {
 
     @Override
     public boolean execute(final IsMatchPasswordForm isMatchPasswordForm) {
-        final User user = this.usersMapper.selectByMail(isMatchPasswordForm.getMailAddress());
+        final User user = this.usersMapper.selectByMailAddress(isMatchPasswordForm.getMailAddress());
         return passwordEncoder.matches(isMatchPasswordForm.getPassword(), user.getPassword());
     }
 }

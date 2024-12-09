@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,19 +26,19 @@ public class IsMatchPasswordServiceTest {
     @ParameterizedTest
     @MethodSource("sampleTrueIsMatchPasswordForm")
     public void 一致する時trueを返すか(final IsMatchPasswordForm isMatchPasswordForm) {
-        when(this.usersMapper.selectByMail(any())).thenReturn(sampleUser());
+        when(this.usersMapper.selectByMailAddress(anyString())).thenReturn(sampleUser());
 
         assert this.isMatchPasswordService.execute(isMatchPasswordForm);
-        verify(this.usersMapper).selectByMail(any());
+        verify(this.usersMapper).selectByMailAddress(anyString());
     }
 
     @ParameterizedTest
     @MethodSource("sampleFalseIsMatchPasswordForm")
     public void 一致しないときfalseを返すか(final IsMatchPasswordForm isMatchPasswordForm) {
-        when(this.usersMapper.selectByMail(any())).thenReturn(sampleUser());
+        when(this.usersMapper.selectByMailAddress(any())).thenReturn(sampleUser());
 
         assert !this.isMatchPasswordService.execute(isMatchPasswordForm);
-        verify(this.usersMapper).selectByMail(isMatchPasswordForm.getMailAddress());
+        verify(this.usersMapper).selectByMailAddress(isMatchPasswordForm.getMailAddress());
     }
 
     private static User sampleUser() {

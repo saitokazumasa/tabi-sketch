@@ -29,7 +29,7 @@ public class SendEditMailService implements ISendEditMailService {
 
     @Override
     public void execute(final SendEditMailForm sendEditMailForm) throws MessagingException {
-        final User user = this.usersMapper.selectByMail(sendEditMailForm.getCurrentMailAddress());
+        final User user = this.usersMapper.selectByMailAddress(sendEditMailForm.getCurrentMailAddress());
 
         final var mailAuthToken = MailAddressAuthToken.generate(user.getId(), sendEditMailForm.getNewMailAddress());
         this.mailAuthenticationTokensMapper.insertWithNewMail(mailAuthToken);
