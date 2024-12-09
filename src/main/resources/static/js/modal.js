@@ -188,29 +188,45 @@ class ModalForm {
         if (!this.#startFormElement || !this.#placeFormElement || !this.#endFormElement) return;
 
         this.#startFormElement.addEventListener('submit', (e) => {
-            this.#formSubmitEvent(e, 'start');
+            this.#startFormSubmit(e);
         });
         this.#endFormElement.addEventListener('submit', (e) => {
-            this.#formSubmitEvent(e, 'end');
+            this.#endFormSubmit(e);
         });
         this.#placeFormElement.addEventListener('submit', async(e) => {
-            this.#formSubmitEvent(e, 'places');
-            await this.#addPlaceEvent();
+            await this.#placesFormSubmit(e);
         });
     }
 
-    #formSubmitEvent(e, modalType) {
-        e.preventDefault(); // 従来のsubmitイベント削除
+    #startFormSubmit(e) {
+        e.preventDefault();
 
-        if (modalType === 'start') sessionStorageList.setStartPlace();
-        else if (modalType === 'end') sessionStorageList.setEndPlace();
-        else sessionStorageList.setPlaces();
+        sessionStorageList.setStartPlace();
 
-        modal.closeModal(modalType); // modalを閉じる
-        modal.addButtonEvent(modalType); // modalのイベントを再アタッチ
+        const modalType = 'start';
+        modal.closeModal(modalType);
+        modal.addButtonEvent(modalType);
     }
 
-    async #addPlaceEvent() {
+    #endFormSubmit(e) {
+        e.preventDefault();
+
+        sessionStorageList.setEndPlace();
+
+        const modalType = 'end';
+        modal.closeModal(modalType);
+        modal.addButtonEvent(modalType);
+    }
+
+    async #placesFormSubmit(e) {
+        e.preventDefault();
+
+        sessionStorageList.setPlaces();
+
+        const modalType = 'places';
+        modal.closeModal(modalType);
+        modal.addButtonEvent(modalType);
+
         const fragment = new Fragment(); // 追加するフラグメントの取得
         await fragment.initialize(); // 追加フラグメントの初期化
 
