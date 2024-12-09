@@ -29,15 +29,15 @@ class SessionManager {
         const id = input.getAttribute('id');
 
         switch (id) {
-            case 'startPlace':
-                this.session.startPlace = this.updateSessionArray(input.value);
-                break;
-            case 'place':
-                this.session.place = this.updateSessionArray(input.value);
-                break;
-            case 'endPlace':
-                this.session.endPlace = this.updateSessionArray(input.value);
-                break;
+        case 'startPlace':
+            this.session.startPlace = this.updateSessionArray(input.value);
+            break;
+        case 'place':
+            this.session.place = this.updateSessionArray(input.value);
+            break;
+        case 'endPlace':
+            this.session.endPlace = this.updateSessionArray(input.value);
+            break;
         }
 
         this.checkInputs();

@@ -1,7 +1,8 @@
+export {openPopup, closePopup};
+
 class MapManager {
     constructor(options = {}) {
         this.defaultLocation = options.defaultLocation || {
-            // TODO:適当な初期値を指定しているため、開始地点>目的地点>終了地点の優先度でPlaceの緯度経度を取得するように修正する
             lat: 35.675682101601765,
             lng: 139.66842469787593
         };
@@ -10,6 +11,10 @@ class MapManager {
         this.popup = document.getElementById('popup');
     }
 
+    /**
+     * 指定された要素IDに地図を表示する
+     * @param {string} elementId - 地図を表示する要素のID
+     */
     displayMap(elementId) {
         const mapElement = document.getElementById(elementId);
         if (!mapElement) return;
@@ -19,6 +24,10 @@ class MapManager {
             zoom: this.defaultZoom
         });
     }
+
+    /**
+     * ポップアップを開く
+     */
     openPopup() {
         if (this.popup) {
             this.popup.style.display = 'flex';
@@ -26,11 +35,18 @@ class MapManager {
         }
     }
 
+    /**
+     * ポップアップを閉じる
+     */
     closePopup() {
         if (this.popup) {
             this.popup.style.display = 'none';
         }
     }
+
+    /**
+     * 初期地図を表示
+     */
     initMap() {
         this.displayMap('map');
     }
@@ -40,8 +56,9 @@ class MapManager {
 const mapManager = new MapManager();
 
 // イベントリスナーの設定
-window.onload = () => mapManager.initMap();
+window.addEventListener('load', () => mapManager.initMap());
 
+// グローバル関数の定義（互換性のため）
 function openPopup() {
     mapManager.openPopup();
 }
