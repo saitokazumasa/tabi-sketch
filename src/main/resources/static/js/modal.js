@@ -186,50 +186,42 @@ class ModalForm {
 
     initFormEvent() {
         if (!this.#startFormElement || !this.#placeFormElement || !this.#endFormElement) return;
-        this.#startFormElement.addEventListener('submit', async(e) => {
-            e.preventDefault();
 
-            sessionStorageList.setStartPlace();
-
-            const modalType = 'start';
-            modal.closeModal(modalType);
-            modal.addButtonEvent(modalType);
+        this.#startFormElement.addEventListener('submit', (e) => {
+            this.#formSubmitEvent(e, 'start');
         });
-        this.#endFormElement.addEventListener('submit', async(e) => {
-            e.preventDefault();
-
-            sessionStorageList.setEndPlace();
-
-            const modalType = 'end';
-            modal.closeModal(modalType);
-            modal.addButtonEvent(modalType);
+        this.#endFormElement.addEventListener('submit', (e) => {
+            this.#formSubmitEvent(e, 'end');
         });
-        this.addPlaceEvent();
-    }
-
-    addPlaceEvent() {
-        const modalType = 'places';
         this.#placeFormElement.addEventListener('submit', async(e) => {
-            e.preventDefault();
-
-            sessionStorageList.setPlaces();
-
-            modal.closeModal(modalType);
-            modal.addButtonEvent(modalType);
-
-            // 追加するフラグメントの呼び出し
-            const fragment = new Fragment();
-            await fragment.initialize();
-            if (!fragment.value()) return;
-
-            fragment.addFragment();
-
-            // 追加したフラグメントに対して実行
-            placeNum.increment();
-            modal.addPlacesElement();
-            new ModalForm();
+            this.#formSubmitEvent(e, 'places');
+            await this.#addPlaceEvent();
         });
     }
+
+    #formSubmitEvent(e, modalType) {
+        e.preventDefault(); // 従来のsubmitイベント削除
+
+        if (modalType === 'start') sessionStorageList.setStartPlace();
+        else if (modalType === 'end') sessionStorageList.setEndPlace();
+        else sessionStorageList.setPlaces();
+
+        modal.closeModal(modalType); // modalを閉じる
+        modal.addButtonEvent(modalType); // modalのイベントを再アタッチ
+    }
+
+    async #addPlaceEvent() {
+        const fragment = new Fragment(); // 追加するフラグメントの取得
+        await fragment.initialize(); // 追加フラグメントの初期化
+
+        if (!fragment.value()) return;
+
+        fragment.addFragment(); // フラグメントをHTML上に追加
+
+        placeNum.increment();
+        modal.addPlacesElement(); // 追加フラグメントにmodalイベントをアタッチ
+        new ModalForm(); // modalFormイベントをアタッチ
+    };
 }
 
 const placeNum = new PlaceNum();
