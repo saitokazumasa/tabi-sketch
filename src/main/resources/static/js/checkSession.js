@@ -1,52 +1,69 @@
-const checkbox = document.getElementById('walkFlag');
-const inputField = document.getElementById('walkingTime');
+class SessionManager {
+    constructor() {
+        this.session = {
+            startPlace: [],
+            place: [],
+            endPlace: []
+        };
+        this.messageElement = document.querySelector('.text-danger.my-4');
+        this.walkFlagCheckbox = document.getElementById('walkFlag');
+        this.walkingTimeInput = document.getElementById('walkingTime');
 
-checkbox.addEventListener('change', () => {
-    if (checkbox.checked) {
-        inputField.disabled = false;
-    } else {
-        inputField.disabled = true;
+        this.initEventListeners();
     }
-});
+    initEventListeners() {
+        if (this.walkFlagCheckbox && this.walkingTimeInput) {
+            this.walkFlagCheckbox.addEventListener('change', () => {
+                this.walkingTimeInput.disabled = !this.walkFlagCheckbox.checked;
+            });
+        }
+        const textInputs = document.querySelectorAll('input[type="text"]');
+        textInputs.forEach(input => {
+            input.addEventListener('input', () => this.handleInputChange(input));
+        });
 
-// TODO: 適切なセッションキーを設定する
-document.addEventListener('DOMContentLoaded', function() {
-    const session = {
-        startPoint: null,
-        destination: null,
-        endPoint: null
-    };
+        this.checkInputs();
+    }
 
-    const messageElement = document.querySelector('.text-danger.my-4');
+    handleInputChange(input) {
+        const id = input.getAttribute('id');
 
-    function checkInputs() {
-        const isStartPointEntered = session.startPoint && session.startPoint.trim() !== '';
-        const isDestinationEntered = session.destination && session.destination.trim() !== '';
-        const isEndPointEntered = session.endPoint && session.endPoint.trim() !== '';
+        switch (id) {
+            case 'startPlace':
+                this.session.startPlace = this.updateSessionArray(input.value);
+                break;
+            case 'place':
+                this.session.place = this.updateSessionArray(input.value);
+                break;
+            case 'endPlace':
+                this.session.endPlace = this.updateSessionArray(input.value);
+                break;
+        }
 
-        if (isStartPointEntered || isDestinationEntered || isEndPointEntered) {
-            messageElement.style.display = 'none';
-        } else {
-            messageElement.style.display = 'block';
+        this.checkInputs();
+    }
+
+    updateSessionArray(value) {
+        return value.split(/[\s\n]+/).filter(item => item.trim() !== '');
+    }
+
+    // どれか一つでも入力されているかチェックし、入力がない場合はメッセージを表示する
+    checkInputs() {
+        const isAnyInputEntered = [
+            this.session.startPlace,
+            this.session.place,
+            this.session.endPlace
+        ].some(array => array.length > 0);
+
+        if (this.messageElement) {
+            this.messageElement.style.display = isAnyInputEntered ? 'none' : 'block';
         }
     }
+    getSession() {
+        return { ...this.session };
+    }
+}
 
-    checkInputs();
-
-    // セッションデータの更新処理（例: ボタンや入力イベントに応じて）
-    document.querySelectorAll('input[type="text"]').forEach(input => {
-        input.addEventListener('input', function() {
-            const id = input.getAttribute('id');
-
-            if (id === 'startPoint') {
-                session.startPoint = input.value;
-            } else if (id === 'destination') {
-                session.destination = input.value;
-            } else if (id === 'endPoint') {
-                session.endPoint = input.value;
-            }
-
-            checkInputs();
-        });
-    });
+document.addEventListener('DOMContentLoaded', () => {
+    window.sessionManager = new SessionManager();
 });
