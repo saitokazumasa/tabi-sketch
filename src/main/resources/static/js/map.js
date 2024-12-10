@@ -1,6 +1,6 @@
 export {openPopup, closePopup};
 
-class MapManager {
+class Map {
     constructor(options = {}) {
         this.defaultLocation = options.defaultLocation || {
             lat: 35.675682101601765,
@@ -10,11 +10,6 @@ class MapManager {
         this.map = null;
         this.popup = document.getElementById('popup');
     }
-
-    /**
-     * 指定された要素IDに地図を表示する
-     * @param {string} elementId - 地図を表示する要素のID
-     */
     displayMap(elementId) {
         const mapElement = document.getElementById(elementId);
         if (!mapElement) return;
@@ -24,41 +19,26 @@ class MapManager {
             zoom: this.defaultZoom
         });
     }
-
-    /**
-     * ポップアップを開く
-     */
     openPopup() {
         if (this.popup) {
             this.popup.style.display = 'flex';
             this.displayMap('sp-map');
         }
     }
-
-    /**
-     * ポップアップを閉じる
-     */
     closePopup() {
         if (this.popup) {
             this.popup.style.display = 'none';
         }
     }
-
-    /**
-     * 初期地図を表示
-     */
     initMap() {
         this.displayMap('map');
     }
 }
 
-// グローバルインスタンスの作成
-const mapManager = new MapManager();
+const mapManager = new Map();
 
-// イベントリスナーの設定
 window.addEventListener('load', () => mapManager.initMap());
 
-// グローバル関数の定義（互換性のため）
 function openPopup() {
     mapManager.openPopup();
 }
