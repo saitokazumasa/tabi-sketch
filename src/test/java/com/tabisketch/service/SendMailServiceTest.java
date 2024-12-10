@@ -6,6 +6,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.UUID;
@@ -13,6 +15,8 @@ import java.util.stream.Stream;
 
 @SpringBootTest
 public class SendMailServiceTest {
+    @MockBean
+    private JavaMailSender mailSender; // DIで使用している
     @Autowired
     private ISendMailService sendMailService;
 
