@@ -1,9 +1,5 @@
 class PlaceNum {
-    #value;
-
-    constructor() {
-        this.#value = 1;
-    }
+    #value = 1;
 
     value() {
         return this.#value;
@@ -11,6 +7,52 @@ class PlaceNum {
 
     increment() {
         this.#value ++;
+    }
+}
+
+class SessionStorageList {
+    #startPlaceList = new Array(0);
+    #endPlaceList = new Array(0);
+    #placesList = new Array(0);
+
+    setStartPlace() {
+        this.#startPlaceList = [];
+        this.#startPlaceList.push({
+            placeId: document.getElementById('startPlaceId').value,
+            lat: document.getElementById('startLat').value,
+            lng: document.getElementById('startLng').value,
+            name: document.getElementById('startPlace').value,
+            startTime: document.getElementById('startTime').value
+        });
+
+        sessionStorage.setItem('startPlace', JSON.stringify(this.#startPlaceList));
+    }
+
+    setEndPlace() {
+        this.#endPlaceList = [];
+        this.#endPlaceList.push({
+            placeId: document.getElementById('endPlaceId').value,
+            lat: document.getElementById('endLat').value,
+            lng: document.getElementById('endLng').value,
+            name: document.getElementById('endPlace').value
+        });
+
+        sessionStorage.setItem('endPlace', JSON.stringify(this.#endPlaceList));
+    }
+
+    setPlaces() {
+        this.#placesList.push({
+            placeId: document.getElementById(`placeId${placeNum.value()}`).value,
+            lat: document.getElementById(`placeLat${placeNum.value()}`).value,
+            lng: document.getElementById(`placeLng${placeNum.value()}`).value,
+            name: document.getElementById(`place${placeNum.value()}`).value,
+            budget: document.getElementById(`budget${placeNum.value()}`).value,
+            stayTime: document.getElementById(`stayTime${placeNum.value()}`).value,
+            desiredStartTime: document.getElementById(`desiredStartTime${placeNum.value()}`).value,
+            desiredEndTime: document.getElementById(`desiredEndTime${placeNum.value()}`).value,
+        });
+
+        sessionStorage.setItem('place', JSON.stringify(this.#placesList));
     }
 }
 
@@ -27,13 +69,13 @@ class Fragment {
             if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
             this.#value = await response.text();
         } catch (error) {
-            console.error(error);
-            return '';
+            throw new Error('initialize Error : ' + error);
         }
     }
 
     addFragment() {
-        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。')
+        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
+        // id=destination の子要素に追加
         const container = document.getElementById('destination');
         const item = document.createElement('div');
         item.innerHTML = this.#value;
@@ -41,64 +83,165 @@ class Fragment {
     }
 
     value() {
-        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。')
+        if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
         return this.#value;
     }
 }
 
 class ModalElement {
-    #modal;
+    #modals;
+    #toggleButtons;
+    #closeButtons;
 
     constructor() {
-        const modalElement = document.getElementById(`placeModal${placeNum.value()}`);
-        const toggleBtn = document.getElementById(`placeToggleBtn${placeNum.value()}`);
-        const closeBtn = document.getElementById(`placeClose${placeNum.value()}`);
+        this.#modals = {
+            start: document.getElementById('startModal'),
+            end: document.getElementById('endModal'),
+            places: [document.getElementById(`placeModal${placeNum.value()}`)],
+        };
+
+        this.#toggleButtons = {
+            start: document.getElementById('startToggle'),
+            end: document.getElementById('endToggle'),
+            places: [document.getElementById(`placeToggleBtn${placeNum.value()}`)],
+        };
+
+        this.#closeButtons = {
+            start: document.getElementById('startClose'),
+            end: document.getElementById('endClose'),
+            places: [document.getElementById(`placeCloseBtn${placeNum.value()}`)],
+        };
+    }
+
+    addPlacesElement() {
+        const modal = document.getElementById(`placeModal${placeNum.value()}`);
+        const toggleButton = document.getElementById(`placeToggleBtn${placeNum.value()}`);
+        const closeButton = document.getElementById(`placeCloseBtn${placeNum.value()}`);
+
+        this.#modals.places.push(modal);
+        this.#toggleButtons.places.push(toggleButton);
+        this.#closeButtons.places.push(closeButton);
+        this.addButtonEvent('places');
+
         const inputElement = document.getElementById(`place${placeNum.value()}`);
-
-        if (!modalElement || !toggleBtn || !closeBtn || !inputElement) { return; }
-        this.#modal = new Modal(modalElement);
-
-        toggleBtn.addEventListener('click', () => this.#modal.toggle());
-        closeBtn.addEventListener('click', () => {
-            this.#modal.hide();
-            document.activeElement.blur();
-        });
         const autoComplete = new AutoComplete(inputElement);
         autoCompleteList.add(autoComplete);
     }
 
-    closeModal() {
-        this.#modal.hide();
+    /**
+     * ModalButtonイベント アタッチ
+     * @param modalType (start,end,places)が入る
+     */
+    addButtonEvent(modalType) {
+        const modal = this.#getModal(modalType);
+        const toggleBtn = this.#getToggleBtn(modalType);
+        const closeBtn = this.#getCloseBtn(modalType);
+
+        // イベントのアタッチ
+        toggleBtn.addEventListener('click', () => modal.toggle() );
+        closeBtn.addEventListener('click', () => {
+            modal.hide();
+            document.activeElement.blur(); // フォーカスを外す
+        });
+    }
+
+    #getModal(modalType) {
+        if (modalType === 'places') {
+            return new Modal(this.#modals[modalType][placeNum.value()-1]);
+        }
+        return new Modal(this.#modals[modalType]);
+    }
+
+    #getToggleBtn(modalType) {
+        if (modalType === 'places') {
+            return this.#toggleButtons.places[placeNum.value()-1];
+        }
+        return this.#toggleButtons[modalType];
+    }
+
+    #getCloseBtn(modalType) {
+        if (modalType === 'places') {
+            return this.#closeButtons.places[placeNum.value()-1];
+        }
+        return this.#closeButtons[modalType];
+    }
+
+    closeModal(modalType) {
+        const modal = this.#getModal(modalType);
+        modal.hide();
     }
 }
 
 class ModalForm {
-    #formElement;
+    #startFormElement;
+    #placeFormElement;
+    #endFormElement;
 
     constructor() {
-        this.#formElement = document.getElementById(`placeForm${placeNum.value()}`);
-        if (!this.#formElement) { return; }
-
-        this.#formElement.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const fragment = new Fragment();
-            await fragment.initialize();
-
-            if (!fragment.value()) { return; }
-
-            const modal = new ModalElement();
-
-            fragment.addFragment();
-            modal.closeModal();
-
-            placeNum.increment();
-            const newModal = new ModalElement();
-            const form = new ModalForm();
-        })
+        this.#startFormElement = document.getElementById('startPlaceForm');
+        this.#placeFormElement = document.getElementById(`placeForm${placeNum.value()}`);
+        this.#endFormElement = document.getElementById('endPlaceForm');
+        this.initFormEvent();
     }
+
+    initFormEvent() {
+        if (!this.#startFormElement || !this.#placeFormElement || !this.#endFormElement) return;
+
+        this.#startFormElement.addEventListener('submit', (e) => {
+            this.#startFormSubmit(e);
+        });
+        this.#endFormElement.addEventListener('submit', (e) => {
+            this.#endFormSubmit(e);
+        });
+        this.#placeFormElement.addEventListener('submit', async(e) => {
+            await this.#placesFormSubmit(e);
+        });
+    }
+
+    #startFormSubmit(e) {
+        e.preventDefault();
+
+        sessionStorageList.setStartPlace();
+
+        const modalType = 'start';
+        modal.closeModal(modalType);
+        modal.addButtonEvent(modalType);
+    }
+
+    #endFormSubmit(e) {
+        e.preventDefault();
+
+        sessionStorageList.setEndPlace();
+
+        const modalType = 'end';
+        modal.closeModal(modalType);
+        modal.addButtonEvent(modalType);
+    }
+
+    async #placesFormSubmit(e) {
+        e.preventDefault();
+
+        sessionStorageList.setPlaces();
+
+        const modalType = 'places';
+        modal.closeModal(modalType);
+        modal.addButtonEvent(modalType);
+
+        const fragment = new Fragment(); // 追加するフラグメントの取得
+        await fragment.initialize(); // 追加フラグメントの初期化
+
+        if (!fragment.value()) return;
+
+        fragment.addFragment(); // フラグメントをHTML上に追加
+
+        placeNum.increment();
+        modal.addPlacesElement(); // 追加フラグメントにmodalイベントをアタッチ
+        new ModalForm(); // modalFormイベントをアタッチ
+    };
 }
 
 const placeNum = new PlaceNum();
+const sessionStorageList = new SessionStorageList();
+const modal = new ModalElement();
 
-const form = new ModalForm();
+new ModalForm();

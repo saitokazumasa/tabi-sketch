@@ -10,10 +10,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Plan {
-    public int id;
-    public UUID uuid;
-    public String title;
-    public int userId;
-    public boolean isEditable;
-    public boolean isPublic;
+    private int id;
+    private UUID uuid;
+    private String title;
+    private int userId;
+    private boolean isEditable;
+    private boolean isPublic;
 }

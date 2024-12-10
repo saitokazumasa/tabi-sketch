@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    public int id;
-    public String mail;
-    public String password;
-    public Boolean isMailVerified;
+    private int id;
+    private String mail;
+    private String password;
+    private Boolean isMailVerified;
 
     public static User generate(final String mail, final String password) {
         return new User(
