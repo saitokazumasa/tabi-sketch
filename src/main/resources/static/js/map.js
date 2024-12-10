@@ -35,14 +35,14 @@ class Map {
     }
 }
 
-const mapManager = new Map();
+const map = new Map();
 
-window.addEventListener('load', () => mapManager.initMap());
+window.addEventListener('load', () => map.initMap());
 
 function openPopup() {
-    mapManager.openPopup();
+    map.openPopup();
 }
 
 function closePopup() {
-    mapManager.closePopup();
+    map.closePopup();
 }

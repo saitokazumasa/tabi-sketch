@@ -1,4 +1,4 @@
-class SessionManager {
+class session {
     constructor() {
         this.session = {
             startPlace: [],
@@ -65,5 +65,5 @@ class SessionManager {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    window.sessionManager = new SessionManager();
+    window.session = new session();
 });
