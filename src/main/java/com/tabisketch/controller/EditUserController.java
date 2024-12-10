@@ -14,7 +14,7 @@ public class EditUserController {
     public String get(final Model model) {
         //Todo　以下は仮の処理のため後ほど書き換える
         final var item = new User();
-        item.setMail("user@example.com");
+        item.setMailAddress("user@example.com");
         model.addAttribute("item", item);
         return "user/edit/index";
     }
