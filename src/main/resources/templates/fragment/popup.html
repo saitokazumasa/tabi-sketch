@@ -32,8 +32,8 @@
 </th:block>
 
 <th:block th:fragment="cover-image">
-    <button data-modal-target="imageModal" data-modal-toggle="imageModal" class="button-primary" type="button">
-        画像変更
+    <button data-modal-target="imageModal" data-modal-toggle="imageModal" type="button">
+        <th:block th:replace="fragment/svg :: camera"/>
     </button>
 
     <div id="imageModal" tabindex="-1" class="fixed inset-0 z-50 justify-center items-center hidden">
@@ -50,11 +50,11 @@
                         <p class="text-sm md:text-xl text-red-600 whitespace-nowrap">個人情報となる画像は入れないでください。</p>
                     </div>
                     <form class="space-y-4" action="#" method="post" enctype="multipart/form-data">
-                        <input type="file" id="image" name="image" accept="image/*" class="border text-sm rounded-lg w-full block" required />
-                        <div class="flex justify-center gap-4">
+                        <input type="file" id="image" name="image" accept="image/*" class="border text-sm rounded-lg w-full" required />
+                        <div class="flex justify-center gap-6">
                             <button type="submit" class="button-primary">
                                 画像確定
-                            </button>
+                            </button>gtr4
                             <button data-modal-hide="imageModal" type="button" class="button-secondary">
                                 閉じる
                             </button>
