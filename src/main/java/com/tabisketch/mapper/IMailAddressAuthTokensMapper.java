@@ -11,7 +11,7 @@ public interface IMailAddressAuthTokensMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id,token")
     int insert(final MailAddressAuthToken mailAddressAuthToken);
 
-    @Insert("INSERT INTO mail_address_auth_tokens (user_id, new_mail_address) VALUES (#{userId}, #{newMail})")
+    @Insert("INSERT INTO mail_address_auth_tokens (user_id, new_mail_address) VALUES (#{userId}, #{newMailAddress})")
     @Options(useGeneratedKeys = true, keyProperty = "id,token")
     int insertWithNewMail(final MailAddressAuthToken mailAddressAuthToken);
 
