@@ -17,14 +17,11 @@ class RadioButtonList {
         this.svgs.forEach((svg) => svg.classList.add('fill-label'));
 
         this.radios.forEach((radio) => {
-            if (radio.checked) {
-                const label = document.querySelector(`label[for="${radio.id}"]`);
-                const svg = label.querySelector('svg');
-                if (svg) {
-                    return svg.classList.remove('fill-label');
-                }
-                return;
-            }
+            if (!radio.checked) return;
+            const label = document.querySelector(`label[for="${radio.id}"]`);
+            const svg = label.querySelector('svg');
+            if (!svg) return ;
+            svg.classList.remove('fill-label');
         });
     }
 }
