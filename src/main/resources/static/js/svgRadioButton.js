@@ -21,8 +21,9 @@ class RadioButtonList {
                 const label = document.querySelector(`label[for="${radio.id}"]`);
                 const svg = label.querySelector('svg');
                 if (svg) {
-                    svg.classList.remove('fill-label');
+                    return svg.classList.remove('fill-label');
                 }
+                return;
             }
         });
     }
