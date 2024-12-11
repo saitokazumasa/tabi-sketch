@@ -284,7 +284,10 @@ class ModalForm {
     async #placesFormSubmit(e) {
         e.preventDefault();
 
-        sessionStorageList.setPlaces();
+        const formId = e.target.id; // formのid取得
+        const formNum = Number(formId.replace('placeForm', '')); // placeForm${num}の数字だけ取得
+
+        sessionStorageList.setPlaces(formNum); // sessionにform内容を登録
 
         const modalType = 'places';
         modal.closeModal(modalType);
