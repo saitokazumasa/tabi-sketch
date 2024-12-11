@@ -10,7 +10,7 @@ class ChangeSVGColor {
     init() {
         this.checkbox.addEventListener('change', () => this.toggle());
     }
-   toggle() {
+    toggle() {
         if (this.checkbox.checked) {
             this.targetElement.classList.remove('fill-label');
             return;
