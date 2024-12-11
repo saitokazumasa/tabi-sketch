@@ -265,6 +265,8 @@ class ModalForm {
         const modalType = 'start';
         modal.closeModal(modalType);
         modal.addButtonEvent(modalType);
+
+        modal.changeStartDisplay(); // 表示を変える
     }
 
     #endFormSubmit(e) {
@@ -275,6 +277,8 @@ class ModalForm {
         const modalType = 'end';
         modal.closeModal(modalType);
         modal.addButtonEvent(modalType);
+
+        modal.changeEndDisplay(); // 表示を変える
     }
 
     async #placesFormSubmit(e) {
