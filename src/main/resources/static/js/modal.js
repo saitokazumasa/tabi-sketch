@@ -194,6 +194,41 @@ class ModalElement {
         const modal = this.#getModal(modalType);
         modal.hide();
     }
+
+    changeStartDisplay() {
+        const spans = document.querySelectorAll('#startToggle span'); // spanタグ取得
+
+        const data = sessionStorageList.getStartData();
+        spans[0].textContent = data.startTime; // 開始時間を入れる
+        spans[1].textContent = data.name; // spanの文字を場所名に
+    }
+
+    changeEndDisplay() {
+        const span = document.querySelector('#endToggle span'); // spanタグ取得
+
+        span.textContent = sessionStorageList.getEndData().name; // spanの文字を場所名に
+    }
+
+    changePlaceDisplay(num) {
+        const spans = document.querySelectorAll(`#placeToggleBtn${num} > span`); // buttonの子要素のspanタグ取得
+
+        const data = sessionStorageList.getPlacesData(num-1); // sessionの値を取得
+        spans[1].textContent = data.name; // 場所名
+
+        // 希望時間
+        if (data.desiredStartTime === '00:00') spans[0].textContent = '';
+        else spans[0].textContent = data.desiredStartTime + '~' + data.desiredEndTime;
+        spans[0].classList.remove('absolute');
+
+        // 予算
+        const budget = document.getElementById('budget');
+        if (data.budget === '') budget.textContent = '予算：----' + '円';
+        else budget.textContent = '予算：' + data.budget + '円';
+
+        // 滞在時間
+        const stayTime = document.getElementById('stayTime');
+        stayTime.textContent = '滞在時間：' + data.stayTime + '分';
+    }
 }
 
 class ModalForm {
