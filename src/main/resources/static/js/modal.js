@@ -15,6 +15,9 @@ class SessionStorageList {
     #endPlaceList = new Array(0);
     #placesList = new Array(0);
 
+    /**
+     * 出発地点の情報をsessionに登録
+     */
     setStartPlace() {
         this.#startPlaceList = [];
         this.#startPlaceList.push({
@@ -28,6 +31,9 @@ class SessionStorageList {
         sessionStorage.setItem('startPlace', JSON.stringify(this.#startPlaceList));
     }
 
+    /**
+     * 終了地点の情報をsessionに登録
+     */
     setEndPlace() {
         this.#endPlaceList = [];
         this.#endPlaceList.push({
@@ -40,21 +46,29 @@ class SessionStorageList {
         sessionStorage.setItem('endPlace', JSON.stringify(this.#endPlaceList));
     }
 
-    setPlaces(num) {
-        this.#placesList[num-1] = {
-            placeId: document.getElementById(`placeId${num}`).value,
-            lat: document.getElementById(`placeLat${num}`).value,
-            lng: document.getElementById(`placeLng${num}`).value,
-            name: document.getElementById(`place${num}`).value,
-            budget: document.getElementById(`budget${num}`).value,
-            stayTime: document.getElementById(`stayTime${num}`).value,
-            desiredStartTime: document.getElementById(`desiredStartTime${num}`).value,
-            desiredEndTime: document.getElementById(`desiredEndTime${num}`).value,
+    /**
+     * 目的地の情報をsessionに登録
+     * @param formNum formの項番
+     */
+    setPlaces(formNum) {
+        this.#placesList[formNum-1] = {
+            placeId: document.getElementById(`placeId${formNum}`).value,
+            lat: document.getElementById(`placeLat${formNum}`).value,
+            lng: document.getElementById(`placeLng${formNum}`).value,
+            name: document.getElementById(`place${formNum}`).value,
+            budget: document.getElementById(`budget${formNum}`).value,
+            stayTime: document.getElementById(`stayTime${formNum}`).value,
+            desiredStartTime: document.getElementById(`desiredStartTime${formNum}`).value,
+            desiredEndTime: document.getElementById(`desiredEndTime${formNum}`).value,
         };
 
         sessionStorage.setItem('place', JSON.stringify(this.#placesList));
     }
 
+    /**
+     * 出発地点をsessionから取得
+     * @returns {*}
+     */
     getStartData() {
         const startPlaceData = sessionStorage.getItem('startPlace');
 
@@ -63,6 +77,10 @@ class SessionStorageList {
         return startPlaceList[0];
     }
 
+    /**
+     * 終了地点をsessionから取得
+     * @returns {*}
+     */
     getEndData() {
         const endPlaceData = sessionStorage.getItem('endPlace');
 
@@ -71,6 +89,11 @@ class SessionStorageList {
         return endPlaceList[0];
     }
 
+    /**
+     * 目的地をsessionから取得
+     * @param num session.placeの項番
+     * @returns {*}
+     */
     getPlacesData(num) {
         const placeData = sessionStorage.getItem('place');
 
@@ -87,6 +110,10 @@ class Fragment {
         this.#value = null;
     }
 
+    /**
+     * 追加fragmentの初期化
+     * @returns {Promise<void>}
+     */
     async initialize() {
         try {
             const response = await fetch(`/fragment/modal/places?num=${(placeNum.value()+1)}`);
@@ -97,6 +124,9 @@ class Fragment {
         }
     }
 
+    /**
+     * HTMLにfragment追加
+     */
     addFragment() {
         if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
         // id=destination の子要素に追加
@@ -106,6 +136,10 @@ class Fragment {
         container.appendChild(item);
     }
 
+    /**
+     * 追加するfragment取得
+     * @returns {*}
+     */
     value() {
         if (this.#value === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
         return this.#value;
@@ -137,6 +171,9 @@ class ModalElement {
         };
     }
 
+    /**
+     * 目的地のelementを配列に追加・autocomplete適用
+     */
     addPlacesElement() {
         const modal = document.getElementById(`placeModal${placeNum.value()}`);
         const toggleButton = document.getElementById(`placeToggleBtn${placeNum.value()}`);
@@ -169,6 +206,12 @@ class ModalElement {
         });
     }
 
+    /**
+     * modal取得
+     * @param modalType {'places','start','end'} モーダルの種別
+     * @param num session.placeの項番
+     * @returns {Modal}
+     */
     #getModal(modalType, num) {
         if (modalType === 'places') {
             return new Modal(this.#modals[modalType][num]);
@@ -176,6 +219,11 @@ class ModalElement {
         return new Modal(this.#modals[modalType]);
     }
 
+    /**
+     * toggle取得
+     * @param modalType {'places','start','end'} モーダルの種別
+     * @returns {*}
+     */
     #getToggleBtn(modalType) {
         if (modalType === 'places') {
             return this.#toggleButtons.places[placeNum.value()-1];
@@ -183,6 +231,11 @@ class ModalElement {
         return this.#toggleButtons[modalType];
     }
 
+    /**
+     * close取得
+     * @param modalType {'places','start','end'} モーダルの種別
+     * @returns {*}
+     */
     #getCloseBtn(modalType) {
         if (modalType === 'places') {
             return this.#closeButtons.places[placeNum.value()-1];
@@ -190,11 +243,19 @@ class ModalElement {
         return this.#closeButtons[modalType];
     }
 
+    /**
+     * modalを閉じる
+     * @param modalType {'places','start','end'} モーダルの種別
+     * @param num modalListのnumber(form項番-1)
+     */
     closeModal(modalType, num) {
         const modal = this.#getModal(modalType, num);
         modal.hide();
     }
 
+    /**
+     * 出発地点の表示を変更
+     */
     changeStartDisplay() {
         const spans = document.querySelectorAll('#startToggle span'); // spanタグ取得
 
@@ -204,16 +265,24 @@ class ModalElement {
         spans[0].classList.remove('absolute');
     }
 
+    /**
+     * 終了地点の表示を変更
+     */
     changeEndDisplay() {
         const span = document.querySelector('#endToggle span'); // spanタグ取得
 
         span.textContent = sessionStorageList.getEndData().name; // spanの文字を場所名に
     }
 
+    /**
+     * 目的地の表示を変更
+     * @param num formの項番
+     */
     changePlaceDisplay(num) {
-        const spans = document.querySelectorAll(`#placeToggleBtn${num} > span`); // buttonの子要素のspanタグ取得
+        // buttonの子要素のspanタグ取得
+        const spans = document.querySelectorAll(`#placeToggleBtn${num} > span`);
 
-        const data = sessionStorageList.getPlacesData(num-1); // sessionの値を取得
+        const data = sessionStorageList.getPlacesData(num-1);
 
         // 場所名
         spans[1].textContent = data.name;
@@ -265,6 +334,10 @@ class ModalForm {
         });
     }
 
+    /**
+     * 出発地点のsubmitイベント
+     * @param e イベント
+     */
     #startFormSubmit(e) {
         e.preventDefault();
 
@@ -277,6 +350,10 @@ class ModalForm {
         modal.changeStartDisplay(); // 表示を変える
     }
 
+    /**
+     * 終了地点のsubmitイベント
+     * @param e イベント
+     */
     #endFormSubmit(e) {
         e.preventDefault();
 
@@ -289,19 +366,25 @@ class ModalForm {
         modal.changeEndDisplay(); // 表示を変える
     }
 
+    /**
+     * 目的地のsubmitイベント
+     * @param e イベント
+     * @returns {Promise<void>}
+     */
     async #placesFormSubmit(e) {
         e.preventDefault();
 
         const formId = e.target.id; // formのid取得
         const formNum = Number(formId.replace('placeForm', '')); // placeForm${num}の数字だけ取得
 
-        sessionStorageList.setPlaces(formNum); // sessionにform内容を登録
+        sessionStorageList.setPlaces(formNum);
 
+        // modal設定
         const modalType = 'places';
-        modal.closeModal(modalType, formNum-1); // modalを閉じる
-        modal.changePlaceDisplay(formNum); // placesの表示変更
+        modal.closeModal(modalType, formNum-1);
+        modal.changePlaceDisplay(formNum);
 
-        if(formNum !== placeNum.value()) return; // 目的地再設定のとき
+        if(formNum !== placeNum.value()) return; // 目的地再設定はreturn
         modal.addButtonEvent(modalType); // modalのイベント再アタッチ
 
         // 追加フラグメントの取得
