@@ -298,16 +298,19 @@ class ModalForm {
         sessionStorageList.setPlaces(formNum); // sessionにform内容を登録
 
         const modalType = 'places';
-        modal.closeModal(modalType);
-        modal.addButtonEvent(modalType);
+        modal.closeModal(modalType, formNum-1); // modalを閉じる
+        modal.changePlaceDisplay(formNum); // placesの表示変更
 
-        const fragment = new Fragment(); // 追加するフラグメントの取得
-        await fragment.initialize(); // 追加フラグメントの初期化
+        if(formNum !== placeNum.value()) return; // 目的地再設定のとき
+        modal.addButtonEvent(modalType); // modalのイベント再アタッチ
 
-        if (!fragment.value()) return;
+        // 追加フラグメントの取得
+        const newFragment = new Fragment();
+        await newFragment.initialize();
 
-        fragment.addFragment(); // フラグメントをHTML上に追加
+        if (!newFragment.value()) return; // 取得できなかったとき
 
+        newFragment.addFragment(); // フラグメントをHTML上に追加
         placeNum.increment();
         modal.addPlacesElement(); // 追加フラグメントにmodalイベントをアタッチ
         new ModalForm(); // modalFormイベントをアタッチ
