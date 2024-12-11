@@ -115,8 +115,8 @@
             </span>
             <span class="flex-1 text-base sm:text-xl truncate ... px-2">目的地を追加する</span>
             <span class="flex flex-col items-end text-[8px] sm:text-xs">
-                <span class="block" id="budget"></span>
-                <span class="block" id="stayTime"></span>
+                <span class="block" th:id="'budgetDisplay' + ${num}"></span>
+                <span class="block" th:id="'stayTimeDisplay' + ${num}"></span>
             </span>
         </button>
         <!-- Main modal -->
