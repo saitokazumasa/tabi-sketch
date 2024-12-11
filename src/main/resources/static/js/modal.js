@@ -15,6 +15,12 @@ class SessionStorageList {
     #endPlaceList = new Array(0);
     #placesList = new Array(0);
 
+    constructor() {
+        if (this.getStartData()) this.#startPlaceList = this.getStartData();
+        if (this.getEndData()) this.#endPlaceList = this.getEndData();
+        if (this.getPlacesList()) this.#placesList = this.getPlacesList();
+    }
+
     /**
      * 出発地点の情報をsessionに登録
      */
@@ -101,6 +107,17 @@ class SessionStorageList {
         const placeList = JSON.parse(placeData);
         return placeList[num];
     }
+
+    /**
+     * 目的地のsession配列を取得
+     * @returns {any}
+     */
+    getPlacesList() {
+        const placesList = sessionStorage.getItem('place');
+
+        if (!placesList) return;
+        return JSON.parse(placesList);
+    }
 }
 
 class Fragment {
@@ -182,7 +199,6 @@ class ModalElement {
         this.#modals.places.push(modal);
         this.#toggleButtons.places.push(toggleButton);
         this.#closeButtons.places.push(closeButton);
-        this.addButtonEvent('places');
 
         const inputElement = document.getElementById(`place${placeNum.value()}`);
         const autoComplete = new AutoComplete(inputElement);
@@ -403,7 +419,114 @@ class ModalForm {
         newFragment.addFragment();
         placeNum.increment();
         modal.addPlacesElement();
+        modal.addButtonEvent('places');
         new ModalForm(); // modalFormイベントをアタッチ
+    }
+}
+
+/**
+ * sessionに値がある時の初期設定用Class
+ */
+class InitSessionModals {
+    #startData;
+    #endData;
+    #placesData;
+
+    constructor() {
+        this.#startData = sessionStorageList.getStartData();
+        this.#endData = sessionStorageList.getEndData();
+        this.#placesData = sessionStorageList.getPlacesList();
+    }
+
+    async initialize() {
+        // 開始地点がある場合
+        if (this.#startData) {
+            modal.changeStartDisplay();
+            this.#setStartFormValue();
+        }
+
+        // 終了地点がある時
+        if (this.#endData) {
+            modal.changeEndDisplay();
+            this.#setEndFormValue();
+        }
+
+        // 目的地がある時
+        if (this.#placesData && this.#placesData.length > 0) {
+            await this.#initializePlaces();
+        }
+    }
+
+    /**
+     * 出発地点inputにsessionの値をvalueで挿入
+     */
+    #setStartFormValue() {
+        document.getElementById('startPlaceId').value = this.#startData.placeId;
+        document.getElementById('startLat').value = this.#startData.lat;
+        document.getElementById('startLng').value = this.#startData.lng;
+        document.getElementById('startPlace').value = this.#startData.name;
+        document.getElementById('startTime').value = this.#startData.startTime;
+    }
+
+    /**
+     * 終了地点inputにsessionの値をvalueで挿入
+     */
+    #setEndFormValue() {
+        document.getElementById('endPlaceId').value = this.#endData.placeId;
+        document.getElementById('endLat').value = this.#endData.lat;
+        document.getElementById('endLng').value = this.#endData.lng;
+        document.getElementById('endPlace').value = this.#endData.name;
+    }
+
+    /**
+     * 目的地inputにsessionの値をvalueで挿入
+     * @param formNum formIDの項番
+     * @param num session.placeの項番
+     */
+    #setPlaceFormValue(formNum ,num) {
+        document.getElementById(`placeId${formNum}`).value = this.#placesData[num].placeId;
+        document.getElementById(`placeLat${formNum}`).value = this.#placesData[num].lat;
+        document.getElementById(`placeLng${formNum}`).value = this.#placesData[num].lng;
+        document.getElementById(`place${formNum}`).value = this.#placesData[num].name;
+
+        if (this.#placesData[num].budget)
+            document.getElementById(`budget${formNum}`).value = this.#placesData[num].budget;
+
+        if (this.#placesData[num].stayTime)
+            document.getElementById(`stayTime${formNum}`).value = this.#placesData[num].stayTime;
+        else
+            document.getElementById(`stayTime${formNum}`).value = 30;
+
+        if (this.#placesData[num].desiredStartTime)
+            document.getElementById(`desiredStartTime${formNum}`).value = this.#placesData[num].desiredStartTime;
+
+        if (this.#placesData[num].desiredEndTime)
+            document.getElementById(`desiredEndTime${formNum}`).value = this.#placesData[num].desiredEndTime;
+    }
+
+    /**
+     * 目的地の設定
+     * inputにvalue
+     * fragment追加
+     * placeNum合わせる
+     * @returns {Promise<void>}
+     */
+    async #initializePlaces() {
+        for (let i = 0; i < this.#placesData.length; i++) {
+            modal.changePlaceDisplay(i + 1);
+            this.#setPlaceFormValue(i+1, i);
+
+            // 新規フラグメント呼び出し
+            const newFragment = new Fragment();
+            await newFragment.initialize();
+
+            if (!newFragment.value()) return;
+
+            newFragment.addFragment();
+            placeNum.increment();
+            modal.addPlacesElement();
+            new ModalForm(); // 新しいフォームイベントをアタッチ
+        }
     }
 }
 
@@ -411,4 +534,10 @@ const placeNum = new PlaceNum();
 const sessionStorageList = new SessionStorageList();
 const modal = new ModalElement();
 
-new ModalForm();
+async function init() {
+    new ModalForm();
+    const initializeDisplay = new InitSessionModals();
+    await initializeDisplay.initialize();
+}
+
+init();
