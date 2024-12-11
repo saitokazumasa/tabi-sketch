@@ -40,17 +40,17 @@ class SessionStorageList {
         sessionStorage.setItem('endPlace', JSON.stringify(this.#endPlaceList));
     }
 
-    setPlaces() {
-        this.#placesList.push({
-            placeId: document.getElementById(`placeId${placeNum.value()}`).value,
-            lat: document.getElementById(`placeLat${placeNum.value()}`).value,
-            lng: document.getElementById(`placeLng${placeNum.value()}`).value,
-            name: document.getElementById(`place${placeNum.value()}`).value,
-            budget: document.getElementById(`budget${placeNum.value()}`).value,
-            stayTime: document.getElementById(`stayTime${placeNum.value()}`).value,
-            desiredStartTime: document.getElementById(`desiredStartTime${placeNum.value()}`).value,
-            desiredEndTime: document.getElementById(`desiredEndTime${placeNum.value()}`).value,
-        });
+    setPlaces(num) {
+        this.#placesList[num-1] = {
+            placeId: document.getElementById(`placeId${num}`).value,
+            lat: document.getElementById(`placeLat${num}`).value,
+            lng: document.getElementById(`placeLng${num}`).value,
+            name: document.getElementById(`place${num}`).value,
+            budget: document.getElementById(`budget${num}`).value,
+            stayTime: document.getElementById(`stayTime${num}`).value,
+            desiredStartTime: document.getElementById(`desiredStartTime${num}`).value,
+            desiredEndTime: document.getElementById(`desiredEndTime${num}`).value,
+        };
 
         sessionStorage.setItem('place', JSON.stringify(this.#placesList));
     }
