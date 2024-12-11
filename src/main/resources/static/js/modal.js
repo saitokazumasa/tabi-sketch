@@ -201,6 +201,7 @@ class ModalElement {
         const data = sessionStorageList.getStartData();
         spans[0].textContent = data.startTime; // 開始時間を入れる
         spans[1].textContent = data.name; // spanの文字を場所名に
+        spans[0].classList.remove('absolute');
     }
 
     changeEndDisplay() {
@@ -213,21 +214,28 @@ class ModalElement {
         const spans = document.querySelectorAll(`#placeToggleBtn${num} > span`); // buttonの子要素のspanタグ取得
 
         const data = sessionStorageList.getPlacesData(num-1); // sessionの値を取得
-        spans[1].textContent = data.name; // 場所名
+
+        // 場所名
+        spans[1].textContent = data.name;
 
         // 希望時間
-        if (data.desiredStartTime === '00:00') spans[0].textContent = '';
+        if (!data.desiredStartTime) spans[0].textContent = '';
         else spans[0].textContent = data.desiredStartTime + '~' + data.desiredEndTime;
         spans[0].classList.remove('absolute');
 
         // 予算
-        const budget = document.getElementById('budget');
-        if (data.budget === '') budget.textContent = '予算：----' + '円';
+        const budget = document.getElementById(`budgetDisplay${num}`);
+        if (!data.budget) budget.textContent = '予算：----' + '円';
         else budget.textContent = '予算：' + data.budget + '円';
 
         // 滞在時間
-        const stayTime = document.getElementById('stayTime');
-        stayTime.textContent = '滞在時間：' + data.stayTime + '分';
+        const stayTime = document.getElementById(`stayTimeDisplay${num}`);
+        if (!data.stayTime) stayTime.textContent = '滞在時間：30分';
+        else stayTime.textContent = '滞在時間：' + data.stayTime + '分';
+
+        // 緑色の枠線をけす
+        const toggleBtn = document.getElementById(`placeToggleBtn${num}`);
+        toggleBtn.classList.remove('border-interactive');
     }
 }
 
