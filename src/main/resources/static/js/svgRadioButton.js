@@ -1,4 +1,4 @@
-class RadioButton {
+class RadioButtonList {
     constructor(radioSelector, svgSelector) {
         this.radios = document.querySelectorAll(radioSelector);
         this.svgs = document.querySelectorAll(svgSelector);
@@ -29,5 +29,5 @@ class RadioButton {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    new RadioButton('input[type="radio"][name="fourTransportation"]', 'label > svg');
+    new RadioButtonList('input[type="radio"][name="fourTransportation"]', 'label > svg');
 });
