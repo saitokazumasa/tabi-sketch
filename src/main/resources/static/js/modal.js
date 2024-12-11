@@ -54,6 +54,30 @@ class SessionStorageList {
 
         sessionStorage.setItem('place', JSON.stringify(this.#placesList));
     }
+
+    getStartData() {
+        const startPlaceData = sessionStorage.getItem('startPlace');
+
+        if (!startPlaceData) return;
+        const startPlaceList = JSON.parse(startPlaceData);
+        return startPlaceList[0];
+    }
+
+    getEndData() {
+        const endPlaceData = sessionStorage.getItem('endPlace');
+
+        if (!endPlaceData) return;
+        const endPlaceList = JSON.parse(endPlaceData);
+        return endPlaceList[0];
+    }
+
+    getPlacesData(num) {
+        const placeData = sessionStorage.getItem('place');
+
+        if (!placeData) return;
+        const placeList = JSON.parse(placeData);
+        return placeList[num];
+    }
 }
 
 class Fragment {
