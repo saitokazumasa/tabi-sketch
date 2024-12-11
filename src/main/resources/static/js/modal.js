@@ -387,17 +387,24 @@ class ModalForm {
         if(formNum !== placeNum.value()) return; // 目的地再設定はreturn
         modal.addButtonEvent(modalType); // modalのイベント再アタッチ
 
-        // 追加フラグメントの取得
+        await this.newAddFragment();
+    };
+
+    /**
+     * 追加フラグメントを挿入
+     * @returns {Promise<void>}
+     */
+    async newAddFragment() {
         const newFragment = new Fragment();
         await newFragment.initialize();
 
         if (!newFragment.value()) return; // 取得できなかったとき
 
-        newFragment.addFragment(); // フラグメントをHTML上に追加
+        newFragment.addFragment();
         placeNum.increment();
-        modal.addPlacesElement(); // 追加フラグメントにmodalイベントをアタッチ
+        modal.addPlacesElement();
         new ModalForm(); // modalFormイベントをアタッチ
-    };
+    }
 }
 
 const placeNum = new PlaceNum();
