@@ -157,7 +157,7 @@ class ModalElement {
      * @param modalType (start,end,places)が入る
      */
     addButtonEvent(modalType) {
-        const modal = this.#getModal(modalType);
+        const modal = this.#getModal(modalType ,placeNum.value()-1);
         const toggleBtn = this.#getToggleBtn(modalType);
         const closeBtn = this.#getCloseBtn(modalType);
 
@@ -169,9 +169,9 @@ class ModalElement {
         });
     }
 
-    #getModal(modalType) {
+    #getModal(modalType, num) {
         if (modalType === 'places') {
-            return new Modal(this.#modals[modalType][placeNum.value()-1]);
+            return new Modal(this.#modals[modalType][num]);
         }
         return new Modal(this.#modals[modalType]);
     }
@@ -190,8 +190,8 @@ class ModalElement {
         return this.#closeButtons[modalType];
     }
 
-    closeModal(modalType) {
-        const modal = this.#getModal(modalType);
+    closeModal(modalType, num) {
+        const modal = this.#getModal(modalType, num);
         modal.hide();
     }
 
