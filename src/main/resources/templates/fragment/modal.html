@@ -108,17 +108,22 @@
 
 <th:block th:fragment="places(num)">
     <div>
-        <!-- Modal toggle -->
-        <button class="input border-interactive text-center text-label max-w-md w-4/5 flex justify-between items-center h-10 sm:h-12" th:data-modal-target="'placeModal' + ${num}" th:data-modal-toggle="'placeModal' + ${num}" th:id="'placeToggleBtn' + ${num}" type="button">
-            <span class="absolute block text-[10px] sm:text-base">
-                <th:block th:replace="~{fragment/svg :: plus}"/>
-            </span>
-            <span class="flex-1 text-base sm:text-xl truncate ... px-2">目的地を追加する</span>
-            <span class="flex flex-col items-end text-[8px] sm:text-xs">
-                <span class="block" th:id="'budgetDisplay' + ${num}"></span>
-                <span class="block" th:id="'stayTimeDisplay' + ${num}"></span>
-            </span>
-        </button>
+        <div class="flex items-center">
+            <!-- Modal toggle -->
+            <button class="input border-interactive text-center text-label max-w-md w-4/5 flex justify-between items-center h-10 sm:h-12" th:data-modal-target="'placeModal' + ${num}" th:data-modal-toggle="'placeModal' + ${num}" th:id="'placeToggleBtn' + ${num}" type="button">
+                <span class="absolute block text-[10px] sm:text-base">
+                    <th:block th:replace="~{fragment/svg :: plus}"/>
+                </span>
+                <span class="flex-1 text-base sm:text-xl truncate ... px-2">目的地を追加する</span>
+                <span class="flex flex-col items-end text-[8px] sm:text-xs">
+                    <span class="block" th:id="'budgetDisplay' + ${num}"></span>
+                    <span class="block" th:id="'stayTimeDisplay' + ${num}"></span>
+                </span>
+            </button>
+            <button class="hidden px-2" th:id="'modalDeleteBtn' + ${num}">
+                <th:block th:replace="~{fragment/svg :: close}" />
+            </button>
+        </div>
         <!-- Main modal -->
         <div aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full sm:inset-0 h-[calc(100%-1rem)] max-h-full text-label text-base" tabindex="-1" th:id="'placeModal' + ${num}">
             <div class="relative p-4 w-full max-w-md max-h-full">

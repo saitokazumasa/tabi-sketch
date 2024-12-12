@@ -118,6 +118,15 @@ class SessionStorageList {
         if (!placesList) return;
         return JSON.parse(placesList);
     }
+
+    /**
+     * 目的地sessionの一部削除
+     * @param num 削除したい項番（formNum-1）
+     */
+    deletePlace(num) {
+        this.#placesList[num] = null;
+        sessionStorage.setItem('place', JSON.stringify(this.#placesList));
+    }
 }
 
 class Fragment {
@@ -309,18 +318,38 @@ class ModalElement {
         spans[0].classList.remove('absolute');
 
         // 予算
-        const budget = document.getElementById(`budgetDisplay${num}`);
+        const budget = document.getElementById(`budgetDisplay${formNum}`);
         if (!data.budget) budget.textContent = '予算：----' + '円';
         else budget.textContent = '予算：' + data.budget + '円';
 
         // 滞在時間
-        const stayTime = document.getElementById(`stayTimeDisplay${num}`);
+        const stayTime = document.getElementById(`stayTimeDisplay${formNum}`);
         if (!data.stayTime) stayTime.textContent = '滞在時間：30分';
         else stayTime.textContent = '滞在時間：' + data.stayTime + '分';
 
         // 緑色の枠線をけす
-        const toggleBtn = document.getElementById(`placeToggleBtn${num}`);
+        const toggleBtn = this.#getToggleBtn('places', formNum-1);
         toggleBtn.classList.remove('border-interactive');
+
+        this.#displayDeleteButton(formNum);
+    }
+
+    /**
+     * ✕ボタンの表示
+     * @param formNum formの項番
+     */
+    #displayDeleteButton(formNum) {
+        const deleteBtn = document.getElementById(`modalDeleteBtn${formNum}`);
+        deleteBtn.classList.remove('hidden');
+
+        deleteBtn.addEventListener('click', () => {
+            const toggleBtn = this.#getToggleBtn('places', formNum-1);
+            toggleBtn.classList.add('hidden'); // Modal表示のボタンを隠す
+            deleteBtn.classList.add('hidden'); // ✕ボタンを隠す
+
+            // sessionから消す
+            sessionStorageList.deletePlace(formNum-1);
+        });
     }
 }
 
@@ -512,6 +541,8 @@ class InitSessionModals {
      * @returns {Promise<void>}
      */
     async #initializePlaces() {
+        // 無効なデータ（nullやundefined）を除外
+        this.#placesData = this.#placesData.filter(place => place !== null && place !== undefined);
         for (let i = 0; i < this.#placesData.length; i++) {
             modal.changePlaceDisplay(i + 1);
             this.#setPlaceFormValue(i+1, i);
@@ -534,10 +565,10 @@ const placeNum = new PlaceNum();
 const sessionStorageList = new SessionStorageList();
 const modal = new ModalElement();
 
-async function init() {
-    new ModalForm();
+async function initModal() {
     const initializeDisplay = new InitSessionModals();
     await initializeDisplay.initialize();
+    new ModalForm();
 }
 
-init();
+initModal();
