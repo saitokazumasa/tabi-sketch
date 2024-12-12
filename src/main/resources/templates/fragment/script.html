@@ -8,7 +8,7 @@
 <th:block th:fragment="googleMapsAPI">
     <!-- TODO:callbackが2つになったため、modalのautoCompleteが動かないので動くように修正する必要あり-->
     <script
-        th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapsApiKey} + '&callback=initializeMaps&ibraries=places&v=weekly'"
+        th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapsApiKey} + '&callback=initializeMaps&libraries=places&v=weekly'"
         async
         defer
     >
