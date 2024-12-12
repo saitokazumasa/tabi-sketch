@@ -1,16 +1,16 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="CreateTables" type="DatabaseScript">
-    <script-file value="$PROJECT_DIR$/.run/sql/CreateUsersTable.sql" />
-    <script-file value="$PROJECT_DIR$/.run/sql/CreatePasswordResetTokensTable.sql" />
-    <script-file value="$PROJECT_DIR$/.run/sql/CreateMailAuthTokens.sql" />
-    <script-file value="$PROJECT_DIR$/.run/sql/CreatePlansTable.sql" />
-    <script-file value="$PROJECT_DIR$/.run/sql/CreateDaysTable.sql" />
-    <script-file value="$PROJECT_DIR$/.run/sql/CreateGooglePlacesTable.sql" />
-    <script-file value="$PROJECT_DIR$/.run/sql/CreateGooglePlaceTypesTable.sql" />
-    <script-file value="$PROJECT_DIR$/.run/sql/CreateGoogleTypeAssociationsTable.sql" />
-    <script-file value="$PROJECT_DIR$/.run/sql/CreateTransportationsType.sql" />
-    <script-file value="$PROJECT_DIR$/.run/sql/CreatePlacesTable.sql" />
-    <script-file value="$PROJECT_DIR$/.run/sql/CreatePackingsTable.sql" />
+    <script-file value="$PROJECT_DIR$/.run/sql/01.CreateUsersTable.sql" />
+    <script-file value="$PROJECT_DIR$/.run/sql/02.CreatePasswordResetTokensTable.sql" />
+    <script-file value="$PROJECT_DIR$/.run/sql/03.CreateMailAuthTokens.sql" />
+    <script-file value="$PROJECT_DIR$/.run/sql/04.CreatePlansTable.sql" />
+    <script-file value="$PROJECT_DIR$/.run/sql/05.CreateDaysTable.sql" />
+    <script-file value="$PROJECT_DIR$/.run/sql/06.CreateGooglePlacesTable.sql" />
+    <script-file value="$PROJECT_DIR$/.run/sql/07.CreateGooglePlaceTypesTable.sql" />
+    <script-file value="$PROJECT_DIR$/.run/sql/08.CreateGoogleTypeAssociationsTable.sql" />
+    <script-file value="$PROJECT_DIR$/.run/sql/09.CreateTransportationsType.sql" />
+    <script-file value="$PROJECT_DIR$/.run/sql/10.CreatePlacesTable.sql" />
+    <script-file value="$PROJECT_DIR$/.run/sql/11.CreatePackingsTable.sql" />
     <script-mode>FILE</script-mode>
     <data-source id="296b2329-9472-426c-8e14-08a5951529c8" namespace="database/&quot;tabisketch&quot;/schema/&quot;public&quot;" />
     <method v="2" />
