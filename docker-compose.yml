@@ -1,0 +1,12 @@
+services:
+  postgresql:
+    image: postgres:16
+    container_name: postgresql
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.run/sql/:/docker-entrypoint-initdb.d
+    env_file:
+      - .env
+    hostname: postgres
+    restart: always
