@@ -10,9 +10,10 @@
 ## 初期設定
 
 1. コマンドラインで `npm install` を実行する
-2. DATABASE を作成する
-```postgresql
-CREATE DATABASE tabisketch;
+2. postgresql を docker compose で起動する
+```sh
+cp env.example .env # .env ファイルがない場合
+docker compose up
 ```
 3. Run/Debug Configurations の環境変数を設定する
 
