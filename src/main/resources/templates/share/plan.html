@@ -23,33 +23,32 @@
             </label>
             <div class="flex">
                 <div class="flex w-full mx-4">
-                    <div class="w-80"></div>
+                    <div class="lg:w-80 sm:w-52 w-32"></div>
                     <div class="w-auto text-center mx-auto my-10">
                         <span class="font-bold w-full sm:text-3xl text-xl text-center" th:text="${title}"></span>
                     </div>
-                    <div class="flex items-center justify-center w-80 mr-10">
-                        <button type="button" class="sm:mx-4 mx-2 block item　s-center justify-center button-secondary" onclick="window.location.href='/share/packing'">持ち物</button>
+                    <div class="flex items-center justify-center lg:w-80 sm:w-40 w-32 mr-10">
+                        <button type="button" class="sm:mx-4 mx-2 block item s-center justify-center button-secondary lg:w-24 w-24 lg:text-base sm:text-sm" onclick="window.location.href='/share/packing'">持ち物</button>
                         <button type="button" onclick="sharePopup()" class="mx-2">
                             <th:block th:replace="~{fragment/svg :: link}"/>
                         </button>
                         <button type="button" onclick="deletePopup()" class="mx-2">
                             <th:block th:replace="~{fragment/svg :: trash}"/>
                         </button>
+                        <button onclick="openPopup()" class="sm:hidden inline-block h-12 w-12 my-auto mr-8 cursor-pointer">
+                            <th:block th:replace="~{fragment/svg :: map}"/>
+                        </button>
                     </div>
                 </div>
-
-                <button onclick="openPopup()" class="sm:hidden inline-block h-12 w-12 my-auto mr-8 cursor-pointer">
-                    <th:block th:replace="~{fragment/svg :: map}"/>
-                </button>
             </div>
         </div>
         <div class="mx-10 flex">
             <section class="sm:w-1/2 w-full">
-                <div class="flex space-x-0 pb-[0.625rem] border-b-2">
+                <div class="flex space-x-0 pb-[0.625rem] border-b-2 mt-6">
                     <div th:each="day : ${days}">
                         <a th:href="@{/share/plan(selectedDay=${day}, maxDays=${maxDays})}"
-                           th:classappend="${day == selectedDay} ? 'pt-5 pb-3 px-12 bg-green-600 text-white h-12' : 'pt-3 pb-3  px-10 bg-green-400 text-white'"
-                           class="mx-1 rounded-t-md text-center items-center cursor-pointer">
+                           th:classappend="${day == selectedDay} ? 'pt-5 pb-3 sm:px-6 lg:px-12 px-8 bg-green-600 text-white h-12' : 'pt-3 pb-3 sm:px-4 lg:px-10 px-6 bg-green-400 text-white'"
+                           class="rounded-t-md text-center items-center cursor-pointer">
                             <span th:text="${day} + '日目'"></span>
                         </a>
                     </div>
