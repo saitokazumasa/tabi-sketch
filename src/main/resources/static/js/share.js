@@ -1,11 +1,24 @@
 class CopyLinkButton {
     constructor(copyLinkButton, copyResultElement) {
-        this.button = document.getElementById(copyLinkButton);
+        this.copyButton = document.getElementById(copyLinkButton);
         this.resultElement = document.getElementById(copyResultElement);
+        this.toggleButton = document.getElementById('toggleButton');
 
-        if(!this.button) return;
-        this.button.addEventListener('click', () => this.copyClipboard());
+        // TODO:DBのリンク共有可能かどうかの状態を取得する。
+        this.toggleButton.addEventListener('change', () => this.checkToggleButton());
+
+        if(!this.copyButton) return;
+        this.copyButton.addEventListener('click', () => this.copyClipboard());
     }
+
+    checkToggleButton(){
+        if(this.toggleButton.checked) {
+            this.copyButton.classList.remove('hidden');
+            return;
+        }
+        this.copyButton.classList.add('hidden');
+    }
+
     copyClipboard() {
         const currentUrl = window.location.href;
 
@@ -15,7 +28,6 @@ class CopyLinkButton {
             })
             .catch(err => {
                 console.error('リンクのコピーに失敗しました:', err);
-                alert('リンクをコピーできませんでした。');
             });
     }
 
