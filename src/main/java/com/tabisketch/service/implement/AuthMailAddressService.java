@@ -33,10 +33,15 @@ public class AuthMailAddressService implements IAuthMailAddressService {
         this.usersMapper.updateMailAddressVerified(mailAddressAuthToken.getUserId(), true);
 
         // メールアドレス編集の認証時はメールアドレスを更新
-        if (mailAuth.getNewMailAddress() != null && !mailAuth.getNewMailAddress().isEmpty())
-            this.usersMapper.updateMailAddress(mailAuth.getUserId(), mailAuth.getNewMailAddress());
+        if (isNotEmptyNewMailAddress(mailAddressAuthToken))
+            this.usersMapper.updateMailAddress(mailAddressAuthToken.getUserId(), mailAddressAuthToken.getNewMailAddress());
 
         this.mailAddressAuthTokensMapper.deleteById(mailAddressAuthToken.getId());
         return true;
+    }
+
+    private boolean isNotEmptyNewMailAddress(final MailAddressAuthToken mailAddressAuthToken) {
+        return mailAddressAuthToken.getNewMailAddress() != null &&
+                !mailAddressAuthToken.getNewMailAddress().isEmpty();
     }
 }
