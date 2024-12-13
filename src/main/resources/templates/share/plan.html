@@ -22,8 +22,20 @@
 
             </label>
             <div class="flex">
-                <div class="w-1/2 text-center mx-auto my-10">
-                    <span class="font-bold w-full sm:text-3xl text-xl text-center" th:text="${title}"></span>
+                <div class="flex w-full mx-4">
+                    <div class="w-80"></div>
+                    <div class="w-auto text-center mx-auto my-10">
+                        <span class="font-bold w-full sm:text-3xl text-xl text-center" th:text="${title}"></span>
+                    </div>
+                    <div class="flex items-center justify-center w-80 mr-10">
+                        <button type="button" class="sm:mx-4 mx-2 block item　s-center justify-center button-secondary" onclick="window.location.href='/share/packing'">持ち物</button>
+                        <button type="button" onclick="sharePopup()" class="mx-2">
+                            <th:block th:replace="~{fragment/svg :: link}"/>
+                        </button>
+                        <button type="button" onclick="deletePopup()" class="mx-2">
+                            <th:block th:replace="~{fragment/svg :: trash}"/>
+                        </button>
+                    </div>
                 </div>
 
                 <button onclick="openPopup()" class="sm:hidden inline-block h-12 w-12 my-auto mr-8 cursor-pointer">
@@ -33,11 +45,11 @@
         </div>
         <div class="mx-10 flex">
             <section class="sm:w-1/2 w-full">
-                <div class="flex">
-                    <div th:each="day : ${days}" class="cursor-pointer">
+                <div class="flex space-x-0 pb-[0.625rem] border-b-2">
+                    <div th:each="day : ${days}">
                         <a th:href="@{/share/plan(selectedDay=${day}, maxDays=${maxDays})}"
-                           th:classappend="${day == selectedDay} ? 'bg-green-600 text-white' : 'bg-green-400 text-white'"
-                           class="px-4 py-2 rounded-t-md w-72">
+                           th:classappend="${day == selectedDay} ? 'pt-5 pb-3 px-12 bg-green-600 text-white h-12' : 'pt-3 pb-3  px-10 bg-green-400 text-white'"
+                           class="mx-1 rounded-t-md text-center items-center cursor-pointer">
                             <span th:text="${day} + '日目'"></span>
                         </a>
                     </div>
@@ -45,14 +57,14 @@
                 <div class="flex flex-col mt-6 mb-10">
                     <div class="mb-6">
                         <p class="mb-2 sm:text-lg text-base">出発地点</p>
-                        <th:block th:replace="~{fragment/modal :: start}"/>
+                        <!--TODO: 出発地点を表示するmodalを挿入-->
                     </div>
                     <div class="mb-6">
-                        <th:block th:replace="~{fragment/modal :: places(1)}"/>
+                        <!--TODO: 経路を表示するmodalを挿入-->
                     </div>
                     <div class="mb-6">
                         <p class="mb-2 sm:text-lg text-base">終了地点</p>
-                        <th:block th:replace="~{fragment/modal :: end}"/>
+                        <!--TODO: 終了地点を表示するmodalを挿入-->
                     </div>
                 </div>
                 <div class="flex justify-center mb-20">
@@ -70,6 +82,7 @@
 <th:block th:replace="~{fragment/script :: googleMapsAPI}"/>
 <th:block th:replace="~{fragment/script :: map}"/>
 <th:block th:replace="~{fragment/script :: modal}"/>
+<!--<th:block th:replace="~{fragment/script :: popup}"/>-->
 <th:block th:replace="~{fragment/script :: check}"/>
 </body>
 </html>
