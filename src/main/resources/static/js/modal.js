@@ -381,12 +381,7 @@ class ModalForm {
         if (!this.#startFormElement || !this.#placeFormElements || !this.#endFormElement) return;
         this.#startFormElement.addEventListener('submit', async(e) => await this.#startFormSubmit(e) );
         this.#endFormElement.addEventListener('submit', async(e) => await this.#endFormSubmit(e) );
-        this.#placeFormElements.forEach((element) => {
-            console.log(element);
-            element.addEventListener('submit', async(e) => await this.#placesFormSubmit(e) );
-        });
-        console.log(this.#startFormElement);
-        console.log(this.#endFormElement);
+        this.#placeFormElements.forEach((element) => element.addEventListener('submit', async(e) => await this.#placesFormSubmit(e)));
     }
 
     /**
@@ -555,7 +550,7 @@ class InitSessionModals {
         // 無効なデータ（nullやundefined）を除外
         this.#placesData = this.#placesData.filter(place => place !== null && place !== undefined);
         for (let i = 0; i < this.#placesData.length; i++) {
-            modal.changePlaceDisplay(i + 1);
+            modal.changePlaceDisplay(i+1);
             this.#setPlaceFormValue(i+1, i);
 
             // 新規フラグメント呼び出し
@@ -565,10 +560,10 @@ class InitSessionModals {
             if (!newFragment.value()) return;
 
             newFragment.addFragment();
-            if (i !== 0) await modal.addButtonEvent('places', placeNum.value()-1);
+            if (i !== 0) await modal.addButtonEvent('places', i);
             placeNum.increment();
             modal.addPlacesElement();
-            if (i === this.#placesData.length-1) await modal.addButtonEvent('places', placeNum.value()-1);
+            if (i !== 0 && i === this.#placesData.length-1) await modal.addButtonEvent('places', i+1);
         }
     }
 }
