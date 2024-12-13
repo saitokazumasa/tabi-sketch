@@ -227,14 +227,14 @@ class ModalElement {
      * @param modalType (start,end,places)が入る
      * @Param num formId-1
      */
-    async addButtonEvent(modalType, num) {
+    addButtonEvent(modalType, num) {
         const modal = this.#getModal(modalType, num);
         const toggleBtn = this.#getToggleBtn(modalType, num);
         const closeBtn = this.#getCloseBtn(modalType);
 
         // イベントのアタッチ
-        await toggleBtn.addEventListener('click', () => modal.toggle() );
-        await closeBtn.addEventListener('click', () => {
+        toggleBtn.addEventListener('click', () => modal.toggle() );
+        closeBtn.addEventListener('click', () => {
             modal.hide();
             document.activeElement.blur(); // フォーカスを外す
         });
@@ -379,8 +379,8 @@ class ModalForm {
 
     initFormEvent() {
         if (!this.#startFormElement || !this.#placeFormElements || !this.#endFormElement) return;
-        this.#startFormElement.addEventListener('submit', async(e) => await this.#startFormSubmit(e) );
-        this.#endFormElement.addEventListener('submit', async(e) => await this.#endFormSubmit(e) );
+        this.#startFormElement.addEventListener('submit', (e) => this.#startFormSubmit(e) );
+        this.#endFormElement.addEventListener('submit', (e) => this.#endFormSubmit(e) );
         this.#placeFormElements.forEach((element) => element.addEventListener('submit', async(e) => await this.#placesFormSubmit(e)));
     }
 
@@ -388,14 +388,14 @@ class ModalForm {
      * 出発地点のsubmitイベント
      * @param e イベント
      */
-    async #startFormSubmit(e) {
+    #startFormSubmit(e) {
         e.preventDefault();
 
         sessionStorageList.setStartPlace();
 
         const modalType = 'start';
         modal.closeModal(modalType, 0);
-        await modal.addButtonEvent(modalType, 0);
+        modal.addButtonEvent(modalType, 0);
 
         modal.changeStartDisplay(); // 表示を変える
     }
@@ -404,14 +404,14 @@ class ModalForm {
      * 終了地点のsubmitイベント
      * @param e イベント
      */
-    async #endFormSubmit(e) {
+    #endFormSubmit(e) {
         e.preventDefault();
 
         sessionStorageList.setEndPlace();
 
         const modalType = 'end';
         modal.closeModal(modalType, 0);
-        await modal.addButtonEvent(modalType, 0);
+        modal.addButtonEvent(modalType, 0);
 
         modal.changeEndDisplay(); // 表示を変える
     }
@@ -436,25 +436,23 @@ class ModalForm {
 
         if(formNum !== placeNum.value()) return; // 目的地再設定はreturn
 
-        await this.newAddFragment(formNum-1);
+        await this.newAddFragment();
     };
 
     /**
      * 追加フラグメントを挿入
-     * @param num form項番のボタン要素
      * @returns {Promise<void>}
      */
-    async newAddFragment(num) {
+    async newAddFragment() {
         const newFragment = new Fragment();
         await newFragment.initialize();
 
         if (!newFragment.value()) return; // 取得できなかったとき
 
         newFragment.addFragment();
-        await modal.addButtonEvent('places', num);
         placeNum.increment();
         modal.addPlacesElement();
-        await modal.addButtonEvent('places', placeNum.value()-1); // 新しいModalにイベント追加
+        modal.addButtonEvent('places', placeNum.value()-1); // 新しいModalにイベント追加
         new ModalForm(); // modalFormイベントをアタッチ
     }
 }
@@ -560,10 +558,10 @@ class InitSessionModals {
             if (!newFragment.value()) return;
 
             newFragment.addFragment();
-            if (i !== 0) await modal.addButtonEvent('places', i);
+            if (i !== 0) modal.addButtonEvent('places', i);
             placeNum.increment();
             modal.addPlacesElement();
-            if (i !== 0 && i === this.#placesData.length-1) await modal.addButtonEvent('places', i+1);
+            if (i !== 0 && i === this.#placesData.length-1) modal.addButtonEvent('places', i+1);
         }
     }
 }
