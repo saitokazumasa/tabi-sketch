@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 @SpringBootTest
 public class SendMailServiceTest {
     @MockBean
-    private JavaMailSender mailSender; // DIで使用している
+    private JavaMailSender __; // DIで使用している
     @Autowired
     private ISendMailService sendMailService;
 
