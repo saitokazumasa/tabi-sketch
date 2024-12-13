@@ -1,48 +1,70 @@
-export {openPopup, closePopup};
+class MapDisplayController {
+    constructor() {
+        this.defaultCenter = { lat: 35.675682101601765, lng: 139.66842469787593 };
+        this.defaultZoom = 12;
 
-class Map {
-    constructor(options = {}) {
-        this.defaultLocation = options.defaultLocation || {
-            lat: 35.675682101601765,
-            lng: 139.66842469787593
+        this.initEventListeners();
+    }
+
+    displayMap(elementId, options = {}) {
+        const mapOptions = {
+            center: options.center || this.defaultCenter,
+            zoom: options.zoom || this.defaultZoom,
         };
-        this.defaultZoom = options.defaultZoom || 12;
-        this.map = null;
-        this.popup = document.getElementById('popup');
-    }
-    displayMap(elementId) {
-        const mapElement = document.getElementById(elementId);
-        if (!mapElement) return;
 
-        this.map = new google.maps.Map(mapElement, {
-            center: this.defaultLocation,
-            zoom: this.defaultZoom
-        });
+        const mapElement = document.getElementById(elementId);
+        if (mapElement) {
+            return new google.maps.Map(mapElement, mapOptions);
+        } else {
+            console.error(`Element with ID "${elementId}" not found.`);
+        }
     }
+
     openPopup() {
-        if (this.popup) {
-            this.popup.style.display = 'flex';
+        const popup = document.getElementById('popup');
+        if (popup) {
+            popup.style.display = 'flex';
             this.displayMap('sp-map');
         }
     }
+
     closePopup() {
-        if (this.popup) {
-            this.popup.style.display = 'none';
+        const popup = document.getElementById('popup');
+        if (popup) {
+            popup.style.display = 'none';
         }
     }
+
     initMap() {
         this.displayMap('map');
     }
+
+    initEventListeners() {
+        const popupButton = document.querySelector('button[onclick="openPopup()"]');
+        if (popupButton) {
+            popupButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.openPopup();
+            });
+        }
+
+        const popup = document.getElementById('popup');
+        if (popup) {
+            popup.addEventListener('click', (e) => {
+                if (e.target === popup) {
+                    this.closePopup();
+                }
+            });
+        }
+    }
 }
 
-const map = new Map();
-
-window.addEventListener('load', () => map.initMap());
-
-function openPopup() {
-    map.openPopup();
+function initializeMaps() {
+    const initializeMap = new MapDisplayController();
+    initializeMap.initMap();
 }
 
-function closePopup() {
-    map.closePopup();
-}
+window.initializeMaps = initializeMaps;
+window.openPopup = new MapDisplayController().openPopup.bind(new MapDisplayController());
+window.closePopup = new MapDisplayController().closePopup.bind(new MapDisplayController());
+
