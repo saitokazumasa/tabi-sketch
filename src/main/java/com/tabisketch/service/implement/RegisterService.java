@@ -17,18 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class RegisterService implements IRegisterService {
     private final IUsersMapper usersMapper;
     private final IEncryptPasswordService encryptPasswordService;
-    private final IMailAddressAuthTokensMapper mailAuthenticationTokensMapper;
+    private final IMailAddressAuthTokensMapper mailAddressAuthTokensMapper;
     private final ISendMailService sendMailService;
 
     public RegisterService(
             final IUsersMapper usersMapper,
             final IEncryptPasswordService encryptPasswordService,
-            final IMailAddressAuthTokensMapper mailAuthenticationTokensMapper,
+            final IMailAddressAuthTokensMapper mailAddressAuthTokensMapper,
             final ISendMailService sendMailService
     ) {
         this.usersMapper = usersMapper;
         this.encryptPasswordService = encryptPasswordService;
-        this.mailAuthenticationTokensMapper = mailAuthenticationTokensMapper;
+        this.mailAddressAuthTokensMapper = mailAddressAuthTokensMapper;
         this.sendMailService = sendMailService;
     }
 
@@ -38,10 +38,10 @@ public class RegisterService implements IRegisterService {
         final var user = encryptPassword(registerForm.toUser());
         this.usersMapper.insert(user);
 
-        final var mailAuthToken = MailAddressAuthToken.generate(user.getId());
-        this.mailAuthenticationTokensMapper.insert(mailAuthToken);
+        final var mailAddressAuthToken = MailAddressAuthToken.generate(user.getId());
+        this.mailAddressAuthTokensMapper.insert(mailAddressAuthToken);
 
-        final var mail = Mail.generateRegisterMail(user.getMailAddress(), mailAuthToken.getToken());
+        final var mail = Mail.generateRegisterMail(user.getMailAddress(), mailAddressAuthToken.getToken());
         this.sendMailService.execute(mail);
     }
 

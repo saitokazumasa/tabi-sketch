@@ -1,7 +1,7 @@
 package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.SendEditMailForm;
-import com.tabisketch.service.IIsExistMailService;
+import com.tabisketch.service.IIsExistMailAddressService;
 import com.tabisketch.service.IIsMatchPasswordService;
 import com.tabisketch.service.ISendEditMailService;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,9 +27,9 @@ public class SendEditMailControllerTest {
     @MockBean
     private IIsMatchPasswordService isMatchPasswordService;
     @MockBean
-    private IIsExistMailService isExistMailService;
+    private IIsExistMailAddressService isExistMailAddressService;
     @MockBean
-    private ISendEditMailService sendEditMailService; // DIで使用している
+    private ISendEditMailService __; // DIで使用している
 
     @ParameterizedTest
     @MethodSource("sampleInitSendEditMailForm")
@@ -47,7 +47,7 @@ public class SendEditMailControllerTest {
     @WithMockUser(username = "sample@example.com", password = "$2a$10$G7Emd1ALL6ibttkgRZtBZeX6Qps6lgEGKq.njouwtiuE4uvjD2YMO")
     public void postが動作するか(final SendEditMailForm sendEditMailForm) throws Exception {
         when(this.isMatchPasswordService.execute(any())).thenReturn(true);
-        when(this.isExistMailService.execute(any())).thenReturn(false);
+        when(this.isExistMailAddressService.execute(any())).thenReturn(false);
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/user/edit/mail")
