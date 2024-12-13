@@ -9,7 +9,6 @@ class ToggleButton {
     }
 
     initialize() {
-        console.log(this.sendUrl);
         this.toggleButton.addEventListener('change', () => this.toggleChange());
     }
 
@@ -17,8 +16,6 @@ class ToggleButton {
         try{
             const isPublic = this.toggleButton.checked;
             const response = await fetch(`${this.sendUrl}?is_public=${isPublic}`);
-            if(response) return;
-            throw new Error('取得に失敗しました。');
         }catch (error){
             console.log(error);
         }
