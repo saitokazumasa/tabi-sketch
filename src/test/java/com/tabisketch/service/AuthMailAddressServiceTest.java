@@ -33,7 +33,7 @@ public class AuthMailAddressServiceTest {
 
         assert this.authMailAddressService.execute(mailAddressAuthToken.getToken().toString());
         verify(this.mailAddressAuthTokensMapper).selectByToken(any());
-        verify(this.usersMapper).updateMailVerified(anyInt(), anyBoolean());
+        verify(this.usersMapper).updateMailAddressVerified(anyInt(), anyBoolean());
         verify(this.mailAddressAuthTokensMapper).deleteById(anyInt());
     }
 
@@ -44,7 +44,7 @@ public class AuthMailAddressServiceTest {
 
         assert this.authMailAddressService.execute(mailAddressAuthToken.getToken().toString());
         verify(this.mailAddressAuthTokensMapper).selectByToken(any());
-        verify(this.usersMapper).updateMailVerified(anyInt(), anyBoolean());
+        verify(this.usersMapper).updateMailAddressVerified(anyInt(), anyBoolean());
         verify(this.usersMapper).updateMailAddress(anyInt(), anyString());
         verify(this.mailAddressAuthTokensMapper).deleteById(anyInt());
     }

@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/register")
@@ -29,7 +30,8 @@ public class RegisterController {
     @PostMapping
     public String post(
             final @Validated RegisterForm registerForm,
-            final BindingResult bindingResult
+            final BindingResult bindingResult,
+            final RedirectAttributes redirectAttributes
     ) throws MessagingException {
         if (registerForm.isNotMatchPasswordAndRePassword())
             // TODO: エラーメッセージ等、ベタ書きではなく別の場所から参照する形にする
@@ -40,11 +42,15 @@ public class RegisterController {
         // TODO: 送信エラーが発生した時どうするか考える
         this.registerService.execute(registerForm);
 
+        redirectAttributes.addFlashAttribute("mailAddress", registerForm.getMailAddress());
         return "redirect:/register/send";
     }
 
     @GetMapping("/send")
-    public String send() {
+    public String send(final Model model) {
+        if (!model.containsAttribute("mailAddress"))
+            model.addAttribute("mailAddress", "");
+
         return "register/send";
     }
 }
