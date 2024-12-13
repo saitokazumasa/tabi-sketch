@@ -30,7 +30,7 @@ public class MailAddressAuthTokensMapperTest {
     @MethodSource("sampleToken")
     @Sql({
             "classpath:/sql/CreateUser.sql",
-            "classpath:/sql/CreateMailAuthenticationToken.sql"
+            "classpath:/sql/CreateMailAddressAuthToken.sql"
     })
     public void SELECTできるか(final UUID token) {
         final var mailAuthenticationToken = this.mailAddressAuthTokensMapper.selectByToken(token);
@@ -41,7 +41,7 @@ public class MailAddressAuthTokensMapperTest {
     @MethodSource("sampleId")
     @Sql({
             "classpath:/sql/CreateUser.sql",
-            "classpath:/sql/CreateMailAuthenticationToken.sql"
+            "classpath:/sql/CreateMailAddressAuthToken.sql"
     })
     public void DELETEできるか(final int id) {
         final var result = this.mailAddressAuthTokensMapper.deleteById(id);

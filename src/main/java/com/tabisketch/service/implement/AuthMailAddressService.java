@@ -1,5 +1,6 @@
 package com.tabisketch.service.implement;
 
+import com.tabisketch.bean.entity.MailAddressAuthToken;
 import com.tabisketch.mapper.IMailAddressAuthTokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.IAuthMailAddressService;
@@ -25,17 +26,17 @@ public class AuthMailAddressService implements IAuthMailAddressService {
     @Transactional
     public boolean execute(final String token) {
         final var tokenUUID = UUID.fromString(token);
-        final var mailAuth = this.mailAddressAuthTokensMapper.selectByToken(tokenUUID);
+        final var mailAddressAuthToken = this.mailAddressAuthTokensMapper.selectByToken(tokenUUID);
 
-        if (mailAuth == null) return false;
+        if (mailAddressAuthToken == null) return false;
 
-        this.usersMapper.updateMailVerified(mailAuth.getUserId(), true);
+        this.usersMapper.updateMailAddressVerified(mailAddressAuthToken.getUserId(), true);
 
         // メールアドレス編集の認証時はメールアドレスを更新
         if (mailAuth.getNewMailAddress() != null && !mailAuth.getNewMailAddress().isEmpty())
             this.usersMapper.updateMailAddress(mailAuth.getUserId(), mailAuth.getNewMailAddress());
 
-        this.mailAddressAuthTokensMapper.deleteById(mailAuth.getId());
+        this.mailAddressAuthTokensMapper.deleteById(mailAddressAuthToken.getId());
         return true;
     }
 }
