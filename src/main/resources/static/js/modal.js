@@ -437,6 +437,7 @@ class ModalForm {
         const modalType = 'places';
         modal.closeModal(modalType, formNum-1);
         modal.changePlaceDisplay(formNum);
+        modal.addButtonEvent(modalType, formNum-1); // 送信したmodalのイベント再アタッチ
 
         if(formNum !== placeNum.value()) return; // 目的地再設定はreturn
 
