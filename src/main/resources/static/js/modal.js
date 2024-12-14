@@ -316,6 +316,10 @@ class ModalElement {
     changePlaceDisplay(formNum) {
         // buttonの子要素のspanタグ取得
         const spans = document.querySelectorAll(`#placeToggleBtn${formNum} > span`);
+        const placeInput = document.getElementById(`place${formNum}`);
+
+        placeInput.disabled = true; // 目的地部分をdisabledに
+        placeInput.classList.add('bg-gray-100');
 
         const data = sessionStorageList.getPlacesData(formNum-1);
 
