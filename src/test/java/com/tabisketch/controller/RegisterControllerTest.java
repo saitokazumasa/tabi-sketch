@@ -21,7 +21,7 @@ public class RegisterControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private IRegisterService registerService; // DIで使用している
+    private IRegisterService __; // DIで使用している
 
     @Test
     @WithMockUser
@@ -77,14 +77,14 @@ public class RegisterControllerTest {
     }
 
     private static Stream<RegisterForm> sampleErrorRegisterForm() {
-        // mailが未入力
+        // mailAddressが未入力
         final var registerForm1 = new RegisterForm("", "password", "password");
         // passwordが未入力
-        final var registerForm2 = new RegisterForm("example@mail.com", "", "password");
+        final var registerForm2 = new RegisterForm("sample@example.com", "", "password");
         // rePasswordが未入力
-        final var registerForm3 = new RegisterForm("example@mail.com", "password", "");
+        final var registerForm3 = new RegisterForm("sample@example.com", "password", "");
         // passwordとrePasswordが一致しない
-        final var registerForm4 = new RegisterForm("example@mail.com", "password", "pass");
+        final var registerForm4 = new RegisterForm("sample@example.com", "password", "pass");
         return Stream.of(registerForm1, registerForm2, registerForm3, registerForm4);
     }
 }

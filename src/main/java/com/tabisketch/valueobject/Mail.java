@@ -6,12 +6,12 @@ import java.util.UUID;
 
 @Getter
 public class Mail {
-    final String toMail;
+    final String toMailAddress;
     final String subject;
     final String content;
 
-    private Mail(final String toMail, final String subject, final String content) {
-        this.toMail = toMail;
+    private Mail(final String toMailAddress, final String subject, final String content) {
+        this.toMailAddress = toMailAddress;
         this.subject = subject;
         this.content = content;
     }
@@ -19,9 +19,9 @@ public class Mail {
     /**
      * 新規登録メールを生成する
      */
-    public static Mail generateRegisterMail(final String toMail, final UUID token) {
+    public static Mail generateRegisterMail(final String toMailAddress, final UUID token) {
         return new Mail(
-                toMail,
+                toMailAddress,
                 "たびすけっち 登録確認のメール",
                 "https://tabisketch.com/mail/confirm/" + token.toString()
         );
@@ -30,9 +30,9 @@ public class Mail {
     /**
      * メールアドレス編集メールを生成する
      */
-    public static Mail generateEditMail(final String toMail, final UUID token) {
+    public static Mail generateEditMail(final String toMailAddress, final UUID token) {
         return new Mail(
-                toMail,
+                toMailAddress,
                 "たびすけっち メールアドレス変更確認のメール",
                 "https://tabisketch.com/mail/confirm/" + token.toString()
         );

@@ -13,10 +13,10 @@ public class User {
     private String password;
     private Boolean isMailVerified;
 
-    public static User generate(final String mail, final String password) {
+    public static User generate(final String mailAddress, final String password) {
         return new User(
                 -1,
-                mail,
+                mailAddress,
                 password,
                 false
         );

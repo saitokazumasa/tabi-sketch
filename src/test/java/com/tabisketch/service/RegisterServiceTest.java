@@ -23,7 +23,7 @@ public class RegisterServiceTest {
     @MockBean
     private IEncryptPasswordService encryptPasswordService;
     @MockBean
-    private IMailAddressAuthTokensMapper mailAuthenticationTokensMapper;
+    private IMailAddressAuthTokensMapper mailAddressAuthTokensMapper;
     @MockBean
     private ISendMailService sendMailService;
     @Autowired
@@ -35,7 +35,7 @@ public class RegisterServiceTest {
         this.registerService.execute(registerForm);
         verify(this.usersMapper).insert(any());
         verify(this.encryptPasswordService).execute(anyString());
-        verify(this.mailAuthenticationTokensMapper).insert(any());
+        verify(this.mailAddressAuthTokensMapper).insert(any());
         verify(this.sendMailService).execute(any());
     }
 
