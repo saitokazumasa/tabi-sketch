@@ -14,16 +14,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class SendEditMailService implements ISendEditMailService {
     private final IUsersMapper usersMapper;
-    private final IMailAddressAuthTokensMapper mailAuthenticationTokensMapper;
+    private final IMailAddressAuthTokensMapper mailAddressAuthTokensMapper;
     private final ISendMailService sendMailService;
 
     public SendEditMailService(
             final IUsersMapper usersMapper,
-            final IMailAddressAuthTokensMapper mailAuthenticationTokensMapper,
+            final IMailAddressAuthTokensMapper mailAddressAuthTokensMapper,
             final ISendMailService sendMailService
     ) {
         this.usersMapper = usersMapper;
-        this.mailAuthenticationTokensMapper = mailAuthenticationTokensMapper;
+        this.mailAddressAuthTokensMapper = mailAddressAuthTokensMapper;
         this.sendMailService = sendMailService;
     }
 
@@ -31,10 +31,10 @@ public class SendEditMailService implements ISendEditMailService {
     public void execute(final SendEditMailForm sendEditMailForm) throws MessagingException {
         final User user = this.usersMapper.selectByMailAddress(sendEditMailForm.getCurrentMailAddress());
 
-        final var mailAuthToken = MailAddressAuthToken.generate(user.getId(), sendEditMailForm.getNewMailAddress());
-        this.mailAuthenticationTokensMapper.insertWithNewMail(mailAuthToken);
+        final var mailAddressAuthToken = MailAddressAuthToken.generate(user.getId(), sendEditMailForm.getNewMailAddress());
+        this.mailAddressAuthTokensMapper.insertWithNewMailAddress(mailAddressAuthToken);
 
-        final var mail = Mail.generateEditMail(sendEditMailForm.getNewMailAddress(), mailAuthToken.getToken());
+        final var mail = Mail.generateEditMail(sendEditMailForm.getNewMailAddress(), mailAddressAuthToken.getToken());
         this.sendMailService.execute(mail);
     }
 }
