@@ -27,6 +27,17 @@ public class PlansMapperTest {
         assert !planList.isEmpty();
     }
 
+    @ParameterizedTest
+    @MethodSource("sampleId")
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql"
+    })
+    public void DELETEできるか(final int id) {
+        final var result = this.plansMapper.deleteById(id);
+        assert result == 1;
+    }
+
     private static Stream<Integer> sampleId() {
         final var id = 1;
         return Stream.of(id);
