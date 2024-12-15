@@ -5,19 +5,22 @@ class RecommendPlace {
     submitEvent(e) {
         e.preventDefault();
 
+        // submit送信したformを取得
         const formKey = e.target.id;
         const formNum = Number(formKey.replace('recommendForm', ''));
         // todo: sessionに値を追加する (modal.jsのSessionStorageListのような形で実装)
 
-        // todo: toggleBtnの表示を変更する
-        this.#changeDisplay(formNum);
+
+        this.#hideDisplay(formNum);
     }
 
     /**
-     * toggleBtnの表示を変更
+     * toggleBtnの表示を隠す
      */
-    #changeDisplay() {
-        // 緑の枠線を消す
+    #hideDisplay(formNum) {
+        // modal表示切り替えのtoggleBtn取得
+        const toggleBtn = document.getElementById(`recommendToggle${formNum}`);
+        toggleBtn.hidden = true;
     }
 }
 
