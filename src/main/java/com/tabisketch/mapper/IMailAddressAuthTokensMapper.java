@@ -13,7 +13,7 @@ public interface IMailAddressAuthTokensMapper {
 
     @Insert("INSERT INTO mail_address_auth_tokens (user_id, new_mail_address) VALUES (#{userId}, #{newMailAddress})")
     @Options(useGeneratedKeys = true, keyProperty = "id,token")
-    int insertWithNewMail(final MailAddressAuthToken mailAddressAuthToken);
+    int insertWithNewMailAddress(final MailAddressAuthToken mailAddressAuthToken);
 
     @Select("SELECT * FROM mail_address_auth_tokens WHERE token = #{token}")
     MailAddressAuthToken selectByToken(final UUID token);

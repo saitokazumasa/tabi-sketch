@@ -26,12 +26,12 @@ public class WebSecurityConfiguration {
                         .requestMatchers("/plan/**").authenticated()
                         .anyRequest().denyAll()
                 ).formLogin(a -> a
-                        .loginPage("/login")
+                        .loginPage("/login/**")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/plan/list")
                         .failureUrl("/login?error")
                         // NOTE: メールアドレスを "username" として扱う
-                        .usernameParameter("mail")
+                        .usernameParameter("mailAddress")
                         .permitAll()
                 ).logout(a -> a
                         .logoutSuccessUrl("/login")
