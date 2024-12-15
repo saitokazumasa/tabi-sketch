@@ -1,5 +1,6 @@
 package com.tabisketch.mapper;
 
+import com.tabisketch.bean.entity.Plan;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @MybatisTest
@@ -25,6 +27,17 @@ public class PlansMapperTest {
         final var planList = this.plansMapper.selectByUserId(id);
         assert planList != null;
         assert !planList.isEmpty();
+    }
+
+    @ParameterizedTest
+    @MethodSource("sampleUUID")
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql"
+    })
+    public void UUIDでSELECTできるか(final UUID uuid) {
+        final var plan = this.plansMapper.selectByUUID(uuid);
+        assert plan != null;
     }
 
     @ParameterizedTest
@@ -64,5 +77,10 @@ public class PlansMapperTest {
     private static Stream<Integer> sampleId() {
         final var id = 1;
         return Stream.of(id);
+    }
+
+    private static Stream<UUID> sampleUUID() {
+        final var uuid = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
+        return Stream.of(uuid);
     }
 }

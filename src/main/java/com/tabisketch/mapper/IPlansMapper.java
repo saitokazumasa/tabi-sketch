@@ -7,11 +7,15 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mapper
 public interface IPlansMapper {
     @Select("SELECT * FROM plans WHERE user_id = #{userId}")
     List<Plan> selectByUserId(final int userId);
+
+    @Select("SELECT * FROM plans WHERE uuid = #{uuid}")
+    Plan selectByUUID(final UUID uuid);
 
     @Update("UPDATE plans " +
             "SET title = #{title}, is_editable = #{isEditable}, is_public = #{isPublic} " +
