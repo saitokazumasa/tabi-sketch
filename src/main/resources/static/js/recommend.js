@@ -4,10 +4,13 @@ class RecommendPlace {
      */
     submitEvent(e) {
         e.preventDefault();
+
+        const formKey = e.target.id;
+        const formNum = Number(formKey.replace('recommendForm', ''));
         // todo: sessionに値を追加する (modal.jsのSessionStorageListのような形で実装)
 
         // todo: toggleBtnの表示を変更する
-        this.#changeDisplay();
+        this.#changeDisplay(formNum);
     }
 
     /**
