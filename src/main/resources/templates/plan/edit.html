@@ -51,8 +51,11 @@
                     </div>
                     <div class="mb-6">
                         <p class="mb-2 sm:text-lg text-base">目的地</p>
-                        <ul id="destination">
-                            <li><th:block th:replace="~{fragment/modal :: places(1)}"/></li>
+                        <ul id="destination" class="mx-8">
+                            <li class="mb-2 hover:cursor-grab"><th:block th:replace="~{fragment/modal :: places(1)}" class="hover:cursor-grab hover:bg-gray-300"/></li>
+                            <li class="mb-2 hover:cursor-grab hover:bg-gray-300 w-full">テスト１</li>
+                            <li class="mb-2 hover:cursor-grab hover:bg-gray-300 w-full">テスト2</li>
+                            <li class="mb-2 hover:cursor-grab hover:bg-gray-300 w-full">テスト3</li>
                         </ul>
                     </div>
                     <div class="mb-6">
@@ -130,6 +133,8 @@
         </div>
     </form>
 </main>
+<script src="/js/draganddrop.js"></script>
+
 <th:block th:replace="~{fragment/footer :: footer}"/>
 <th:block th:replace="~{fragment/script :: flowbite}"/>
 <th:block th:replace="~{fragment/script :: googleMapsAPI}"/>
