@@ -28,6 +28,17 @@ public class PlansMapperTest {
     }
 
     @ParameterizedTest
+    @MethodSource("sampleUpdatePlan")
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql"
+    })
+    public void UPDATEできるか(final Plan plan) {
+        final var result = this.plansMapper.update(plan);
+        assert result == 1;
+    }
+
+    @ParameterizedTest
     @MethodSource("sampleId")
     @Sql({
             "classpath:/sql/CreateUser.sql",
@@ -36,6 +47,18 @@ public class PlansMapperTest {
     public void DELETEできるか(final int id) {
         final var result = this.plansMapper.deleteById(id);
         assert result == 1;
+    }
+
+    private static Stream<Plan> sampleUpdatePlan() {
+        final var plan = new Plan(
+                1,
+                UUID.randomUUID(),
+                "example",
+                1,
+                false,
+                true
+        );
+        return Stream.of(plan);
     }
 
     private static Stream<Integer> sampleId() {
