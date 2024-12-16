@@ -2,7 +2,7 @@ class RecommendPlace {
     /**
      * おすすめ目的地submit時に発火
      */
-    submitEvent(e) {
+    async submitEvent(e) {
         e.preventDefault();
 
         // submit送信したformを取得
@@ -13,7 +13,7 @@ class RecommendPlace {
         const modalForm = new ModalForm();
         const placeFormList = modalForm.placeFormElements;
         const placeFormKey = placeFormList[placeFormList.length - 1].id;
-        const placeFormNum = Number(placeFormKey.replace('placeForm', ''));
+        const placeFormNum = Number(placeFormKey.id.replace('placeForm', ''));
 
         // sessionに値を追加 (modal.jsのSessionStorageListのplaceに入れる)
         sessionStorageList.setRecommendPlace(placeFormNum, formNum);
@@ -23,6 +23,9 @@ class RecommendPlace {
 
         // 今表示されている「目的地を追加する」の表示内容変更
         modal.changePlaceDisplay(placeFormNum);
+
+        // 新規フラグメントの呼び出し
+        await modalForm.newAddFragment();
 
         this.#hideModal(formNum); // 現在開かれてるmodalを閉じる
         this.#hideDisplay(formNum); // 追加したおすすめ目的地の表示を隠す
@@ -80,8 +83,8 @@ const recommendPlace = new RecommendPlace();
 // th呼び出し後 submitイベントをアタッチ
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.recommend').forEach(element => {
-        element.addEventListener('submit', function(e) {
-            recommendPlace.submitEvent(e);
+        element.addEventListener('submit', async function(e) {
+            await recommendPlace.submitEvent(e);
         });
     });
 });
