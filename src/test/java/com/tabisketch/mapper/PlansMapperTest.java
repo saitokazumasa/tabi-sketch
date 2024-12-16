@@ -18,12 +18,23 @@ public class PlansMapperTest {
     private IPlansMapper plansMapper;
 
     @ParameterizedTest
-    @MethodSource("sampleId")
+    @MethodSource("samplePlan")
+    @Sql("classpath:/sql/CreateUser.sql")
+    public void INSERTできるか(final Plan plan) {
+        final var beforeUUID = plan.getUuid();
+        final var result = this.plansMapper.insert(plan);
+        assert result == 1;
+        assert plan.getId() != -1;
+        assert plan.getUuid() != beforeUUID;
+    }
+
+    @ParameterizedTest
+    @MethodSource("sampleUserId")
     @Sql({
             "classpath:/sql/CreateUser.sql",
             "classpath:/sql/CreatePlan.sql"
     })
-    public void SELECTできるか(final int id) {
+    public void USERのIDでSELECTできるか(final int id) {
         final var planList = this.plansMapper.selectByUserId(id);
         assert planList != null;
         assert !planList.isEmpty();
@@ -82,5 +93,15 @@ public class PlansMapperTest {
     private static Stream<UUID> sampleUUID() {
         final var uuid = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
         return Stream.of(uuid);
+    }
+
+    private static Stream<Integer> sampleUserId() {
+        final var userId = 1;
+        return Stream.of(userId);
+    }
+
+    private static Stream<Plan> samplePlan() {
+        final var plan = Plan.generate("", 1);
+        return Stream.of(plan);
     }
 }
