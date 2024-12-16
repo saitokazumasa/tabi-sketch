@@ -14,7 +14,18 @@ class RecommendPlace {
         // todo: 今表示されている「目的地を追加する」の表示内容変更（PR#194 modal.js changePlaceDisplay のような形）
         // todo: 新規フラグメントの呼び出し（PR#194 modal.js placesFormSubmit のような形）
 
+        this.#hideModal(formNum);
         this.#hideDisplay(formNum); // 追加したおすすめ目的地の表示を隠す
+    }
+
+    /**
+     * modalの表示を隠す
+     * @param formNum
+     */
+    #hideModal(formNum) {
+        const modalElement = document.getElementById(`recommendModal${formNum}`);
+        const modal = new Modal(modalElement);
+        modal.hide(); // 表示されているmodalを閉じる
     }
 
     /**
