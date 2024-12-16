@@ -12,7 +12,7 @@ import java.util.List;
 public interface IPlansMapper {
     @Insert("INSERT INTO plans (title, user_id) VALUES (#{title}, #{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "id,uuid")
-    int insert(final Plan plan);
+    void insert(final Plan plan);
 
     @Select("SELECT * FROM plans WHERE user_id = #{userId}")
     List<Plan> selectByUserId(final int userId);
