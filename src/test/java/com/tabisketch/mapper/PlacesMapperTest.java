@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalTime;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @MybatisTest
@@ -46,9 +47,28 @@ public class PlacesMapperTest {
         assert !placeList.isEmpty();
     }
 
+    @ParameterizedTest
+    @MethodSource("samplePlanUUID")
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql",
+            "classpath:/sql/CreateDay.sql",
+            "classpath:/sql/CreateGooglePlace.sql",
+            "classpath:/sql/CreatePlace.sql"
+    })
+    public void DELETEできるか(final UUID uuid) {
+        final var result = this.placesMapper.deleteByPlanUUID(uuid);
+        assert result >= 1;
+    }
+
     private static Stream<Integer> sampleDayId() {
         final var dayId = 1;
         return Stream.of(dayId);
+    }
+
+    private static Stream<UUID> samplePlanUUID() {
+        final var planUUID = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
+        return Stream.of(planUUID);
     }
 
     private static Stream<Place> samplePlace() {
