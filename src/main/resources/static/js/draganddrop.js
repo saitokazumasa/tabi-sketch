@@ -12,8 +12,7 @@ class SortableManager {
     updateIds() {
         const listItems = this.listElement.querySelectorAll('li');
         listItems.forEach((item, index) => {
-            item.id = `item-${index + 1}`;
-            console.log(item.id);
+            item.id = `${index + 1}`;
         });
     }
 }
