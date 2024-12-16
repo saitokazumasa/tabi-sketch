@@ -15,7 +15,7 @@ public interface IUsersMapper {
     @Update("UPDATE users SET mail_address = #{mailAddress} WHERE id = #{id}")
     int updateMailAddress(final int id, final String mailAddress);
 
-    @Update("UPDATE users SET is_mail_address_verified = #{isMailAddressVerified} WHERE id = #{id}")
+    @Update("UPDATE users SET is_mail_address_authenticated = #{isMailAddressVerified} WHERE id = #{id}")
     int updateMailAddressVerified(final int id, final boolean isMailAddressVerified);
 
     @Select("SELECT COUNT(*) FROM users WHERE mail_address = #{mailAddress}")
