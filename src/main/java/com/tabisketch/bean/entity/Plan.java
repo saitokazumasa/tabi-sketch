@@ -16,4 +16,15 @@ public class Plan {
     private int userId;
     private boolean isEditable;
     private boolean isPublic;
+
+    public static Plan generate(final String title, final int userId) {
+        return new Plan(
+                -1,
+                UUID.randomUUID(),
+                title,
+                userId,
+                true,
+                false
+        );
+    }
 }
