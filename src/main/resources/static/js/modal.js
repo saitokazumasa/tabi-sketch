@@ -389,23 +389,23 @@ class ModalElement {
 
 class ModalForm {
     #startFormElement;
-    #placeFormElements = [];
+    placeFormElements = [];
     #endFormElement;
 
     constructor() {
         this.#startFormElement = document.getElementById('startPlaceForm');
         for (let i = 1; i <= placeNum.value(); i++) {
-            this.#placeFormElements.push(document.getElementById(`placeForm${i}`));
+            this.placeFormElements.push(document.getElementById(`placeForm${i}`));
         }
         this.#endFormElement = document.getElementById('endPlaceForm');
         this.initFormEvent();
     }
 
     initFormEvent() {
-        if (!this.#startFormElement || !this.#placeFormElements || !this.#endFormElement) return;
+        if (!this.#startFormElement || !this.placeFormElements || !this.#endFormElement) return;
         this.#startFormElement.addEventListener('submit', (e) => this.#startFormSubmit(e) );
         this.#endFormElement.addEventListener('submit', (e) => this.#endFormSubmit(e) );
-        this.#placeFormElements.forEach((element) => element.addEventListener('submit', async(e) => await this.#placesFormSubmit(e)));
+        this.placeFormElements.forEach((element) => element.addEventListener('submit', async(e) => await this.#placesFormSubmit(e)));
     }
 
     /**
