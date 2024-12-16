@@ -38,10 +38,10 @@ public class RegisterService implements IRegisterService {
         final var user = encryptPassword(registerForm.toUser());
         this.usersMapper.insert(user);
 
-        final var mailAddressAuthToken = MAAToken.generate(user.getId());
-        this.maaTokensMapper.insert(mailAddressAuthToken);
+        final var maaToken = MAAToken.generate(user.getId());
+        this.maaTokensMapper.insert(maaToken);
 
-        final var mail = Mail.generateRegisterMail(user.getMailAddress(), mailAddressAuthToken.getToken());
+        final var mail = Mail.generateRegisterMail(user.getMailAddress(), maaToken.getToken());
         this.sendMailService.execute(mail);
     }
 
