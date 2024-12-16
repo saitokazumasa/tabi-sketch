@@ -32,7 +32,7 @@ public class SendEditMailService implements ISendEditMailService {
         final User user = this.usersMapper.selectByMailAddress(sendEditMailForm.getCurrentMailAddress());
 
         final var mailAddressAuthToken = MAAToken.generate(user.getId(), sendEditMailForm.getNewMailAddress());
-        this.maaTokensMapper.insertWithNewMailAddress(mailAddressAuthToken);
+        this.maaTokensMapper.insert(mailAddressAuthToken);
 
         final var mail = Mail.generateEditMail(sendEditMailForm.getNewMailAddress(), mailAddressAuthToken.getToken());
         this.sendMailService.execute(mail);

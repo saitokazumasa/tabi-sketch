@@ -38,7 +38,7 @@ public class SendEditMailServiceTest {
 
         this.sendEditMailService.execute(sendEditMailForm);
         verify(this.usersMapper).selectByMailAddress(anyString());
-        verify(this.maaTokensMapper).insertWithNewMailAddress(any());
+        verify(this.maaTokensMapper).insert(any());
         verify(this.sendMailService).execute(any());
     }
 

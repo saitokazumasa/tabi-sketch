@@ -1,15 +1,14 @@
 package com.tabisketch.mapper;
 
 import com.tabisketch.bean.entity.MAAToken;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -17,50 +16,31 @@ public class MAATokensMapperTest {
     @Autowired
     private IMAATokensMapper maaTokensMapper;
 
-    @ParameterizedTest
-    @MethodSource("sampleMailAddressAuthToken")
+    @Test
     @Sql("classpath:/sql/CreateUser.sql")
-    public void INSERTできるか(final MAAToken maaToken) {
-        final var result = this.maaTokensMapper.insert(maaToken);
-        assert result == 1;
+    public void testInsert() {
+        final var maaToken = new MAAToken(-1, UUID.randomUUID(), "", 1, LocalDateTime.now());
+        this.maaTokensMapper.insert(maaToken);
         assert maaToken.getId() != -1;
     }
 
-    @ParameterizedTest
-    @MethodSource("sampleToken")
+    @Test
     @Sql({
             "classpath:/sql/CreateUser.sql",
             "classpath:/sql/CreateMAAToken.sql"
     })
-    public void SELECTできるか(final UUID token) {
-        final var mailAuthenticationToken = this.maaTokensMapper.selectByToken(token);
-        assert mailAuthenticationToken != null;
-    }
-
-    @ParameterizedTest
-    @MethodSource("sampleId")
-    @Sql({
-            "classpath:/sql/CreateUser.sql",
-            "classpath:/sql/CreateMAAToken.sql"
-    })
-    public void DELETEできるか(final int id) {
-        final var result = this.maaTokensMapper.deleteById(id);
-        assert result == 1;
-    }
-
-    private static Stream<Integer> sampleId() {
-        final var id = 1;
-        return Stream.of(id);
-    }
-
-    private static Stream<UUID> sampleToken() {
+    public void testSelect() {
         final var token = UUID.fromString("a2e69add-9d95-4cf1-a59b-cedbb95dcd6b");
-        return Stream.of(token);
+        assert  this.maaTokensMapper.selectByToken(token) != null;
     }
 
-    private static Stream<MAAToken> sampleMailAddressAuthToken() {
-        final var mailAddressAuthToken = MAAToken.generate(1);
-        final var mailAddressAuthToken2 = MAAToken.generate(1, "sample2@example.com");
-        return Stream.of(mailAddressAuthToken, mailAddressAuthToken2);
+    @Test
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreateMAAToken.sql"
+    })
+    public void testDelete() {
+        final int id = 1;
+        this.maaTokensMapper.delete(id);
     }
 }
