@@ -14,18 +14,18 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class IsExistMailServiceTest {
+public class IsExistMailAddressServiceTest {
     @MockBean
     private IUsersMapper usersMapper;
     @Autowired
-    private IIsExistMailService isExistMailService;
+    private IIsExistMailAddressService isExistMailAddressService;
 
     @ParameterizedTest
     @MethodSource("sampleMailAddress")
     public void 動作するか(final String mailAddress) {
         when(this.usersMapper.isExistMailAddress(anyString())).thenReturn(1);
 
-        assert this.isExistMailService.execute(mailAddress);
+        assert this.isExistMailAddressService.execute(mailAddress);
         verify(this.usersMapper).isExistMailAddress(anyString());
     }
 

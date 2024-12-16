@@ -35,7 +35,7 @@ public class UsersMapperTest {
     @ParameterizedTest
     @MethodSource("sampleUpdateUser")
     @Sql("classpath:/sql/CreateUser.sql")
-    public void mailをUPDATEできるか(final User user) {
+    public void mailAddressをUPDATEできるか(final User user) {
         final var result = this.usersMapper.updateMailAddress(user.getId(), user.getMailAddress());
         assert result == 1;
     }
@@ -43,9 +43,9 @@ public class UsersMapperTest {
     @ParameterizedTest
     @MethodSource("sampleId")
     @Sql("classpath:/sql/CreateUser.sql")
-    public void isMailVerifiedをUPDATEできるか(final int id) {
-        final var result1 = this.usersMapper.updateMailVerified(id, true);
-        final var result2 = this.usersMapper.updateMailVerified(id, false);
+    public void isMailAddressVerifiedをUPDATEできるか(final int id) {
+        final var result1 = this.usersMapper.updateMailAddressVerified(id, true);
+        final var result2 = this.usersMapper.updateMailAddressVerified(id, false);
         assert result1 == 1;
         assert result2 == 1;
     }
@@ -53,7 +53,7 @@ public class UsersMapperTest {
     @ParameterizedTest
     @MethodSource("sampleMailAddress")
     @Sql("classpath:/sql/CreateUser.sql")
-    public void isExistMailが動作するか(final String mailAddress) {
+    public void isExistMailAddressが動作するか(final String mailAddress) {
         final var result1 = this.usersMapper.isExistMailAddress(mailAddress);
         final var result2 = this.usersMapper.isExistMailAddress(mailAddress + "aaa");
         assert result1 == 1;

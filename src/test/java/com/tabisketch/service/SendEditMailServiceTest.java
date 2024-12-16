@@ -24,7 +24,7 @@ public class SendEditMailServiceTest {
     @MockBean
     private IUsersMapper usersMapper;
     @MockBean
-    private IMailAddressAuthTokensMapper mailAuthenticationTokensMapper;
+    private IMailAddressAuthTokensMapper mailAddressAuthTokensMapper;
     @MockBean
     private ISendMailService sendMailService;
     @Autowired
@@ -38,7 +38,7 @@ public class SendEditMailServiceTest {
 
         this.sendEditMailService.execute(sendEditMailForm);
         verify(this.usersMapper).selectByMailAddress(anyString());
-        verify(this.mailAuthenticationTokensMapper).insertWithNewMail(any());
+        verify(this.mailAddressAuthTokensMapper).insertWithNewMailAddress(any());
         verify(this.sendMailService).execute(any());
     }
 

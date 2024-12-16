@@ -16,10 +16,10 @@ public class LoginUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(final String mail) throws UsernameNotFoundException {
-        final User user = usersMapper.selectByMailAddress(mail);
+    public UserDetails loadUserByUsername(final String mailAddress) throws UsernameNotFoundException {
+        final User user = usersMapper.selectByMailAddress(mailAddress);
 
-        if (user == null) throw new UsernameNotFoundException(mail);
+        if (user == null) throw new UsernameNotFoundException(mailAddress);
 
         return new LoginUserDetails(user);
     }

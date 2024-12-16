@@ -18,7 +18,7 @@ public class AuthMailAddressControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private AuthMailAddressService authMailAddressService; // DIで使用している
+    private AuthMailAddressService __; // DIで使用している
 
     @ParameterizedTest
     @MethodSource("sampleToken")
