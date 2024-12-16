@@ -15,7 +15,7 @@ class ToggleButton {
     async toggleChange() {
         try{
             const isPublic = this.toggleButton.checked;
-            const response = await fetch(`${this.sendUrl}?is_public=${isPublic}`);
+            await fetch(`${this.sendUrl}?is_public=${isPublic}`);
         }catch (error){
             console.log(error);
         }
