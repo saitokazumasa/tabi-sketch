@@ -3,6 +3,17 @@ name: jar_build
 on:
   pull_request:
 
+env:
+  # 本当は github secrets に設定するべきだけど権限がないのでそのまま記述
+  POSTGRES_HOST: localhost
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: tabisketch
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  MAIL_USERNAME: test
+  MAIL_PASSWORD: test
+  GOOGLE_MAPS_API_KEY: dummy
+
 jobs:
   jar_build:
     runs-on: ${{ matrix.runner }}
@@ -11,40 +22,50 @@ jobs:
       matrix:
         runner: [ubuntu-latest]
         java: [21]
-    name: build on java ${{ matrix.java }} ${{ matrix.runner }}
+    name: Build on Java ${{ matrix.java }} ${{ matrix.runner }}
     services:
       postgres:
         image: postgres
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: tabisketch
-          POSTGRES_PASSWORD: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        env:
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
         ports:
           - 5432:5432
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      # ソースコードのチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Javaのセットアップ
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
           distribution: 'corretto'
           java-version: ${{ matrix.java }}
-      - name: init db
+
+      # データベースの初期化
+      - name: Initialize database
+        # DATABASE_URL を動的にこのステージで生成
+        env:
+          PGHOST: ${{ env.POSTGRES_HOST }}
+          PGPORT: ${{ env.POSTGRES_PORT }}
+          PGDATABASE: ${{ env.POSTGRES_DB }}
+          PGUSER: ${{ env.POSTGRES_USER }}
+          PGPASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: ./bin/init_db.sh
+
+      # JARパッケージのビルド
+      - name: Build JAR package
+        # ここでも同じように環境変数を使用
         env:
-          PGHOST: localhost
-          PGPORT: 5432
-          PGUSER: postgres
-          PGPASSWORD: postgres
-          PGDATABASE: tabisketch
-      - name: build jar
+          DATABASE_URL: jdbc:postgresql://${{ env.PGHOST }}:${{ env.PGPORT }}/${{ env.PGDATABASE }}
+          DATABASE_USERNAME: ${{ env.POSTGRES_USER }}
+          DATABASE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: ./mvnw package
-        env:
-          DATABASE_URL: jdbc:postgresql://localhost:5432/tabisketch
-          DATABASE_USERNAME: postgres
-          DATABASE_PASSWORD: postgres
-          MAIL_USERNAME: test
-          MAIL_PASSWORD: test
