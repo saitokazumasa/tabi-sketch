@@ -2,12 +2,13 @@ package com.tabisketch.controller;
 
 import com.tabisketch.service.IDeletePlanService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/shara/{uuid}/delete")
+@RequestMapping("/shara/{uuid}")
 public class DeletePlanController {
     private final IDeletePlanService deletePlanService;
 
@@ -15,7 +16,7 @@ public class DeletePlanController {
         this.deletePlanService = deletePlanService;
     }
 
-    @PostMapping
+    @DeleteMapping
     public String post(final @PathVariable String uuid) {
         // NOTE: プラン削除が完了したかどうかを画面に表示する場合はリターン値を使う
         this.deletePlanService.execute(uuid);

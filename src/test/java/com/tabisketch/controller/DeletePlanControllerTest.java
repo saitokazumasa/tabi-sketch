@@ -26,9 +26,9 @@ public class DeletePlanControllerTest {
     @ParameterizedTest
     @MethodSource("sampleUUID")
     @WithMockUser
-    public void postが動作するか(final String sampleUUID) throws Exception {
+    public void deleteが動作するか(final String sampleUUID) throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                    .post("/shara/" + sampleUUID + "/delete")
+                    .delete("/shara/" + sampleUUID)
                     .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/plan/list"));
