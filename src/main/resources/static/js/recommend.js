@@ -13,7 +13,7 @@ class RecommendPlace {
         const modalForm = new ModalForm();
         const placeFormList = modalForm.placeFormElements;
         const placeFormKey = placeFormList[placeFormList.length - 1].id;
-        const placeFormNum = Number(placeFormKey.id.replace('placeForm', ''));
+        const placeFormNum = Number(placeFormKey.replace('placeForm', ''));
 
         // sessionに値を追加 (modal.jsのSessionStorageListのplaceに入れる)
         sessionStorageList.setRecommendPlace(placeFormNum, formNum);
