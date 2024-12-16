@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/shara/{uuid}")
+@RequestMapping("/share/{uuid}")
 public class DeletePlanController {
     private final IDeletePlanService deletePlanService;
 
