@@ -2,7 +2,7 @@ package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.IsMatchPasswordForm;
 import com.tabisketch.bean.form.SendEditMailForm;
-import com.tabisketch.service.IIsExistMailAddressService;
+import com.tabisketch.service.IExistMailAddressService;
 import com.tabisketch.service.IIsMatchPasswordService;
 import com.tabisketch.service.ISendEditMailService;
 import jakarta.mail.MessagingException;
@@ -21,16 +21,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/user/edit/mail")
 public class SendEditMailController {
     private final IIsMatchPasswordService isMatchPasswordService;
-    private final IIsExistMailAddressService isExistMailAddressService;
+    private final IExistMailAddressService existMailAddressService;
     private final ISendEditMailService sendEditMailService;
 
     public SendEditMailController(
             final IIsMatchPasswordService isMatchPasswordService,
-            final IIsExistMailAddressService isExistMailAddressService,
+            final IExistMailAddressService existMailAddressService,
             final ISendEditMailService sendEditMailService
     ) {
         this.isMatchPasswordService = isMatchPasswordService;
-        this.isExistMailAddressService = isExistMailAddressService;
+        this.existMailAddressService = existMailAddressService;
         this.sendEditMailService = sendEditMailService;
     }
 
@@ -72,7 +72,7 @@ public class SendEditMailController {
     }
 
     private boolean isNotExistMailAddress(final String mailAddress) {
-        return this.isExistMailAddressService.execute(mailAddress);
+        return this.existMailAddressService.execute(mailAddress);
     }
 
     @GetMapping("/send")

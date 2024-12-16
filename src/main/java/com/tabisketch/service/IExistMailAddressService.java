@@ -1,5 +1,5 @@
 package com.tabisketch.service;
 
-public interface IIsExistMailAddressService {
+public interface IExistMailAddressService {
     boolean execute(final String mailAddress);
 }
