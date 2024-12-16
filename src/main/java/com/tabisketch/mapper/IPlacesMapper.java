@@ -21,7 +21,7 @@ public interface IPlacesMapper {
             "   #{desiredStartTime}, #{desiredEndTime}, " +
             "   #{toPolyLine}, #{toTravelTime}, #{toTransportation})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    int insert(final Place place);
+    void insert(final Place place);
 
     @Select("SELECT * FROM places WHERE day_id = #{dayId}")
     List<Place> selectByDayId(final int dayId);
