@@ -6,11 +6,11 @@
 </head>
 <body>
 <!-- 識別用の number , 場所情報が入った place を受け取る -->
-<th:block th:fragment="recommend(number, place)">
+<th:block th:fragment="place(number, place)">
     <div>
         <!-- Modal toggle -->
         <button class="input border-interactive text-center text-label max-w-md w-4/5 flex justify-between items-center h-10 sm:h-12"
-                th:data-modal-target="'recommend'+${number}" th:data-modal-toggle="'recommend'+${number}" th:id="'recommendToggle'+${number}" type="button">
+                th:data-modal-target="'recommendModal'+${number}" th:data-modal-toggle="'recommendModal'+${number}" th:id="'recommendToggle'+${number}" type="button">
             <span class="absolute block text-[10px] sm:text-base">
                 <th:block th:replace="~{fragment/svg :: plus}"/>
             </span>
@@ -21,7 +21,7 @@
             </span>
         </button>
         <!-- Main modal -->
-        <div aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full sm:inset-0 h-[calc(100%-1rem)] max-h-full text-label text-base" th:id="'recommend'+${number}" tabindex="-1">
+        <div aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full sm:inset-0 h-[calc(100%-1rem)] max-h-full text-label text-base" th:id="'recommendModal'+${number}" tabindex="-1">
             <div class="relative p-4 w-full max-w-md max-h-full">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow">
@@ -30,7 +30,7 @@
                         <h3 class="text-xl text-black">
                             おすすめ目的地を追加する
                         </h3>
-                        <button class="end-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" th:data-modal-hide="'recommend'+${number}" type="button">
+                        <button class="end-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" th:data-modal-hide="'recommendModal'+${number}" type="button">
                             <svg aria-hidden="true" class="w-3 h-3" fill="none" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
                                 <path d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                             </svg>
