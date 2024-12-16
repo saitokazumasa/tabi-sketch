@@ -19,14 +19,11 @@ public class DaysMapperTest {
             "classpath:/sql/CreatePlan.sql",
     })
     public void testInsert() {
-        final var day = new Day(
+        final var day = Day.generate(
                 -1,
                 1,
                 1,
-                0,
-                "0000",
-                true,
-                true
+                "0000"
         );
         this.daysMapper.insert(day);
         assert day.getId() != -1;

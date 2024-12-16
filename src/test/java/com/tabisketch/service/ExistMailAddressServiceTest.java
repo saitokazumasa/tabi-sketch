@@ -20,13 +20,7 @@ public class ExistMailAddressServiceTest {
 
     @Test
     public void testExecute() {
-        final var user = new User(
-                -1,
-                "sample@example.com",
-                "",
-                false
-        );
-
+        final var user = User.generate("sample@example.com", "");
         when(this.usersMapper.selectByMailAddress(anyString())).thenReturn(user);
 
         assert this.existMailAddressService.execute(user.getMailAddress());

@@ -23,8 +23,7 @@ public class PlacesMapperTest {
             "classpath:/sql/CreateGooglePlace.sql",
     })
     public void testInsert() {
-        final var place = new Place(
-                -1,
+        final var place = Place.generate(
                 1,
                 1,
                 0,

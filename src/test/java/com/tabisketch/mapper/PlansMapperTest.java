@@ -18,14 +18,7 @@ public class PlansMapperTest {
     @Test
     @Sql("classpath:/sql/CreateUser.sql")
     public void testInsert() {
-        final var plan = new Plan(
-                -1,
-                UUID.randomUUID(),
-                "",
-                1,
-                true,
-                false
-        );
+        final var plan = Plan.generate("", 1);
         final UUID beforeUUID = plan.getUuid();
         this.plansMapper.insert(plan);
         assert plan.getId() != -1;

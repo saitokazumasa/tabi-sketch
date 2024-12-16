@@ -27,13 +27,7 @@ public class AuthMailAddressServiceTest {
 
     @Test
     public void testExecute() {
-        final var maaToken = new MAAToken(
-                1,
-                UUID.randomUUID(),
-                "",
-                1,
-                LocalDateTime.now()
-        );
+        final var maaToken = MAAToken.generate(1, "sample2@example.com");
         final var user = new User(1, "", "", false);
 
         when(this.maaTokensMapper.selectByToken(any())).thenReturn(maaToken);

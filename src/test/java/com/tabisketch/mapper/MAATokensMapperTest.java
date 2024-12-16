@@ -19,7 +19,7 @@ public class MAATokensMapperTest {
     @Test
     @Sql("classpath:/sql/CreateUser.sql")
     public void testInsert() {
-        final var maaToken = new MAAToken(-1, UUID.randomUUID(), "", 1, LocalDateTime.now());
+        final var maaToken = MAAToken.generate(1);
         this.maaTokensMapper.insert(maaToken);
         assert maaToken.getId() != -1;
     }

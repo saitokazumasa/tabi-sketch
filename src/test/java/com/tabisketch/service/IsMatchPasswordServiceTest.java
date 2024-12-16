@@ -20,11 +20,9 @@ public class IsMatchPasswordServiceTest {
 
     @Test
     public void testExecute() {
-        final var user = new User(
-                -1,
+        final var user = User.generate(
                 "sample@example.com",
-                "$2a$10$if7oiFZVmP9I59AOtzbSz.dWsdPUUuPTRkcIoR8iYhFpG/0COY.TO",
-                false
+                "$2a$10$if7oiFZVmP9I59AOtzbSz.dWsdPUUuPTRkcIoR8iYhFpG/0COY.TO"
         );
 
         when(this.usersMapper.selectByMailAddress(anyString())).thenReturn(user);

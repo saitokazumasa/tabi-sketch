@@ -15,11 +15,9 @@ public class UsersMapperTest {
 
     @Test
     public void testInsert() {
-        final var user = new User(
-                -1,
+        final var user = User.generate(
                 "sample@example.com",
-                "$2a$10$FFbAunp0hfeWTCune.XqwO/P/61fqWlbruV/8wqzrhM3Pw0VuXxpa",
-                false
+                "$2a$10$FFbAunp0hfeWTCune.XqwO/P/61fqWlbruV/8wqzrhM3Pw0VuXxpa"
         );
         this.usersMapper.insert(user);
         assert user.getId() != -1;
@@ -38,7 +36,7 @@ public class UsersMapperTest {
     @Test
     @Sql("classpath:/sql/CreateUser.sql")
     public void testUpdate() {
-        final var user = new User(1, "", "", true);
+        final var user = User.generate("", "");
         this.usersMapper.update(user);
     }
 }
