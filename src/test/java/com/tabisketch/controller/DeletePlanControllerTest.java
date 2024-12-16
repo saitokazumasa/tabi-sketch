@@ -28,7 +28,7 @@ public class DeletePlanControllerTest {
     @WithMockUser
     public void deleteが動作するか(final String sampleUUID) throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                    .delete("/shara/" + sampleUUID)
+                    .delete("/share/" + sampleUUID)
                     .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/plan/list"));
