@@ -14,6 +14,6 @@ public class IsExistMailAddressService implements IIsExistMailAddressService {
 
     @Override
     public boolean execute(final String mailAddress) {
-        return this.usersMapper.isExistMailAddress(mailAddress) == 1;
+        return this.usersMapper.selectByMailAddress(mailAddress) != null;
     }
 }

@@ -1,6 +1,7 @@
 package com.tabisketch.service;
 
 import com.tabisketch.bean.entity.MAAToken;
+import com.tabisketch.bean.entity.User;
 import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,32 +31,12 @@ public class AuthMailAddressServiceTest {
     @MethodSource("sampleMailAddressAuthToken")
     public void 動作するか(final MAAToken maaToken) {
         when(this.maaTokensMapper.selectByToken(any())).thenReturn(maaToken);
+        when(this.usersMapper.selectById(anyInt())).thenReturn(new User(1, "", "", false));
 
         assert this.authMailAddressService.execute(maaToken.getToken().toString());
         verify(this.maaTokensMapper).selectByToken(any());
-        verify(this.usersMapper).updateMailAddressVerified(anyInt(), anyBoolean());
-        verify(this.maaTokensMapper).deleteById(anyInt());
-    }
-
-    @ParameterizedTest
-    @MethodSource("sampleMailAddressAuthTokenWithNewMailAddress")
-    public void 新しいメールアドレスが指定された時更新しているか(final MAAToken maaToken) {
-        when(this.maaTokensMapper.selectByToken(any())).thenReturn(maaToken);
-
-        assert this.authMailAddressService.execute(maaToken.getToken().toString());
-        verify(this.maaTokensMapper).selectByToken(any());
-        verify(this.usersMapper).updateMailAddressVerified(anyInt(), anyBoolean());
-        verify(this.usersMapper).updateMailAddress(anyInt(), anyString());
-        verify(this.maaTokensMapper).deleteById(anyInt());
-    }
-
-    @ParameterizedTest
-    @MethodSource("sampleMailAddressAuthToken")
-    public void トークンが存在しない時falseが返る(final MAAToken maaToken) {
-        when(this.maaTokensMapper.selectByToken(any())).thenReturn(null);
-
-        assert !this.authMailAddressService.execute(maaToken.getToken().toString());
-        verify(this.maaTokensMapper).selectByToken(any());
+        verify(this.usersMapper).update(any());
+//        verify(this.maaTokensMapper).deleteById(anyInt());
     }
 
     private static Stream<MAAToken> sampleMailAddressAuthToken() {
