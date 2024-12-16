@@ -80,6 +80,26 @@ class SessionStorageList {
     }
 
     /**
+     * オススメ目的地をsessionStorage placeに登録
+     * @param formNum formの項番
+     * @param num オススメ目的地の識別番号
+     */
+    setRecommendPlace(formNum, num) {
+        this.#placesList[formNum-1] = {
+            placeId: document.getElementById(`recommendPlaceId${num}`).value,
+            lat: document.getElementById(`recommendLat${num}`).value,
+            lng: document.getElementById(`recommendLng${num}`).value,
+            name: document.getElementById(`recommend${num}`).value,
+            budget: document.getElementById(`recommendBudget${num}`).value,
+            stayTime: document.getElementById(`recommendStayTime${num}`).value,
+            desiredStartTime: document.getElementById(`recommendDesiredStartTime${num}`).value,
+            desiredEndTime: document.getElementById(`recommendDesiredEndTime${num}`).value,
+        };
+
+        sessionStorage.setItem('place', JSON.stringify(this.#placesList));
+    }
+
+    /**
      * 出発地点をsessionから取得
      * @returns {*}
      */
