@@ -18,7 +18,9 @@ class RecommendPlace {
         // sessionに値を追加 (modal.jsのSessionStorageListのplaceに入れる)
         sessionStorageList.setRecommendPlace(placeFormNum, formNum);
 
-        // todo: 今表示されている「目的地を追加する」のvalueをsessionから入れる（PR#194 modal.js setPlaceFormValue のような形）
+        // 今表示されている「目的地を追加する」のvalueをsessionから入れる
+        this.#setPlaceFormValue(placeFormNum, formNum);
+
         // todo: 今表示されている「目的地を追加する」の表示内容変更（PR#194 modal.js changePlaceDisplay のような形）
         // todo: 新規フラグメントの呼び出し（PR#194 modal.js placesFormSubmit のような形）
 
@@ -43,6 +45,34 @@ class RecommendPlace {
         // modal表示切り替えのtoggleBtn取得
         const toggleBtn = document.getElementById(`recommendToggle${formNum}`);
         toggleBtn.style.display = 'none';
+    }
+
+    /**
+     * sessionから値を取得してformのvalueに入れる
+     * @param placeFormNum 「目的地」formの項番
+     */
+    #setPlaceFormValue(placeFormNum) {
+        const data = sessionStorageList.getPlacesData(placeFormNum-1);
+        console.log(placeFormNum);
+
+        document.getElementById(`placeId${placeFormNum}`).value = data.placeId;
+        document.getElementById(`placeLat${placeFormNum}`).value = data.lat;
+        document.getElementById(`placeLng${placeFormNum}`).value = data.lng;
+        document.getElementById(`place${placeFormNum}`).value = data.name;
+
+        if (data.budget)
+            document.getElementById(`budget${placeFormNum}`).value = data.budget;
+
+        if (data.stayTime)
+            document.getElementById(`stayTime${placeFormNum}`).value = data.stayTime;
+        else
+            document.getElementById(`stayTime${placeFormNum}`).value = 30;
+
+        if (data.desiredStartTime)
+            document.getElementById(`desiredStartTime${placeFormNum}`).value = data.desiredStartTime;
+
+        if (data.desiredEndTime)
+            document.getElementById(`desiredEndTime${placeFormNum}`).value = data.desiredEndTime;
     }
 }
 

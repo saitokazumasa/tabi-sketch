@@ -16,8 +16,8 @@
             </span>
             <span class="flex-1 text-base sm:text-xl truncate ... px-2" th:id="'recommendPlace'" th:text="${place.name}">目的地の名前</span>
             <span class="flex flex-col items-end text-[8px] sm:text-xs">
-                <span class="block" th:id="'recommendBudget'+${number}" th:text="'平均予算：'+${place.budget}+'分'">平均予算</span>
-                <span class="block" th:id="'recommendStayTime'+${number}" th:text="'平均滞在時間：'+${place.stayTime}+'分'">平均滞在時間</span>
+                <span class="block" th:text="'平均予算：'+${place.budget}+'分'">平均予算</span>
+                <span class="block" th:text="'平均滞在時間：'+${place.stayTime}+'分'">平均滞在時間</span>
             </span>
         </button>
         <!-- Main modal -->
@@ -51,7 +51,7 @@
                                 <div class="w-1/2 pr-3">
                                     <label class="block mb-2" th:for="'recommendBudget'+${number}">予算</label>
                                     <div class="flex items-end">
-                                        <input class="w-full input focus:ring-0" th:id="'recommendBudeget'+${number}" th:name="'recommendBudget'+${number}" th:value="${place.budget}" type="number"/>
+                                        <input class="w-full input focus:ring-0" th:id="'recommendBudget'+${number}" th:name="'recommendBudget'+${number}" th:value="${place.budget}" type="number"/>
                                         <span>円</span>
                                     </div>
                                 </div>
