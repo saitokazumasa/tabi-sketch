@@ -34,7 +34,7 @@ class RecommendPlace {
     #hideDisplay(formNum) {
         // modal表示切り替えのtoggleBtn取得
         const toggleBtn = document.getElementById(`recommendToggle${formNum}`);
-        toggleBtn.hidden = true;
+        toggleBtn.style.display = 'none';
     }
 }
 
