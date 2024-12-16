@@ -65,7 +65,7 @@ jobs:
       - name: Build JAR package
         # ここでも同じように環境変数を使用
         env:
-          DATABASE_URL: jdbc:postgresql://${{ env.PGHOST }}:${{ env.PGPORT }}/${{ env.PGDATABASE }}
+          DATABASE_URL: "jdbc:postgresql://${{ env.POSTGRES_HOST }}:${{ env.POSTGRES_PORT }}/${{ env.POSTGRES_DB }}"
           DATABASE_USERNAME: ${{ env.POSTGRES_USER }}
           DATABASE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: ./mvnw package
