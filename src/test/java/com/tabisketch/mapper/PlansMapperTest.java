@@ -42,5 +42,10 @@ public class PlansMapperTest {
         final var planList = this.plansMapper.selectByUserId(id);
         assert planList != null;
         assert !planList.isEmpty();
+
+        final String mailAddress = "sample@example.com";
+        final var planList2 = this.plansMapper.selectByMailAddress(mailAddress);
+        assert planList2 != null;
+        assert !planList2.isEmpty();
     }
 }
