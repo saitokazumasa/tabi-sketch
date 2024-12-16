@@ -9,12 +9,20 @@ class RecommendPlace {
         const formKey = e.target.id;
         const formNum = Number(formKey.replace('recommendForm', ''));
 
-        // todo: sessionに値を追加 (modal.jsのSessionStorageListのplaceに入れる)
+        // 「目的地を追加する」のform取得
+        const modalForm = new ModalForm();
+        const placeFormList = modalForm.placeFormElements;
+        const placeFormKey = placeFormList[placeFormList.length - 1].id;
+        const placeFormNum = Number(placeFormKey.replace('placeForm', ''));
+
+        // sessionに値を追加 (modal.jsのSessionStorageListのplaceに入れる)
+        sessionStorageList.setRecommendPlace(placeFormNum, formNum);
+
         // todo: 今表示されている「目的地を追加する」のvalueをsessionから入れる（PR#194 modal.js setPlaceFormValue のような形）
         // todo: 今表示されている「目的地を追加する」の表示内容変更（PR#194 modal.js changePlaceDisplay のような形）
         // todo: 新規フラグメントの呼び出し（PR#194 modal.js placesFormSubmit のような形）
 
-        this.#hideModal(formNum);
+        this.#hideModal(formNum); // 現在開かれてるmodalを閉じる
         this.#hideDisplay(formNum); // 追加したおすすめ目的地の表示を隠す
     }
 
