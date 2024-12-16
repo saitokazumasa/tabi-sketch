@@ -23,6 +23,8 @@ jobs:
         runner: [ubuntu-latest]
         java: [21]
     name: Build on Java ${{ matrix.java }} ${{ matrix.runner }}
+
+    # postgresのコンテナを起動
     services:
       postgres:
         image: postgres
@@ -52,7 +54,6 @@ jobs:
 
       # データベースの初期化
       - name: Initialize database
-        # DATABASE_URL を動的にこのステージで生成
         env:
           PGHOST: ${{ env.POSTGRES_HOST }}
           PGPORT: ${{ env.POSTGRES_PORT }}
@@ -61,9 +62,8 @@ jobs:
           PGPASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: ./bin/init_db.sh
 
-      # JARパッケージのビルド
+      # JARパッケージのビルドとテストの実行
       - name: Build JAR package
-        # ここでも同じように環境変数を使用
         env:
           DATABASE_URL: "jdbc:postgresql://${{ env.POSTGRES_HOST }}:${{ env.POSTGRES_PORT }}/${{ env.POSTGRES_DB }}"
           DATABASE_USERNAME: ${{ env.POSTGRES_USER }}
