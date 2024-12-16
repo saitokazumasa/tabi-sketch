@@ -5,6 +5,7 @@ import com.tabisketch.bean.entity.User;
 import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.IAuthMailAddressService;
+import com.tabisketch.util.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,31 +26,27 @@ public class AuthMailAddressService implements IAuthMailAddressService {
 
     @Override
     @Transactional
-    public boolean execute(final String maaTokenStr) {
+    public void execute(final String maaTokenStr) {
         final var token = UUID.fromString(maaTokenStr);
-
         final MAAToken maaToken = this.maaTokensMapper.selectByToken(token);
         final User user = this.usersMapper.selectById(maaToken.getUserId());
 
-        if (maaToken.getNewMailAddress() != null && !maaToken.getNewMailAddress().isEmpty()) {
-            final var newUser = new User(
-                    user.getId(),
-                    maaToken.getNewMailAddress(),
-                    user.getPassword(),
-                    true
-            );
-            this.usersMapper.update(newUser);
-            return true;
-        }
+        // メールアドレスの更新があるかどうかで作るインスタンスを変える
+        final User newUser = StringUtils.isNotNullAndNotEmpty(maaToken.getNewMailAddress()) ?
+                new User(
+                        user.getId(),
+                        maaToken.getNewMailAddress(),
+                        user.getPassword(),
+                        true
+                ) :
+                new User(
+                        user.getId(),
+                        user.getMailAddress(),
+                        user.getPassword(),
+                        true
+                );
 
-        final var newUser = new User(
-                user.getId(),
-                user.getMailAddress(),
-                user.getPassword(),
-                true
-        );
         this.usersMapper.update(newUser);
-//        this.maaTokensMapper.deleteById(mailAddressAuthToken.getId());
-        return true;
+        this.maaTokensMapper.delete(maaToken.getId());
     }
 }
