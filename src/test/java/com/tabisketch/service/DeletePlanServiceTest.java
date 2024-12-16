@@ -1,6 +1,7 @@
 package com.tabisketch.service;
 
-import com.tabisketch.bean.entity.Plan;
+import com.tabisketch.mapper.IDaysMapper;
+import com.tabisketch.mapper.IPlacesMapper;
 import com.tabisketch.mapper.IPlansMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,28 +13,27 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class DeletePlanServiceTest {
     @MockBean
     private IPlansMapper plansMapper;
+    @MockBean
+    private IDaysMapper daysMapper;
+    @MockBean
+    private IPlacesMapper placesMapper;
     @Autowired
     private IDeletePlanService deletePlanService;
 
     @ParameterizedTest
     @MethodSource("sampleUUID")
     public void 動作するか(final String uuid) {
-        when(this.plansMapper.selectByUUID(any())).thenReturn(Plan.generate("", 1));
-        when(this.plansMapper.deleteById(anyInt())).thenReturn(1);
+        this.deletePlanService.execute(uuid);
 
-        final var result = this.deletePlanService.execute(uuid);
-
-        assert result;
-        verify(this.plansMapper).selectByUUID(any());
-        verify(this.plansMapper).deleteById(anyInt());
+        verify(this.placesMapper).deleteByPlanUUID(any());
+        verify(this.daysMapper).deleteByPlanUUID(any());
+        verify(this.plansMapper).deleteByUUID(any());
     }
 
     private static Stream<String> sampleUUID() {

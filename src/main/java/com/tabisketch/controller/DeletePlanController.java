@@ -18,7 +18,6 @@ public class DeletePlanController {
 
     @DeleteMapping
     public String post(final @PathVariable String uuid) {
-        // NOTE: プラン削除が完了したかどうかを画面に表示する場合はリターン値を使う
         this.deletePlanService.execute(uuid);
         return "redirect:/plan/list";
     }

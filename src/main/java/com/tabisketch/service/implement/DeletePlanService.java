@@ -1,5 +1,7 @@
 package com.tabisketch.service.implement;
 
+import com.tabisketch.mapper.IDaysMapper;
+import com.tabisketch.mapper.IPlacesMapper;
 import com.tabisketch.mapper.IPlansMapper;
 import com.tabisketch.service.IDeletePlanService;
 import org.springframework.stereotype.Service;
@@ -9,22 +11,26 @@ import java.util.UUID;
 
 @Service
 public class DeletePlanService implements IDeletePlanService {
-    final IPlansMapper plansMapper;
+    private final IPlansMapper plansMapper;
+    private final IDaysMapper daysMapper;
+    private final IPlacesMapper placesMapper;
 
-    public  DeletePlanService(final IPlansMapper plansMapper) {
+    public  DeletePlanService(
+            final IPlansMapper plansMapper,
+            final IDaysMapper daysMapper,
+            final IPlacesMapper placesMapper
+    ) {
         this.plansMapper = plansMapper;
+        this.daysMapper = daysMapper;
+        this.placesMapper = placesMapper;
     }
 
     @Override
     @Transactional
-    public boolean execute(final String uuid) {
-        final var u = UUID.fromString(uuid);
-        final var plan = this.plansMapper.selectByUUID(u);
-
-        // TODO: Place DB から削除
-        // TODO: Day DB から削除
-        final int planResult = this.plansMapper.deleteById(plan.getId());
-
-        return planResult == 1;
+    public void execute(final String planUUID) {
+        final var uuid = UUID.fromString(planUUID);
+        this.placesMapper.deleteByPlanUUID(uuid);
+        this.daysMapper.deleteByPlanUUID(uuid);
+        this.plansMapper.deleteByUUID(uuid);
     }
 }
