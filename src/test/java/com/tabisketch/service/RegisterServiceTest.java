@@ -1,7 +1,7 @@
 package com.tabisketch.service;
 
 import com.tabisketch.bean.form.RegisterForm;
-import com.tabisketch.mapper.IMailAddressAuthTokensMapper;
+import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,7 +23,7 @@ public class RegisterServiceTest {
     @MockBean
     private IEncryptPasswordService encryptPasswordService;
     @MockBean
-    private IMailAddressAuthTokensMapper mailAddressAuthTokensMapper;
+    private IMAATokensMapper maaTokensMapper;
     @MockBean
     private ISendMailService sendMailService;
     @Autowired
@@ -35,7 +35,7 @@ public class RegisterServiceTest {
         this.registerService.execute(registerForm);
         verify(this.usersMapper).insert(any());
         verify(this.encryptPasswordService).execute(anyString());
-        verify(this.mailAddressAuthTokensMapper).insert(any());
+        verify(this.maaTokensMapper).insert(any());
         verify(this.sendMailService).execute(any());
     }
 

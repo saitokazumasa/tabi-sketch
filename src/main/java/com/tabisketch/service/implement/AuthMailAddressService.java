@@ -1,7 +1,7 @@
 package com.tabisketch.service.implement;
 
-import com.tabisketch.bean.entity.MailAddressAuthToken;
-import com.tabisketch.mapper.IMailAddressAuthTokensMapper;
+import com.tabisketch.bean.entity.MAAToken;
+import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.IAuthMailAddressService;
 import org.springframework.stereotype.Service;
@@ -11,14 +11,14 @@ import java.util.UUID;
 
 @Service
 public class AuthMailAddressService implements IAuthMailAddressService {
-    private final IMailAddressAuthTokensMapper mailAddressAuthTokensMapper;
+    private final IMAATokensMapper maaTokensMapper;
     private final IUsersMapper usersMapper;
 
     public AuthMailAddressService(
-            final IMailAddressAuthTokensMapper mailAddressAuthTokensMapper,
+            final IMAATokensMapper maaTokensMapper,
             final IUsersMapper usersMapper
     ) {
-        this.mailAddressAuthTokensMapper = mailAddressAuthTokensMapper;
+        this.maaTokensMapper = maaTokensMapper;
         this.usersMapper = usersMapper;
     }
 
@@ -26,7 +26,7 @@ public class AuthMailAddressService implements IAuthMailAddressService {
     @Transactional
     public boolean execute(final String token) {
         final var tokenUUID = UUID.fromString(token);
-        final var mailAddressAuthToken = this.mailAddressAuthTokensMapper.selectByToken(tokenUUID);
+        final var mailAddressAuthToken = this.maaTokensMapper.selectByToken(tokenUUID);
 
         if (mailAddressAuthToken == null) return false;
 
@@ -36,12 +36,12 @@ public class AuthMailAddressService implements IAuthMailAddressService {
         if (isNotEmptyNewMailAddress(mailAddressAuthToken))
             this.usersMapper.updateMailAddress(mailAddressAuthToken.getUserId(), mailAddressAuthToken.getNewMailAddress());
 
-        this.mailAddressAuthTokensMapper.deleteById(mailAddressAuthToken.getId());
+        this.maaTokensMapper.deleteById(mailAddressAuthToken.getId());
         return true;
     }
 
-    private boolean isNotEmptyNewMailAddress(final MailAddressAuthToken mailAddressAuthToken) {
-        return mailAddressAuthToken.getNewMailAddress() != null &&
-                !mailAddressAuthToken.getNewMailAddress().isEmpty();
+    private boolean isNotEmptyNewMailAddress(final MAAToken maaToken) {
+        return maaToken.getNewMailAddress() != null &&
+                !maaToken.getNewMailAddress().isEmpty();
     }
 }

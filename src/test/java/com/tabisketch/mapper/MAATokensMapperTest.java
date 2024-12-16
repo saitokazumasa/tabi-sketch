@@ -1,6 +1,6 @@
 package com.tabisketch.mapper;
 
-import com.tabisketch.bean.entity.MailAddressAuthToken;
+import com.tabisketch.bean.entity.MAAToken;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -13,27 +13,27 @@ import java.util.stream.Stream;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class MailAddressAuthTokensMapperTest {
+public class MAATokensMapperTest {
     @Autowired
-    private IMailAddressAuthTokensMapper mailAddressAuthTokensMapper;
+    private IMAATokensMapper maaTokensMapper;
 
     @ParameterizedTest
     @MethodSource("sampleMailAddressAuthToken")
     @Sql("classpath:/sql/CreateUser.sql")
-    public void INSERTできるか(final MailAddressAuthToken mailAddressAuthToken) {
-        final var result = this.mailAddressAuthTokensMapper.insert(mailAddressAuthToken);
+    public void INSERTできるか(final MAAToken maaToken) {
+        final var result = this.maaTokensMapper.insert(maaToken);
         assert result == 1;
-        assert mailAddressAuthToken.getId() != -1;
+        assert maaToken.getId() != -1;
     }
 
     @ParameterizedTest
     @MethodSource("sampleToken")
     @Sql({
             "classpath:/sql/CreateUser.sql",
-            "classpath:/sql/CreateMailAddressAuthToken.sql"
+            "classpath:/sql/CreateMAAToken.sql"
     })
     public void SELECTできるか(final UUID token) {
-        final var mailAuthenticationToken = this.mailAddressAuthTokensMapper.selectByToken(token);
+        final var mailAuthenticationToken = this.maaTokensMapper.selectByToken(token);
         assert mailAuthenticationToken != null;
     }
 
@@ -41,10 +41,10 @@ public class MailAddressAuthTokensMapperTest {
     @MethodSource("sampleId")
     @Sql({
             "classpath:/sql/CreateUser.sql",
-            "classpath:/sql/CreateMailAddressAuthToken.sql"
+            "classpath:/sql/CreateMAAToken.sql"
     })
     public void DELETEできるか(final int id) {
-        final var result = this.mailAddressAuthTokensMapper.deleteById(id);
+        final var result = this.maaTokensMapper.deleteById(id);
         assert result == 1;
     }
 
@@ -58,9 +58,9 @@ public class MailAddressAuthTokensMapperTest {
         return Stream.of(token);
     }
 
-    private static Stream<MailAddressAuthToken> sampleMailAddressAuthToken() {
-        final var mailAddressAuthToken = MailAddressAuthToken.generate(1);
-        final var mailAddressAuthToken2 = MailAddressAuthToken.generate(1, "sample2@example.com");
+    private static Stream<MAAToken> sampleMailAddressAuthToken() {
+        final var mailAddressAuthToken = MAAToken.generate(1);
+        final var mailAddressAuthToken2 = MAAToken.generate(1, "sample2@example.com");
         return Stream.of(mailAddressAuthToken, mailAddressAuthToken2);
     }
 }

@@ -2,7 +2,7 @@ package com.tabisketch.service;
 
 import com.tabisketch.bean.entity.User;
 import com.tabisketch.bean.form.SendEditMailForm;
-import com.tabisketch.mapper.IMailAddressAuthTokensMapper;
+import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,7 +24,7 @@ public class SendEditMailServiceTest {
     @MockBean
     private IUsersMapper usersMapper;
     @MockBean
-    private IMailAddressAuthTokensMapper mailAddressAuthTokensMapper;
+    private IMAATokensMapper maaTokensMapper;
     @MockBean
     private ISendMailService sendMailService;
     @Autowired
@@ -38,7 +38,7 @@ public class SendEditMailServiceTest {
 
         this.sendEditMailService.execute(sendEditMailForm);
         verify(this.usersMapper).selectByMailAddress(anyString());
-        verify(this.mailAddressAuthTokensMapper).insertWithNewMailAddress(any());
+        verify(this.maaTokensMapper).insertWithNewMailAddress(any());
         verify(this.sendMailService).execute(any());
     }
 

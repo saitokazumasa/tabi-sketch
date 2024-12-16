@@ -1,11 +1,11 @@
 package com.tabisketch.service.implement;
 
-import com.tabisketch.bean.entity.MailAddressAuthToken;
+import com.tabisketch.bean.entity.MAAToken;
 import com.tabisketch.bean.entity.User;
 import com.tabisketch.bean.form.RegisterForm;
 import com.tabisketch.service.IEncryptPasswordService;
 import com.tabisketch.valueobject.Mail;
-import com.tabisketch.mapper.IMailAddressAuthTokensMapper;
+import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.IRegisterService;
 import com.tabisketch.service.ISendMailService;
@@ -17,18 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class RegisterService implements IRegisterService {
     private final IUsersMapper usersMapper;
     private final IEncryptPasswordService encryptPasswordService;
-    private final IMailAddressAuthTokensMapper mailAddressAuthTokensMapper;
+    private final IMAATokensMapper maaTokensMapper;
     private final ISendMailService sendMailService;
 
     public RegisterService(
             final IUsersMapper usersMapper,
             final IEncryptPasswordService encryptPasswordService,
-            final IMailAddressAuthTokensMapper mailAddressAuthTokensMapper,
+            final IMAATokensMapper maaTokensMapper,
             final ISendMailService sendMailService
     ) {
         this.usersMapper = usersMapper;
         this.encryptPasswordService = encryptPasswordService;
-        this.mailAddressAuthTokensMapper = mailAddressAuthTokensMapper;
+        this.maaTokensMapper = maaTokensMapper;
         this.sendMailService = sendMailService;
     }
 
@@ -38,8 +38,8 @@ public class RegisterService implements IRegisterService {
         final var user = encryptPassword(registerForm.toUser());
         this.usersMapper.insert(user);
 
-        final var mailAddressAuthToken = MailAddressAuthToken.generate(user.getId());
-        this.mailAddressAuthTokensMapper.insert(mailAddressAuthToken);
+        final var mailAddressAuthToken = MAAToken.generate(user.getId());
+        this.maaTokensMapper.insert(mailAddressAuthToken);
 
         final var mail = Mail.generateRegisterMail(user.getMailAddress(), mailAddressAuthToken.getToken());
         this.sendMailService.execute(mail);

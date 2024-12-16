@@ -1,7 +1,7 @@
 package com.tabisketch.service;
 
-import com.tabisketch.bean.entity.MailAddressAuthToken;
-import com.tabisketch.mapper.IMailAddressAuthTokensMapper;
+import com.tabisketch.bean.entity.MAAToken;
+import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class AuthMailAddressServiceTest {
     @MockBean
-    private IMailAddressAuthTokensMapper mailAddressAuthTokensMapper;
+    private IMAATokensMapper maaTokensMapper;
     @MockBean
     private IUsersMapper usersMapper;
     @Autowired
@@ -28,38 +28,38 @@ public class AuthMailAddressServiceTest {
 
     @ParameterizedTest
     @MethodSource("sampleMailAddressAuthToken")
-    public void 動作するか(final MailAddressAuthToken mailAddressAuthToken) {
-        when(this.mailAddressAuthTokensMapper.selectByToken(any())).thenReturn(mailAddressAuthToken);
+    public void 動作するか(final MAAToken maaToken) {
+        when(this.maaTokensMapper.selectByToken(any())).thenReturn(maaToken);
 
-        assert this.authMailAddressService.execute(mailAddressAuthToken.getToken().toString());
-        verify(this.mailAddressAuthTokensMapper).selectByToken(any());
+        assert this.authMailAddressService.execute(maaToken.getToken().toString());
+        verify(this.maaTokensMapper).selectByToken(any());
         verify(this.usersMapper).updateMailAddressVerified(anyInt(), anyBoolean());
-        verify(this.mailAddressAuthTokensMapper).deleteById(anyInt());
+        verify(this.maaTokensMapper).deleteById(anyInt());
     }
 
     @ParameterizedTest
     @MethodSource("sampleMailAddressAuthTokenWithNewMailAddress")
-    public void 新しいメールアドレスが指定された時更新しているか(final MailAddressAuthToken mailAddressAuthToken) {
-        when(this.mailAddressAuthTokensMapper.selectByToken(any())).thenReturn(mailAddressAuthToken);
+    public void 新しいメールアドレスが指定された時更新しているか(final MAAToken maaToken) {
+        when(this.maaTokensMapper.selectByToken(any())).thenReturn(maaToken);
 
-        assert this.authMailAddressService.execute(mailAddressAuthToken.getToken().toString());
-        verify(this.mailAddressAuthTokensMapper).selectByToken(any());
+        assert this.authMailAddressService.execute(maaToken.getToken().toString());
+        verify(this.maaTokensMapper).selectByToken(any());
         verify(this.usersMapper).updateMailAddressVerified(anyInt(), anyBoolean());
         verify(this.usersMapper).updateMailAddress(anyInt(), anyString());
-        verify(this.mailAddressAuthTokensMapper).deleteById(anyInt());
+        verify(this.maaTokensMapper).deleteById(anyInt());
     }
 
     @ParameterizedTest
     @MethodSource("sampleMailAddressAuthToken")
-    public void トークンが存在しない時falseが返る(final MailAddressAuthToken mailAddressAuthToken) {
-        when(this.mailAddressAuthTokensMapper.selectByToken(any())).thenReturn(null);
+    public void トークンが存在しない時falseが返る(final MAAToken maaToken) {
+        when(this.maaTokensMapper.selectByToken(any())).thenReturn(null);
 
-        assert !this.authMailAddressService.execute(mailAddressAuthToken.getToken().toString());
-        verify(this.mailAddressAuthTokensMapper).selectByToken(any());
+        assert !this.authMailAddressService.execute(maaToken.getToken().toString());
+        verify(this.maaTokensMapper).selectByToken(any());
     }
 
-    private static Stream<MailAddressAuthToken> sampleMailAddressAuthToken() {
-        final var mailAddressAuthToken = new MailAddressAuthToken(
+    private static Stream<MAAToken> sampleMailAddressAuthToken() {
+        final var mailAddressAuthToken = new MAAToken(
                 1,
                 UUID.randomUUID(),
                 "",
@@ -69,8 +69,8 @@ public class AuthMailAddressServiceTest {
         return Stream.of(mailAddressAuthToken);
     }
 
-    private static Stream<MailAddressAuthToken> sampleMailAddressAuthTokenWithNewMailAddress() {
-        final var mailAddressAuthToken = new MailAddressAuthToken(
+    private static Stream<MAAToken> sampleMailAddressAuthTokenWithNewMailAddress() {
+        final var mailAddressAuthToken = new MAAToken(
                 1,
                 UUID.randomUUID(),
                 "sample@example.com",
