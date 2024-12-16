@@ -1,7 +1,5 @@
 package com.tabisketch.service;
 
-import com.tabisketch.bean.form.IsMatchPasswordForm;
-
 public interface IIsMatchPasswordService {
-    boolean execute(final IsMatchPasswordForm isMatchPasswordForm);
+    boolean execute(final String mailAddress, final String password);
 }

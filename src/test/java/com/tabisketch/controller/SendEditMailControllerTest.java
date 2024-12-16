@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(SendEditMailController.class)
@@ -46,7 +47,7 @@ public class SendEditMailControllerTest {
     @MethodSource("sampleSendEditMailForm")
     @WithMockUser(username = "sample@example.com", password = "$2a$10$G7Emd1ALL6ibttkgRZtBZeX6Qps6lgEGKq.njouwtiuE4uvjD2YMO")
     public void postが動作するか(final SendEditMailForm sendEditMailForm) throws Exception {
-        when(this.isMatchPasswordService.execute(any())).thenReturn(true);
+        when(this.isMatchPasswordService.execute(anyString(), anyString())).thenReturn(true);
         when(this.existMailAddressService.execute(any())).thenReturn(false);
 
         this.mockMvc.perform(MockMvcRequestBuilders

@@ -1,7 +1,6 @@
 package com.tabisketch.service.implement;
 
 import com.tabisketch.bean.entity.User;
-import com.tabisketch.bean.form.IsMatchPasswordForm;
 import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.IIsMatchPasswordService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,8 +17,8 @@ public class IsMatchPasswordService implements IIsMatchPasswordService {
     }
 
     @Override
-    public boolean execute(final IsMatchPasswordForm isMatchPasswordForm) {
-        final User user = this.usersMapper.selectByMailAddress(isMatchPasswordForm.getMailAddress());
-        return passwordEncoder.matches(isMatchPasswordForm.getPassword(), user.getPassword());
+    public boolean execute(final String mailAddress, final String password) {
+        final User user = this.usersMapper.selectByMailAddress(mailAddress);
+        return passwordEncoder.matches(password, user.getPassword());
     }
 }

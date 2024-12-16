@@ -1,6 +1,5 @@
 package com.tabisketch.controller;
 
-import com.tabisketch.bean.form.IsMatchPasswordForm;
 import com.tabisketch.bean.form.SendEditMailForm;
 import com.tabisketch.service.IExistMailAddressService;
 import com.tabisketch.service.IIsMatchPasswordService;
@@ -67,8 +66,7 @@ public class SendEditMailController {
     }
 
     private boolean isNotMatchPassword(final String mailAddress, final String password) {
-        final var isMatchPasswordForm = new IsMatchPasswordForm(mailAddress, password);
-        return !this.isMatchPasswordService.execute(isMatchPasswordForm);
+        return !this.isMatchPasswordService.execute(mailAddress, password);
     }
 
     private boolean isNotExistMailAddress(final String mailAddress) {
