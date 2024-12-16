@@ -24,10 +24,10 @@ public interface IPlansMapper {
     Plan selectByUUID(final UUID uuid);
 
     @Update("UPDATE plans " +
-            "SET title = #{title}, is_editable = #{isEditable}, is_public = #{isPublic} " +
-            "WHERE id = #{id}")
+            "   SET title = #{title}, is_editable = #{isEditable}, is_public = #{isPublic} " +
+            "   WHERE id = #{id}")
     int update(final Plan plan);
 
-    @Delete("DELETE FROM plans WHERE id = #{id}")
-    int deleteById(final int id);
+    @Delete("DELETE FROM plans WHERE uuid = #{uuid}")
+    int deleteByUUID(final UUID uuid);
 }

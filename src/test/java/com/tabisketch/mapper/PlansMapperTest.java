@@ -63,13 +63,13 @@ public class PlansMapperTest {
     }
 
     @ParameterizedTest
-    @MethodSource("sampleId")
+    @MethodSource("sampleUUID")
     @Sql({
             "classpath:/sql/CreateUser.sql",
             "classpath:/sql/CreatePlan.sql"
     })
-    public void DELETEできるか(final int id) {
-        final var result = this.plansMapper.deleteById(id);
+    public void DELETEできるか(final UUID uuid) {
+        final var result = this.plansMapper.deleteByUUID(uuid);
         assert result == 1;
     }
 
@@ -83,11 +83,6 @@ public class PlansMapperTest {
                 true
         );
         return Stream.of(plan);
-    }
-
-    private static Stream<Integer> sampleId() {
-        final var id = 1;
-        return Stream.of(id);
     }
 
     private static Stream<UUID> sampleUUID() {
