@@ -30,7 +30,6 @@ public class ExistMailAddressServiceTest {
         when(this.usersMapper.selectByMailAddress(anyString())).thenReturn(user);
 
         assert this.existMailAddressService.execute(user.getMailAddress());
-
         verify(this.usersMapper).selectByMailAddress(anyString());
     }
 }
