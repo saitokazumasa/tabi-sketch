@@ -33,13 +33,8 @@ public class RegisterController {
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
     ) throws MessagingException {
-        if (registerForm.isNotMatchPasswordAndRePassword())
-            // TODO: エラーメッセージ等、ベタ書きではなく別の場所から参照する形にする
-            bindingResult.rejectValue("rePassword", "error.registerForm", "パスワードが一致しません");
-
         if (bindingResult.hasErrors()) return "register/index";
 
-        // TODO: 送信エラーが発生した時どうするか考える
         this.registerService.execute(registerForm);
 
         redirectAttributes.addFlashAttribute("mailAddress", registerForm.getMailAddress());
