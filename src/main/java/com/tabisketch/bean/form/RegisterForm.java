@@ -1,6 +1,7 @@
 package com.tabisketch.bean.form;
 
 import com.tabisketch.bean.entity.User;
+import com.tabisketch.util.StringUtils;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -23,13 +24,9 @@ public class RegisterForm {
         return new RegisterForm("", "", "");
     }
 
-    public User toUser() {
-        return User.generate(this.mailAddress, this.password);
-    }
-
     public boolean isNotMatchPasswordAndRePassword() {
-        if (password == null || rePassword == null) return false;
-        if (password.isEmpty() || rePassword.isEmpty()) return false;
+        if (StringUtils.isNullAndEmpty(this.password)) return false;
+        if (StringUtils.isNullAndEmpty(this.rePassword)) return false;
 
         return !password.equals(rePassword);
     }

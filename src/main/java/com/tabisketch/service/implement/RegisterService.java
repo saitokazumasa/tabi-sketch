@@ -35,18 +35,14 @@ public class RegisterService implements IRegisterService {
     @Override
     @Transactional
     public void execute(final RegisterForm registerForm) throws MessagingException {
-        final var user = encryptPassword(registerForm.toUser());
+        final String encryptedPassword = this.encryptPasswordService.execute(registerForm.getPassword());
+        final var user = User.generate(registerForm.getMailAddress(), encryptedPassword);
         this.usersMapper.insert(user);
 
         final var maaToken = MAAToken.generate(user.getId());
         this.maaTokensMapper.insert(maaToken);
 
-        final var mail = Mail.generateRegisterMail(user.getMailAddress(), maaToken.getToken());
+        final var mail = Mail.registrationMail(user.getMailAddress(), maaToken.getToken());
         this.sendMailService.execute(mail);
-    }
-
-    private User encryptPassword(final User user) {
-        final var encryptedPassword = this.encryptPasswordService.execute(user.getPassword());
-        return User.generate(user.getMailAddress(), encryptedPassword);
     }
 }

@@ -19,12 +19,13 @@ public class Mail {
     /**
      * 新規登録メールを生成する
      */
-    public static Mail generateRegisterMail(final String toMailAddress, final UUID token) {
-        return new Mail(
-                toMailAddress,
-                "たびすけっち 登録確認のメール",
-                "https://tabisketch.com/mail/confirm/" + token.toString()
-        );
+    public static Mail registrationMail(final String toMailAddress, final UUID token) {
+        final String subject = "たびすけっち 登録確認のメール";
+        final String content =
+                "「たびすけっち」へのユーサー登録、ありがとうございます。" +
+                "メールアドレス認証のために以下のURLをクリックして、本登録してください。" +
+                "https://tabisketch.com/mail/confirm/" + token.toString();
+        return new Mail(toMailAddress, subject, content);
     }
 
     /**
