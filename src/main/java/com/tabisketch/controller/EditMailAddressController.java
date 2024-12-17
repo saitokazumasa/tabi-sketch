@@ -16,10 +16,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user/edit/mail")
-public class SendEditMailController {
+public class EditMailAddressController {
     private final IEditMailAddressService editMailAddressService;
 
-    public SendEditMailController(final IEditMailAddressService editMailAddressService) {
+    public EditMailAddressController(final IEditMailAddressService editMailAddressService) {
         this.editMailAddressService = editMailAddressService;
     }
 
@@ -37,7 +37,6 @@ public class SendEditMailController {
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
     ) throws MessagingException {
-        // TODO: エラーメッセージ等、ベタ書きではなく別の場所から参照する形にする
         if (bindingResult.hasErrors()) return "user/edit/mail/index";
 
         this.editMailAddressService.execute(editMailAddressForm);
