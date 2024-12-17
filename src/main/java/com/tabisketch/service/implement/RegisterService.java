@@ -35,6 +35,8 @@ public class RegisterService implements IRegisterService {
     @Override
     @Transactional
     public void execute(final RegisterForm registerForm) throws MessagingException {
+        if (registerForm.isNotMatchPasswordAndRePassword()) return;
+
         final String encryptedPassword = this.encryptPasswordService.execute(registerForm.getPassword());
         final var user = User.generate(registerForm.getMailAddress(), encryptedPassword);
         this.usersMapper.insert(user);

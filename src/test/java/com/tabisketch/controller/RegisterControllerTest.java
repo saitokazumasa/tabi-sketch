@@ -25,16 +25,21 @@ public class RegisterControllerTest {
 
     @Test
     @WithMockUser
-    public void getが動作するか() throws Exception {
+    public void testGet() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/register"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("register/index"));
     }
 
-    @ParameterizedTest
-    @MethodSource("sampleRegisterForm")
+    @Test
     @WithMockUser
-    public void postが動作するか(final RegisterForm registerForm) throws Exception {
+    public void testPost() throws Exception {
+        final var registerForm = new RegisterForm(
+                "sample@example.com",
+                "password",
+                "password"
+        );
+
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/register")
                         .flashAttr("registerForm", registerForm)
@@ -47,7 +52,7 @@ public class RegisterControllerTest {
     @ParameterizedTest
     @MethodSource("sampleErrorRegisterForm")
     @WithMockUser
-    public void フォームがバリデーションエラーになるか(final RegisterForm registerForm) throws Exception {
+    public void testValidation(final RegisterForm registerForm) throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/register")
                         .flashAttr("registerForm", registerForm)
@@ -57,23 +62,6 @@ public class RegisterControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attributeExists("registerForm"))
                 .andExpect(MockMvcResultMatchers.model().attribute("registerForm", registerForm))
                 .andExpect(MockMvcResultMatchers.view().name("register/index"));
-    }
-
-    @Test
-    @WithMockUser
-    public void sendが動作するか() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/register/send"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("register/send"));
-    }
-
-    private static Stream<RegisterForm> sampleRegisterForm() {
-        final var registerForm = new RegisterForm(
-                "sample@example.com",
-                "password",
-                "password"
-        );
-        return Stream.of(registerForm);
     }
 
     private static Stream<RegisterForm> sampleErrorRegisterForm() {
@@ -86,5 +74,13 @@ public class RegisterControllerTest {
         // passwordとrePasswordが一致しない
         final var registerForm4 = new RegisterForm("sample@example.com", "password", "pass");
         return Stream.of(registerForm1, registerForm2, registerForm3, registerForm4);
+    }
+
+    @Test
+    @WithMockUser
+    public void testSend() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/register/send"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("register/send"));
     }
 }
