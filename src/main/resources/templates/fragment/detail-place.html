@@ -26,7 +26,7 @@
 </th:block>
 
 <th:block th:fragment="places(place)">
-    <div class="input border-interactive text-center text-label max-w-md w-4/5 flex justify-between items-center h-10 sm:h-12" type="button">
+    <div class="input text-center text-label max-w-md w-4/5 flex justify-between items-center h-10 sm:h-12" type="button">
         <span class="text-[10px] sm:text-base sm:flex">
             <span class="block" th:text="${place.startTime}">開始時間</span>
             <span class="block" th:text="'~'+${place.endTime}">終了時間</span>
