@@ -2,8 +2,7 @@ package com.tabisketch.service;
 
 import com.tabisketch.valueobject.Mail;
 import jakarta.mail.MessagingException;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -11,7 +10,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @SpringBootTest
 public class SendMailServiceTest {
@@ -21,15 +19,15 @@ public class SendMailServiceTest {
     private ISendMailService sendMailService;
 
     // NOTE: アドレスエラーは検出されない
-    @ParameterizedTest
-    @MethodSource("sampleMail")
-    @WithMockUser(username = "sample@example.com")
-    public void 動作するか(final Mail mail) throws MessagingException {
-        this.sendMailService.execute(mail);
-    }
+    @Test
+    @WithMockUser
+    public void testExist() throws MessagingException {
+        final String mailAddress = "sample@example.com";
 
-    private static Stream<Mail> sampleMail() {
-        final var mail = Mail.registrationMail("sample@example.com", UUID.randomUUID());
-        return Stream.of(mail);
+        final var registrationMail = Mail.registrationMail(mailAddress, UUID.randomUUID());
+        this.sendMailService.execute(registrationMail);
+
+        final var mailAddressEditMail = Mail.mailAddressEditMail(mailAddress, UUID.randomUUID());
+        this.sendMailService.execute(mailAddressEditMail);
     }
 }
