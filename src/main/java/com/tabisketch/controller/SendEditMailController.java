@@ -1,9 +1,7 @@
 package com.tabisketch.controller;
 
-import com.tabisketch.bean.form.SendEditMailForm;
-import com.tabisketch.service.IExistMailAddressService;
-import com.tabisketch.service.IIsMatchPasswordService;
-import com.tabisketch.service.ISendEditMailService;
+import com.tabisketch.bean.form.EditMailAddressForm;
+import com.tabisketch.service.IEditMailAddressService;
 import jakarta.mail.MessagingException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,58 +17,33 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/user/edit/mail")
 public class SendEditMailController {
-    private final IIsMatchPasswordService isMatchPasswordService;
-    private final IExistMailAddressService existMailAddressService;
-    private final ISendEditMailService sendEditMailService;
+    private final IEditMailAddressService editMailAddressService;
 
-    public SendEditMailController(
-            final IIsMatchPasswordService isMatchPasswordService,
-            final IExistMailAddressService existMailAddressService,
-            final ISendEditMailService sendEditMailService
-    ) {
-        this.isMatchPasswordService = isMatchPasswordService;
-        this.existMailAddressService = existMailAddressService;
-        this.sendEditMailService = sendEditMailService;
+    public SendEditMailController(final IEditMailAddressService editMailAddressService) {
+        this.editMailAddressService = editMailAddressService;
     }
 
     @GetMapping
-    public String get(
-            final @AuthenticationPrincipal UserDetails userDetails,
-            final Model model
-    ) {
-        final var sendEditMailForm = SendEditMailForm.empty();
-        sendEditMailForm.setCurrentMailAddress(userDetails.getUsername());
-        model.addAttribute("sendEditMailForm", sendEditMailForm);
+    public String get(final @AuthenticationPrincipal UserDetails userDetails, final Model model) {
+        final var editMailAddressForm = EditMailAddressForm.empty();
+        editMailAddressForm.setCurrentMailAddress(userDetails.getUsername());
+        model.addAttribute("editMailAddressForm", editMailAddressForm);
         return "user/edit/mail/index";
     }
 
     @PostMapping
     public String post(
-            final @Validated SendEditMailForm sendEditMailForm,
+            final @Validated EditMailAddressForm editMailAddressForm,
             final BindingResult bindingResult,
-            final @AuthenticationPrincipal UserDetails userDetails,
             final RedirectAttributes redirectAttributes
     ) throws MessagingException {
         // TODO: エラーメッセージ等、ベタ書きではなく別の場所から参照する形にする
-        // パスワードが間違ってる、メールアドレスが存在する、は表示せずに通して、処理だけ実行しない方がセキュリティ的には良いかも？
-        if (isNotMatchPassword(userDetails.getUsername(), sendEditMailForm.getCurrentPassword()))
-            bindingResult.rejectValue("currentPassword", "error.editMailForm", "パスワードが一致しません");
-        if (isNotExistMailAddress(sendEditMailForm.getNewMailAddress()))
-            bindingResult.rejectValue("newMailAddress", "error.editMailForm", "メールアドレスが存在します。");
         if (bindingResult.hasErrors()) return "user/edit/mail/index";
 
-        this.sendEditMailService.execute(sendEditMailForm);
+        this.editMailAddressService.execute(editMailAddressForm);
 
-        redirectAttributes.addFlashAttribute("mailAddress", sendEditMailForm.getNewMailAddress());
+        redirectAttributes.addFlashAttribute("mailAddress", editMailAddressForm.getNewMailAddress());
         return "redirect:/user/edit/mail/send";
-    }
-
-    private boolean isNotMatchPassword(final String mailAddress, final String password) {
-        return !this.isMatchPasswordService.execute(mailAddress, password);
-    }
-
-    private boolean isNotExistMailAddress(final String mailAddress) {
-        return this.existMailAddressService.execute(mailAddress);
     }
 
     @GetMapping("/send")

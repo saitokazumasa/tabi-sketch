@@ -29,7 +29,7 @@ public class SendMailServiceTest {
     }
 
     private static Stream<Mail> sampleMail() {
-        final var mail = Mail.generateRegisterMail("sample@example.com", UUID.randomUUID());
+        final var mail = Mail.registrationMail("sample@example.com", UUID.randomUUID());
         return Stream.of(mail);
     }
 }
