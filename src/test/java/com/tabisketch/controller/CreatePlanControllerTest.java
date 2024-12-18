@@ -1,6 +1,5 @@
 package com.tabisketch.controller;
 
-import com.tabisketch.bean.form.CreatePlanForm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,13 +17,12 @@ public class CreatePlanControllerTest {
     @Test
     @WithMockUser
     public void testGet() throws Exception {
-        final var createPlanForm = CreatePlanForm.empty();
-        createPlanForm.setUserMailAddress(currentUserMailAddress());
+        final String mailAddress = currentUserMailAddress();
 
         mockMvc.perform(MockMvcRequestBuilders.get("/plan/create"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().attributeExists("createPlanForm"))
-                .andExpect(MockMvcResultMatchers.model().attribute("createPlanForm", createPlanForm))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("mailAddress"))
+                .andExpect(MockMvcResultMatchers.model().attribute("mailAddress", mailAddress))
                 .andExpect(MockMvcResultMatchers.view().name("plan/create"));
     }
 

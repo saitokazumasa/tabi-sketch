@@ -1,6 +1,5 @@
 package com.tabisketch.controller;
 
-import com.tabisketch.bean.form.CreatePlanForm;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +14,7 @@ public class CreatePlanController {
             final @AuthenticationPrincipal(expression = "username") String mailAddress,
             final Model model
     ) {
-        final var createPlanForm = CreatePlanForm.empty();
-        createPlanForm.setUserMailAddress(mailAddress);
-        model.addAttribute("createPlanForm", createPlanForm);
+        model.addAttribute("mailAddress", mailAddress);
         return "plan/create";
     }
 }
