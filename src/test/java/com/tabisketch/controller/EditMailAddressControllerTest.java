@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,7 +24,7 @@ public class EditMailAddressControllerTest {
     @WithMockUser(username = "sample@example.com")
     public void testGet() throws Exception {
         final var editMailAddressForm = EditMailAddressForm.empty();
-        editMailAddressForm.setCurrentMailAddress("sample@example.com");
+        editMailAddressForm.setCurrentMailAddress(currentUserMailAddress());
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/user/edit/mail"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -36,7 +37,7 @@ public class EditMailAddressControllerTest {
     @WithMockUser(username = "sample@example.com", password = "$2a$10$G7Emd1ALL6ibttkgRZtBZeX6Qps6lgEGKq.njouwtiuE4uvjD2YMO")
     public void testPost() throws Exception {
         final var editMailAddressForm = new EditMailAddressForm(
-                "sample@example.com",
+                currentUserMailAddress(),
                 "sample2@example.com",
                 "password"
         );
@@ -60,5 +61,12 @@ public class EditMailAddressControllerTest {
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("user/edit/mail/send"));
+    }
+
+    private static String currentUserMailAddress() {
+        return SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
     }
 }

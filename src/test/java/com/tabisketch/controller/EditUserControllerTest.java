@@ -20,11 +20,11 @@ public class EditUserControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/user/edit"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("mailAddress"))
-                .andExpect(MockMvcResultMatchers.model().attribute("mailAddress", currentMail()))
+                .andExpect(MockMvcResultMatchers.model().attribute("mailAddress", currentUserMailAddress()))
                 .andExpect(MockMvcResultMatchers.view().name("user/edit/index"));
     }
 
-    private static String currentMail() {
+    private static String currentUserMailAddress() {
         return SecurityContextHolder
                 .getContext()
                 .getAuthentication()
