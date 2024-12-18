@@ -28,7 +28,7 @@ public class DaysMapperTest {
                 1,
                 "0000"
         );
-        this.daysMapper.insert(day);
+        assert this.daysMapper.insert(day) == 1;
         assert day.getId() != -1;
     }
 
@@ -53,6 +53,6 @@ public class DaysMapperTest {
     })
     public void testDelete() {
         final var uuid = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
-        this.daysMapper.deleteByPlanUUID(uuid);
+        assert this.daysMapper.deleteByPlanUUID(uuid) == 1;
     }
 }

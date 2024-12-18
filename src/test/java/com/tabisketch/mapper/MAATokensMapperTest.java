@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @MybatisTest
@@ -20,7 +19,7 @@ public class MAATokensMapperTest {
     @Sql("classpath:/sql/CreateUser.sql")
     public void testInsert() {
         final var maaToken = MAAToken.generate(1);
-        this.maaTokensMapper.insert(maaToken);
+        assert this.maaTokensMapper.insert(maaToken) == 1;
         assert maaToken.getId() != -1;
     }
 
@@ -31,7 +30,7 @@ public class MAATokensMapperTest {
     })
     public void testSelect() {
         final var token = UUID.fromString("a2e69add-9d95-4cf1-a59b-cedbb95dcd6b");
-        assert  this.maaTokensMapper.selectByToken(token) != null;
+        assert this.maaTokensMapper.selectByToken(token) != null;
     }
 
     @Test
@@ -41,6 +40,6 @@ public class MAATokensMapperTest {
     })
     public void testDelete() {
         final int id = 1;
-        this.maaTokensMapper.delete(id);
+        assert this.maaTokensMapper.delete(id) == 1;
     }
 }

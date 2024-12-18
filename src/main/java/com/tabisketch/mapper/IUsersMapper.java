@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 public interface IUsersMapper {
     @Insert("INSERT INTO users (mail_address, password) VALUES (#{mailAddress}, #{password})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void insert(final User user);
+    int insert(final User user);
 
     @Select("SELECT * FROM users WHERE id = #{id}")
     User selectById(final int id);
@@ -20,5 +20,5 @@ public interface IUsersMapper {
             "       password = #{password}, " +
             "       is_mail_address_authenticated = #{isMailAddressAuthenticated} " +
             "   WHERE id = #{id}")
-    void update(final User user);
+    int update(final User user);
 }

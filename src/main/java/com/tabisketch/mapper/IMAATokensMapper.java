@@ -9,11 +9,11 @@ import java.util.UUID;
 public interface IMAATokensMapper {
     @Insert("INSERT INTO maa_tokens (user_id, new_mail_address) VALUES (#{userId}, #{newMailAddress})")
     @Options(useGeneratedKeys = true, keyProperty = "id,token")
-    void insert(final MAAToken maaToken);
+    int insert(final MAAToken maaToken);
 
     @Select("SELECT * FROM maa_tokens WHERE token = #{token}")
     MAAToken selectByToken(final UUID token);
 
     @Delete("DELETE FROM maa_tokens WHERE id = #{id}")
-    void delete(final int id);
+    int delete(final int id);
 }

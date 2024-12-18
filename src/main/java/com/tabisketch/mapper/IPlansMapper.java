@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface IPlansMapper {
     @Insert("INSERT INTO plans (title, user_id) VALUES (#{title}, #{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "id,uuid")
-    void insert(final Plan plan);
+    int insert(final Plan plan);
 
     @Select("SELECT * FROM plans WHERE user_id = #{userId}")
     List<Plan> selectByUserId(final int userId);
@@ -31,8 +31,8 @@ public interface IPlansMapper {
     @Update("UPDATE plans " +
             "   SET title = #{title}, is_editable = #{isEditable}, is_public = #{isPublic} " +
             "   WHERE id = #{id}")
-    void update(final Plan plan);
+    int update(final Plan plan);
 
     @Delete("DELETE FROM plans WHERE uuid = #{uuid}")
-    void deleteByUUID(final UUID uuid);
+    int deleteByUUID(final UUID uuid);
 }

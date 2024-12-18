@@ -20,7 +20,8 @@ public class PlansMapperTest {
     public void testInsert() {
         final var plan = Plan.generate("", 1);
         final UUID beforeUUID = plan.getUuid();
-        this.plansMapper.insert(plan);
+
+        assert this.plansMapper.insert(plan) == 1;
         assert plan.getId() != -1;
         assert plan.getUuid() != beforeUUID;
     }
@@ -60,7 +61,7 @@ public class PlansMapperTest {
                 false,
                 true
         );
-        this.plansMapper.update(plan);
+        assert this.plansMapper.update(plan) == 1;
     }
 
     @Test
@@ -70,6 +71,6 @@ public class PlansMapperTest {
     })
     public void testDelete() {
         final var uuid = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
-        this.plansMapper.deleteByUUID(uuid);
+        assert this.plansMapper.deleteByUUID(uuid) == 1;
     }
 }

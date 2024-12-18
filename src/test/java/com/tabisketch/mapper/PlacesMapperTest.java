@@ -36,7 +36,7 @@ public class PlacesMapperTest {
                 null,
                 null
         );
-        this.placesMapper.insert(place);
+        assert this.placesMapper.insert(place) == 1;
         assert place.getId() != -1;
     }
 
@@ -65,6 +65,6 @@ public class PlacesMapperTest {
     })
     public void testDelete() {
         final var uuid = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
-        this.placesMapper.deleteByPlanUUID(uuid);
+        assert this.placesMapper.deleteByPlanUUID(uuid) >= 1;
     }
 }

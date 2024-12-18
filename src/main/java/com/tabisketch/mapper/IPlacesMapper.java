@@ -19,7 +19,7 @@ public interface IPlacesMapper {
             "   #{desiredStartTime}, #{desiredEndTime}, " +
             "   #{toPolyLine}, #{toTravelTime}, #{toTransportation})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void insert(final Place place);
+    int insert(final Place place);
 
     @Select("SELECT * FROM places WHERE day_id = #{dayId}")
     List<Place> selectByDayId(final int dayId);
@@ -29,5 +29,5 @@ public interface IPlacesMapper {
             "   WHERE places.day_id = days.id " +
             "   AND days.plan_id = plans.id " +
             "   AND plans.uuid = #{planUUID}")
-    void deleteByPlanUUID(final UUID planUUID);
+    int deleteByPlanUUID(final UUID planUUID);
 }
