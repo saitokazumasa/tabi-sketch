@@ -32,7 +32,7 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 sm:p-5">
-                        <form class="space-y-4 w-full" id="startPlaceForm">
+                        <div class="space-y-4 w-full">
                             <div>
                                 <label class="block mb-2" for="startPlace">出発地点<span class="ml-2 text-sm text-danger">必須</span></label>
                                 <input class="w-full input focus:ring-0" id="startPlace" name="startPlace" required type="text"/>
@@ -52,9 +52,9 @@
                                 </div>
                             </div>
                             <div class="flex justify-center">
-                                <button class="button-primary" type="submit">登録</button>
+                                <button class="button-primary" type="button" id="startPlaceSubmit">登録</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 sm:p-5">
-                        <form class="space-y-4 w-full" id="endPlaceForm">
+                        <div class="space-y-4 w-full">
                             <div>
                                 <label class="block mb-2" for="endPlace">終了地点<span class="ml-2 text-sm text-danger">必須</span></label>
                                 <input class="w-full input focus:ring-0" id="endPlace" name="endPlace" required type="text"/>
@@ -96,9 +96,9 @@
                             <input class="hidden" id="endLat" name="endLat" required type="text"/>
                             <input class="hidden" id="endLng" name="endLng" required type="text"/>
                             <div class="flex justify-center">
-                                <button class="button-primary" type="submit">登録</button>
+                                <button class="button-primary" type="button" id="endPlaceSubmit">登録</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -143,7 +143,7 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 sm:p-5">
-                        <form class="space-y-4 w-full" th:id="'placeForm' + ${num}">
+                        <div class="space-y-4 w-full">
                             <input class="hidden" required th:id="'placeId' + ${num}" th:name="'placeId' + ${num}" type="text"/>
                             <input class="hidden" required th:id="'placeLat' + ${num}" th:name="'placeLat' + ${num}" type="text"/>
                             <input class="hidden" required th:id="'placeLng' + ${num}" th:name="'placeLng' + ${num}" type="text"/>
@@ -191,9 +191,9 @@
                                 </div>
                             </div>
                             <div class="flex justify-center">
-                                <button class="button-primary" th:id="'placesSubmit' + ${num}" type="submit">追加</button>
+                                <button class="button-primary" th:id="'placesSubmit' + ${num}" type="button">追加</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
