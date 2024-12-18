@@ -1,5 +1,6 @@
 package com.tabisketch.service;
 
+import com.tabisketch.exception.DeleteFailedException;
 import com.tabisketch.mapper.IDaysMapper;
 import com.tabisketch.mapper.IPlacesMapper;
 import com.tabisketch.mapper.IPlansMapper;
@@ -26,7 +27,7 @@ public class DeletePlanServiceTest {
     private IDeletePlanService deletePlanService;
 
     @Test
-    public void testExecute() {
+    public void testExecute() throws DeleteFailedException {
         when(this.plansMapper.deleteByUUID(any())).thenReturn(1);
 
         final var uuid = UUID.randomUUID().toString();

@@ -1,6 +1,7 @@
 package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.EditMailAddressForm;
+import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.service.IEditMailAddressService;
 import jakarta.mail.MessagingException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,7 +37,7 @@ public class EditMailAddressController {
             final @Validated EditMailAddressForm editMailAddressForm,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-    ) throws MessagingException {
+    ) throws MessagingException, InsertFailedException {
         if (bindingResult.hasErrors()) return "user/edit/mail/index";
 
         this.editMailAddressService.execute(editMailAddressForm);

@@ -2,6 +2,8 @@ package com.tabisketch.service;
 
 import com.tabisketch.bean.entity.MAAToken;
 import com.tabisketch.bean.entity.User;
+import com.tabisketch.exception.DeleteFailedException;
+import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import org.junit.jupiter.api.Test;
@@ -23,7 +25,7 @@ public class AuthMailAddressServiceTest {
     private IAuthMailAddressService authMailAddressService;
 
     @Test
-    public void testExecute() {
+    public void testExecute() throws DeleteFailedException, UpdateFailedException {
         final var maaToken = MAAToken.generate(1, "sample2@example.com");
         final var user = new User(1, "", "", false);
 

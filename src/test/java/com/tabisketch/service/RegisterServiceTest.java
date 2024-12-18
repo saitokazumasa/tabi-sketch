@@ -1,6 +1,7 @@
 package com.tabisketch.service;
 
 import com.tabisketch.bean.form.RegisterForm;
+import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import jakarta.mail.MessagingException;
@@ -25,7 +26,7 @@ public class RegisterServiceTest {
     private IRegisterService registerService;
 
     @Test
-    public void testExecute() throws MessagingException {
+    public void testExecute() throws MessagingException, InsertFailedException {
         when(this.usersMapper.insert(any())).thenReturn(1);
         when(this.maaTokensMapper.insert(any())).thenReturn(1);
 
