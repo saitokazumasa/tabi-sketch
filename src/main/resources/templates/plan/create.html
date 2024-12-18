@@ -11,7 +11,7 @@
                 onclick="closePopup()">
             <div
                     class="relative w-4/5 h-4/5 bg-white shadow-lg rounded-md"
-                    onclick="event.stopPropagation()">
+                    onclick="Event.stopPropagation()">
                 <div id="sp-map" class="w-full h-full p-4">
                 </div>
             </div>
@@ -26,7 +26,7 @@
             <div class="flex">
                 <span class="inline-block h-12 w-12 my-auto ml-8"></span>
                 <div class="sm:border-b-2 border-b w-1/2 text-center mx-auto my-10">
-                    <input type="text" placeholder="タイトルを入力してください" class="w-full sm:text-3xl text-xl text-center" style="border: none">
+                    <input type="text" placeholder="タイトルを入力してください" th:field="*{title}" class="w-full sm:text-3xl text-xl text-center" style="border: none">
                 </div>
                 <button onclick="openPopup()" class="sm:hidden inline-block h-12 w-12 my-auto mr-8 cursor-pointer">
                     <th:block th:replace="~{fragment/svg :: map}"/>
@@ -36,7 +36,7 @@
         <div class="mx-10 flex">
             <section class="sm:w-1/2 w-full">
                 <h1 class="sm:text-4xl text-2xl border-b">
-                    <span>1</span>日目
+                    <span th:field="*{day}"></span>日目
                 </h1>
                 <div class="flex flex-col mt-6 mb-10">
                     <div class="mb-6">
@@ -61,14 +61,11 @@
                             <div class="sm:text-lg text-base -m-4 -mt-2 p-4">
                                 目的地のジャンル別に絞る
                                 <!-- TODO:正規のジャンル一覧はDBから取得する -->
-                                <select class="focus:outline-none ml-6 rounded-xl h-8 text-xs" name="sample">
-                                    <option value="0">全て</option>
-                                    <option value="1">観光</option>
-                                    <option value="2">グルメ</option>
-                                    <option value="3">ショッピング</option>
-                                    <option value="4">アクティビティ</option>
-                                    <option value="5">宿泊</option>
-                                    <option value="6">その他</option>
+                                <select class="focus:outline-none ml-6 rounded-xl h-8 text-xs" name="genre">
+                                    <option value="">ジャンルを選択</option>
+                                    <th:block th:each="genre : ${genres}">
+                                        <option th:value="${genre.id}" th:text="${genre.name}"></option>
+                                    </th:block>
                                 </select>
                             </div>
                             <p class="sm:text-lg text-base text-danger my-4">先に出発地点、終了地点、目的のどれかを入力してください。</p>
@@ -82,7 +79,7 @@
                             <hr class="my-2 scale-x-150"/>
                             <div class="sm:text-lg text-base -m-4 -mt-2 p-4 flex flex-col">
                                 利用する交通手段
-                                <!-- TODO:交通手段のsvgアイコンを追加する -->
+                                <th:block th:replace="~{fragment/svg :: three-transportation}" />
                                 <div class="my-1 sm:text-base text-sm">
                                     <label for="useHighway">
                                         <input type="checkbox" id="useHighway" name="useHighway" value="useHighway" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-5 before:w-5 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-700 checked:bg-blue-700 checked:before:bg-blue-700 hover:before:opacity-10">
@@ -124,5 +121,6 @@
 <th:block th:replace="~{fragment/script :: map}"/>
 <th:block th:replace="~{fragment/script :: modal}"/>
 <th:block th:replace="~{fragment/script :: check}"/>
+<th:block th:replace="~{fragment/script :: svgCheckbox}"/>
 </body>
 </html>
