@@ -9,7 +9,7 @@ import com.tabisketch.mapper.IUsersMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
@@ -17,9 +17,9 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class AuthMailAddressServiceTest {
-    @MockBean
+    @MockitoBean
     private IMAATokensMapper maaTokensMapper;
-    @MockBean
+    @MockitoBean
     private IUsersMapper usersMapper;
     @Autowired
     private IAuthMailAddressService authMailAddressService;
