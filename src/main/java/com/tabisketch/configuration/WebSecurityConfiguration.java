@@ -35,7 +35,7 @@ public class WebSecurityConfiguration {
                         .usernameParameter("mailAddress")
                         .permitAll()
                 ).logout(a -> a
-                        .logoutUrl("/logout/**")
+                        .logoutUrl("/logout")
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login")
                         .permitAll()
