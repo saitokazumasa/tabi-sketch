@@ -17,7 +17,6 @@ public class AuthMailAddressController {
 
     @GetMapping
     public String get(final @PathVariable String token) {
-        // NOTE: メール認証が完了したかどうかを画面に表示する場合はリターン値を使う
         this.authMailAddressService.execute(token);
         return "mail/confirm";
     }
