@@ -8,14 +8,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootTest
 public class EncryptPasswordServiceTest {
     @Autowired
-    private IEncryptPasswordService encryptPasswordService;
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Test
     public void testExecute() {
         final String password = "password";
-        final String encryptedPassword = this.encryptPasswordService.execute(password);
+        final String encryptedPassword = passwordEncoder.encode(password);
         assert passwordEncoder.matches(password, encryptedPassword);
     }
 }

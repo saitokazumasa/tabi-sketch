@@ -10,32 +10,33 @@ import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.IRegisterService;
 import com.tabisketch.service.ISendMailService;
 import jakarta.mail.MessagingException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegisterService implements IRegisterService {
     private final IUsersMapper usersMapper;
-    private final IEncryptPasswordService encryptPasswordService;
     private final IMAATokensMapper maaTokensMapper;
     private final ISendMailService sendMailService;
+    private final PasswordEncoder passwordEncoder;
 
     public RegisterService(
             final IUsersMapper usersMapper,
-            final IEncryptPasswordService encryptPasswordService,
             final IMAATokensMapper maaTokensMapper,
-            final ISendMailService sendMailService
+            final ISendMailService sendMailService,
+            final PasswordEncoder passwordEncoder
     ) {
         this.usersMapper = usersMapper;
-        this.encryptPasswordService = encryptPasswordService;
         this.maaTokensMapper = maaTokensMapper;
         this.sendMailService = sendMailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     @Transactional
-    public void execute(final RegisterForm registerForm) throws MessagingException {
-        final String encryptedPassword = this.encryptPasswordService.execute(registerForm.getPassword());
+    public void execute(final RegisterForm registerForm) throws InsertFailedException, MessagingException {
+        final String encryptedPassword = this.passwordEncoder.encode(registerForm.getPassword());
         final var user = User.generate(registerForm.getMailAddress(), encryptedPassword);
         final int userInsertResult = this.usersMapper.insert(user);
 
