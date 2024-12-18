@@ -6,12 +6,16 @@
 </head>
 <body>
 <th:block th:fragment="googleMapsAPI">
-    <!-- TODO:callbackが2つになったため、modalのautoCompleteが動かないので動くように修正する必要あり-->
     <script
-        th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapsApiKey} + '&callback=initializeMaps&libraries=places&v=weekly'"
+        th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapsApiKey} + '&callback=initialize&libraries=places&v=weekly'"
         async
         defer
-    >
+    ></script>
+    <script>
+        function initialize() {
+            initAutoComplete();
+            initializeMaps();
+        }
     </script>
 </th:block>
 
