@@ -31,6 +31,7 @@ public class DeletePlanService implements IDeletePlanService {
     public void execute(final String planUUID) throws DeleteFailedException {
         final var uuid = UUID.fromString(planUUID);
 
+        // NOTE: Place, Dayは0の場合があるため、結果の検証を行わない
         this.placesMapper.deleteByPlanUUID(uuid);
         this.daysMapper.deleteByPlanUUID(uuid);
         final int deleteResult = this.plansMapper.deleteByUUID(uuid);
