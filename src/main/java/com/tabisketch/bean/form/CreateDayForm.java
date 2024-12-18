@@ -1,6 +1,7 @@
 package com.tabisketch.bean.form;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,9 @@ public class CreateDayForm {
     @Size(min = 4, max = 4)
     private String preferTransportationListBinary;
 
-    private boolean isUseTollRoad;
-    private boolean isUseFerry;
+    @NotNull
+    private boolean useTollRoad;
+
+    @NotNull
+    private boolean useFerry;
 }
