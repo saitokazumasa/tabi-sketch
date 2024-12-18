@@ -36,7 +36,7 @@ public class CreatePlanAPIControllerTest {
         final String responseJson = this.objectMapper.writeValueAsString(CreatePlanResponse.success(planId));
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/plan/create")
+                        .post("/api/create-plan")
                         .flashAttr("createPlanForm", createPlanForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().isOk())
