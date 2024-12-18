@@ -7,7 +7,7 @@ import com.tabisketch.mapper.IPlansMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.UUID;
 
@@ -17,11 +17,11 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class DeletePlanServiceTest {
-    @MockBean
+    @MockitoBean
     private IPlansMapper plansMapper;
-    @MockBean
+    @MockitoBean
     private IDaysMapper daysMapper;
-    @MockBean
+    @MockitoBean
     private IPlacesMapper placesMapper;
     @Autowired
     private IDeletePlanService deletePlanService;
