@@ -26,7 +26,7 @@ public class CreatePlanAPIController {
     ) throws InsertFailedException {
         if (bindingResult.hasErrors()) return CreatePlanResponse.failed();
 
-        this.createPlanService.execute(createPlanForm);
-        return CreatePlanResponse.success();
+        final int planId = this.createPlanService.execute(createPlanForm);
+        return CreatePlanResponse.success(planId);
     }
 }

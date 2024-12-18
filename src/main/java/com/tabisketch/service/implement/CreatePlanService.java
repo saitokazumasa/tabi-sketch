@@ -23,11 +23,13 @@ public class CreatePlanService implements ICreatePlanService {
     }
 
     @Override
-    public void execute(final CreatePlanForm createPlanForm) throws InsertFailedException {
+    public int execute(final CreatePlanForm createPlanForm) throws InsertFailedException {
         final User user = this.usersMapper.selectByMailAddress(createPlanForm.getUserMailAddress());
 
         final var plan = Plan.generate(createPlanForm.getTitle(), user.getId());
         final int result = this.plansMapper.insert(plan);
         if (result != 1) throw new InsertFailedException("Planの追加に失敗しました。");
+
+        return plan.getId();
     }
 }

@@ -4,5 +4,6 @@ import com.tabisketch.bean.form.CreatePlanForm;
 import com.tabisketch.exception.InsertFailedException;
 
 public interface ICreatePlanService {
-    void execute(final CreatePlanForm createPlanForm) throws InsertFailedException;
+    /** @return 作成したPlanのID */
+    int execute(final CreatePlanForm createPlanForm) throws InsertFailedException;
 }

@@ -14,6 +14,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 @WebMvcTest(CreatePlanAPIController.class)
 public class CreatePlanAPIControllerTest {
     @Autowired
@@ -21,13 +24,16 @@ public class CreatePlanAPIControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     @MockitoBean
-    private ICreatePlanService __; // DIで使用
+    private ICreatePlanService createPlanService;
 
     @Test
     @WithMockUser
     public void testPost() throws Exception {
+        final int planId = 1;
+        when(this.createPlanService.execute(any())).thenReturn(planId);
+
         final var createPlanForm = new CreatePlanForm("title", "sample@example.com");
-        final String responseJson = this.objectMapper.writeValueAsString(CreatePlanResponse.success());
+        final String responseJson = this.objectMapper.writeValueAsString(CreatePlanResponse.success(planId));
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/plan/create")

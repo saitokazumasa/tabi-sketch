@@ -10,16 +10,18 @@ public class CreatePlanResponse {
     }
 
     private final String status;
+    private final int planId;
 
-    private CreatePlanResponse(final String status) {
+    private CreatePlanResponse(final String status, final int planId) {
         this.status = status;
+        this.planId = planId;
     }
 
-    public static CreatePlanResponse success() {
-        return new CreatePlanResponse(Status.SUCCESS.toString());
+    public static CreatePlanResponse success(final int planId) {
+        return new CreatePlanResponse(Status.SUCCESS.toString(), planId);
     }
 
     public static CreatePlanResponse failed() {
-        return new CreatePlanResponse(Status.FAILED.toString());
+        return new CreatePlanResponse(Status.FAILED.toString(), -1);
     }
 }
