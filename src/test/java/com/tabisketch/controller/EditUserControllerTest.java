@@ -17,10 +17,11 @@ public class EditUserControllerTest {
     @Test
     @WithMockUser(username = "sample@example.com")
     public void testGet() throws Exception {
+        final String mailAddress = currentUserMailAddress();
         this.mockMvc.perform(MockMvcRequestBuilders.get("/user/edit"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("mailAddress"))
-                .andExpect(MockMvcResultMatchers.model().attribute("mailAddress", currentUserMailAddress()))
+                .andExpect(MockMvcResultMatchers.model().attribute("mailAddress", mailAddress))
                 .andExpect(MockMvcResultMatchers.view().name("user/edit/index"));
     }
 

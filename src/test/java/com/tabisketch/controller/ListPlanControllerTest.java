@@ -24,8 +24,8 @@ public class ListPlanControllerTest {
     private IListPlanService listPlanService;
 
     @Test
-    @WithMockUser(username = "sample@example.com")
-    public void getが動作するか() throws Exception {
+    @WithMockUser
+    public void testGet() throws Exception {
         when(listPlanService.execute(any())).thenReturn(new ArrayList<>());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/plan/list"))
