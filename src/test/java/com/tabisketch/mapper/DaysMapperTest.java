@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.UUID;
+import java.util.stream.Stream;
+
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class DaysMapperTest {
@@ -40,5 +43,16 @@ public class DaysMapperTest {
         final var dayList = this.daysMapper.selectByPlanId(planId);
         assert dayList != null;
         assert !dayList.isEmpty();
+    }
+
+    @Test
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql",
+            "classpath:/sql/CreateDay.sql",
+    })
+    public void testDelete() {
+        final var uuid = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
+        this.daysMapper.deleteByPlanUUID(uuid);
     }
 }

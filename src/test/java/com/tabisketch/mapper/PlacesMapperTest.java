@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalTime;
+import java.util.UUID;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -52,5 +53,18 @@ public class PlacesMapperTest {
         final var placeList = this.placesMapper.selectByDayId(dayId);
         assert placeList != null;
         assert !placeList.isEmpty();
+    }
+
+    @Test
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql",
+            "classpath:/sql/CreateDay.sql",
+            "classpath:/sql/CreateGooglePlace.sql",
+            "classpath:/sql/CreatePlace.sql"
+    })
+    public void testDelete() {
+        final var uuid = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
+        this.placesMapper.deleteByPlanUUID(uuid);
     }
 }

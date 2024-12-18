@@ -40,5 +40,36 @@ public class PlansMapperTest {
         final var planList2 = this.plansMapper.selectByMailAddress(mailAddress);
         assert planList2 != null;
         assert !planList2.isEmpty();
+
+        final var uuid = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
+        final var plan = this.plansMapper.selectByUUID(uuid);
+        assert plan != null;
+    }
+
+    @Test
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql"
+    })
+    public void testUpdate() {
+        final var plan = new Plan(
+                1,
+                UUID.randomUUID(),
+                "example",
+                1,
+                false,
+                true
+        );
+        this.plansMapper.update(plan);
+    }
+
+    @Test
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql"
+    })
+    public void testDelete() {
+        final var uuid = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
+        this.plansMapper.deleteByUUID(uuid);
     }
 }
