@@ -1,8 +1,10 @@
 package com.tabisketch.controller;
 
+import com.tabisketch.bean.form.CreatePlanForm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -16,8 +18,20 @@ public class CreatePlanControllerTest {
     @Test
     @WithMockUser
     public void testGet() throws Exception {
+        final var createPlanForm = CreatePlanForm.empty();
+        createPlanForm.setUserMailAddress(currentUserMailAddress());
+
         mockMvc.perform(MockMvcRequestBuilders.get("/plan/create"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("createPlanForm"))
+                .andExpect(MockMvcResultMatchers.model().attribute("createPlanForm", createPlanForm))
                 .andExpect(MockMvcResultMatchers.view().name("plan/create"));
+    }
+
+    private static String currentUserMailAddress() {
+        return SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
     }
 }
