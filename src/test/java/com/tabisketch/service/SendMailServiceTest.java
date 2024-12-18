@@ -24,10 +24,10 @@ public class SendMailServiceTest {
     public void testExist() throws MessagingException {
         final String mailAddress = "sample@example.com";
 
-        final var registrationMail = Mail.registrationMail(mailAddress, UUID.randomUUID());
+        final Mail registrationMail = Mail.registrationMail(mailAddress, UUID.randomUUID());
         this.sendMailService.execute(registrationMail);
 
-        final var mailAddressEditMail = Mail.mailAddressEditMail(mailAddress, UUID.randomUUID());
+        final Mail mailAddressEditMail = Mail.mailAddressEditMail(mailAddress, UUID.randomUUID());
         this.sendMailService.execute(mailAddressEditMail);
     }
 }
