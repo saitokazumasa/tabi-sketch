@@ -9,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,6 +29,8 @@ public class AuthMailAddressServiceTest {
 
         when(this.maaTokensMapper.selectByToken(any())).thenReturn(maaToken);
         when(this.usersMapper.selectById(anyInt())).thenReturn(user);
+        when(this.usersMapper.update(any())).thenReturn(1);
+        when(this.maaTokensMapper.delete(anyInt())).thenReturn(1);
 
         this.authMailAddressService.execute(maaToken.getToken().toString());
 

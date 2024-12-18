@@ -3,6 +3,7 @@ package com.tabisketch.service.implement;
 import com.tabisketch.bean.entity.MAAToken;
 import com.tabisketch.bean.entity.User;
 import com.tabisketch.bean.form.EditMailAddressForm;
+import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.IEditMailAddressService;
@@ -34,13 +35,16 @@ public class EditMailAddressService implements IEditMailAddressService {
 
     @Override
     @Transactional
-    public void execute(final EditMailAddressForm editMailAddressForm) throws MessagingException {
+    public void execute(final EditMailAddressForm editMailAddressForm) throws InsertFailedException, MessagingException {
         final User user = this.usersMapper.selectByMailAddress(editMailAddressForm.getCurrentMailAddress());
+
         if (existMailAddress(editMailAddressForm.getNewMailAddress())) return;
         if (isNotMatchPassword(editMailAddressForm.getCurrentPassword(), user.getPassword())) return;
 
         final var maaToken = MAAToken.generate(user.getId(), editMailAddressForm.getNewMailAddress());
-        this.maaTokensMapper.insert(maaToken);
+        final int insertResult = this.maaTokensMapper.insert(maaToken);
+
+        if (insertResult != 1) throw new InsertFailedException("MAATokenの追加に失敗しました。");
 
         final var mail = Mail.mailAddressEditMail(maaToken.getNewMailAddress(), maaToken.getToken());
         this.sendMailService.execute(mail);

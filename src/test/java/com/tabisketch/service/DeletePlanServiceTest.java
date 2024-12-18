@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class DeletePlanServiceTest {
@@ -26,6 +27,8 @@ public class DeletePlanServiceTest {
 
     @Test
     public void testExecute() {
+        when(this.plansMapper.deleteByUUID(any())).thenReturn(1);
+
         final var uuid = UUID.randomUUID().toString();
 
         this.deletePlanService.execute(uuid);

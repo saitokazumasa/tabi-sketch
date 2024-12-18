@@ -39,6 +39,7 @@ public class EditMailAddressServiceTest {
 
         when(this.usersMapper.selectByMailAddress(editMailAddressForm.getCurrentMailAddress())).thenReturn(user);
         when(this.usersMapper.selectByMailAddress(editMailAddressForm.getNewMailAddress())).thenReturn(null);
+        when(this.maaTokensMapper.insert(any())).thenReturn(1);
 
         this.editMailAddressService.execute(editMailAddressForm);
 

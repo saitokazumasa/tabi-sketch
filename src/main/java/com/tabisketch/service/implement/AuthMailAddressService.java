@@ -2,6 +2,8 @@ package com.tabisketch.service.implement;
 
 import com.tabisketch.bean.entity.MAAToken;
 import com.tabisketch.bean.entity.User;
+import com.tabisketch.exception.DeleteFailedException;
+import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.IAuthMailAddressService;
@@ -26,7 +28,7 @@ public class AuthMailAddressService implements IAuthMailAddressService {
 
     @Override
     @Transactional
-    public void execute(final String maaTokenStr) {
+    public void execute(final String maaTokenStr) throws UpdateFailedException, DeleteFailedException {
         final var token = UUID.fromString(maaTokenStr);
         final MAAToken maaToken = this.maaTokensMapper.selectByToken(token);
         final User user = this.usersMapper.selectById(maaToken.getUserId());
@@ -46,7 +48,10 @@ public class AuthMailAddressService implements IAuthMailAddressService {
                         true
                 );
 
-        this.usersMapper.update(newUser);
-        this.maaTokensMapper.delete(maaToken.getId());
+        final int updateResult = this.usersMapper.update(newUser);
+        final int deleteResult = this.maaTokensMapper.delete(maaToken.getId());
+
+        if (updateResult != 1) throw new UpdateFailedException("Userの更新に失敗しました。");
+        if (deleteResult != 1) throw new DeleteFailedException("MAATokenの削除に失敗しました。");
     }
 }
