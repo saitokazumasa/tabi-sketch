@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -31,5 +32,7 @@ public class CreateDayServiceTest {
                 true
         );
         this.createDayService.execute(createDayForm);
+
+        verify(this.daysMapper).insert(any());
     }
 }
