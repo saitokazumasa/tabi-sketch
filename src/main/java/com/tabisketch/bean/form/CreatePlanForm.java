@@ -14,11 +14,4 @@ public class CreatePlanForm {
     @Email
     @NotBlank
     private String userMailAddress;
-
-    public static CreatePlanForm empty() {
-        return new CreatePlanForm(
-                "",
-                ""
-        );
-    }
 }
