@@ -1,6 +1,6 @@
 package com.tabisketch.controller;
 
-import com.tabisketch.bean.Result.CreatePlanResult;
+import com.tabisketch.bean.response.CreatePlanResponse;
 import com.tabisketch.bean.form.CreatePlanForm;
 import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.service.ICreatePlanService;
@@ -20,13 +20,13 @@ public class CreatePlanAPIController {
     }
 
     @PostMapping
-    public CreatePlanResult post(
+    public CreatePlanResponse post(
             final @Validated CreatePlanForm createPlanForm,
             final BindingResult bindingResult
     ) throws InsertFailedException {
-        if (bindingResult.hasErrors()) return CreatePlanResult.failed();
+        if (bindingResult.hasErrors()) return CreatePlanResponse.failed();
 
         this.createPlanService.execute(createPlanForm);
-        return CreatePlanResult.success();
+        return CreatePlanResponse.success();
     }
 }

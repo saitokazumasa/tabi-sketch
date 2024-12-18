@@ -1,7 +1,7 @@
 package com.tabisketch.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tabisketch.bean.Result.CreatePlanResult;
+import com.tabisketch.bean.response.CreatePlanResponse;
 import com.tabisketch.bean.form.CreatePlanForm;
 import com.tabisketch.service.ICreatePlanService;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ public class CreatePlanAPIControllerTest {
     @WithMockUser
     public void testPost() throws Exception {
         final var createPlanForm = new CreatePlanForm("title", "sample@example.com");
-        final String responseJson = this.objectMapper.writeValueAsString(CreatePlanResult.success());
+        final String responseJson = this.objectMapper.writeValueAsString(CreatePlanResponse.success());
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/plan/create")
