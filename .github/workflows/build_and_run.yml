@@ -31,6 +31,8 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 5432:5432
     
     steps:
       - name: Checkout code
@@ -48,10 +50,10 @@ jobs:
         run: chmod +x .run/bin/CreateTables.sh
 
       - name: Initialize database
-        env:
-          PGDATABASE: ${{ env.POSTGRES_DB }}
-          PGUSER: ${{ env.POSTGRES_USER }}
-          PGPASSWORD: ${{ env.POSTGRES_PASSWORD }}
+#        env:
+#          PGDATABASE: ${{ env.POSTGRES_DB }}
+#          PGUSER: ${{ env.POSTGRES_USER }}
+#          PGPASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: .run/bin/CreateTables.sh ${{ env.POSTGRES_USER }} ${{ env.POSTGRES_PASSWORD }} ${{ env.POSTGRES_DB }}
 
       - name: Build with Maven
