@@ -43,6 +43,8 @@ jobs:
           cache: maven
 
       - name: Initialize database
+        env:
+          PGPASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: .run/bin/CreateTables.sh ${{ env.POSTGRES_USER }} ${{ env.POSTGRES_PASSWORD }} ${{ env.POSTGRES_DB }}
 
       - name: Build with Maven
