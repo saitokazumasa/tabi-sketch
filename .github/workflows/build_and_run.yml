@@ -7,7 +7,13 @@ on:
     branches: [ "main" ]
 
 env:
-  POSTGRES_PASSWORD: "${{ secrets.POSTGRES_PASSWORD }}"
+  POSTGRES_USER: "postgres"
+  POSTGRES_PASSWORD: "password"
+  POSTGRES_DB: "tabisketch"
+
+#  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+#  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+#  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
 
 jobs:
   build:
@@ -17,9 +23,9 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -39,11 +45,11 @@ jobs:
           cache: maven
 
       - name: Initialize database
-        run: .run/bin/CreateTables.sh ${{ secrets.POSTGRES_USER }} ${{ secrets.POSTGRES_PASSWORD }} ${{ secrets.POSTGRES_DB }}
+        run: .run/bin/CreateTables.sh ${{ env.POSTGRES_USER }} ${{ env.POSTGRES_PASSWORD }} ${{ env.POSTGRES_DB }}
 
       - name: Build with Maven
         env:
-          DATABASE_URL: "jdbc:postgresql://localhost:5432/${{ secrets.POSTGRES_DB }}"
-          DATABASE_USERNAME: ${{ secrets.POSTGRES_USER }}
-          DATABASE_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          DATABASE_URL: "jdbc:postgresql://localhost:5432/${{ env.POSTGRES_DB }}"
+          DATABASE_USERNAME: ${{ env.POSTGRES_USER }}
+          DATABASE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: mvn --batch-mode --update-snapshots verify
