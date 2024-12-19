@@ -1,0 +1,49 @@
+name: Build And Run
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:${{ secrets.POSTGRES_PORT }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        architecture: x64
+        cache: maven
+        
+    - name: Initialize database
+      # run: SQL初期化シェルスクリプト
+
+    - name: Build with Maven
+      env:
+        DATABASE_URL: "jdbc:postgresql://localhost:${{ secret.POSTGRES_PORT }}/${{ secret.POSTGRES_DB }}"
+        DATABASE_USERNAME: ${{ secret.POSTGRES_USER }}
+        DATABASE_PASSWORD: ${{ secret.POSTGRES_PASSWORD }}
+      run: mvn --batch-mode --update-snapshots verify
+      # run: mvn -B package --file pom.xml
