@@ -45,7 +45,10 @@ jobs:
           cache: maven
 
       - name: Grant execute permission for scripts
-        run: chmod +rx .run/bin/CreateTables.sh
+        run: chmod +x .run/bin/CreateTables.sh
+
+      - name: Wait for PostgreSQL to be ready
+        run: sleep 15
 
       - name: Initialize database
         run: .run/bin/CreateTables.sh ${{ env.POSTGRES_USER }} ${{ env.POSTGRES_PASSWORD }} ${{ env.POSTGRES_DB }}
