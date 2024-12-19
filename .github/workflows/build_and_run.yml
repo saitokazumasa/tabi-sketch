@@ -24,6 +24,9 @@ jobs:
           --health-retries 5
     
     steps:
+      - name: Print environment variables
+        run: printenv | sort
+
       - name: Checkout code
         uses: actions/checkout@v4
 
