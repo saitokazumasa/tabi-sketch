@@ -63,4 +63,4 @@ jobs:
           DATABASE_URL: "jdbc:postgresql://localhost:5432/${{ env.POSTGRES_DB }}"
           DATABASE_USERNAME: ${{ env.POSTGRES_USER }}
           DATABASE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-        run: mvn --batch-mode --update-snapshots verify
+        run: ./mvnw package
