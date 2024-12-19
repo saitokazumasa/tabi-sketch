@@ -47,10 +47,11 @@ jobs:
       - name: Grant execute permission for scripts
         run: chmod +x .run/bin/CreateTables.sh
 
-      - name: Wait for PostgreSQL to be ready
-        run: sleep 15
-
       - name: Initialize database
+        env:
+          PGDATABASE: ${{ env.POSTGRES_DB }}
+          PGUSER: ${{ env.POSTGRES_USER }}
+          PGPASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: .run/bin/CreateTables.sh ${{ env.POSTGRES_USER }} ${{ env.POSTGRES_PASSWORD }} ${{ env.POSTGRES_DB }}
 
       - name: Build with Maven
