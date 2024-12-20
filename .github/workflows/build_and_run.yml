@@ -42,7 +42,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '22'
-          distribution: 'temurin'
+          distribution: 'corretto'
           architecture: x64
           cache: maven
 
@@ -66,4 +66,4 @@ jobs:
           DATABASE_URL: "jdbc:postgresql://localhost:5432/${{ env.POSTGRES_DB }}"
           DATABASE_USERNAME: ${{ env.POSTGRES_USER }}
           DATABASE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-        run: ./mvnw -e test
+        run: ./mvnw package
