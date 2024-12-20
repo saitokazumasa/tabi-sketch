@@ -14,6 +14,17 @@ public class Plan {
     private UUID uuid;
     private String title;
     private int userId;
-    private boolean isEditable;
-    private boolean isPublic;
+    private boolean editable;
+    private boolean publicAccessible;
+
+    public static Plan generate(final String title, final int userId) {
+        return new Plan(
+                -1,
+                UUID.randomUUID(),
+                title,
+                userId,
+                true,
+                false
+        );
+    }
 }

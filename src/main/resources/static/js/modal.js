@@ -387,25 +387,25 @@ class ModalElement {
     }
 }
 
-class ModalForm {
-    #startFormElement;
-    placeFormElements = [];
-    #endFormElement;
+class ModalSubmitButton {
+    #startBtnElement;
+    #placeBtnElement = [];
+    #endBtnElement;
 
     constructor() {
-        this.#startFormElement = document.getElementById('startPlaceForm');
+        this.#startBtnElement = document.getElementById('startPlaceSubmit');
         for (let i = 1; i <= placeNum.value(); i++) {
-            this.placeFormElements.push(document.getElementById(`placeForm${i}`));
+            this.#placeBtnElement.push(document.getElementById(`placesSubmit${i}`));
         }
-        this.#endFormElement = document.getElementById('endPlaceForm');
+        this.#endBtnElement = document.getElementById('endPlaceSubmit');
         this.initFormEvent();
     }
 
     initFormEvent() {
-        if (!this.#startFormElement || !this.placeFormElements || !this.#endFormElement) return;
-        this.#startFormElement.addEventListener('submit', (e) => this.#startFormSubmit(e) );
-        this.#endFormElement.addEventListener('submit', (e) => this.#endFormSubmit(e) );
-        this.placeFormElements.forEach((element) => element.addEventListener('submit', async(e) => await this.#placesFormSubmit(e)));
+        if (!this.#startBtnElement || !this.#placeBtnElement || !this.#endBtnElement) return;
+        this.#startBtnElement.addEventListener('click', (e) => this.#startFormSubmit(e) );
+        this.#endBtnElement.addEventListener('click', (e) => this.#endFormSubmit(e) );
+        this.#placeBtnElement.forEach((element) => element.addEventListener('click', async(e) => await this.#placesFormSubmit(e)));
     }
 
     /**
@@ -414,6 +414,13 @@ class ModalForm {
      */
     #startFormSubmit(e) {
         e.preventDefault();
+
+        // 値の検証（nullがあるか）
+        if (!this.#startFormCheck()) {
+            // エラーメッセージ表示
+            document.getElementById('startError').textContent = '出発地点・予定時間を正しく入力してください。';
+            return;
+        }
 
         sessionStorageList.setStartPlace();
 
@@ -425,11 +432,31 @@ class ModalForm {
     }
 
     /**
+     * 出発地点のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #startFormCheck() {
+        const placeName = document.getElementById('startPlace').value;
+        const placeId = document.getElementById('startPlaceId').value;
+        const lat = document.getElementById('startLat').value;
+        const lng = document.getElementById('startLng').value;
+        const time = document.getElementById('startTime').value;
+
+        return !!(placeName && placeId && lat && lng && time);
+    }
+
+    /**
      * 終了地点のsubmitイベント
      * @param e イベント
      */
     #endFormSubmit(e) {
         e.preventDefault();
+
+        // 値の検証（nullがあるか）
+        if (!this.#endFormCheck()) {
+            document.getElementById('endError').textContent = '終了地点を正しく入力してください。';
+            return;
+        }
 
         sessionStorageList.setEndPlace();
 
@@ -441,6 +468,19 @@ class ModalForm {
     }
 
     /**
+     * 出発地点のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #endFormCheck() {
+        const placeName = document.getElementById('endPlace').value;
+        const placeId = document.getElementById('endPlaceId').value;
+        const lat = document.getElementById('endLat').value;
+        const lng = document.getElementById('endLng').value;
+
+        return !!(placeName && placeId && lat && lng);
+    }
+
+    /**
      * 目的地のsubmitイベント
      * @param e イベント
      * @returns {Promise<void>}
@@ -449,7 +489,13 @@ class ModalForm {
         e.preventDefault();
 
         const formId = e.target.id; // formのid取得
-        const formNum = Number(formId.replace('placeForm', '')); // placeForm${num}の数字だけ取得
+        const formNum = Number(formId.replace('placesSubmit', '')); // placesSubmit{num}の数字だけ取得
+
+        // 値の検証（nullがあるか）
+        if (!this.#placeFormCheck(formNum)) {
+            document.getElementById(`placeError${formNum}`).textContent = '目的地を正しく入力してください。';
+            return;
+        }
 
         sessionStorageList.setPlaces(formNum);
 
@@ -465,6 +511,19 @@ class ModalForm {
     };
 
     /**
+     * 出発地点のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #placeFormCheck(formNum) {
+        const placeName = document.getElementById(`place${formNum}`).value;
+        const placeId = document.getElementById(`placeId${formNum}`).value;
+        const lat = document.getElementById(`placeLat${formNum}`).value;
+        const lng = document.getElementById(`placeLng${formNum}`).value;
+
+        return !!(placeName && placeId && lat && lng);
+    }
+
+    /**
      * 追加フラグメントを挿入
      * @returns {Promise<void>}
      */
@@ -478,7 +537,7 @@ class ModalForm {
         placeNum.increment();
         modal.addPlacesElement();
         modal.addButtonEvent('places', placeNum.value()-1); // 新しいModalにイベント追加
-        new ModalForm(); // modalFormイベントをアタッチ
+        new ModalSubmitButton(); // modalFormイベントをアタッチ
     }
 }
 
@@ -598,7 +657,7 @@ const modal = new ModalElement();
 async function initModal() {
     const initializeDisplay = new InitSessionModals();
     await initializeDisplay.initialize();
-    new ModalForm();
+    new ModalSubmitButton();
 }
 
 initModal();
