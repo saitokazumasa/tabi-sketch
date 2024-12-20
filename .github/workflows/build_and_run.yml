@@ -41,7 +41,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '22.0.2'
+          java-version: '21'
           distribution: 'temurin'
           architecture: x64
           cache: maven
@@ -61,9 +61,12 @@ jobs:
       - name: Grant execute permission for scripts
         run: chmod +x ./mvnw
 
-      - name: Build And Test with Maven
+      - name: Build with Maven
         env:
           DATABASE_URL: "jdbc:postgresql://localhost:5432/${{ env.POSTGRES_DB }}"
           DATABASE_USERNAME: ${{ env.POSTGRES_USER }}
           DATABASE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-        run: ./mvnw package
+        run: ./mvnw clean install
+
+      - name: Run tests
+        run: ./mvnw test
