@@ -389,23 +389,23 @@ class ModalElement {
 
 class ModalSubmitButton {
     #startBtnElement;
-    #placeBtnElement = [];
+    placeBtnElement = [];
     #endBtnElement;
 
     constructor() {
         this.#startBtnElement = document.getElementById('startPlaceSubmit');
         for (let i = 1; i <= placeNum.value(); i++) {
-            this.#placeBtnElement.push(document.getElementById(`placesSubmit${i}`));
+            this.placeBtnElement.push(document.getElementById(`placesSubmit${i}`));
         }
         this.#endBtnElement = document.getElementById('endPlaceSubmit');
         this.initFormEvent();
     }
 
     initFormEvent() {
-        if (!this.#startBtnElement || !this.#placeBtnElement || !this.#endBtnElement) return;
+        if (!this.#startBtnElement || !this.placeBtnElement || !this.#endBtnElement) return;
         this.#startBtnElement.addEventListener('click', (e) => this.#startFormSubmit(e) );
         this.#endBtnElement.addEventListener('click', (e) => this.#endFormSubmit(e) );
-        this.#placeBtnElement.forEach((element) => element.addEventListener('click', async(e) => await this.#placesFormSubmit(e)));
+        this.placeBtnElement.forEach((element) => element.addEventListener('click', async(e) => await this.#placesFormSubmit(e)));
     }
 
     /**
