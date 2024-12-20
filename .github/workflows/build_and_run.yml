@@ -47,7 +47,7 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           architecture: x64
-          cache: maven
+#          cache: maven
 
       - name: Grant execute permission for scripts
         run: chmod +x .run/bin/CreateTables.sh
