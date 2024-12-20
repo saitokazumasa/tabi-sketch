@@ -58,6 +58,9 @@ jobs:
           PGPASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: .run/bin/CreateTables.sh ${{ env.POSTGRES_USER }} ${{ env.POSTGRES_PASSWORD }} ${{ env.POSTGRES_DB }}
 
+      - name: Grant execute permission for scripts
+        run: chmod +x ./mvnw
+
       - name: Build with Maven
         env:
           DATABASE_URL: "jdbc:postgresql://localhost:5432/${{ env.POSTGRES_DB }}"
