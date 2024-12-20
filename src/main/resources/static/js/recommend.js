@@ -83,7 +83,7 @@ const recommendPlace = new RecommendPlace();
 // th呼び出し後 submitイベントをアタッチ
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.recommend').forEach(element => {
-        element.addEventListener('submit', async function(e) {
+        element.addEventListener('click', async function(e) {
             await recommendPlace.submitEvent(e);
         });
     });
