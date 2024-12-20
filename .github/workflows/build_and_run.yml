@@ -45,9 +45,6 @@ jobs:
           architecture: x64
           cache: maven
 
-      - name: Grant execute permission for scripts
-        run: chmod +x .run/bin/CreateTables.sh
-
       - name: Initialize database
         env:
           PGHOST: localhost
@@ -56,9 +53,6 @@ jobs:
           PGUSER: ${{ env.POSTGRES_USER }}
           PGPASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: .run/bin/CreateTables.sh ${{ env.POSTGRES_USER }} ${{ env.POSTGRES_PASSWORD }} ${{ env.POSTGRES_DB }}
-
-      - name: Grant execute permission for scripts
-        run: chmod +x ./mvnw
 
       - name: Build with Maven
         env:
