@@ -32,6 +32,7 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 sm:p-5">
+                        <span id="startError" class="text-danger text-sm mb-2 flex justify-center"></span>
                         <div class="space-y-4 w-full">
                             <div>
                                 <label class="block mb-2" for="startPlace">出発地点<span class="ml-2 text-sm text-danger">必須</span></label>
@@ -87,6 +88,7 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 sm:p-5">
+                        <span id="endError" class="text-danger text-sm mb-2 flex justify-center"></span>
                         <div class="space-y-4 w-full">
                             <div>
                                 <label class="block mb-2" for="endPlace">終了地点<span class="ml-2 text-sm text-danger">必須</span></label>
@@ -143,6 +145,7 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 sm:p-5">
+                        <span th:id="'placeError' + ${num}" class="text-danger text-sm mb-2 flex justify-center"></span>
                         <div class="space-y-4 w-full">
                             <input class="hidden" th:id="'placeId' + ${num}" th:name="'placeId' + ${num}" type="text"/>
                             <input class="hidden" th:id="'placeLat' + ${num}" th:name="'placeLat' + ${num}" type="text"/>

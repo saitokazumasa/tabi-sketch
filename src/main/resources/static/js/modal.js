@@ -396,7 +396,11 @@ class ModalSubmitButton {
         e.preventDefault();
 
         // 値の検証（nullがあるか）
-        if (!this.#startFormCheck()) return;
+        if (!this.#startFormCheck()) {
+            // エラーメッセージ表示
+            document.getElementById('startError').textContent = '出発地点・予定時間を正しく入力してください。';
+            return;
+        }
 
         sessionStorageList.setStartPlace();
 
@@ -429,7 +433,10 @@ class ModalSubmitButton {
         e.preventDefault();
 
         // 値の検証（nullがあるか）
-        if (!this.#endFormCheck()) return;
+        if (!this.#endFormCheck()) {
+            document.getElementById('endError').textContent = '終了地点を正しく入力してください。';
+            return;
+        }
 
         sessionStorageList.setEndPlace();
 
@@ -465,7 +472,10 @@ class ModalSubmitButton {
         const formNum = Number(formId.replace('placesSubmit', '')); // placesSubmit{num}の数字だけ取得
 
         // 値の検証（nullがあるか）
-        if (!this.#placeFormCheck(formNum)) return;
+        if (!this.#placeFormCheck(formNum)) {
+            document.getElementById(`placeError${formNum}`).textContent = '目的地を正しく入力してください。';
+            return;
+        }
 
         sessionStorageList.setPlaces(formNum);
 
