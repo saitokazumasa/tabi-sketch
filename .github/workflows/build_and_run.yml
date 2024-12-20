@@ -64,3 +64,10 @@ jobs:
           DATABASE_USERNAME: ${{ env.POSTGRES_USER }}
           DATABASE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: ./mvnw package
+
+      - name: Test with Maven
+        env:
+          DATABASE_URL: "jdbc:postgresql://localhost:5432/${{ env.POSTGRES_DB }}"
+          DATABASE_USERNAME: ${{ env.POSTGRES_USER }}
+          DATABASE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        run: ./mvnw verify
