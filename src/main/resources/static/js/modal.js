@@ -395,6 +395,9 @@ class ModalSubmitButton {
     #startFormSubmit(e) {
         e.preventDefault();
 
+        // 値の検証（nullがあるか）
+        if (!this.#startFormCheck()) return;
+
         sessionStorageList.setStartPlace();
 
         const modalType = 'start';
@@ -405,11 +408,28 @@ class ModalSubmitButton {
     }
 
     /**
+     * 出発地点のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #startFormCheck() {
+        const placeName = document.getElementById('startPlace').value;
+        const placeId = document.getElementById('startPlaceId').value;
+        const lat = document.getElementById('startLat').value;
+        const lng = document.getElementById('startLng').value;
+        const time = document.getElementById('startTime').value;
+
+        return !!(placeName && placeId && lat && lng && time);
+    }
+
+    /**
      * 終了地点のsubmitイベント
      * @param e イベント
      */
     #endFormSubmit(e) {
         e.preventDefault();
+
+        // 値の検証（nullがあるか）
+        if (!this.#endFormCheck()) return;
 
         sessionStorageList.setEndPlace();
 
@@ -418,6 +438,19 @@ class ModalSubmitButton {
         modal.addButtonEvent(modalType, 0);
 
         modal.changeEndDisplay(); // 表示を変える
+    }
+
+    /**
+     * 出発地点のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #endFormCheck() {
+        const placeName = document.getElementById('endPlace').value;
+        const placeId = document.getElementById('endPlaceId').value;
+        const lat = document.getElementById('endLat').value;
+        const lng = document.getElementById('endLng').value;
+
+        return !!(placeName && placeId && lat && lng);
     }
 
     /**
@@ -431,6 +464,9 @@ class ModalSubmitButton {
         const formId = e.target.id; // formのid取得
         const formNum = Number(formId.replace('placesSubmit', '')); // placesSubmit{num}の数字だけ取得
 
+        // 値の検証（nullがあるか）
+        if (!this.#placeFormCheck(formNum)) return;
+
         sessionStorageList.setPlaces(formNum);
 
         // modal設定
@@ -443,6 +479,19 @@ class ModalSubmitButton {
 
         await this.newAddFragment();
     };
+
+    /**
+     * 出発地点のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #placeFormCheck(formNum) {
+        const placeName = document.getElementById(`place${formNum}`).value;
+        const placeId = document.getElementById(`placeId${formNum}`).value;
+        const lat = document.getElementById(`placeLat${formNum}`).value;
+        const lng = document.getElementById(`placeLng${formNum}`).value;
+
+        return !!(placeName && placeId && lat && lng);
+    }
 
     /**
      * 追加フラグメントを挿入
