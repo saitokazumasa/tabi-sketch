@@ -49,7 +49,7 @@
                                             <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
                                         </svg>
                                     </div>
-                                    <input class="w-full input focus:ring-0" id="startTime" max="24:00" min="00:00" placeholder="--:--" type="time"/>
+                                    <input class="w-full input focus:ring-0" id="startTime" max="23:59" min="00:00" placeholder="--:--" type="time"/>
                                 </div>
                             </div>
                             <div class="flex justify-center">
@@ -180,7 +180,7 @@
                                                 <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
                                             </svg>
                                         </div>
-                                        <input class="w-full input focus:ring-0" max="24:00" min="00:00" placeholder="--:--" th:id="'desiredStartTime' + ${num}" th:name="'desiredStartTime' + ${num}" type="time"/>
+                                        <input class="w-full input focus:ring-0" max="23:59" min="00:00" placeholder="--:--" th:id="'desiredStartTime' + ${num}" th:name="'desiredStartTime' + ${num}" type="time"/>
                                     </div>
                                     <span class="pr-3 pl-3">～</span>
                                     <div class="relative w-1/2">
@@ -189,7 +189,7 @@
                                                 <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
                                             </svg>
                                         </div>
-                                        <input class="w-full input focus:ring-0" max="24:00" min="00:00" placeholder="--:--" th:id="'desiredEndTime' + ${num}" th:name="'desiredEndTime' + ${num}" type="time"/>
+                                        <input class="w-full input focus:ring-0" max="23:59" min="00:00" placeholder="--:--" th:id="'desiredEndTime' + ${num}" th:name="'desiredEndTime' + ${num}" type="time"/>
                                     </div>
                                 </div>
                             </div>
