@@ -42,9 +42,9 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '22'
-          distribution: 'corretto'
-          architecture: x64
-          cache: maven
+          distribution: 'temurin'
+#          architecture: x64
+#          cache: maven
 
       - name: Grant execute permission for scripts
         run: chmod +x .run/bin/CreateTables.sh
