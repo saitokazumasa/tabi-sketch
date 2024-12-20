@@ -39,13 +39,13 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 sm:p-5">
-                        <form class="space-y-4 w-full recommend" th:id="'recommendForm'+${number}">
-                            <input class="hidden" required th:id="'recommendPlaceId'+${number}" th:value="${place.placeId}" type="text"/>
-                            <input class="hidden" required th:id="'recommendLat'+${number}" th:value="${place.lat}" type="text"/>
-                            <input class="hidden" required th:id="'recommendLng'+${number}" th:value="${place.lng}" type="text"/>
+                        <div class="space-y-4 w-full">
+                            <input class="hidden" th:id="'recommendPlaceId'+${number}" th:value="${place.placeId}" type="text"/>
+                            <input class="hidden" th:id="'recommendLat'+${number}" th:value="${place.lat}" type="text"/>
+                            <input class="hidden" th:id="'recommendLng'+${number}" th:value="${place.lng}" type="text"/>
                             <div>
                                 <label class="block mb-2" th:for="'recommend'+${number}">目的地<span class="ml-2 text-sm text-danger">必須</span></label>
-                                <input class="w-full input focus:ring-0 bg-gray-100" required disabled th:id="'recommend'+${number}" th:name="'recommend'+${number}" th:value="${place.name}" type="text"/>
+                                <input class="w-full input focus:ring-0 bg-gray-100" disabled th:id="'recommend'+${number}" th:name="'recommend'+${number}" th:value="${place.name}" type="text"/>
                             </div>
                             <div class="flex items-center justify-between">
                                 <div class="w-1/2 pr-3">
@@ -73,7 +73,7 @@
                                                 <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
                                             </svg>
                                         </div>
-                                        <input class="w-full input focus:ring-0" max="24:00" min="00:00" placeholder="--:--" th:id="'recommendDesiredStartTime'+${number}" th:name="'recommendDesiredStartTime'+${number}" type="time"/>
+                                        <input class="w-full input focus:ring-0" max="23:59" min="00:00" placeholder="--:--" th:id="'recommendDesiredStartTime'+${number}" th:name="'recommendDesiredStartTime'+${number}" type="time"/>
                                     </div>
                                     <span class="pr-3 pl-3">～</span>
                                     <div class="relative w-1/2">
@@ -82,14 +82,14 @@
                                                 <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
                                             </svg>
                                         </div>
-                                        <input class="w-full input focus:ring-0" max="24:00" min="00:00" placeholder="--:--" th:id="'recommendDesiredEndTime'+${number}" th:name="'recommendDesiredEndTime'+${number}" type="time"/>
+                                        <input class="w-full input focus:ring-0" max="23:59" min="00:00" placeholder="--:--" th:id="'recommendDesiredEndTime'+${number}" th:name="'recommendDesiredEndTime'+${number}" type="time"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="flex justify-center">
-                                <button class="button-primary" th:id="'recommendSubmit'+${number}" type="submit">追加</button>
+                                <button class="button-primary recommend" th:id="'recommendSubmit'+${number}" type="submit">追加</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
