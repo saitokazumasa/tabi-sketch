@@ -10,6 +10,9 @@ env:
   POSTGRES_USER: "postgres"
   POSTGRES_PASSWORD: "password"
   POSTGRES_DB: "tabisketch"
+  MAIL_USERNAME: "hoge"
+  MAIL_PASSWORD: "hogehoge"
+  GOOGLE_MAPS_API_KEY: "huga"
 
 #  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
 #  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
@@ -66,7 +69,7 @@ jobs:
           DATABASE_URL: "jdbc:postgresql://localhost:5432/${{ env.POSTGRES_DB }}"
           DATABASE_USERNAME: ${{ env.POSTGRES_USER }}
           DATABASE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-        run: ./mvnw clean install
-
-      - name: Run tests
-        run: ./mvnw test
+          MAIL_USERNAME: ${{ env.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ env.MAIL_PASSWORD }}
+          GOOGLE_MAPS_API_KEY: ${{ env.GOOGLE_MAPS_API_KEY }}
+        run: ./mvnw package
