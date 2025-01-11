@@ -1,7 +1,6 @@
 package com.tabisketch.service;
 
 import com.tabisketch.bean.entity.User;
-import com.tabisketch.bean.form.EditMailAddressForm;
 import com.tabisketch.bean.form.EditPasswordForm;
 import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.mapper.IUsersMapper;
@@ -21,6 +20,8 @@ import static org.mockito.Mockito.when;
 public class EditPasswordServiceTest {
     @MockitoBean
     private IUsersMapper usersMapper;
+    @MockitoBean
+    private ISendMailService sendMailService;
     @Autowired
     private IEditPasswordService editPasswordService;
 
@@ -43,5 +44,6 @@ public class EditPasswordServiceTest {
 
         verify(this.usersMapper).selectByMailAddress(anyString());
         verify(this.usersMapper).update(any());
+        verify(this.sendMailService).execute(any());
     }
 }
