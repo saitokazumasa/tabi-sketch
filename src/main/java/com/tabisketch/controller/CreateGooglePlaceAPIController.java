@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/create-google-place")
 public class CreateGooglePlaceAPIController {
-    final ICreateGooglePlaceService createGooglePlaceService;
+    private final ICreateGooglePlaceService createGooglePlaceService;
 
     public CreateGooglePlaceAPIController(final ICreateGooglePlaceService createGooglePlaceService) {
         this.createGooglePlaceService = createGooglePlaceService;
