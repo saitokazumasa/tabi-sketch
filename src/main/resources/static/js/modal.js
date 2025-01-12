@@ -298,14 +298,35 @@ class ModalForm {
             document.getElementById('startError').textContent = '出発地点・予定時間を正しく入力してください。';
             return;
         }
+        document.getElementById('startError').textContent = '';
 
-        sessionStorageList.setStartPlace();
-
-        const modalType = 'start';
-        modal.closeModal(modalType, 0);
-        modal.addButtonEvent(modalType, 0);
-
-        modal.changeStartDisplay(); // 表示を変える
+        const form = e.target;
+        const formData = new FormData(form);
+        // api/create-planに送信
+        try {
+            // 非同期でPOSTリクエストを送信
+            fetch('/api/create-place', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`送信エラー: ${response.status}`);
+                    }
+                    return response.json(); // 必要に応じてレスポンスを処理
+                })
+                .then(data => {
+                    if (data.status === 'Failed')
+                        throw new Error('エラーが発生しました。');
+                    // モーダル関連の動作
+                    const modalType = 'start';
+                    modal.closeModal(modalType, 0);
+                    modal.addButtonEvent(modalType, 0);
+                    modal.changeStartDisplay(); // 表示を変更
+                });
+        } catch (error) {
+            document.getElementById('startError').textContent = '送信中にエラーが発生しました。もう一度お試しください。' + error;
+        }
     }
 
     /**
@@ -334,12 +355,35 @@ class ModalForm {
             document.getElementById('endError').textContent = '終了地点を正しく入力してください。';
             return;
         }
+        document.getElementById('endError').textContent = '';
 
-        const modalType = 'end';
-        modal.closeModal(modalType, 0);
-        modal.addButtonEvent(modalType, 0);
-
-        modal.changeEndDisplay(); // 表示を変える
+        const form = e.target;
+        const formData = new FormData(form);
+        // api/create-planに送信
+        try {
+            // 非同期でPOSTリクエストを送信
+            fetch('/api/create-place', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`送信エラー: ${response.status}`);
+                    }
+                    return response.json(); // 必要に応じてレスポンスを処理
+                })
+                .then(data => {
+                    if (data.status === 'Failed')
+                        throw new Error('エラーが発生しました。');
+                    // モーダル関連の動作
+                    const modalType = 'end';
+                    modal.closeModal(modalType, 0);
+                    modal.addButtonEvent(modalType, 0);
+                    modal.changeStartDisplay(); // 表示を変更
+                });
+        } catch (error) {
+            document.getElementById('startError').textContent = '送信中にエラーが発生しました。もう一度お試しください。' + error;
+        }
     }
 
     /**
@@ -372,13 +416,34 @@ class ModalForm {
             return;
         }
 
-        // modal設定
-        const modalType = 'places';
-        modal.closeModal(modalType, placeNum);
-        modal.changePlaceDisplay(placeNum);
-        modal.addButtonEvent(modalType, placeNum); // 送信したmodalのイベント再アタッチ
+        const form = e.target;
+        const formData = new FormData(form);
+        try {
+            // 非同期でPOSTリクエストを送信
+            fetch('/api/create-place', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`送信エラー: ${response.status}`);
+                    }
+                    return response.json(); // 必要に応じてレスポンスを処理
+                })
+                .then(data => {
+                    if (data.status === 'Failed')
+                        throw new Error('エラーが発生しました。');
+                    // モーダル関連の動作
+                    const modalType = 'places';
+                    modal.closeModal(modalType, formNum);
+                    modal.changePlaceDisplay(formNum);
+                    modal.addButtonEvent(modalType, formNum); // 送信したmodalのイベント再アタッチ
+                });
+        } catch (error) {
+            document.getElementById('Error').textContent = '送信中にエラーが発生しました。もう一度お試しください。' + error;
+        }
 
-        if(placeNum !== placeNum.value()) return; // 目的地再設定はreturn
+        if(formNum !== formNum.value()) return; // 目的地再設定はreturn
 
         await this.newAddFragment();
     };
