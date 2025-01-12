@@ -15,7 +15,7 @@
         </button>
 </th:block>
 
-<th:block th:fragment="startForm">
+<th:block th:fragment="startForm(startPlaceForm)">
     <!-- Main modal -->
     <div aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full sm:inset-0 h-[calc(100%-1rem)] max-h-full text-label text-base" id="startModal" tabindex="-1">
         <div class="relative p-4 w-full max-w-md max-h-full">
@@ -34,16 +34,17 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <div class="p-4 sm:p-5">
+                <form class="p-4 sm:p-5" th:object="${startPlaceForm}">
                     <span id="startError" class="text-danger text-sm mb-2 flex justify-center"></span>
                     <div class="space-y-4 w-full">
                         <div>
                             <label class="block mb-2" for="startPlace">出発地点<span class="ml-2 text-sm text-danger">必須</span></label>
-                            <input class="w-full input focus:ring-0" id="startPlace" name="startPlace" type="text"/>
+                            <!-- todo: th:field="*{placeName}にする" -->
+                            <input th:field="*{placeName}" class="w-full input focus:ring-0" id="startPlace" name="startPlace" type="text"/>
                         </div>
-                        <input class="hidden" id="startPlaceId" name="startPlaceId" type="text"/>
-                        <input class="hidden" id="startLat" name="startLat" type="text"/>
-                        <input class="hidden" id="startLng" name="startLng" type="text"/>
+                        <input th:field="*{googlePlaceId}" class="hidden" id="startPlaceId" type="text"/>
+                        <input th:field="*{latitude}"  class="hidden" id="startLat" type="text"/>
+                        <input th:field="*{longitude}" class="hidden" id="startLng" type="text"/>
                         <div class="w-1/2">
                             <label class="block mb-2" for="startTime">予定時間<span class="ml-2 text-sm text-danger">必須</span></label>
                             <div class="relative">
@@ -52,14 +53,14 @@
                                         <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
                                     </svg>
                                 </div>
-                                <input class="w-full input focus:ring-0" id="startTime" max="23:59" min="00:00" placeholder="--:--" type="time"/>
+                                <input th:field="*{startTime}"  class="w-full input focus:ring-0" id="startTime" max="23:59" min="00:00" placeholder="--:--" type="time"/>
                             </div>
                         </div>
                         <div class="flex justify-center">
                             <button class="button-primary" type="button" id="startPlaceSubmit">登録</button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
