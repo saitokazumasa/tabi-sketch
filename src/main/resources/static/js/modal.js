@@ -1,5 +1,5 @@
 class PlaceNum {
-    #value = 1;
+    #value = 0;
 
     value() {
         return this.#value;
@@ -367,18 +367,18 @@ class ModalSubmitButton {
         const formNum = Number(formId.replace('placesSubmit', '')); // placesSubmit{num}の数字だけ取得
 
         // 値の検証（nullがあるか）
-        if (!this.#placeFormCheck(formNum)) {
-            document.getElementById(`placeError${formNum}`).textContent = '目的地を正しく入力してください。';
+        if (!this.#placeFormCheck(placeNum)) {
+            document.getElementById(`placeError${placeNum}`).textContent = '目的地を正しく入力してください。';
             return;
         }
 
         // modal設定
         const modalType = 'places';
-        modal.closeModal(modalType, formNum-1);
-        modal.changePlaceDisplay(formNum);
-        modal.addButtonEvent(modalType, formNum-1); // 送信したmodalのイベント再アタッチ
+        modal.closeModal(modalType, placeNum);
+        modal.changePlaceDisplay(placeNum);
+        modal.addButtonEvent(modalType, placeNum); // 送信したmodalのイベント再アタッチ
 
-        if(formNum !== placeNum.value()) return; // 目的地再設定はreturn
+        if(placeNum !== placeNum.value()) return; // 目的地再設定はreturn
 
         await this.newAddFragment();
     };
@@ -387,11 +387,11 @@ class ModalSubmitButton {
      * 出発地点のrequiredチェック
      * @returns {boolean} すべて値が入ってたらtrue
      */
-    #placeFormCheck(formNum) {
-        const placeName = document.getElementById(`place${formNum}`).value;
-        const placeId = document.getElementById(`placeId${formNum}`).value;
-        const lat = document.getElementById(`placeLat${formNum}`).value;
-        const lng = document.getElementById(`placeLng${formNum}`).value;
+    #placeFormCheck(placeNum) {
+        const placeName = document.getElementById(`place${placeNum}`).value;
+        const placeId = document.getElementById(`placeId${placeNum}`).value;
+        const lat = document.getElementById(`placeLat${placeNum}`).value;
+        const lng = document.getElementById(`placeLng${placeNum}`).value;
 
         return !!(placeName && placeId && lat && lng);
     }
@@ -409,8 +409,8 @@ class ModalSubmitButton {
         newFragment.addFragment();
         placeNum.increment();
         modal.addPlacesElement();
-        modal.addButtonEvent('places', placeNum.value()-1); // 新しいModalにイベント追加
-        new ModalSubmitButton(); // modalFormイベントをアタッチ
+        modal.addButtonEvent('places', placeNum.value()); // 新しいModalにイベント追加
+        new ModalForm(); // modalFormイベントをアタッチ
     }
 }
 
