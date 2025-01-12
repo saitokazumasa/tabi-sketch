@@ -264,25 +264,25 @@ class ModalElement {
     }
 }
 
-class ModalSubmitButton {
-    #startBtnElement;
-    placeBtnElement = [];
-    #endBtnElement;
+class ModalForm {
+    #startFormElement;
+    placeFormElement = [];
+    #endFormElement;
 
     constructor() {
-        this.#startBtnElement = document.getElementById('startPlaceSubmit');
-        for (let i = 1; i <= placeNum.value(); i++) {
-            this.placeBtnElement.push(document.getElementById(`placesSubmit${i}`));
+        this.#startFormElement = document.getElementById('startPlaceForm');
+        for (let i = 0; i <= placeNum.value(); i++) {
+            this.placeFormElement.push(document.getElementById(`placeForm${i}`));
         }
-        this.#endBtnElement = document.getElementById('endPlaceSubmit');
+        this.#endFormElement = document.getElementById('endPlaceForm');
         this.initFormEvent();
     }
 
     initFormEvent() {
-        if (!this.#startBtnElement || !this.placeBtnElement || !this.#endBtnElement) return;
-        this.#startBtnElement.addEventListener('click', (e) => this.#startFormSubmit(e) );
-        this.#endBtnElement.addEventListener('click', (e) => this.#endFormSubmit(e) );
-        this.placeBtnElement.forEach((element) => element.addEventListener('click', async(e) => await this.#placesFormSubmit(e)));
+        if (!this.#startFormElement || !this.placeFormElement || !this.#endFormElement) return;
+        this.#startFormElement.addEventListener('submit', (e) => this.#startFormSubmit(e) );
+        this.#endFormElement.addEventListener('submit', (e) => this.#endFormSubmit(e) );
+        this.placeFormElement.forEach((element) => element.addEventListener('submit', async(e) => await this.#placesFormSubmit(e)));
     }
 
     /**
@@ -417,8 +417,6 @@ class ModalSubmitButton {
 const placeNum = new PlaceNum();
 const modal = new ModalElement();
 
-async function initModal() {
-    new ModalSubmitButton();
-}
-
-initModal();
+document.addEventListener('DOMContentLoaded', () => {
+    new ModalForm();
+});
