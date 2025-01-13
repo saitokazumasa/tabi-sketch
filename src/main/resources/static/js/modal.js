@@ -189,22 +189,25 @@ class ModalElement {
      * 出発地点の表示を変更
      */
     changeStartDisplay() {
-        const spans = document.querySelectorAll('#startToggle span'); // spanタグ取得
+        const timeSpan = document.getElementById('startTimeSpan'); // 時間spanタグ取得
+        const placeSpan = document.getElementById('startPlaceSpan'); // 場所名spanタグ
 
-        // todo: 表示変更する値を取得 data
-        // spans[0].textContent = data.startTime; // 開始時間を入れる
-        // spans[1].textContent = data.name; // spanの文字を場所名に
-        spans[0].classList.remove('absolute');
+        const startTime = document.getElementById('startTime');
+        timeSpan.textContent = startTime.value; // 開始時間を入れる
+        const startPlace = document.getElementById('startPlace');
+        placeSpan.textContent = startPlace.value; // spanの文字を場所名に
+
+        timeSpan.classList.remove('absolute');
     }
 
     /**
      * 終了地点の表示を変更
      */
     changeEndDisplay() {
-        const span = document.querySelector('#endToggle span'); // spanタグ取得
+        const placeSpan = document.getElementById('endPlaceSpan'); // spanタグ取得
 
-        // todo: 表示変更するspanの文字を変えて
-        // span.textContent = sessionStorageList.getEndData().name; // spanの文字を場所名に
+        const endPlace = document.getElementById('endPlace');
+        placeSpan.textContent = endPlace.value; // spanの文字を場所名に
     }
 
     /**
@@ -213,36 +216,40 @@ class ModalElement {
      */
     changePlaceDisplay(formNum) {
         // buttonの子要素のspanタグ取得
-        const spans = document.querySelectorAll(`#placeToggleBtn${formNum} > span`);
-        const placeInput = document.getElementById(`place${formNum}`);
+        const timeSpan = document.getElementById(`placeTimeSpan${formNum}`);
+        const placeSpan = document.getElementById(`placeNameSpan${formNum}`);
+        const budgetSpan = document.getElementById(`budgetSpan${formNum}`);
+        const stayTimeSpan = document.getElementById(`stayTimeSpan${formNum}`);
 
+        // inputの要素取得
+        const placeInput = document.getElementById(`place${formNum}`);
+        const desiredStartTimeInput = document.getElementById(`desiredStartTime${formNum}`);
+        const desiredEndTimeInput = document.getElementById(`desiredEndTime${formNum}`);
+        const budgetInput = document.getElementById(`budget${formNum}`);
+        const stayTimeInput = document.getElementById(`stayTime${formNum}`);
+
+        /* ---- 表示を変更 ---- */
         placeInput.disabled = true; // 目的地部分をdisabledに
         placeInput.classList.add('bg-gray-100');
 
-        // todo: 表示変更する値を取得 data
+        // 場所名
+        placeSpan.textContent = placeInput.value;
 
-        // const data = sessionStorageList.getPlacesData(formNum-1);
+        // 希望時間
+        if (!desiredStartTimeInput.value) timeSpan.textContent = '';
+        else timeSpan.textContent = desiredStartTimeInput.value + '~' + desiredEndTimeInput.value;
+        timeSpan.classList.remove('absolute');
 
-        // // 場所名
-        // spans[1].textContent = data.name;
-        //
-        // // 希望時間
-        // if (!data.desiredStartTime) spans[0].textContent = '';
-        // else spans[0].textContent = data.desiredStartTime + '~' + data.desiredEndTime;
-        // spans[0].classList.remove('absolute');
-        //
-        // // 予算
-        // const budget = document.getElementById(`budgetDisplay${formNum}`);
-        // if (!data.budget) budget.textContent = '予算：----' + '円';
-        // else budget.textContent = '予算：' + data.budget + '円';
-        //
-        // // 滞在時間
-        // const stayTime = document.getElementById(`stayTimeDisplay${formNum}`);
-        // if (!data.stayTime) stayTime.textContent = '滞在時間：30分';
-        // else stayTime.textContent = '滞在時間：' + data.stayTime + '分';
+        // 予算
+        if (!budgetInput.value) budgetSpan.textContent = '予算：----' + '円';
+        else budgetSpan.textContent = '予算：' + budgetInput.value + '円';
+
+        // 滞在時間
+        if (!stayTimeInput.value) stayTimeSpan.textContent = '滞在時間：30分';
+        else stayTimeSpan.textContent = '滞在時間：' + stayTimeInput.value + '分';
 
         // 緑色の枠線をけす
-        const toggleBtn = this.#getToggleBtn('places', formNum-1);
+        const toggleBtn = this.#getToggleBtn('places', formNum);
         toggleBtn.classList.remove('border-interactive');
 
         this.#displayDeleteButton(formNum);
