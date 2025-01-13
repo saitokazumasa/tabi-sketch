@@ -9,10 +9,10 @@
 <th:block th:fragment="startToggle">
     <!-- Modal toggle -->
     <button class="input text-center text-label max-w-md w-4/5 h-10 sm:h-12 flex justify-between items-center" data-modal-target="startModal" data-modal-toggle="startModal" id="startToggle" type="button">
-            <span class="text-[10px] sm:text-base absolute"></span>
-            <span class="flex-1 text-base sm:text-xl truncate ... px-2">出発地点を入力する</span>
-            <span></span>
-        </button>
+        <span class="text-[10px] sm:text-base absolute" id="startTimeSpan"></span>
+        <span class="flex-1 text-base sm:text-xl truncate ... px-2" id="startPlaceSpan">出発地点を入力する</span>
+        <span></span>
+    </button>
 </th:block>
 
 <th:block th:fragment="startForm(startPlaceForm)">
@@ -67,7 +67,7 @@
 
 <th:block th:fragment="endToggle">
     <button class="input text-center text-label max-w-md w-4/5 h-10 sm:h-12 flex justify-center items-center" data-modal-target="endModal" data-modal-toggle="endModal" id="endToggle" type="button">
-        <span class="text-base sm:text-xl truncate ... px-2">終了地点を入力する</span>
+        <span class="text-base sm:text-xl truncate ... px-2" id="endPlaceSpan">終了地点を入力する</span>
     </button>
 </th:block>
 
@@ -113,13 +113,13 @@
     <div class="flex items-center">
         <!-- Modal toggle -->
         <button class="input border-interactive text-center text-label max-w-md w-4/5 flex justify-between items-center h-10 sm:h-12" th:data-modal-target="'placeModal' + ${num}" th:data-modal-toggle="'placeModal' + ${num}" th:id="'placeToggleBtn' + ${num}" type="button">
-            <span class="absolute block text-[10px] sm:text-base">
+            <span class="absolute block text-[10px] sm:text-base" th:id="'placeTimeSpan' + ${num}">
                 <th:block th:replace="~{fragment/svg :: plus}"/>
             </span>
-            <span class="flex-1 text-base sm:text-xl truncate ... px-2">目的地を追加する</span>
+            <span class="flex-1 text-base sm:text-xl truncate ... px-2" th:id="'placeNameSpan' + ${num}">目的地を追加する</span>
             <span class="flex flex-col items-end text-[8px] sm:text-xs">
-                <span class="block" th:id="'budgetDisplay' + ${num}"></span>
-                <span class="block" th:id="'stayTimeDisplay' + ${num}"></span>
+                <span class="block" th:id="'budgetSpan' + ${num}"></span>
+                <span class="block" th:id="'stayTimeSpan' + ${num}"></span>
             </span>
         </button>
         <button class="hidden px-2" th:id="'modalDeleteBtn' + ${num}">
