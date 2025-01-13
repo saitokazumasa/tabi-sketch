@@ -25,9 +25,9 @@ public class EditMailAddressController {
     }
 
     @GetMapping
-    public String get(final @AuthenticationPrincipal UserDetails userDetails, final Model model) {
+    public String get(final @AuthenticationPrincipal(expression = "username") String username, final Model model) {
         final var editMailAddressForm = EditMailAddressForm.empty();
-        editMailAddressForm.setCurrentMailAddress(userDetails.getUsername());
+        editMailAddressForm.setCurrentMailAddress(username);
         model.addAttribute("editMailAddressForm", editMailAddressForm);
         return "user/edit/mail/index";
     }

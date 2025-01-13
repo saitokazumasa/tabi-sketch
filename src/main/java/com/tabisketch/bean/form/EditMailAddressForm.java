@@ -17,7 +17,7 @@ public class EditMailAddressForm {
     private String newMailAddress;
 
     @NotBlank
-    private String currentPassword;
+    private String password;
 
     public static EditMailAddressForm empty() {
         return new EditMailAddressForm("", "", "");

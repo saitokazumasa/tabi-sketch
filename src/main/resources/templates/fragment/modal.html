@@ -32,23 +32,24 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 sm:p-5">
+                        <span id="startError" class="text-danger text-sm mb-2 flex justify-center"></span>
                         <div class="space-y-4 w-full">
                             <div>
-                                <label class="block mb-2" th:for="${startForm.startPlace}">出発地点<span class="ml-2 text-sm text-danger">必須</span></label>
-                                <input class="w-full input focus:ring-0" th:field="${startForm.startPlace}" required type="text"/>
+                                <label class="block mb-2" for="startPlace">出発地点<span class="ml-2 text-sm text-danger">必須</span></label>
+                                <input class="w-full input focus:ring-0" id="startPlace" name="startPlace" type="text"/>
                             </div>
-                            <input class="hidden" th:field="${startForm.startPlaceId}" required type="text"/>
-                            <input class="hidden" th:field="${startForm.startLan}" required type="text"/>
-                            <input class="hidden" th:field="${startForm.startLng}" required type="text"/>
+                            <input class="hidden" id="startPlaceId" name="startPlaceId" type="text"/>
+                            <input class="hidden" id="startLat" name="startLat" type="text"/>
+                            <input class="hidden" id="startLng" name="startLng" type="text"/>
                             <div class="w-1/2">
-                                <label class="block mb-2" th:for="${startForm.startTime}">予定時間<span class="ml-2 text-sm text-danger">必須</span></label>
+                                <label class="block mb-2" for="startTime">予定時間<span class="ml-2 text-sm text-danger">必須</span></label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
                                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
                                         </svg>
                                     </div>
-                                    <input class="w-full input focus:ring-0" th:field="${startForm.startTime}" max="24:00" min="00:00" placeholder="--:--" required type="time"/>
+                                    <input class="w-full input focus:ring-0" id="startTime" max="23:59" min="00:00" placeholder="--:--" type="time"/>
                                 </div>
                             </div>
                             <div class="flex justify-center">
@@ -87,14 +88,15 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 sm:p-5">
+                        <span id="endError" class="text-danger text-sm mb-2 flex justify-center"></span>
                         <div class="space-y-4 w-full">
                             <div>
-                                <label class="block mb-2" th:for="${endForm.endPlace}">終了地点<span class="ml-2 text-sm text-danger">必須</span></label>
-                                <input class="w-full input focus:ring-0" id="endPlace" name="endPlace" required type="text"/>
+                                <label class="block mb-2" for="endPlace">終了地点<span class="ml-2 text-sm text-danger">必須</span></label>
+                                <input class="w-full input focus:ring-0" id="endPlace" name="endPlace" type="text"/>
                             </div>
-                            <input class="hidden" th:field="${endForm.endPlaceId}" required type="text"/>
-                            <input class="hidden" th:field="${endForm.endLat}" required type="text"/>
-                            <input class="hidden" th:field="${endForm.endLng}" required type="text"/>
+                            <input class="hidden" id="endPlaceId" name="endPlaceId" type="text"/>
+                            <input class="hidden" id="endLat" name="endLat" type="text"/>
+                            <input class="hidden" id="endLng" name="endLng" type="text"/>
                             <div class="flex justify-center">
                                 <button class="button-primary" type="button" id="endPlaceSubmit">登録</button>
                             </div>
@@ -143,13 +145,14 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 sm:p-5">
+                        <span th:id="'placeError' + ${num}" class="text-danger text-sm mb-2 flex justify-center"></span>
                         <div class="space-y-4 w-full">
-                            <input class="hidden" required th:id="'placeId' + ${num}" th:name="'placeId' + ${num}" type="text"/>
-                            <input class="hidden" required th:id="'placeLat' + ${num}" th:name="'placeLat' + ${num}" type="text"/>
-                            <input class="hidden" required th:id="'placeLng' + ${num}" th:name="'placeLng' + ${num}" type="text"/>
+                            <input class="hidden" th:id="'placeId' + ${num}" th:name="'placeId' + ${num}" type="text"/>
+                            <input class="hidden" th:id="'placeLat' + ${num}" th:name="'placeLat' + ${num}" type="text"/>
+                            <input class="hidden" th:id="'placeLng' + ${num}" th:name="'placeLng' + ${num}" type="text"/>
                             <div>
                                 <label class="block mb-2" th:for="'place' + ${num}">目的地<span class="ml-2 text-sm text-danger">必須</span></label>
-                                <input class="w-full input focus:ring-0" required th:id="'place' + ${num}" th:name="'place' + ${num}" type="text"/>
+                                <input class="w-full input focus:ring-0" th:id="'place' + ${num}" th:name="'place' + ${num}" type="text"/>
                             </div>
                             <div class="flex items-center justify-between">
                                 <div class="w-1/2 pr-3">
@@ -177,7 +180,7 @@
                                                 <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
                                             </svg>
                                         </div>
-                                        <input class="w-full input focus:ring-0" max="24:00" min="00:00" placeholder="--:--" th:id="'desiredStartTime' + ${num}" th:name="'desiredStartTime' + ${num}" type="time"/>
+                                        <input class="w-full input focus:ring-0" max="23:59" min="00:00" placeholder="--:--" th:id="'desiredStartTime' + ${num}" th:name="'desiredStartTime' + ${num}" type="time"/>
                                     </div>
                                     <span class="pr-3 pl-3">～</span>
                                     <div class="relative w-1/2">
@@ -186,7 +189,7 @@
                                                 <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
                                             </svg>
                                         </div>
-                                        <input class="w-full input focus:ring-0" max="24:00" min="00:00" placeholder="--:--" th:id="'desiredEndTime' + ${num}" th:name="'desiredEndTime' + ${num}" type="time"/>
+                                        <input class="w-full input focus:ring-0" max="23:59" min="00:00" placeholder="--:--" th:id="'desiredEndTime' + ${num}" th:name="'desiredEndTime' + ${num}" type="time"/>
                                     </div>
                                 </div>
                             </div>

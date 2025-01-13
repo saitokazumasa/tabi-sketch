@@ -80,6 +80,26 @@ class SessionStorageList {
     }
 
     /**
+     * オススメ目的地をsessionStorage placeに登録
+     * @param formNum formの項番
+     * @param num オススメ目的地の識別番号
+     */
+    setRecommendPlace(formNum, num) {
+        this.#placesList[formNum-1] = {
+            placeId: document.getElementById(`recommendPlaceId${num}`).value,
+            lat: document.getElementById(`recommendLat${num}`).value,
+            lng: document.getElementById(`recommendLng${num}`).value,
+            name: document.getElementById(`recommend${num}`).value,
+            budget: document.getElementById(`recommendBudget${num}`).value,
+            stayTime: document.getElementById(`recommendStayTime${num}`).value,
+            desiredStartTime: document.getElementById(`recommendDesiredStartTime${num}`).value,
+            desiredEndTime: document.getElementById(`recommendDesiredEndTime${num}`).value,
+        };
+
+        sessionStorage.setItem('place', JSON.stringify(this.#placesList));
+    }
+
+    /**
      * 出発地点をsessionから取得
      * @returns {*}
      */
@@ -369,23 +389,23 @@ class ModalElement {
 
 class ModalSubmitButton {
     #startBtnElement;
-    #placeBtnElement = [];
+    placeBtnElement = [];
     #endBtnElement;
 
     constructor() {
         this.#startBtnElement = document.getElementById('startPlaceSubmit');
         for (let i = 1; i <= placeNum.value(); i++) {
-            this.#placeBtnElement.push(document.getElementById(`placesSubmit${i}`));
+            this.placeBtnElement.push(document.getElementById(`placesSubmit${i}`));
         }
         this.#endBtnElement = document.getElementById('endPlaceSubmit');
         this.initFormEvent();
     }
 
     initFormEvent() {
-        if (!this.#startBtnElement || !this.#placeBtnElement || !this.#endBtnElement) return;
+        if (!this.#startBtnElement || !this.placeBtnElement || !this.#endBtnElement) return;
         this.#startBtnElement.addEventListener('click', (e) => this.#startFormSubmit(e) );
         this.#endBtnElement.addEventListener('click', (e) => this.#endFormSubmit(e) );
-        this.#placeBtnElement.forEach((element) => element.addEventListener('click', async(e) => await this.#placesFormSubmit(e)));
+        this.placeBtnElement.forEach((element) => element.addEventListener('click', async(e) => await this.#placesFormSubmit(e)));
     }
 
     /**
@@ -394,6 +414,13 @@ class ModalSubmitButton {
      */
     #startFormSubmit(e) {
         e.preventDefault();
+
+        // 値の検証（nullがあるか）
+        if (!this.#startFormCheck()) {
+            // エラーメッセージ表示
+            document.getElementById('startError').textContent = '出発地点・予定時間を正しく入力してください。';
+            return;
+        }
 
         sessionStorageList.setStartPlace();
 
@@ -405,11 +432,31 @@ class ModalSubmitButton {
     }
 
     /**
+     * 出発地点のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #startFormCheck() {
+        const placeName = document.getElementById('startPlace').value;
+        const placeId = document.getElementById('startPlaceId').value;
+        const lat = document.getElementById('startLat').value;
+        const lng = document.getElementById('startLng').value;
+        const time = document.getElementById('startTime').value;
+
+        return !!(placeName && placeId && lat && lng && time);
+    }
+
+    /**
      * 終了地点のsubmitイベント
      * @param e イベント
      */
     #endFormSubmit(e) {
         e.preventDefault();
+
+        // 値の検証（nullがあるか）
+        if (!this.#endFormCheck()) {
+            document.getElementById('endError').textContent = '終了地点を正しく入力してください。';
+            return;
+        }
 
         sessionStorageList.setEndPlace();
 
@@ -418,6 +465,19 @@ class ModalSubmitButton {
         modal.addButtonEvent(modalType, 0);
 
         modal.changeEndDisplay(); // 表示を変える
+    }
+
+    /**
+     * 出発地点のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #endFormCheck() {
+        const placeName = document.getElementById('endPlace').value;
+        const placeId = document.getElementById('endPlaceId').value;
+        const lat = document.getElementById('endLat').value;
+        const lng = document.getElementById('endLng').value;
+
+        return !!(placeName && placeId && lat && lng);
     }
 
     /**
@@ -431,6 +491,12 @@ class ModalSubmitButton {
         const formId = e.target.id; // formのid取得
         const formNum = Number(formId.replace('placesSubmit', '')); // placesSubmit{num}の数字だけ取得
 
+        // 値の検証（nullがあるか）
+        if (!this.#placeFormCheck(formNum)) {
+            document.getElementById(`placeError${formNum}`).textContent = '目的地を正しく入力してください。';
+            return;
+        }
+
         sessionStorageList.setPlaces(formNum);
 
         // modal設定
@@ -443,6 +509,19 @@ class ModalSubmitButton {
 
         await this.newAddFragment();
     };
+
+    /**
+     * 出発地点のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #placeFormCheck(formNum) {
+        const placeName = document.getElementById(`place${formNum}`).value;
+        const placeId = document.getElementById(`placeId${formNum}`).value;
+        const lat = document.getElementById(`placeLat${formNum}`).value;
+        const lng = document.getElementById(`placeLng${formNum}`).value;
+
+        return !!(placeName && placeId && lat && lng);
+    }
 
     /**
      * 追加フラグメントを挿入
