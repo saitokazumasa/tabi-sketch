@@ -34,12 +34,11 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form class="p-4 sm:p-5" th:object="${startPlaceForm}">
+                <form class="p-4 sm:p-5" th:object="${startPlaceForm}" id="startPlaceForm">
                     <span id="startError" class="text-danger text-sm mb-2 flex justify-center"></span>
                     <div class="space-y-4 w-full">
                         <div>
                             <label class="block mb-2" for="startPlace">出発地点<span class="ml-2 text-sm text-danger">必須</span></label>
-                            <!-- todo: th:field="*{placeName}にする" -->
                             <input th:field="*{placeName}" class="w-full input focus:ring-0" id="startPlace" name="startPlace" type="text"/>
                         </div>
                         <input th:field="*{googlePlaceId}" class="hidden" id="startPlaceId" type="text"/>
@@ -53,11 +52,11 @@
                                         <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
                                     </svg>
                                 </div>
-                                <input th:field="*{startTime}"  class="w-full input focus:ring-0" id="startTime" max="23:59" min="00:00" placeholder="--:--" type="time"/>
+                                <input th:field="*{startTime}" class="w-full input focus:ring-0" id="startTime" max="23:59" min="00:00" placeholder="--:--" type="time"/>
                             </div>
                         </div>
                         <div class="flex justify-center">
-                            <button class="button-primary" type="button" id="startPlaceSubmit">登録</button>
+                            <button class="button-primary" type="submit">登録</button>
                         </div>
                     </div>
                 </form>
@@ -90,7 +89,7 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form class="p-4 sm:p-5" th:object="${endPlaceForm}">
+                <form class="p-4 sm:p-5" th:object="${endPlaceForm}" id="endPlaceForm">
                     <span id="endError" class="text-danger text-sm mb-2 flex justify-center"></span>
                     <div class="space-y-4 w-full">
                         <div>
@@ -101,7 +100,7 @@
                         <input th:field="*{latitude}" class="hidden" id="endLat" type="text"/>
                         <input th:field="*{longitude}" class="hidden" id="endLng" type="text"/>
                         <div class="flex justify-center">
-                            <button class="button-primary" type="button" id="endPlaceSubmit">登録</button>
+                            <button class="button-primary" type="submit">登録</button>
                         </div>
                     </div>
                 </form>
@@ -124,12 +123,12 @@
             </span>
         </button>
         <button class="hidden px-2" th:id="'modalDeleteBtn' + ${num}">
-            <th:block th:replace="~{fragment/svg :: close}" />
+            <th:block th:replace="~{fragment/svg :: close}"/>
         </button>
     </div>
 </th:block>
 
-<th:block th:fragment="placesForm(num)">
+<th:block th:fragment="placesForm(num, placeForm)">
     <div aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full sm:inset-0 h-[calc(100%-1rem)] max-h-full text-label text-base" tabindex="-1" th:id="'placeModal' + ${num}">
         <div class="relative p-4 w-full max-w-md max-h-full">
             <!-- Modal content -->
@@ -147,7 +146,7 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <div class="p-4 sm:p-5">
+                <form class="p-4 sm:p-5" th:object="${placeForm}" th:id="'placeForm' + ${num}">
                     <span th:id="'placeError' + ${num}" class="text-danger text-sm mb-2 flex justify-center"></span>
                     <div class="space-y-4 w-full">
                         <input class="hidden" th:id="'placeId' + ${num}" th:name="'placeId' + ${num}" type="text"/>
@@ -197,10 +196,10 @@
                             </div>
                         </div>
                         <div class="flex justify-center">
-                            <button class="button-primary" th:id="'placesSubmit' + ${num}" type="button">追加</button>
+                            <button class="button-primary" type="submit">追加</button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
