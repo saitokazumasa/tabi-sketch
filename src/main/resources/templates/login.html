@@ -5,11 +5,9 @@
 <th:block th:replace="~{fragment/header :: header}"/>
 <main class="flex flex-col items-center mt-10 flex-grow">
     <h2 class="text-center sm:text-3xl text-2xl font-medium">ログイン</h2>
-<!--    TODO: Figmaではエラーメッセージの表示がなかったけどあってもいいかも？-->
-    <!--    エラーメッセージの表示-->
-    <!--    <div th:if="${param.error}" class="error-message">-->
-    <!--        メールアドレス、またはパスワードが違います-->
-    <!--    </div>-->
+    <div th:if="${param.error}">
+        <p class="pt-4 text-red-600">メールアドレス、またはパスワードが違います</p>
+    </div>
     <form th:action="@{/login}" method="post" class="w-full sm:max-w-lg max-w-xs">
         <div class="mb-4 mt-10">
             <label for="mail" class="block sm:text-base text-sp-default sm:my-1 my-0.5 text-sm">メールアドレス</label>

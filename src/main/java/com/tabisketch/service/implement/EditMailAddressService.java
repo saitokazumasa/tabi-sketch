@@ -39,7 +39,7 @@ public class EditMailAddressService implements IEditMailAddressService {
         final User user = this.usersMapper.selectByMailAddress(editMailAddressForm.getCurrentMailAddress());
 
         if (existMailAddress(editMailAddressForm.getNewMailAddress())) return;
-        if (notMatchPassword(editMailAddressForm.getCurrentPassword(), user.getPassword())) return;
+        if (notMatchPassword(editMailAddressForm.getPassword(), user.getPassword())) return;
 
         final var maaToken = MAAToken.generate(user.getId(), editMailAddressForm.getNewMailAddress());
         final int insertResult = this.maaTokensMapper.insert(maaToken);
