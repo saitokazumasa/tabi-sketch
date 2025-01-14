@@ -7,25 +7,23 @@ class RecommendPlace {
 
         // submit送信したformを取得
         const formKey = e.target.id;
-        const formNum = Number(formKey.replace('recommendSubmit', ''));
+        const formNum = Number(formKey.replace('recommendForm', ''));
 
         // 「目的地を追加する」のform取得
-        const modalSubmitButton = new ModalSubmitButton();
-        const placeBtnList = modalSubmitButton.placeBtnElement;
-        const placeBtnKey = placeBtnList[placeBtnList.length - 1].id;
-        const placeBtnNum = Number(placeBtnKey.replace('placesSubmit', ''));
+        const modalForm = new ModalForm();
+        const placeFormList = modalForm.placeFormElement; // modalFormクラスのformListを取得
+        // 一番後ろのplaceFormの項番を取得
+        const placeFormKey = placeFormList[placeFormList.length - 1].id;
+        const placeFormNum = Number(placeFormKey.replace('placesSubmit', ''));
 
-        // sessionに値を追加 (modal.jsのSessionStorageListのplaceに入れる)
-        sessionStorageList.setRecommendPlace(placeBtnNum, formNum);
-
-        // 今表示されている「目的地を追加する」のvalueをsessionから入れる
-        this.#setPlaceFormValue(placeBtnNum);
+        // 今表示されている「目的地を追加する」のvalueを更新する
+        this.#setPlaceFormValue(placeFormNum, e);
 
         // 今表示されている「目的地を追加する」の表示内容変更
-        modal.changePlaceDisplay(placeBtnNum);
+        modal.changePlaceDisplay(placeFormNum);
 
         // 新規フラグメントの呼び出し
-        await modalSubmitButton.newAddFragment();
+        await modalForm.newAddFragment();
 
         this.#hideModal(formNum); // 現在開かれてるmodalを閉じる
         this.#hideDisplay(formNum); // 追加したおすすめ目的地の表示を隠す
@@ -52,29 +50,33 @@ class RecommendPlace {
 
     /**
      * sessionから値を取得してformのvalueに入れる
-     * @param placeBtnNum 「目的地」formの項番
+     * @param placeFormNum {number} 「目的地」formの項番
+     * @param e {event}
      */
-    #setPlaceFormValue(placeBtnNum) {
-        const data = sessionStorageList.getPlacesData(placeBtnNum-1);
+    #setPlaceFormValue(placeFormNum, e) {
+        // FormDataを利用してフォームのデータを取得
+        const formData = new FormData(e.target);
+        // フォームデータをオブジェクトとして取得
+        const formObject = Object.fromEntries(formData.entries());
 
-        document.getElementById(`placeId${placeBtnNum}`).value = data.placeId;
-        document.getElementById(`placeLat${placeBtnNum}`).value = data.lat;
-        document.getElementById(`placeLng${placeBtnNum}`).value = data.lng;
-        document.getElementById(`place${placeBtnNum}`).value = data.name;
+        document.getElementById(`placeId${placeFormNum}`).value = formObject.googlePlaceId;
+        document.getElementById(`placeLat${placeFormNum}`).value = formObject.latitude;
+        document.getElementById(`placeLng${placeFormNum}`).value = formObject.longitude;
+        document.getElementById(`place${placeFormNum}`).value = formObject.placeName;
 
-        if (data.budget)
-            document.getElementById(`budget${placeBtnNum}`).value = data.budget;
+        if (formObject.budget)
+            document.getElementById(`budget${placeFormNum}`).value = formObject.budget;
 
-        if (data.stayTime)
-            document.getElementById(`stayTime${placeBtnNum}`).value = data.stayTime;
+        if (formObject.stayTime)
+            document.getElementById(`stayTime${placeFormNum}`).value = formObject.stayTime;
         else
-            document.getElementById(`stayTime${placeBtnNum}`).value = 30;
+            document.getElementById(`stayTime${placeFormNum}`).value = 30;
 
-        if (data.desiredStartTime)
-            document.getElementById(`desiredStartTime${placeBtnNum}`).value = data.desiredStartTime;
+        if (formObject.desiredStartTime)
+            document.getElementById(`desiredStartTime${placeFormNum}`).value = formObject.desiredStartTime;
 
-        if (data.desiredEndTime)
-            document.getElementById(`desiredEndTime${placeBtnNum}`).value = data.desiredEndTime;
+        if (formObject.desiredEndTime)
+            document.getElementById(`desiredEndTime${placeFormNum}`).value = formObject.desiredEndTime;
     }
 }
 
