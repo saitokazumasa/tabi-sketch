@@ -5,18 +5,18 @@
     <title>Title</title>
 </head>
 <body>
-<!-- 識別用の number , 場所情報が入った place を受け取る -->
-<th:block th:fragment="recommendToggle(number, place)">
+<!-- 識別用の number , フォームで使うクラス を受け取る -->
+<th:block th:fragment="recommendToggle(number, formObject)">
     <!-- Modal toggle -->
     <button class="input border-interactive text-center text-label max-w-md w-4/5 flex justify-between items-center h-10 sm:h-12"
             th:data-modal-target="'recommendModal'+${number}" th:data-modal-toggle="'recommendModal'+${number}" th:id="'recommendToggle'+${number}" type="button">
         <span class="absolute block text-[10px] sm:text-base">
             <th:block th:replace="~{fragment/svg :: plus}"/>
         </span>
-        <span class="flex-1 text-base sm:text-xl truncate ... px-2" th:id="'recommendPlace'" th:text="${place.name}">目的地の名前</span>
+        <span class="flex-1 text-base sm:text-xl truncate ... px-2" th:id="'recommendPlace'" th:text="${formObject.placeName}">目的地の名前</span>
         <span class="flex flex-col items-end text-[8px] sm:text-xs">
-            <span class="block" th:text="'平均予算：'+${place.budget}+'分'">平均予算</span>
-            <span class="block" th:text="'平均滞在時間：'+${place.stayTime}+'分'">平均滞在時間</span>
+            <span class="block" th:text="'平均予算：'+${formObject.budget}+'分'">平均予算</span>
+            <span class="block" th:text="'平均滞在時間：'+${formObject.stayTime}+'分'">平均滞在時間</span>
         </span>
     </button>
 </th:block>
