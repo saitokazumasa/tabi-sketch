@@ -37,4 +37,13 @@ public class Mail {
                         "https://tabisketch.com/mail/confirm/" + token.toString();
         return new Mail(toMailAddress,subject, content);
     }
+
+    /**
+     * パスワード編集通知メールを生成する
+     */
+    public static Mail passwordEditNoticeMail(final String toMailAddress) {
+        final String subject = "たびすけっち パスワード変更のお知らせメール";
+        final String content = "パスワードが変更されました。";
+        return new Mail(toMailAddress,subject, content);
+    }
 }
