@@ -41,7 +41,7 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form th:object="${formObject}" class="p-4 sm:p-5">
+                <form th:object="${formObject}" class="p-4 sm:p-5 recommend" th:id="'recommendForm'+${number}">
                     <div class="space-y-4 w-full">
                         <input th:field="*{googlePlaceId}" class="hidden" th:id="'recommendPlaceId'+${number}" type="text"/>
                         <input th:field="*{latitude}" class="hidden" th:id="'recommendLat'+${number}" type="text"/>
@@ -90,7 +90,7 @@
                             </div>
                         </div>
                         <div class="flex justify-center">
-                            <button class="button-primary recommend" th:id="'recommendSubmit'+${number}" type="submit">追加</button>
+                            <button class="button-primary" type="submit">追加</button>
                         </div>
                     </div>
                 </form>

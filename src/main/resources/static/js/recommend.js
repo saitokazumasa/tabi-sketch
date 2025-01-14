@@ -82,8 +82,9 @@ const recommendPlace = new RecommendPlace();
 
 // th呼び出し後 submitイベントをアタッチ
 document.addEventListener('DOMContentLoaded', function() {
+    // 各form要素に recommend という独自クラスを付与し取得する
     document.querySelectorAll('.recommend').forEach(element => {
-        element.addEventListener('click', async function(e) {
+        element.addEventListener('submit', async function(e) {
             await recommendPlace.submitEvent(e);
         });
     });
