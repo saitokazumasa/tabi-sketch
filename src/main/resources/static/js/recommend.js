@@ -25,8 +25,8 @@ class RecommendPlace {
         // 新規フラグメントの呼び出し
         await modalForm.newAddFragment();
 
-        this.#hideModal(formNum); // 現在開かれてるmodalを閉じる
-        this.#hideDisplay(formNum); // 追加したおすすめ目的地の表示を隠す
+        // api/create-placeへの処理、成功時 #hideModal,#hideDisplay 呼び出し
+        this.#postApiCreatePlace(formNum, e);
     }
 
     /**
@@ -77,6 +77,41 @@ class RecommendPlace {
 
         if (formObject.desiredEndTime)
             document.getElementById(`desiredEndTime${placeFormNum}`).value = formObject.desiredEndTime;
+    }
+
+    /**
+     * api/create-place にPost送信
+     */
+    #postApiCreatePlace(formNum, e) {
+        const formData = new FormData(e.target);
+
+        // disabledにしているplaceNameの値を手動で追加
+        const disabledInput = document.getElementById(`recommend${formNum}`).value;
+        if (disabledInput) formData.append('placeName', disabledInput.value);
+
+        // /api/crete-placeにPOST送信
+        try {
+            // 非同期でPOSTリクエストを送信
+            fetch('/api/create-place', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`送信エラー: ${response.status}`);
+                    }
+                    return response.json(); // 必要に応じてレスポンスを処理
+                })
+                .then(data => {
+                    if (data.status === 'Failed')
+                        throw new Error('エラーが発生しました。');
+                    // modal変更
+                    this.#hideModal(formNum); // 現在開かれてるmodalを閉じる
+                    this.#hideDisplay(formNum); // 追加したおすすめ目的地の表示を隠す
+                });
+        } catch (error) {
+            document.getElementById('startError').textContent = '送信中にエラーが発生しました。もう一度お試しください。' + error;
+        }
     }
 }
 
