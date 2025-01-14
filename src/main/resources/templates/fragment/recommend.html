@@ -21,8 +21,8 @@
     </button>
 </th:block>
 
-<!-- 識別用の number , 場所情報が入った place , フォームで使うクラス を受け取る -->
-<th:block th:fragment="recommendForm(number, place, formObject)">
+<!-- 識別用の number , フォームで使うクラス を受け取る -->
+<th:block th:fragment="recommendForm(number, formObject)">
     <!-- Main modal -->
     <div aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full sm:inset-0 h-[calc(100%-1rem)] max-h-full text-label text-base" th:id="'recommendModal'+${number}" tabindex="-1">
         <div class="relative p-4 w-full max-w-md max-h-full">
@@ -43,25 +43,25 @@
                 <!-- Modal body -->
                 <form th:object="${formObject}" class="p-4 sm:p-5">
                     <div class="space-y-4 w-full">
-                        <input th:field="*{googlePlaceId}" class="hidden" th:id="'recommendPlaceId'+${number}" th:value="${place.placeId}" type="text"/>
-                        <input th:field="*{latitude}" class="hidden" th:id="'recommendLat'+${number}" th:value="${place.lat}" type="text"/>
-                        <input th:field="*{longitude}" class="hidden" th:id="'recommendLng'+${number}" th:value="${place.lng}" type="text"/>
+                        <input th:field="*{googlePlaceId}" class="hidden" th:id="'recommendPlaceId'+${number}" type="text"/>
+                        <input th:field="*{latitude}" class="hidden" th:id="'recommendLat'+${number}" type="text"/>
+                        <input th:field="*{longitude}" class="hidden" th:id="'recommendLng'+${number}" type="text"/>
                         <div>
                             <label class="block mb-2" th:for="'recommend'+${number}">目的地<span class="ml-2 text-sm text-danger">必須</span></label>
-                            <input th:field="*{placeName}" class="w-full input focus:ring-0 bg-gray-100" disabled th:id="'recommend'+${number}" th:name="'recommend'+${number}" th:value="${place.name}" type="text"/>
+                            <input th:field="*{placeName}" class="w-full input focus:ring-0 bg-gray-100" disabled th:id="'recommend'+${number}" th:name="'recommend'+${number}" type="text"/>
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="w-1/2 pr-3">
                                 <label class="block mb-2" th:for="'recommendBudget'+${number}">予算</label>
                                 <div class="flex items-end">
-                                    <input th:field="*{budget}" class="w-full input focus:ring-0" th:id="'recommendBudget'+${number}" th:name="'recommendBudget'+${number}" th:value="${place.budget}" type="number"/>
+                                    <input th:field="*{budget}" class="w-full input focus:ring-0" th:id="'recommendBudget'+${number}" th:name="'recommendBudget'+${number}" type="number"/>
                                     <span>円</span>
                                 </div>
                             </div>
                             <div class="w-1/2 pl-3">
                                 <label class="block mb-2" th:for="'recommendStayTime'+${number}">滞在時間</label>
                                 <div class="flex items-end">
-                                    <input th:field="*{stayTime}" class="w-full input focus:ring-0" th:id="'recommendStayTime'+${number}" th:name="'recommendStayTime'+${number}" th:value="${place.stayTime}" type="number" />
+                                    <input th:field="*{stayTime}" class="w-full input focus:ring-0" th:id="'recommendStayTime'+${number}" th:name="'recommendStayTime'+${number}" type="number" />
                                     <span>分</span>
                                 </div>
                             </div>
