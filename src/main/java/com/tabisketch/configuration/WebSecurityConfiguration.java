@@ -22,6 +22,7 @@ public class WebSecurityConfiguration {
                         .requestMatchers("/register/**").permitAll()
                         .requestMatchers("/mail/**").permitAll()
                         .requestMatchers("/password-reset/**").permitAll()
+                        .requestMatchers("/user/password-reset/**").permitAll()
                         .requestMatchers("/share/**").permitAll()
                         .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/plan/**").authenticated()
