@@ -39,7 +39,7 @@
                     <div class="space-y-4 w-full">
                         <div>
                             <label class="block mb-2" for="startPlace">出発地点<span class="ml-2 text-sm text-danger">必須</span></label>
-                            <input th:field="*{placeName}" class="w-full input focus:ring-0" id="startPlace" name="startPlace" type="text"/>
+                            <input th:field="*{name}" class="w-full input focus:ring-0" id="startPlace" name="startPlace" type="text"/>
                         </div>
                         <input th:field="*{googlePlaceId}" class="hidden" id="startPlaceId" type="text"/>
                         <input th:field="*{latitude}"  class="hidden" id="startLat" type="text"/>
@@ -94,7 +94,7 @@
                     <div class="space-y-4 w-full">
                         <div>
                             <label class="block mb-2" for="endPlace">終了地点<span class="ml-2 text-sm text-danger">必須</span></label>
-                            <input th:field="*{placeName}" class="w-full input focus:ring-0" id="endPlace" type="text"/>
+                            <input th:field="*{name}" class="w-full input focus:ring-0" id="endPlace" type="text"/>
                         </div>
                         <input th:field="*{googlePlaceId}" class="hidden" id="endPlaceId" name="endPlaceId" type="text"/>
                         <input th:field="*{latitude}" class="hidden" id="endLat" type="text"/>
@@ -154,7 +154,7 @@
                         <input th:field="*{longitude}" class="hidden" th:id="'placeLng' + ${num}" type="text"/>
                         <div>
                             <label class="block mb-2" th:for="'place' + ${num}">目的地<span class="ml-2 text-sm text-danger">必須</span></label>
-                            <input th:field="*{placeName}" class="w-full input focus:ring-0" th:id="'place' + ${num}" th:name="'place' + ${num}" type="text"/>
+                            <input th:field="*{name}" class="w-full input focus:ring-0" th:id="'place' + ${num}" th:name="'place' + ${num}" type="text"/>
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="w-1/2 pr-3">
