@@ -48,12 +48,6 @@ jobs:
           cache: maven
 
       - name: Initialize database
-        env:
-          PGHOST: ${{ env.DATABASE_HOST }}
-          PGPORT: ${{ env.DATABASE_PORT }}
-          PGDATABASE: ${{ env.DATABASE_NAME }}
-          PGUSER: ${{ env.DATABASE_USERNAME }}
-          PGPASSWORD: ${{ env.DATABASE_PASSWORD }}
         run: bin/CreateTables.sh
 
       - name: Build
