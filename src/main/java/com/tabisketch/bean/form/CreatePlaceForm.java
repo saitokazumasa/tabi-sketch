@@ -2,6 +2,7 @@ package com.tabisketch.bean.form;
 
 import com.tabisketch.constant.Transportation;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,8 +12,17 @@ import java.time.LocalTime;
 @Data
 @AllArgsConstructor
 public class CreatePlaceForm {
-    @Min(1)
-    private int googlePlaceId;
+    @NotBlank
+    private String name;
+
+    /**
+     * GoogleMapのPlaceID
+     */
+    @NotBlank
+    private String googlePlaceId;
+
+    private double latitude;
+    private double longitude;
 
     @Min(1)
     private int dayId;
@@ -20,15 +30,45 @@ public class CreatePlaceForm {
     @Min(0)
     private int budget;
 
+    /**
+     * 開始時間
+     */
     @NotNull
     private LocalTime startTime;
-
+    /**
+     * 終了時間
+     */
     @NotNull
     private LocalTime endTime;
 
+    /**
+     * 希望開始時間
+     */
     private LocalTime desiredStartTime;
+    /**
+     * 希望終了時間
+     */
     private LocalTime desiredEndTime;
+
     private String toPolyLine;
     private Integer toTravelTime;
     private Transportation toTransportation;
+
+    public static CreatePlaceForm empty() {
+        return new CreatePlaceForm(
+                "",
+                "",
+                0,
+                0,
+                1,
+                0,
+                LocalTime.now(),
+                LocalTime.now(),
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+    }
 }

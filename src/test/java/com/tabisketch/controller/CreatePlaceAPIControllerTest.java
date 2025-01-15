@@ -29,7 +29,10 @@ public class CreatePlaceAPIControllerTest {
     @WithMockUser
     public void testPost() throws Exception {
         final var createPlaceForm = new CreatePlaceForm(
-                1,
+                "name",
+                "googlePlaceId",
+                0,
+                0,
                 1,
                 0,
                 LocalTime.of(10, 0),
