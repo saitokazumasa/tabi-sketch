@@ -51,25 +51,7 @@ jobs:
         run: bin/CreateTables.sh
 
       - name: Build
-        env:
-          DATABASE_HOST: ${{ env.DATABASE_HOST }}
-          DATABASE_PORT: ${{ env.DATABASE_PORT }}
-          DATABASE_NAME: ${{ env.DATABASE_NAME }}
-          DATABASE_USERNAME: ${{ env.DATABASE_USERNAME }}
-          DATABASE_PASSWORD: ${{ env.DATABASE_PASSWORD }}
-          MAIL_USERNAME: ${{ env.MAIL_USERNAME }}
-          MAIL_PASSWORD: ${{ env.MAIL_PASSWORD }}
-          GOOGLE_MAPS_API_KEY: ${{ env.GOOGLE_MAPS_API_KEY }}
         run: bin/BuildJar.sh
 
       - name: Test
-        env:
-          DATABASE_HOST: ${{ env.DATABASE_HOST }}
-          DATABASE_PORT: ${{ env.DATABASE_PORT }}
-          DATABASE_NAME: ${{ env.DATABASE_NAME }}
-          DATABASE_USERNAME: ${{ env.DATABASE_USERNAME }}
-          DATABASE_PASSWORD: ${{ env.DATABASE_PASSWORD }}
-          MAIL_USERNAME: ${{ env.MAIL_USERNAME }}
-          MAIL_PASSWORD: ${{ env.MAIL_PASSWORD }}
-          GOOGLE_MAPS_API_KEY: ${{ env.GOOGLE_MAPS_API_KEY }}
         run: bin/Test.sh
