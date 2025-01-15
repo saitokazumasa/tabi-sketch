@@ -16,7 +16,7 @@ public class GooglePlaceMapperTest {
     @Test
     public void testInsert() {
         final var googlePlace = GooglePlace.generate(
-                "",
+                "example",
                 "",
                 0,
                 0
@@ -30,7 +30,7 @@ public class GooglePlaceMapperTest {
             "classpath:/sql/CreateGooglePlace.sql"
     })
     public void testSelect() {
-        final var placeId = "";
+        final var placeId = "example";
         final var googlePlace = this.googlePlaceMapper.selectByPlaceId(placeId);
         assert googlePlace != null;
     }
