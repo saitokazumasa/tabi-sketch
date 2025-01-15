@@ -6,10 +6,10 @@
 <main class="flex flex-col items-center mt-10 flex-grow">
     <h2 class="text-center sm:text-3xl text-2xl font-medium">パスワード編集</h2>
     <!--TODO: Figmaではエラーメッセージの表示がなかったけどあってもいいかも？-->
-    <!--エラーメッセージの表示-->
-    <!--<div th:if="${param.error}" class="error-message">-->
-    <!--    メールアドレス、またはパスワードが違います-->
-    <!--</div>-->
+    エラーメッセージの表示
+    <div th:if="${param.error}" class="error-message">
+        パスワードに誤りがあります
+    </div>
     <form th:action="@{/user/edit/password}" th:object="${editPasswordForm}" method="post" class="w-full sm:max-w-lg max-w-xs">
         <input th:field="*{mailAddress}" required hidden aria-label>
         <div class="my-10">
