@@ -1,5 +1,6 @@
 # たびすけっち
 
+# 規則
 ## ブランチ
 
 - main ... メインブランチ
@@ -12,36 +13,56 @@
 - MailAddressAuthenticationToken -> MAAToken  
   メールアドレス認証トークン
 
+# 開発
 ## 環境構築
 
-1. コマンドラインで `npm install` を実行する
-2. DATABASEを作成する
+1. コマンドラインで `npm install` を実行
+2. DATABASEを作成
     ```postgresql
     CREATE DATABASE tabisketch;
     ```
-3. 環境変数を設定する
-
-## 環境変数
-
-```
-DATABASE_URL        データベースのURL
-DATABASE_USERNAME   データベースのユーザー名
-DATABASE_PASSWORD   データベースのパスワード
-MAIL_USERNAME       Gmailアカウントのユーザー名
-MAIL_PASSWORD       Gmailアカウントのアプリパスワード
-GOOGLE_MAPS_API_KEY GoogleMapのAPIキー
-```
+3. .envファイルを作成
+    ```
+    DATABASE_HOST=データベースのホスト名
+    DATABASE_PORT=データベースのポート番号
+    DATABASE_NAME=データベース名
+    DATABASE_USERNAME=データベースのユーザ名
+    DATABASE_PASSWORD=データベースのパスワード
+    MAIL_USERNAME=Gmailアカウントのユーザ名
+    MAIL_PASSWORD=Gmailアカウントのアプリパスワード
+    GOOGLE_MAPS_API_KEY=GoogleMapのAPIキー
+    ```
+4. `./bin/CreateTable.sh` を実行
 
 ## 各種コマンド
 
-#### TailwindCSSビルド
+### 実行
+```shell
+./bin/Run.sh
+```
+TailwindCSSも同時にビルドされる
 
-`.run/bin/BuildTailwindCss.sh`
+### テスト
+```shell
+./bin/Test.sh
+```
 
-#### テーブル一括作成
+### Jar ビルド
+```shell
+./bin/BuildJar.sh
+```
 
-`.run/bin/CreateTables.sh [PostgreSQLのユーザー名] [PostgreSQLのパスワード] tabisketch`
+### TailwindCSS ビルド
+```shell
+./bin/BuildTailwindCss.sh
+```
 
-#### テーブル一括削除
+### Table一括作成
+```shell
+./bin/CreateTable.sh
+```
 
-`.run/bin/DropTables.sh [PostgreSQLのユーザー名] [PostgreSQLのパスワード] tabisketch`
+### Table一括削除
+```shell
+./bin/DropTable.sh
+```
