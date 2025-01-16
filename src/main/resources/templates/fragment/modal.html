@@ -44,6 +44,14 @@
                         <input th:field="*{googlePlaceId}" class="hidden" id="startPlaceId" type="text"/>
                         <input th:field="*{latitude}"  class="hidden" id="startLat" type="text"/>
                         <input th:field="*{longitude}" class="hidden" id="startLng" type="text"/>
+                        <input th:field="*{dayId}" class="hidden" type="number"/>
+                        <input th:field="*{budget}" class="hidden" type="number"/>
+                        <input th:field="*{endTime}" class="hidden" type="time"/>
+                        <input th:field="*{desiredStartTime}" class="hidden" type="time"/>
+                        <input th:field="*{desiredEndTime}" class="hidden" type="time"/>
+                        <input th:field="*{toPolyLine}" class="hidden" type="text"/>
+                        <input th:field="*{toTravelTime}" class="hidden" type="number"/>
+                        <input th:field="*{toTransportation}" class="hidden" type="text"/>
                         <div class="w-1/2">
                             <label class="block mb-2" for="startTime">予定時間<span class="ml-2 text-sm text-danger">必須</span></label>
                             <div class="relative">
@@ -99,6 +107,15 @@
                         <input th:field="*{googlePlaceId}" class="hidden" id="endPlaceId" name="endPlaceId" type="text"/>
                         <input th:field="*{latitude}" class="hidden" id="endLat" type="text"/>
                         <input th:field="*{longitude}" class="hidden" id="endLng" type="text"/>
+                        <input th:field="*{dayId}" class="hidden" type="number"/>
+                        <input th:field="*{budget}" class="hidden" type="number"/>
+                        <input th:field="*{startTime}" class="hidden" type="time"/>
+                        <input th:field="*{endTime}" class="hidden" type="time"/>
+                        <input th:field="*{desiredStartTime}" class="hidden" type="time"/>
+                        <input th:field="*{desiredEndTime}" class="hidden" type="time"/>
+                        <input th:field="*{toPolyLine}" class="hidden" type="text"/>
+                        <input th:field="*{toTravelTime}" class="hidden" type="number"/>
+                        <input th:field="*{toTransportation}" class="hidden" type="text"/>
                         <div class="flex justify-center">
                             <button class="button-primary" type="submit">登録</button>
                         </div>
@@ -152,6 +169,12 @@
                         <input th:field="*{googlePlaceId}" class="hidden" th:id="'placeId' + ${num}" type="text"/>
                         <input th:field="*{latitude}" class="hidden" th:id="'placeLat' + ${num}" type="text"/>
                         <input th:field="*{longitude}" class="hidden" th:id="'placeLng' + ${num}" type="text"/>
+                        <input th:field="*{dayId}" class="hidden" type="number"/>
+                        <input th:field="*{startTime}" class="hidden" type="time"/>
+                        <input th:field="*{endTime}" class="hidden" type="time"/>
+                        <input th:field="*{toPolyLine}" class="hidden" type="text"/>
+                        <input th:field="*{toTravelTime}" class="hidden" type="number"/>
+                        <input th:field="*{toTransportation}" class="hidden" type="text"/>
                         <div>
                             <label class="block mb-2" th:for="'place' + ${num}">目的地<span class="ml-2 text-sm text-danger">必須</span></label>
                             <input th:field="*{name}" class="w-full input focus:ring-0" th:id="'place' + ${num}" th:name="'place' + ${num}" type="text"/>
@@ -160,7 +183,7 @@
                             <div class="w-1/2 pr-3">
                                 <label class="block mb-2" th:for="'budget' + ${num}">予算</label>
                                 <div class="flex items-end">
-                                    <input class="w-full input focus:ring-0" th:id="'budget' + ${num}" th:name="'budget' + ${num}" type="number"/>
+                                    <input th:field="*{budget}" class="w-full input focus:ring-0" th:id="'budget' + ${num}" th:name="'budget' + ${num}" type="number"/>
                                     <span>円</span>
                                 </div>
                             </div>
