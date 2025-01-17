@@ -2,14 +2,8 @@ package com.tabisketch.bean.response;
 
 import lombok.Getter;
 
-// TODO: IResponseを継承する
 @Getter
-public class CreatePlaceResponse {
-    private enum Status {
-        Success,
-        Failed
-    }
-
+public class CreatePlaceResponse implements IResponse {
     private final String status;
 
     private CreatePlaceResponse(final String status) {

@@ -21,8 +21,25 @@ public interface IPlacesMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(final Place place);
 
+    @Select("SELECT * FROM places WHERE id = #{id}")
+    Place selectById(final int id);
+
     @Select("SELECT * FROM places WHERE day_id = #{dayId}")
     List<Place> selectByDayId(final int dayId);
+
+    @Update("UPDATE places " +
+            "   SET " +
+            "       day_id = #{dayId}, " +
+            "       budget = #{budget}, " +
+            "       start_time = #{startTime}, " +
+            "       end_time = #{endTime}, " +
+            "       desired_start_time = #{desiredStartTime}, " +
+            "       desired_end_time = #{desiredEndTime}, " +
+            "       to_poly_line = #{toPolyLine}, " +
+            "       to_travel_time = #{toTravelTime}, " +
+            "       to_transportation = #{toTransportation} " +
+            "   WHERE id = #{id}")
+    int update(final Place place);
 
     @Delete("DELETE FROM places " +
             "   USING days, plans " +
