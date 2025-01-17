@@ -3,12 +3,7 @@ package com.tabisketch.bean.response;
 import lombok.Getter;
 
 @Getter
-public class CreatePlanResponse {
-    private enum Status {
-        SUCCESS,
-        FAILED
-    }
-
+public class CreatePlanResponse implements IResponse {
     private final String status;
     private final int planId;
 
@@ -18,10 +13,10 @@ public class CreatePlanResponse {
     }
 
     public static CreatePlanResponse success(final int planId) {
-        return new CreatePlanResponse(Status.SUCCESS.toString(), planId);
+        return new CreatePlanResponse(Status.Success.toString(), planId);
     }
 
     public static CreatePlanResponse failed() {
-        return new CreatePlanResponse(Status.FAILED.toString(), -1);
+        return new CreatePlanResponse(Status.Failed.toString(), -1);
     }
 }

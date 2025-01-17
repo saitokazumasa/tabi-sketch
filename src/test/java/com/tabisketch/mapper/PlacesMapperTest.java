@@ -49,10 +49,38 @@ public class PlacesMapperTest {
             "classpath:/sql/CreatePlace.sql"
     })
     public void testSelect() {
+        final int id = 1;
+        assert this.placesMapper.selectById(id) != null;
+
         final int dayId = 1;
         final var placeList = this.placesMapper.selectByDayId(dayId);
         assert placeList != null;
         assert !placeList.isEmpty();
+    }
+
+    @Test
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql",
+            "classpath:/sql/CreateDay.sql",
+            "classpath:/sql/CreateGooglePlace.sql",
+            "classpath:/sql/CreatePlace.sql"
+    })
+    public void testUpdate() {
+        final var place = new Place(
+                1,
+                1,
+                1,
+                0,
+                LocalTime.of(11, 0),
+                LocalTime.of(12,0),
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        assert this.placesMapper.update(place) == 1;
     }
 
     @Test
