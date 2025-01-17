@@ -5,4 +5,4 @@ set -o allexport
 source .env
 set +o allexport
 
-./mvnw package -Dmaven.test.skip=true
+./mvnw package

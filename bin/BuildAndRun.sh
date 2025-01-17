@@ -7,7 +7,7 @@ set +o allexport
 
 # Build
 ./bin/BuildTailwindCss.sh
-./bin/BuildJar.sh
+./bin/BuildJarWithoutTest.sh
 
 # Run
 java -jar target/tabisketch-0.0.1-SNAPSHOT.jar

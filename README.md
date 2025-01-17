@@ -33,15 +33,11 @@
 ```
 TailwindCSSも同時にビルドされる
 
-### テスト
-```shell
-./bin/BuildAndTest.sh
-```
-
 ### Jar ビルド
 ```shell
 ./bin/BuildJar.sh
 ```
+テストも実行される
 
 ### TailwindCSS ビルド
 ```shell

@@ -51,4 +51,4 @@ jobs:
         run: bin/CreateTables.sh
 
       - name: Build and test
-        run: bin/BuildAndTest.sh
+        run: bin/BuildJar.sh
