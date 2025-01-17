@@ -7,9 +7,11 @@ on:
     branches: [ "main" ]
 
 env:
-  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+  DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+  DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+  DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+  DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
   MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
   MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
   GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
@@ -22,9 +24,9 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.DATABASE_USERNAME }}
+          POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}
+          POSTGRES_DB: ${{ env.DATABASE_NAME }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -46,20 +48,7 @@ jobs:
           cache: maven
 
       - name: Initialize database
-        env:
-          PGHOST: localhost
-          PGPORT: 5432
-          PGDATABASE: ${{ env.POSTGRES_DB }}
-          PGUSER: ${{ env.POSTGRES_USER }}
-          PGPASSWORD: ${{ env.POSTGRES_PASSWORD }}
-        run: .run/bin/CreateTables.sh ${{ env.POSTGRES_USER }} ${{ env.POSTGRES_PASSWORD }} ${{ env.POSTGRES_DB }}
+        run: bin/CreateTables.sh
 
-      - name: Build with Maven
-        env:
-          DATABASE_URL: "jdbc:postgresql://localhost:5432/${{ env.POSTGRES_DB }}"
-          DATABASE_USERNAME: ${{ env.POSTGRES_USER }}
-          DATABASE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-          MAIL_USERNAME: ${{ env.MAIL_USERNAME }}
-          MAIL_PASSWORD: ${{ env.MAIL_PASSWORD }}
-          GOOGLE_MAPS_API_KEY: ${{ env.GOOGLE_MAPS_API_KEY }}
-        run: ./mvnw package
+      - name: Build and test
+        run: bin/BuildJar.sh
