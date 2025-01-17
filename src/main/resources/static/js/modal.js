@@ -32,7 +32,7 @@ class Fragment {
             throw new Error('initialize Error : ' + error);
         }
         try {
-            const response = await fetch(`fragment/modal/placesForm?num=${(placeNum.value()+1)}`);
+            const response = await fetch(`/fragment/modal/placesForm?num=${(placeNum.value()+1)}`);
             if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
             this.#form = await response.text();
         } catch (error) {
@@ -44,18 +44,19 @@ class Fragment {
      * HTMLにfragment追加
      */
     addFragment() {
-        if (this.#toggle === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
+        if (!this.#toggle || !this.#form) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
+
         // id=destination の子要素にToggleを追加
-        const container = document.getElementById('destination');
+        const destination = document.getElementById('destination');
         const newToggle = document.createElement('div');
         newToggle.innerHTML = this.#toggle;
-        container.appendChild(newToggle);
-        // mainタグの子要素に Form を追加
-        const main = document.querySelector('main');
+        destination.appendChild(newToggle);
+
+        // id=formDiv の子要素に Form を追加
+        const formDiv = document.getElementById('formDiv');
         const newForm = document.createElement('div');
         newForm.innerHTML = this.#form;
-        main.appendChild(newForm);
-
+        formDiv.appendChild(newForm);
     }
 
     /**
