@@ -49,6 +49,9 @@ public class PlacesMapperTest {
             "classpath:/sql/CreatePlace.sql"
     })
     public void testSelect() {
+        final int id = 1;
+        assert this.placesMapper.selectById(id) != null;
+
         final int dayId = 1;
         final var placeList = this.placesMapper.selectByDayId(dayId);
         assert placeList != null;
@@ -89,9 +92,6 @@ public class PlacesMapperTest {
             "classpath:/sql/CreatePlace.sql"
     })
     public void testDelete() {
-        final int id = 1;
-        assert this.placesMapper.selectById(id) != null;
-
         final var uuid = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
         assert this.placesMapper.deleteByPlanUUID(uuid) >= 1;
     }
