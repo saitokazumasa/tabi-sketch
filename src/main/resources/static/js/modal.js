@@ -127,7 +127,7 @@ class ModalElement {
     addButtonEvent(modalType, num) {
         const modal = this.#getModal(modalType, num);
         const toggleBtn = this.#getToggleBtn(modalType, num);
-        const closeBtn = this.#getCloseBtn(modalType);
+        const closeBtn = this.#getCloseBtn(modalType, num);
 
         // イベントのアタッチ
         toggleBtn.addEventListener('click', () => modal.toggle() );
@@ -140,7 +140,7 @@ class ModalElement {
     /**
      * modal取得
      * @param modalType {'places','start','end'} モーダルの種別
-     * @param num formNum-1
+     * @param num formNum
      * @returns {Modal}
      */
     #getModal(modalType, num) {
@@ -153,7 +153,7 @@ class ModalElement {
     /**
      * toggle取得
      * @param modalType {'places','start','end'} モーダルの種別
-     * @param num formNum-1
+     * @param num formNum
      * @returns {*}
      */
     #getToggleBtn(modalType, num) {
@@ -166,11 +166,12 @@ class ModalElement {
     /**
      * close取得
      * @param modalType {'places','start','end'} モーダルの種別
+     * @param num formNum
      * @returns {*}
      */
-    #getCloseBtn(modalType) {
+    #getCloseBtn(modalType, num) {
         if (modalType === 'places') {
-            return this.#closeButtons.places[placeNum.value()-1];
+            return this.#closeButtons.places[num];
         }
         return this.#closeButtons[modalType];
     }
@@ -264,7 +265,7 @@ class ModalElement {
         deleteBtn.classList.remove('hidden');
 
         deleteBtn.addEventListener('click', () => {
-            const toggleBtn = this.#getToggleBtn('places', formNum-1);
+            const toggleBtn = this.#getToggleBtn('places', formNum);
             toggleBtn.classList.add('hidden'); // Modal表示のボタンを隠す
             deleteBtn.classList.add('hidden'); // ✕ボタンを隠す
         });
@@ -371,11 +372,11 @@ class ModalForm {
         const formNum = Number(formId.replace('placeForm', '')); // placesSubmit{num}の数字だけ取得
 
         // 値の検証（nullがあるか）
-        if (!this.#placeFormCheck(placeNum.value())) {
-            document.getElementById(`placeError${placeNum.value()}`).textContent = '目的地を正しく入力してください。';
+        if (!this.#placeFormCheck(formNum)) {
+            document.getElementById(`placeError${formNum}`).textContent = '目的地を正しく入力してください。';
             return;
         }
-        document.getElementById(`placeError${placeNum.value()}`).textContent = '';
+        document.getElementById(`placeError${formNum}`).textContent = '';
 
         const formData = new FormData(e.target);
         this.setEndTime(formNum, formData);
