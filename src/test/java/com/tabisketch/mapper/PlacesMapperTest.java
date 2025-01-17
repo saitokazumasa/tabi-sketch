@@ -63,7 +63,35 @@ public class PlacesMapperTest {
             "classpath:/sql/CreateGooglePlace.sql",
             "classpath:/sql/CreatePlace.sql"
     })
+    public void testUpdate() {
+        final var place = new Place(
+                1,
+                1,
+                1,
+                0,
+                LocalTime.of(11, 0),
+                LocalTime.of(12,0),
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        assert this.placesMapper.update(place) == 1;
+    }
+
+    @Test
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql",
+            "classpath:/sql/CreateDay.sql",
+            "classpath:/sql/CreateGooglePlace.sql",
+            "classpath:/sql/CreatePlace.sql"
+    })
     public void testDelete() {
+        final int id = 1;
+        assert this.placesMapper.selectById(id) != null;
+
         final var uuid = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
         assert this.placesMapper.deleteByPlanUUID(uuid) >= 1;
     }
