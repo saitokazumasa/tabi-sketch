@@ -417,6 +417,26 @@ class ModalForm {
     }
 
     /**
+     * endTimeを(startTime+stayTime)に
+     */
+    setEndTime(formNum, formData) {
+        const startTime = formData.get('startTime');
+        const stayTime = formData.get(`stayTime${formNum}`);
+        // startTimeをパースしてDate型に変換
+        const [startHours, startMinutes] = startTime.split(':').map(Number);
+        const startDate = new Date();
+        startDate.setHours(startHours, startMinutes, 0, 0); // 時間, 分, 秒, ミリ秒
+        // stayTime(分)を加算
+        const endDate = new Date(startDate.getTime() + stayTime * 60000); // 60000ms = 1分
+        // endDateをHH:mm形式にフォーマット
+        const endHours = String(endDate.getHours()).padStart(2, '0'); // ゼロ埋め
+        const endMinutes = String(endDate.getMinutes()).padStart(2, '0'); // ゼロ埋め
+        const endTime = `${endHours}:${endMinutes}`;
+        // FormDataにendTimeをセット
+        formData.set('endTime', endTime);
+    }
+
+    /**
      *
      * @param formData 送信するformのデータ
      * @param modalType 送信するformのタイプ(start, end, places)
