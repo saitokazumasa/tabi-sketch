@@ -50,8 +50,5 @@ jobs:
       - name: Initialize database
         run: bin/CreateTables.sh
 
-      - name: Build
-        run: bin/BuildJar.sh
-
-      - name: Test
-        run: bin/Test.sh
+      - name: Build and test
+        run: bin/BuildAndTest.sh

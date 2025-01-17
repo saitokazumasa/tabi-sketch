@@ -38,13 +38,13 @@
 
 ### 実行
 ```shell
-./bin/Run.sh
+./bin/BuildAndRun.sh
 ```
 TailwindCSSも同時にビルドされる
 
 ### テスト
 ```shell
-./bin/Test.sh
+./bin/BuildAndTest.sh
 ```
 
 ### Jar ビルド
