@@ -22,16 +22,7 @@
     CREATE DATABASE tabisketch;
     ```
 3. .envファイルを作成
-    ```
-    DATABASE_HOST=データベースのホスト名
-    DATABASE_PORT=データベースのポート番号
-    DATABASE_NAME=データベース名
-    DATABASE_USERNAME=データベースのユーザ名
-    DATABASE_PASSWORD=データベースのパスワード
-    MAIL_USERNAME=Gmailアカウントのユーザ名
-    MAIL_PASSWORD=Gmailアカウントのアプリパスワード
-    GOOGLE_MAPS_API_KEY=GoogleMapのAPIキー
-    ```
+    `.env.example` ファイルをコピーし、適切な値に書き換えて `.env` ファイルを作成する
 4. `./bin/CreateTable.sh` を実行
 
 ## 各種コマンド
