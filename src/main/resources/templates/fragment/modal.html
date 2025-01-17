@@ -169,12 +169,12 @@
                         <input th:field="*{googlePlaceId}" class="hidden" th:id="'placeId' + ${num}" type="text"/>
                         <input th:field="*{latitude}" class="hidden" th:id="'placeLat' + ${num}" type="text"/>
                         <input th:field="*{longitude}" class="hidden" th:id="'placeLng' + ${num}" type="text"/>
-                        <input th:field="*{dayId}" class="hidden" type="number"/>
-                        <input th:field="*{startTime}" class="hidden" type="time"/>
-                        <input th:field="*{endTime}" class="hidden" type="time"/>
-                        <input th:field="*{toPolyLine}" class="hidden" type="text"/>
-                        <input th:field="*{toTravelTime}" class="hidden" type="number"/>
-                        <input th:field="*{toTransportation}" class="hidden" type="text"/>
+                        <input th:field="*{dayId}" class="hidden" th:id="'placeDayId' + ${num}" type="number"/>
+                        <input th:field="*{startTime}" class="hidden" th:id="'placeStartTime' + ${num}" type="time"/>
+                        <input th:field="*{endTime}" class="hidden" th:id="'placeEndTime' + ${num}" type="time"/>
+                        <input th:field="*{toPolyLine}" class="hidden" th:id="'placePolyline' + ${num}" type="text"/>
+                        <input th:field="*{toTravelTime}" class="hidden" th:id="'placeTravelTime' + ${num}" type="number"/>
+                        <input th:field="*{toTransportation}" class="hidden" th:id="'placeTrans' + ${num}" type="text"/>
                         <div>
                             <label class="block mb-2" th:for="'place' + ${num}">目的地<span class="ml-2 text-sm text-danger">必須</span></label>
                             <input th:field="*{name}" class="w-full input focus:ring-0" th:id="'place' + ${num}" th:name="'place' + ${num}" type="text"/>
@@ -190,7 +190,7 @@
                             <div class="w-1/2 pl-3">
                                 <label class="block mb-2" th:for="'stayTime' + ${num}">滞在時間</label>
                                 <div class="flex items-end">
-                                    <input class="w-full input focus:ring-0" th:id="'stayTime' + ${num}" th:name="'stayTime' + ${num}" type="number" value=30/>
+                                    <input class="w-full input focus:ring-0" th:id="'stayTime' + ${num}" th:name="'stayTime' + ${num}" type="number" value="30"/>
                                     <span>分</span>
                                 </div>
                             </div>
