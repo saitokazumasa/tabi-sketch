@@ -122,6 +122,7 @@ class ModalElement {
             start: document.getElementById('startModal'),
             end: document.getElementById('endModal'),
             places: [document.getElementById(`placeModal${placeNum.value()}`)],
+            updateStart: null,
         };
 
         this.#toggleButtons = {
@@ -134,6 +135,7 @@ class ModalElement {
             start: document.getElementById('startClose'),
             end: document.getElementById('endClose'),
             places: [document.getElementById(`placeCloseBtn${placeNum.value()}`)],
+            updateStart: null,
         };
     }
 
@@ -174,7 +176,7 @@ class ModalElement {
 
     /**
      * modal取得
-     * @param modalType {'places','start','end'} モーダルの種別
+     * @param modalType {'places','start','end','updateStart','updateEnd'} モーダルの種別
      * @param num formNum
      * @returns {Modal}
      */
@@ -209,6 +211,29 @@ class ModalElement {
             return this.#closeButtons.places[num];
         }
         return this.#closeButtons[modalType];
+    }
+
+    /**
+     * ✕ボタンの表示
+     * @param formNum formの項番
+     */
+    #displayDeleteButton(formNum) {
+        const deleteBtn = document.getElementById(`modalDeleteBtn${formNum}`);
+        deleteBtn.classList.remove('hidden');
+
+        deleteBtn.addEventListener('click', () => {
+            const toggleBtn = this.getToggleBtn('places', formNum);
+            toggleBtn.classList.add('hidden'); // Modal表示のボタンを隠す
+            deleteBtn.classList.add('hidden'); // ✕ボタンを隠す
+        });
+    }
+
+    /**
+     * 出発地点更新のelementを配列に追加
+     */
+    setStartUpdateModal() {
+        this.#modals.startUpdateModal = document.getElementById('startUpdateModal');
+        this.#closeButtons.startUpdateModal = document.getElementById('startUpdateClose');
     }
 
     /**
@@ -292,18 +317,25 @@ class ModalElement {
     }
 
     /**
-     * ✕ボタンの表示
-     * @param formNum formの項番
+     * 開くModalをUpdateFormに切り替える
+     * createのFormを削除
+     * @param modalType
+     * @param num
      */
-    #displayDeleteButton(formNum) {
-        const deleteBtn = document.getElementById(`modalDeleteBtn${formNum}`);
-        deleteBtn.classList.remove('hidden');
+    changeToggleTarget(modalType, num=null) {
+        const toggleBtn = this.getToggleBtn(modalType, num);
 
-        deleteBtn.addEventListener('click', () => {
-            const toggleBtn = this.#getToggleBtn('places', formNum);
-            toggleBtn.classList.add('hidden'); // Modal表示のボタンを隠す
-            deleteBtn.classList.add('hidden'); // ✕ボタンを隠す
-        });
+        // '○○UpdateModal' にターゲットを変える
+        const newTarget = num ? `${modalType}updateModal${num}` : `${modalType}updateModal`;
+
+        // data-modal-target data-modal-toggleを変更
+        toggleBtn.setAttribute('data-modal-target', newTarget);
+        toggleBtn.setAttribute('data-modal-toggle', newTarget);
+
+        // createのFormを削除
+        const createForm = this.getModal('start');
+        if (!createForm) return;
+        createForm.remove();
     }
 }
 
