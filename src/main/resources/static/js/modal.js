@@ -123,6 +123,7 @@ class ModalElement {
             end: document.getElementById('endModal'),
             places: [document.getElementById(`placeModal${placeNum.value()}`)],
             updateStart: null,
+            updatePlace: [],
         };
 
         this.#toggleButtons = {
@@ -136,6 +137,7 @@ class ModalElement {
             end: document.getElementById('endClose'),
             places: [document.getElementById(`placeCloseBtn${placeNum.value()}`)],
             updateStart: null,
+            updatePlace: [],
         };
     }
 
@@ -343,6 +345,7 @@ class ModalForm {
     #startFormElement;
     placeFormElement = [];
     #endFormElement;
+    #startUpdateFormElement;
 
     constructor() {
         this.#startFormElement = document.getElementById('startPlaceForm');
@@ -357,10 +360,10 @@ class ModalForm {
      * #startFormElement placeFormElement #endFormElementにsubmitイベント割り当て
      */
     initFormEvent() {
-        if (!this.#startFormElement || !this.placeFormElement || !this.#endFormElement) return;
-        this.#startFormElement.addEventListener('submit', (e) => this.#startFormSubmit(e) );
-        this.#endFormElement.addEventListener('submit', (e) => this.#endFormSubmit(e) );
-        this.placeFormElement.forEach((element) => element.addEventListener('submit', async(e) => await this.#placesFormSubmit(e)));
+        if (this.#startFormElement) this.#startFormElement.addEventListener('submit', (e) => this.#startFormSubmit(e) );
+        if (this.#endFormElement) this.#endFormElement.addEventListener('submit', (e) => this.#endFormSubmit(e) );
+        if (this.placeFormElement) this.placeFormElement.forEach((element) =>
+            element.addEventListener('submit', async(e) => await this.#placesFormSubmit(e)));
     }
 
     /**
@@ -395,6 +398,32 @@ class ModalForm {
         const time = document.getElementById('startTime').value;
 
         return !!(placeName && placeId && lat && lng && time);
+    }
+
+    /**
+     * 出発地点の /api/create-placeが成功したとき
+     */
+    #startPlaceCreateSuccess() {
+        // modal関連の動作
+        modal.closeModal('start');
+        modal.changeStartDisplay();
+
+        // startUpdateFormを呼び出す
+        const fragment = new Fragment();
+        fragment.addStartUpdateForm(); // HTMLに追加
+        modal.setStartUpdateModal(); // Elementを追加
+
+        // updateFormのstartUpdatePlaceを更新
+        const updatePlace = document.getElementById('startUpdatePlace');
+        const startPlace = document.getElementById('startPlace');
+        updatePlace.value = startPlace.value;
+
+        // startToggleの data-modal-target data-modal-toggleを変更
+        modal.changeToggleTarget('start');
+
+        // formのsubmitイベントをアタッチ
+        this.#startUpdateFormElement = modal.getModal('updateStart');
+        this.#startUpdateFormElement.addEventListener('submit', (e) => this.#startUpdateFormSubmit(e));
     }
 
     /**
@@ -538,6 +567,14 @@ class ModalForm {
                         modal.changePlaceDisplay(formNum);
                     }
                     modal.addButtonEvent(modalType, formNum); // 送信したmodalのイベント再アタッチ
+                        this.#startPlaceCreateSuccess();
+                    }
+                });
+        } catch (error) {
+            document.getElementById('Error').textContent = '送信中にエラーが発生しました。もう一度お試しください。';
+        }
+    }
+
                 });
         } catch (error) {
             document.getElementById('Error').textContent = '送信中にエラーが発生しました。もう一度お試しください。';
