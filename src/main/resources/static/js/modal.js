@@ -512,7 +512,7 @@ class ModalForm {
 
         const formData = new FormData(e.target);
         // api/update-planに送信
-        await this.postCreatePlaceAPI(formData, 'start');
+        await this.postUpdatePlaceAPI(formData, 'start');
     }
 
     /**
@@ -524,7 +524,7 @@ class ModalForm {
 
         const formData = new FormData(e.target);
         // api/update-planに送信
-        await this.postCreatePlaceAPI(formData, 'places');
+        await this.postUpdatePlaceAPI(formData, 'places');
     }
 
     /**
