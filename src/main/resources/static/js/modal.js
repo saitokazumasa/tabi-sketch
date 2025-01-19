@@ -24,6 +24,7 @@ class Fragment {
      * @returns {Promise<void>}
      */
     async initialize() {
+        // toggle取得 /fragment/modal/placesToggle
         try {
             const response = await fetch(`/fragment/modal/placesToggle?num=${(placeNum.value()+1)}`);
             if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
@@ -31,6 +32,7 @@ class Fragment {
         } catch (error) {
             throw new Error('initialize Error : ' + error);
         }
+        // form取得 /fragment/modal/placesForm
         try {
             const response = await fetch(`/fragment/modal/placesForm?num=${(placeNum.value()+1)}`);
             if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
@@ -41,7 +43,7 @@ class Fragment {
     }
 
     /**
-     * HTMLにfragment追加
+     * HTMLにfragment追加 toggleとform
      */
     addFragment() {
         if (!this.#toggle || !this.#form) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
@@ -79,8 +81,17 @@ class Fragment {
 }
 
 class ModalElement {
+    /**
+     * モーダル要素を格納するオブジェクト
+     */
     #modals;
+    /**
+     * トグルボタンを格納するオブジェクト
+     */
     #toggleButtons;
+    /**
+     * クローズボタンを格納するオブジェクト
+     */
     #closeButtons;
 
     constructor() {
@@ -126,9 +137,9 @@ class ModalElement {
      * @Param num formId-1
      */
     addButtonEvent(modalType, num) {
-        const modal = this.#getModal(modalType, num);
-        const toggleBtn = this.#getToggleBtn(modalType, num);
-        const closeBtn = this.#getCloseBtn(modalType, num);
+        const modal = this.getModal(modalType, num);
+        const toggleBtn = this.getToggleBtn(modalType, num);
+        const closeBtn = this.getCloseBtn(modalType, num);
 
         // イベントのアタッチ
         toggleBtn.addEventListener('click', () => modal.toggle() );
@@ -144,7 +155,7 @@ class ModalElement {
      * @param num formNum
      * @returns {Modal}
      */
-    #getModal(modalType, num) {
+    getModal(modalType, num=null) {
         if (modalType === 'places') {
             return new Modal(this.#modals[modalType][num]);
         }
@@ -157,7 +168,7 @@ class ModalElement {
      * @param num formNum
      * @returns {*}
      */
-    #getToggleBtn(modalType, num) {
+    getToggleBtn(modalType, num=null) {
         if (modalType === 'places') {
             return this.#toggleButtons.places[num];
         }
@@ -170,7 +181,7 @@ class ModalElement {
      * @param num formNum
      * @returns {*}
      */
-    #getCloseBtn(modalType, num) {
+    getCloseBtn(modalType, num=null) {
         if (modalType === 'places') {
             return this.#closeButtons.places[num];
         }
@@ -182,8 +193,8 @@ class ModalElement {
      * @param modalType {'places','start','end'} モーダルの種別
      * @param num modalListのnumber(form項番-1)
      */
-    closeModal(modalType, num) {
-        const modal = this.#getModal(modalType, num);
+    closeModal(modalType, num=null) {
+        const modal = this.getModal(modalType, num);
         modal.hide();
     }
 
@@ -251,7 +262,7 @@ class ModalElement {
         else stayTimeSpan.textContent = '滞在時間：' + stayTimeInput.value + '分';
 
         // 緑色の枠線をけす
-        const toggleBtn = this.#getToggleBtn('places', formNum);
+        const toggleBtn = this.getToggleBtn('places', formNum);
         toggleBtn.classList.remove('border-interactive');
 
         this.#displayDeleteButton(formNum);
@@ -287,6 +298,9 @@ class ModalForm {
         this.initFormEvent();
     }
 
+    /**
+     * #startFormElement placeFormElement #endFormElementにsubmitイベント割り当て
+     */
     initFormEvent() {
         if (!this.#startFormElement || !this.placeFormElement || !this.#endFormElement) return;
         this.#startFormElement.addEventListener('submit', (e) => this.#startFormSubmit(e) );
@@ -309,8 +323,8 @@ class ModalForm {
         }
         document.getElementById('startError').textContent = '';
 
-        const formData = new FormData(e.target);
         // api/create-planに送信
+        const formData = new FormData(e.target);
         this.postCreatePlaceAPI(formData, 'start');
     }
 
@@ -441,7 +455,7 @@ class ModalForm {
     /**
      *
      * @param formData 送信するformのデータ
-     * @param modalType 送信するformのタイプ(start, end, places)
+     * @param modalType {'start','end','places'} 送信するformのタイプ
      * @param formNum 送信するformの項番 placeFormのみ
      */
     postCreatePlaceAPI(formData, modalType, formNum=null) {
@@ -460,8 +474,7 @@ class ModalForm {
                 .then(data => {
                     if (data.status === 'Failed')
                         throw new Error('エラーが発生しました。');
-                    // モーダル関連の動作
-                    modal.closeModal(modalType, formNum);
+                    // 成功時
                     if (modalType==='start') {
                         modal.changeStartDisplay();
                     } else if (modalType==='end') {
