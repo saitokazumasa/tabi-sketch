@@ -13,10 +13,12 @@ class PlaceNum {
 class Fragment {
     #toggle;
     #form;
+    #startUpdateForm;
 
     constructor() {
         this.#toggle = null;
         this.#form = null;
+        this.#startUpdateForm = null;
     }
 
     /**
@@ -40,6 +42,14 @@ class Fragment {
         } catch (error) {
             throw new Error('initialize Error : ' + error);
         }
+        // 出発地点更新form取得 /fragment/modal/startUpdateForm
+        try {
+            const response = await fetch('/fragment/modal/startUpdateForm');
+            if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
+            this.#startUpdateForm = await response.text();
+        } catch (error) {
+            throw new Error('initialize Error : ' + error);
+        }
     }
 
     /**
@@ -58,6 +68,19 @@ class Fragment {
         const formDiv = document.getElementById('formDiv');
         const newForm = document.createElement('div');
         newForm.innerHTML = this.#form;
+        formDiv.appendChild(newForm);
+    }
+
+    /**
+     * HTMLにstartUpdateFormフラグメント追加
+     */
+    addStartUpdateForm() {
+        if (!this.#startUpdateForm) return;
+
+        // id=formDivの子要素に startUpdateForm を追加
+        const formDiv = document.getElementById('formDiv');
+        const newForm = document.createElement('div');
+        newForm.innerHTML = this.#startUpdateForm;
         formDiv.appendChild(newForm);
     }
 
