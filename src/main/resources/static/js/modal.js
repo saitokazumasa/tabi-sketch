@@ -14,11 +14,13 @@ class Fragment {
     #toggle;
     #form;
     #startUpdateForm;
+    #placesUpdateForm;
 
     constructor() {
         this.#toggle = null;
         this.#form = null;
         this.#startUpdateForm = null;
+        this.#placesUpdateForm = null;
     }
 
     /**
@@ -47,6 +49,14 @@ class Fragment {
             const response = await fetch('/fragment/modal/startUpdateForm');
             if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
             this.#startUpdateForm = await response.text();
+        } catch (error) {
+            throw new Error('initialize Error : ' + error);
+        }
+        // 目的地更新form取得 /fragment/modal/placesUpdateForm
+        try {
+            const response = await fetch('/fragment/modal/placesUpdateForm');
+            if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
+            this.#placesUpdateForm = await response.text();
         } catch (error) {
             throw new Error('initialize Error : ' + error);
         }
@@ -81,6 +91,19 @@ class Fragment {
         const formDiv = document.getElementById('formDiv');
         const newForm = document.createElement('div');
         newForm.innerHTML = this.#startUpdateForm;
+        formDiv.appendChild(newForm);
+    }
+
+    /**
+     * HTMLにplacesUpdateFormフラグメント追加
+     */
+    addPlacesUpdateForm() {
+        if (!this.#placesUpdateForm) return;
+
+        // id=formDivの子要素に placesUpdateForm を追加
+        const formDiv = document.getElementById('formDiv');
+        const newForm = document.createElement('div');
+        newForm.innerHTML = this.#placesUpdateForm;
         formDiv.appendChild(newForm);
     }
 
@@ -123,7 +146,7 @@ class ModalElement {
             end: document.getElementById('endModal'),
             places: [document.getElementById(`placeModal${placeNum.value()}`)],
             updateStart: null,
-            updatePlace: [],
+            updatePlaces: [],
         };
 
         this.#toggleButtons = {
@@ -137,7 +160,7 @@ class ModalElement {
             end: document.getElementById('endClose'),
             places: [document.getElementById(`placeCloseBtn${placeNum.value()}`)],
             updateStart: null,
-            updatePlace: [],
+            updatePlaces: [],
         };
     }
 
@@ -178,7 +201,7 @@ class ModalElement {
 
     /**
      * modal取得
-     * @param modalType {'places','start','end','updateStart','updateEnd'} モーダルの種別
+     * @param modalType {'places','start','end','updateStart','updatePlaces'} モーダルの種別
      * @param num formNum
      * @returns {Modal}
      */
@@ -236,6 +259,14 @@ class ModalElement {
     setStartUpdateModal() {
         this.#modals.startUpdateModal = document.getElementById('startUpdateModal');
         this.#closeButtons.startUpdateModal = document.getElementById('startUpdateClose');
+    }
+
+    /**
+     * 目的地更新のelementを配列に追加
+     */
+    setPlacesUpdateModal() {
+        this.#modals.updatePlaces.push(document.getElementById('placesUpdateModal'));
+        this.#closeButtons.updatePlaces.push(document.getElementById('placesUpdateClose'));
     }
 
     /**
@@ -321,7 +352,7 @@ class ModalElement {
     /**
      * 開くModalをUpdateFormに切り替える
      * createのFormを削除
-     * @param modalType
+     * @param modalType {'start','end','places'}
      * @param num
      */
     changeToggleTarget(modalType, num=null) {
@@ -335,7 +366,7 @@ class ModalElement {
         toggleBtn.setAttribute('data-modal-toggle', newTarget);
 
         // createのFormを削除
-        const createForm = this.getModal('start');
+        const createForm = this.getModal(modalType, num);
         if (!createForm) return;
         createForm.remove();
     }
@@ -346,6 +377,7 @@ class ModalForm {
     placeFormElement = [];
     #endFormElement;
     #startUpdateFormElement;
+    #placesUpdateFormElement;
 
     constructor() {
         this.#startFormElement = document.getElementById('startPlaceForm');
@@ -370,7 +402,7 @@ class ModalForm {
      * 出発地点のsubmitイベント
      * @param e イベント
      */
-    #startFormSubmit(e) {
+    async #startFormSubmit(e) {
         e.preventDefault();
 
         // 値の検証（nullがあるか）
@@ -383,7 +415,7 @@ class ModalForm {
 
         // api/create-planに送信
         const formData = new FormData(e.target);
-        this.postCreatePlaceAPI(formData, 'start');
+        await this.postCreatePlaceAPI(formData, 'start');
     }
 
     /**
@@ -427,10 +459,48 @@ class ModalForm {
     }
 
     /**
+     * 終了地点の /api/create-placeが成功したとき
+     */
+    #endPlaceCreateSuccess() {
+        // modal関連の動作
+        modal.closeModal('end');
+        modal.changeEndDisplay();
+    }
+
+    /**
+     * 目的地の /api/create-placeが成功したとき
+     */
+    async #placesCreateSuccess(formNum) {
+        // modal関連の動作
+        modal.closeModal('places');
+        modal.changePlaceDisplay();
+
+        if(formNum !== placeNum.value()) return; // 目的地再設定はreturn
+        await this.newAddFragment();
+
+        // placesUpdateFormを呼び出す
+        const fragment = new Fragment();
+        fragment.addPlacesUpdateForm(); // HTMLに追加
+        modal.setPlacesUpdateModal(); // Elementを追加
+
+        // 場所名を取得して更新
+        const updatePlace = document.getElementById(`updatePlace${formNum}`);
+        const place = document.getElementById(`place${formNum}`);
+        updatePlace.value = place.value;
+
+        // placesToggleの data-modal-target data-modal-toggleを変更
+        modal.changeToggleTarget('places', formNum);
+
+        // formのsubmitイベントをアタッチ
+        this.#placesUpdateFormElement = modal.getModal('updatePlaces');
+        this.#placesUpdateFormElement.addEventListener('submit', (e) => this.#placeUpdateFormSubmit(e));
+    }
+
+    /**
      * 出発地点の更新submitイベント
      * @param e
      */
-    #startUpdateFormSubmit(e) {
+    async #startUpdateFormSubmit(e) {
         e.preventDefault();
 
         // 値の検証（startUpdateTimeがあるか）
@@ -442,7 +512,19 @@ class ModalForm {
 
         const formData = new FormData(e.target);
         // api/update-planに送信
-        this.postCreatePlaceAPI(formData, 'start');
+        await this.postCreatePlaceAPI(formData, 'start');
+    }
+
+    /**
+     * 目的地の更新submitイベント
+     * @param e
+     */
+    async #placeUpdateFormSubmit(e) {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        // api/update-planに送信
+        await this.postCreatePlaceAPI(formData, 'places');
     }
 
     /**
@@ -500,10 +582,7 @@ class ModalForm {
         this.setEndTime(formNum, formData);
 
         // Post処理 /api/create-places
-        this.postCreatePlaceAPI(formData, 'places', formNum);
-
-        if(formNum !== placeNum.value()) return; // 目的地再設定はreturn
-        await this.newAddFragment();
+        await this.postCreatePlaceAPI(formData, 'places', formNum);
     };
 
     /**
@@ -561,27 +640,33 @@ class ModalForm {
      * @param modalType {'start','end','places'} 送信するformのタイプ
      * @param formNum 送信するformの項番 placeFormのみ
      */
-    postCreatePlaceAPI(formData, modalType, formNum=null) {
+    async postCreatePlaceAPI(formData, modalType, formNum=null) {
         try {
             // 非同期でPOSTリクエストを送信
-            fetch('/api/create-place', {
+            const response = await fetch('/api/create-place', {
                 method: 'POST',
                 body: formData,
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`送信エラー: ${response.status}`);
-                    }
-                    return response.json(); // 必要に応じてレスポンスを処理
-                })
-                .then(data => {
-                    if (data.status === 'Failed')
-                        throw new Error('エラーが発生しました。');
-                    // 成功時
-                    if (modalType==='start') {
-                        this.#startPlaceCreateSuccess();
-                    }
-                });
+            });
+
+            // 通信が成功しないとき
+            if (!response.ok) {
+                throw new Error(`送信エラー: ${response.status}`);
+            }
+
+            // /api/create-placeでFailedが返される
+            const data = await response.json();
+            if (data.status === 'Failed') {
+                throw new Error('エラーが発生しました。');
+            }
+
+            // 成功時の処理
+            if (modalType === 'start') {
+                this.#startPlaceCreateSuccess();
+            } else if (modalType === 'end') {
+                this.#endPlaceCreateSuccess();
+            } else {
+                await this.#placesCreateSuccess(formNum); // awaitで実行
+            }
         } catch (error) {
             document.getElementById('Error').textContent = '送信中にエラーが発生しました。もう一度お試しください。';
         }
