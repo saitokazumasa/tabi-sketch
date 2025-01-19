@@ -427,6 +427,25 @@ class ModalForm {
     }
 
     /**
+     * 出発地点の更新submitイベント
+     * @param e
+     */
+    #startUpdateFormSubmit(e) {
+        e.preventDefault();
+
+        // 値の検証（startUpdateTimeがあるか）
+        if (!document.getElementById('startUpdateTime')) {
+            document.getElementById('startUpdateError').textContent = '予定時間を正しく入力してください。';
+            return;
+        }
+        document.getElementById('startUpdateError').textContent = '';
+
+        const formData = new FormData(e.target);
+        // api/update-planに送信
+        this.postCreatePlaceAPI(formData, 'start');
+    }
+
+    /**
      * 終了地点のsubmitイベント
      * @param e イベント
      */
@@ -560,13 +579,6 @@ class ModalForm {
                         throw new Error('エラーが発生しました。');
                     // 成功時
                     if (modalType==='start') {
-                        modal.changeStartDisplay();
-                    } else if (modalType==='end') {
-                        modal.changeEndDisplay();
-                    } else {
-                        modal.changePlaceDisplay(formNum);
-                    }
-                    modal.addButtonEvent(modalType, formNum); // 送信したmodalのイベント再アタッチ
                         this.#startPlaceCreateSuccess();
                     }
                 });
@@ -575,6 +587,27 @@ class ModalForm {
         }
     }
 
+    /**
+     * /api/update-placeに送信する
+     * @param formData 送信formData
+     */
+    postUpdatePlaceAPI(formData) {
+        try {
+            // 非同期でPOSTリクエストを送信
+            fetch('/api/update-place', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`送信エラー: ${response.status}`);
+                    }
+                    return response.json(); // 必要に応じてレスポンスを処理
+                })
+                .then(data => {
+                    if (data.status === 'Failed')
+                        throw new Error('エラーが発生しました。');
+                    // 成功時
                 });
         } catch (error) {
             document.getElementById('Error').textContent = '送信中にエラーが発生しました。もう一度お試しください。';
