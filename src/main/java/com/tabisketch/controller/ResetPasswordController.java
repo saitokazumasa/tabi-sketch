@@ -18,10 +18,11 @@ public class ResetPasswordController {
         this.passwordResetTokensMapper = passwordResetTokensMapper;
     }
 
-
     @GetMapping
-    public String get(@PathVariable String token) {
-        System.out.println(passwordResetTokensMapper.selectByToken(token));
+    public String get(@PathVariable final String token) {
+        final UUID tokenUUID = UUID.fromString(token);
+
+        System.out.println(passwordResetTokensMapper.selectByToken(tokenUUID));
 
         return "password-reset/index";
     }
