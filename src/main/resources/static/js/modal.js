@@ -106,24 +106,6 @@ class Fragment {
         newForm.innerHTML = this.#placesUpdateForm;
         formDiv.appendChild(newForm);
     }
-
-    /**
-     * 追加する Toggle fragment取得
-     * @returns {*}
-     */
-    toggle() {
-        if (this.#toggle === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
-        return this.#toggle;
-    }
-
-    /**
-     * 追加する Form fragment取得
-     * @returns {*}
-     */
-    form() {
-        if (this.#form === null) throw new Error('このインスタンスは初期化されていません。initialize()を実行してください。');
-        return this.#form;
-    }
 }
 
 class ModalElement {
@@ -146,7 +128,8 @@ class ModalElement {
             end: document.getElementById('endModal'),
             places: [document.getElementById(`placeModal${placeNum.value()}`)],
             updateStart: null,
-            updatePlaces: [],
+            updateEnd: null,
+            updatePlaces: []
         };
 
         this.#toggleButtons = {
@@ -160,7 +143,8 @@ class ModalElement {
             end: document.getElementById('endClose'),
             places: [document.getElementById(`placeCloseBtn${placeNum.value()}`)],
             updateStart: null,
-            updatePlaces: [],
+            updateEnd: null,
+            updatePlaces: []
         };
     }
 
@@ -176,9 +160,8 @@ class ModalElement {
         this.#toggleButtons.places.push(toggleButton);
         this.#closeButtons.places.push(closeButton);
 
-        const inputElement = document.getElementById(`place${placeNum.value()}`);
-        const autoComplete = new AutoComplete(inputElement);
-        autoCompleteList.add(autoComplete);
+        // autocomplete適用
+        this.setAutoComplete(document.getElementById(`place${placeNum.value()}`));
     }
 
     /**
@@ -254,19 +237,45 @@ class ModalElement {
     }
 
     /**
-     * 出発地点更新のelementを配列に追加
+     * 出発地点更新のelementを配列に追加・autocomplete適用
      */
     setStartUpdateModal() {
-        this.#modals.startUpdateModal = document.getElementById('startUpdateModal');
-        this.#closeButtons.startUpdateModal = document.getElementById('startUpdateClose');
+        this.#modals.updateStart = document.getElementById('startUpdateModal');
+        this.#closeButtons.updateStart = document.getElementById('startUpdateClose');
+
+        // autocomplete適用
+        this.setAutoComplete(document.getElementById('startUpdatePlace'));
     }
 
     /**
-     * 目的地更新のelementを配列に追加
+     * 終了地点更新のelementを配列に追加・autocomplete適用
+     */
+    setEndUpdateModal() {
+        this.#modals.updateEnd = document.getElementById('endUpdateModal');
+        this.#closeButtons.updateEnd = document.getElementById('endUpdateClose');
+
+        // autocomplete適用
+        this.setAutoComplete(document.getElementById('endUpdatePlace'));
+    }
+
+    /**
+     * 目的地更新のelementを配列に追加・autocomplete適用
      */
     setPlacesUpdateModal() {
         this.#modals.updatePlaces.push(document.getElementById('placesUpdateModal'));
         this.#closeButtons.updatePlaces.push(document.getElementById('placesUpdateClose'));
+
+        // autocomplete適用
+        this.setAutoComplete(document.getElementById(`placeModal${placeNum.value()}`));
+    }
+
+    /**
+     * autocomplete適用
+     * @param inputElement 適用するInputElement
+     */
+    setAutoComplete(inputElement) {
+        const autoComplete = new AutoComplete(inputElement);
+        autoCompleteList.add(autoComplete);
     }
 
     /**
@@ -606,7 +615,6 @@ class ModalForm {
         const newFragment = new Fragment();
         await newFragment.initialize();
 
-        if (!newFragment.toggle() && !newFragment.form()) return; // 取得できなかったとき
         newFragment.addFragment();
         placeNum.increment();
         modal.addPlacesElement();
