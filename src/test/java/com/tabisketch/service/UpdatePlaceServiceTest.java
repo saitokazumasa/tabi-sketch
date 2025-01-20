@@ -1,10 +1,7 @@
 package com.tabisketch.service;
 
 import com.tabisketch.bean.entity.ExampleGooglePlace;
-import com.tabisketch.bean.entity.ExamplePlace;
-import com.tabisketch.bean.entity.Place;
 import com.tabisketch.bean.form.ExampleUpdatePlaceForm;
-import com.tabisketch.bean.form.UpdatePlaceForm;
 import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.mapper.IGooglePlaceMapper;
@@ -13,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-
-import java.time.LocalTime;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
@@ -43,7 +38,7 @@ public class UpdatePlaceServiceTest {
     }
 
     @Test
-    public void testExecuteWhenNotExistGooglePlace() throws UpdateFailedException, InsertFailedException {
+    public void testExecute() throws UpdateFailedException, InsertFailedException {
         when(this.googlePlaceMapper.selectByPlaceId(anyString())).thenReturn(null);
         when(this.googlePlaceMapper.insert(any())).thenReturn(1);
         when(this.placesMapper.update(any())).thenReturn(1);

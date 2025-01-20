@@ -61,9 +61,9 @@ public class UpdatePlaceForm {
 
     public GooglePlace toGooglePlace() {
         return GooglePlace.generate(
-                this.getGooglePlaceId(),
-                this.getName(),
-                this.getLatitude(),
+                this.googlePlaceId,
+                this.name,
+                this.latitude,
                 this.longitude
         );
     }
