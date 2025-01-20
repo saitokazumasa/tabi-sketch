@@ -6,18 +6,18 @@ import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.mapper.IPasswordResetTokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.ISendMailService;
-import com.tabisketch.service.ISendPasswordResetMailService;
+import com.tabisketch.service.IResetPasswordSendService;
 import com.tabisketch.valueobject.Mail;
 import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SendPasswordResetMailService implements ISendPasswordResetMailService {
+public class ResetPasswordSendService implements IResetPasswordSendService {
     private final IUsersMapper usersMapper;
     private final IPasswordResetTokensMapper passwordResetTokensMapper;
     private final ISendMailService sendMailService;
 
-    public SendPasswordResetMailService(
+    public ResetPasswordSendService(
             final IUsersMapper usersMapper,
             final IPasswordResetTokensMapper passwordResetTokensMapper,
             final ISendMailService sendMailService
