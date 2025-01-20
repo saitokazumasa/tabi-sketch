@@ -25,7 +25,7 @@ public class CreatePlaceService implements ICreatePlaceService {
 
     @Override
     @Transactional
-    public void execute(final CreatePlaceForm createPlaceForm) throws InsertFailedException {
+    public int execute(final CreatePlaceForm createPlaceForm) throws InsertFailedException {
         final GooglePlace selectedGooglePlace =
                 this.googlePlaceMapper.selectByPlaceId(createPlaceForm.getGooglePlaceId());
 
@@ -45,7 +45,8 @@ public class CreatePlaceService implements ICreatePlaceService {
             final int result = this.placesMapper.insert(place);
 
             if (result != 1) throw new InsertFailedException("Placeの追加に失敗しました。");
-            return;
+
+            return place.getId();
         }
 
         final GooglePlace googlePlace = GooglePlace.generate(
@@ -72,5 +73,7 @@ public class CreatePlaceService implements ICreatePlaceService {
 
         if (googlePlaceResult != 1) throw new InsertFailedException("GooglePlaceの追加に失敗しました。");
         if (placeResult != 1) throw new InsertFailedException("Placeの追加に失敗しました。");
+
+        return place.getId();
     }
 }
