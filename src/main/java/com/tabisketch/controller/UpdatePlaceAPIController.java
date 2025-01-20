@@ -2,6 +2,7 @@ package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.UpdatePlaceForm;
 import com.tabisketch.bean.response.UpdatePlaceResponse;
+import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.service.IUpdatePlaceService;
 import org.springframework.validation.BindingResult;
@@ -23,7 +24,7 @@ public class UpdatePlaceAPIController {
     public UpdatePlaceResponse post(
             final @Validated UpdatePlaceForm updatePlaceForm,
             final BindingResult bindingResult
-    ) throws UpdateFailedException {
+    ) throws UpdateFailedException, InsertFailedException {
         if (bindingResult.hasErrors()) return UpdatePlaceResponse.failed();
 
         final int placeId = this.updatePlaceService.execute(updatePlaceForm);

@@ -1,5 +1,7 @@
 package com.tabisketch.bean.form;
 
+import com.tabisketch.bean.entity.GooglePlace;
+import com.tabisketch.bean.entity.Place;
 import com.tabisketch.constant.Transportation;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -56,4 +58,28 @@ public class UpdatePlaceForm {
     private String toPolyLine;
     private Integer toTravelTime;
     private Transportation toTransportation;
+
+    public GooglePlace toGooglePlace() {
+        return GooglePlace.generate(
+                this.getGooglePlaceId(),
+                this.getName(),
+                this.getLatitude(),
+                this.longitude
+        );
+    }
+
+    public Place toPlace(final int googlePlaceId) {
+        return Place.generate(
+                googlePlaceId,
+                this.dayId,
+                this.budget,
+                this.startTime,
+                this.endTime,
+                this.desiredStartTime,
+                this.desiredEndTime,
+                this.toPolyLine,
+                this.toTravelTime,
+                this.toTransportation
+        );
+    }
 }
