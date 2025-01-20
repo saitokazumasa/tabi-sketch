@@ -1,7 +1,9 @@
 package com.tabisketch.service;
 
-import com.tabisketch.bean.entity.GooglePlace;
+import com.tabisketch.bean.entity.ExampleGooglePlace;
+import com.tabisketch.bean.entity.ExamplePlace;
 import com.tabisketch.bean.entity.Place;
+import com.tabisketch.bean.form.ExampleUpdatePlaceForm;
 import com.tabisketch.bean.form.UpdatePlaceForm;
 import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.exception.UpdateFailedException;
@@ -29,48 +31,11 @@ public class UpdatePlaceServiceTest {
 
     @Test
     public void testExecuteWhenExistGooglePlace() throws UpdateFailedException, InsertFailedException {
-        final var googlePlace = new GooglePlace(
-                1,
-                "googlePlaceId",
-                "name",
-                0,
-                0
-        );
-
-        final var place = new Place(
-                1,
-                1,
-                1,
-                0,
-                LocalTime.now(),
-                LocalTime.now(),
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
+        final var googlePlace = ExampleGooglePlace.generate();
         when(this.googlePlaceMapper.selectByPlaceId(anyString())).thenReturn(googlePlace);
         when(this.placesMapper.update(any())).thenReturn(1);
 
-        final var updatePlaceForm = new UpdatePlaceForm(
-                1,
-                "name",
-                "googlePlaceId",
-                0,
-                0,
-                0,
-                0,
-                LocalTime.of(10, 0),
-                LocalTime.of(11,0),
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
+        final var updatePlaceForm = ExampleUpdatePlaceForm.generate();
         this.updatePlaceService.execute(updatePlaceForm);
 
         verify(this.googlePlaceMapper).selectByPlaceId(anyString());
@@ -79,41 +44,11 @@ public class UpdatePlaceServiceTest {
 
     @Test
     public void testExecuteWhenNotExistGooglePlace() throws UpdateFailedException, InsertFailedException {
-        final var place = new Place(
-                1,
-                1,
-                1,
-                0,
-                LocalTime.now(),
-                LocalTime.now(),
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
         when(this.googlePlaceMapper.selectByPlaceId(anyString())).thenReturn(null);
         when(this.googlePlaceMapper.insert(any())).thenReturn(1);
         when(this.placesMapper.update(any())).thenReturn(1);
 
-        final var updatePlaceForm = new UpdatePlaceForm(
-                1,
-                "name",
-                "googlePlaceId",
-                0,
-                0,
-                0,
-                0,
-                LocalTime.of(10, 0),
-                LocalTime.of(11,0),
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
+        final var updatePlaceForm = ExampleUpdatePlaceForm.generate();
         this.updatePlaceService.execute(updatePlaceForm);
 
         verify(this.googlePlaceMapper).selectByPlaceId(anyString());

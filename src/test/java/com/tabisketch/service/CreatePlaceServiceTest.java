@@ -1,5 +1,6 @@
 package com.tabisketch.service;
 
+import com.tabisketch.bean.entity.GooglePlace;
 import com.tabisketch.bean.form.CreatePlaceForm;
 import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.mapper.IGooglePlaceMapper;
@@ -27,13 +28,20 @@ public class CreatePlaceServiceTest {
 
     @Test
     public void testExecute() throws InsertFailedException {
-        when(this.googlePlaceMapper.selectByPlaceId(anyString())).thenReturn(null);
-        when(this.googlePlaceMapper.insert(any())).thenReturn(1);
+        final var googlePlace = new GooglePlace(
+                1,
+                "googlePlaceId",
+                "name",
+                0,
+                0
+        );
+
+        when(this.googlePlaceMapper.selectByPlaceId(anyString())).thenReturn(googlePlace);
         when(this.placesMapper.insert(any())).thenReturn(1);
 
         final var createPlaceForm = new CreatePlaceForm(
-                "",
-                "",
+                "name",
+                "googlePlaceId",
                 0,
                 0,
                 1,
