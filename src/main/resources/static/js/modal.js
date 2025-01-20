@@ -1,3 +1,13 @@
+// 送信されるmodalFormの種別
+const ModalType = Object.freeze({
+    start: 'start',
+    end: 'end',
+    places: 'places',
+    updateStart: 'updateStart',
+    updateEnd: 'updateEnd',
+    updatePlaces: 'updatePlaces'
+});
+
 class PlaceNum {
     #value = 0;
 
@@ -181,7 +191,7 @@ class ModalElement {
 
     /**
      * ModalButtonイベント アタッチ
-     * @param modalType (start,end,places)が入る
+     * @param modalType {String}
      * @Param num formId-1
      */
     addButtonEvent(modalType, num) {
@@ -199,25 +209,25 @@ class ModalElement {
 
     /**
      * modal取得
-     * @param modalType {'places','start','end','updateStart','updatePlaces'} モーダルの種別
+     * @param modalType {String} モーダルの種別
      * @param num formNum
      * @returns {Modal}
      */
     getModal(modalType, num=null) {
-        if (modalType === 'places') {
-            return new Modal(this.#modals[modalType][num]);
+        if (modalType === ModalType.places) {
+            return new Modal(this.#modals.places[num]);
         }
         return new Modal(this.#modals[modalType]);
     }
 
     /**
      * toggle取得
-     * @param modalType {'places','start','end'} モーダルの種別
+     * @param modalType {String} モーダルの種別
      * @param num formNum
      * @returns {*}
      */
     getToggleBtn(modalType, num=null) {
-        if (modalType === 'places') {
+        if (modalType === ModalType.places) {
             return this.#toggleButtons.places[num];
         }
         return this.#toggleButtons[modalType];
@@ -225,12 +235,12 @@ class ModalElement {
 
     /**
      * close取得
-     * @param modalType {'places','start','end'} モーダルの種別
+     * @param modalType {String} モーダルの種別
      * @param num formNum
      * @returns {*}
      */
     getCloseBtn(modalType, num=null) {
-        if (modalType === 'places') {
+        if (modalType === ModalType.places) {
             return this.#closeButtons.places[num];
         }
         return this.#closeButtons[modalType];
@@ -245,7 +255,7 @@ class ModalElement {
         deleteBtn.classList.remove('hidden');
 
         deleteBtn.addEventListener('click', () => {
-            const toggleBtn = this.getToggleBtn('places', formNum);
+            const toggleBtn = this.getToggleBtn(ModalType.places, formNum);
             toggleBtn.classList.add('hidden'); // Modal表示のボタンを隠す
             deleteBtn.classList.add('hidden'); // ✕ボタンを隠す
         });
@@ -295,7 +305,7 @@ class ModalElement {
 
     /**
      * modalを閉じる
-     * @param modalType {'places','start','end'} モーダルの種別
+     * @param modalType {String} モーダルの種別
      * @param num modalListのnumber(form項番-1)
      */
     closeModal(modalType, num=null) {
@@ -367,7 +377,7 @@ class ModalElement {
         else stayTimeSpan.textContent = '滞在時間：' + stayTimeInput.value + '分';
 
         // 緑色の枠線をけす
-        const toggleBtn = this.getToggleBtn('places', formNum);
+        const toggleBtn = this.getToggleBtn(ModalType.places, formNum);
         toggleBtn.classList.remove('border-interactive');
 
         this.#displayDeleteButton(formNum);
@@ -376,7 +386,7 @@ class ModalElement {
     /**
      * 開くModalをUpdateFormに切り替える
      * createのFormを削除
-     * @param modalType {'start','end','places'}
+     * @param modalType {String}
      * @param num
      */
     changeToggleTarget(modalType, num=null) {
@@ -439,7 +449,7 @@ class ModalForm {
 
         // api/create-planに送信
         const formData = new FormData(e.target);
-        await this.postCreatePlaceAPI(formData, 'start');
+        await this.postCreatePlaceAPI(formData, ModalType.start);
     }
 
     /**
@@ -459,7 +469,7 @@ class ModalForm {
         const formData = new FormData(e.target);
 
         // api/create-planに送信
-        this.postCreatePlaceAPI(formData, 'end');
+        this.postCreatePlaceAPI(formData, ModalType.end);
     }
 
     /**
@@ -484,7 +494,7 @@ class ModalForm {
         this.setEndTime(formNum, formData);
 
         // Post処理 /api/create-places
-        await this.postCreatePlaceAPI(formData, 'places', formNum);
+        await this.postCreatePlaceAPI(formData, ModalType.places, formNum);
     }
 
     /**
@@ -532,7 +542,7 @@ class ModalForm {
      */
     #startPlaceCreateSuccess() {
         // modal関連の動作
-        modal.closeModal('start');
+        modal.closeModal(ModalType.start);
         modal.changeStartDisplay();
 
         // startUpdateFormを呼び出す
@@ -546,10 +556,10 @@ class ModalForm {
         updatePlace.value = startPlace.value;
 
         // startToggleの data-modal-target data-modal-toggleを変更
-        modal.changeToggleTarget('start');
+        modal.changeToggleTarget(ModalType.start);
 
         // formのsubmitイベントをアタッチ
-        this.#startUpdateFormElement = modal.getModal('updateStart');
+        this.#startUpdateFormElement = modal.getModal(ModalType.updateStart);
         this.#startUpdateFormElement.addEventListener('submit', (e) => this.#startUpdateFormSubmit(e));
     }
 
@@ -558,7 +568,7 @@ class ModalForm {
      */
     #endPlaceCreateSuccess() {
         // modal関連の動作
-        modal.closeModal('end');
+        modal.closeModal(ModalType.end);
         modal.changeEndDisplay();
     }
 
@@ -567,7 +577,7 @@ class ModalForm {
      */
     async #placesCreateSuccess(formNum) {
         // modal関連の動作
-        modal.closeModal('places');
+        modal.closeModal(ModalType.places);
         modal.changePlaceDisplay();
 
         if(formNum !== placeNum.value()) return; // 目的地再設定はreturn
@@ -584,10 +594,10 @@ class ModalForm {
         updatePlace.value = place.value;
 
         // placesToggleの data-modal-target data-modal-toggleを変更
-        modal.changeToggleTarget('places', formNum);
+        modal.changeToggleTarget(ModalType.places, formNum);
 
         // formのsubmitイベントをアタッチ
-        this.#placesUpdateFormElement = modal.getModal('updatePlaces');
+        this.#placesUpdateFormElement = modal.getModal(ModalType.updatePlaces, formNum);
         this.#placesUpdateFormElement.addEventListener('submit', (e) => this.#placeUpdateFormSubmit(e));
     }
 
@@ -607,7 +617,7 @@ class ModalForm {
 
         const formData = new FormData(e.target);
         // api/update-planに送信
-        await this.postUpdatePlaceAPI(formData, 'start');
+        await this.postUpdatePlaceAPI(formData, ModalType.start);
     }
 
     /**
@@ -619,7 +629,7 @@ class ModalForm {
 
         const formData = new FormData(e.target);
         // api/update-planに送信
-        await this.postUpdatePlaceAPI(formData, 'places');
+        await this.postUpdatePlaceAPI(formData, ModalType.places);
     }
 
     /**
@@ -633,7 +643,7 @@ class ModalForm {
         newFragment.addFragment();
         placeNum.increment();
         modal.addPlacesElement();
-        modal.addButtonEvent('places', placeNum.value()); // 新しいModalにイベント追加
+        modal.addButtonEvent(ModalType.places, placeNum.value()); // 新しいModalにイベント追加
         new ModalForm(); // modalFormイベントをアタッチ
     }
 
@@ -660,7 +670,7 @@ class ModalForm {
     /**
      *
      * @param formData 送信するformのデータ
-     * @param modalType {'start','end','places'} 送信するformのタイプ
+     * @param modalType {String} 送信するformのタイプ
      * @param formNum 送信するformの項番 placeFormのみ
      */
     async postCreatePlaceAPI(formData, modalType, formNum=null) {
@@ -683,10 +693,10 @@ class ModalForm {
             }
 
             // 成功時の処理
-            if (modalType === 'start') {
-                this.#startPlaceCreateSuccess();
-            } else if (modalType === 'end') {
-                this.#endPlaceCreateSuccess();
+            if (modalType === ModalType.start) {
+                await this.#startPlaceCreateSuccess();
+            } else if (modalType === ModalType.end) {
+                await this.#endPlaceCreateSuccess();
             } else {
                 await this.#placesCreateSuccess(formNum); // awaitで実行
             }
