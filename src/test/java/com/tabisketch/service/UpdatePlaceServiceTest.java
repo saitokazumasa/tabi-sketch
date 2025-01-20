@@ -43,6 +43,10 @@ public class UpdatePlaceServiceTest {
 
         final var updatePlaceForm = new UpdatePlaceForm(
                 1,
+                "name",
+                "googlePlaceId",
+                0,
+                0,
                 0,
                 0,
                 LocalTime.of(10, 0),

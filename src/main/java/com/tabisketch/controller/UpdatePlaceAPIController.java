@@ -26,7 +26,7 @@ public class UpdatePlaceAPIController {
     ) throws UpdateFailedException {
         if (bindingResult.hasErrors()) return UpdatePlaceResponse.failed();
 
-        this.updatePlaceService.execute(updatePlaceForm);
-        return UpdatePlaceResponse.success();
+        final int placeId = this.updatePlaceService.execute(updatePlaceForm);
+        return UpdatePlaceResponse.success(placeId);
     }
 }

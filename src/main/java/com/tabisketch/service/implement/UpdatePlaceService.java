@@ -16,7 +16,7 @@ public class UpdatePlaceService implements IUpdatePlaceService {
     }
 
     @Override
-    public void execute(final UpdatePlaceForm updatePlaceForm) throws UpdateFailedException {
+    public int execute(final UpdatePlaceForm updatePlaceForm) throws UpdateFailedException {
         final Place place = this.placesMapper.selectById(updatePlaceForm.getId());
 
         final Place newPlace = new Place(
@@ -35,5 +35,7 @@ public class UpdatePlaceService implements IUpdatePlaceService {
         final int result = this.placesMapper.update(newPlace);
 
         if (result != 1) throw new UpdateFailedException("Placeの更新に失敗しました。");
+
+        return place.getId();
     }
 }
