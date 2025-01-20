@@ -24,4 +24,9 @@ public interface IUsersMapper {
 
     @Select("SELECT EXISTS ( SELECT 1 FROM users WHERE mail_address = #{mailAddress})")
     boolean isExistMailAddress(final String mailAddress);
+
+    @Update("UPDATE users " +
+            "   SET password = #{password} " +
+            "   WHERE id = #{id}")
+    int updatePassword(final int id, final String password);
 }
