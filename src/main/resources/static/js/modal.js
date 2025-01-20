@@ -14,6 +14,7 @@ class Fragment {
     #toggle;
     #form;
     #startUpdateForm;
+    #endUpdateForm;
     #placesUpdateForm;
 
     constructor() {
@@ -87,11 +88,18 @@ class Fragment {
     addStartUpdateForm() {
         if (!this.#startUpdateForm) return;
 
-        // id=formDivの子要素に startUpdateForm を追加
-        const formDiv = document.getElementById('formDiv');
-        const newForm = document.createElement('div');
-        newForm.innerHTML = this.#startUpdateForm;
-        formDiv.appendChild(newForm);
+        // id=formDivの子要素に #startUpdateForm を追加
+        this.#addUpdateFragment(this.#startUpdateForm);
+    }
+
+    /**
+     * HTMLにendUpdateFormフラグメント追加
+     */
+    addEndUpdateForm() {
+        if (!this.#endUpdateForm) return;
+
+        // id=formDivの子要素に #endUpdateForm を追加
+        this.#addUpdateFragment(this.#endUpdateForm);
     }
 
     /**
@@ -101,9 +109,16 @@ class Fragment {
         if (!this.#placesUpdateForm) return;
 
         // id=formDivの子要素に placesUpdateForm を追加
+        this.#addUpdateFragment(this.#placesUpdateForm);
+    }
+
+    /**
+     * id=formDivの子要素に UpdateForm を追加
+     */
+    #addUpdateFragment(updateForm) {
         const formDiv = document.getElementById('formDiv');
         const newForm = document.createElement('div');
-        newForm.innerHTML = this.#placesUpdateForm;
+        newForm.innerHTML = updateForm;
         formDiv.appendChild(newForm);
     }
 }
@@ -368,7 +383,7 @@ class ModalElement {
         const toggleBtn = this.getToggleBtn(modalType, num);
 
         // '○○UpdateModal' にターゲットを変える
-        const newTarget = num ? `${modalType}updateModal${num}` : `${modalType}updateModal`;
+        const newTarget = num ? `${modalType}UpdateModal${num}` : `${modalType}UpdateModal`;
 
         // data-modal-target data-modal-toggleを変更
         toggleBtn.setAttribute('data-modal-target', newTarget);
