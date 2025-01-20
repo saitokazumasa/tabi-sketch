@@ -9,7 +9,7 @@ RUN npx tailwindcss -i ./src/main/resources/static/css/input.css -o ./tailwind.c
 
 
 # アプリケーションをビルドするためのステージ
-FROM maven:3.9-amazoncorretto-21 AS builder
+FROM maven:3.9-eclipse-temurin-22 AS builder
 WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline
@@ -19,7 +19,7 @@ RUN mvn clean package -DskipTests=true
 
 
 # JARを実行するためのステージ
-FROM amazoncorretto:21 AS prod
+FROM eclipse-temurin:22 AS prod
 WORKDIR /app
 COPY --from=builder /app/target/*.jar /app/app.jar
 ENTRYPOINT ["java","-jar","/app/app.jar"]
