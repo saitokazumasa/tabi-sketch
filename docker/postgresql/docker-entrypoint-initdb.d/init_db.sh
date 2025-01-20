@@ -1,19 +1,30 @@
 #!/bin/bash
 
-set -e
+set -e  # エラーが発生した場合はスクリプトを終了
 
-# シェルスクリプトのディレクトリを取得
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+# 必要な環境変数の確認
+if [[ -z "$POSTGRES_DB" ]]; then
+  echo "Error: POSTGRES_DB is not set."
+  exit 1
+fi
 
-# Create Tables
-psql -U postgres -d tabisketch -f "$SCRIPT_DIR/.run/sql/CreateUsersTable.sql"
-psql -U postgres -d tabisketch -f "$SCRIPT_DIR/.run/sql/CreatePasswordResetTokensTable.sql"
-psql -U postgres -d tabisketch -f "$SCRIPT_DIR/.run/sql/CreateMailAddressAuthTokensTable.sql"
-psql -U postgres -d tabisketch -f "$SCRIPT_DIR/.run/sql/CreatePlansTable.sql"
-psql -U postgres -d tabisketch -f "$SCRIPT_DIR/.run/sql/CreateDaysTable.sql"
-psql -U postgres -d tabisketch -f "$SCRIPT_DIR/.run/sql/CreateGooglePlacesTable.sql"
-psql -U postgres -d tabisketch -f "$SCRIPT_DIR/.run/sql/CreateGooglePlaceTypesTable.sql"
-psql -U postgres -d tabisketch -f "$SCRIPT_DIR/.run/sql/CreateGoogleTypeAssociationsTable.sql"
-psql -U postgres -d tabisketch -f "$SCRIPT_DIR/.run/sql/CreateTransportationsType.sql"
-psql -U postgres -d tabisketch -f "$SCRIPT_DIR/.run/sql/CreatePlacesTable.sql"
-psql -U postgres -d tabisketch -f "$SCRIPT_DIR/.run/sql/CreatePackingsTable.sql"
+# SQLファイルのパスを変数化
+SQL_FILE="/sql/CreateTables.sql"
+
+# SQLファイルが存在するか確認
+if [[ ! -f "$SQL_FILE" ]]; then
+  echo "Error: SQL file '$SQL_FILE' not found."
+  exit 1
+fi
+
+# テーブル作成処理
+psql -v ON_ERROR_STOP=1 --dbname="$POSTGRES_DB" <<-EOSQL
+  \i $SQL_FILE
+EOSQL
+
+# 処理成功時のメッセージを here document で表示
+cat <<EOS
+==============================
+Database tables created successfully.
+==============================
+EOS

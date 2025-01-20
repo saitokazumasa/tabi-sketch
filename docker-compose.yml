@@ -17,9 +17,13 @@ services:
       - "5432:5432"
     volumes:
       - ./docker/postgresql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - ./.run:/docker-entrypoint-initdb.d/.run
+      - ./sql:/sql
     env_file:
       - .env
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     restart: always
 
 networks:
