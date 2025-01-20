@@ -2,7 +2,7 @@ package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.ResetPasswordSendForm;
 import com.tabisketch.exception.InsertFailedException;
-import com.tabisketch.service.implement.SendPasswordResetMailService;
+import com.tabisketch.service.implement.ResetPasswordSendService;
 import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/password-reset")
 public class ResetPasswordSendController {
-    private final SendPasswordResetMailService sendPasswordResetMailService;
+    private final ResetPasswordSendService sendPasswordResetMailService;
 
-    public ResetPasswordSendController(SendPasswordResetMailService sendPasswordResetMailService) {
+    public ResetPasswordSendController(ResetPasswordSendService sendPasswordResetMailService) {
         this.sendPasswordResetMailService = sendPasswordResetMailService;
     }
 
