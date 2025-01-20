@@ -2,12 +2,11 @@ package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.ResetPasswordSendForm;
 import com.tabisketch.exception.InsertFailedException;
-import com.tabisketch.service.implement.ResetPasswordSendService;
+import com.tabisketch.service.implement.SendPasswordResetMailService;
 import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -15,10 +14,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/password-reset")
 public class ResetPasswordSendController {
-    private final ResetPasswordSendService sendPasswordResetService;
+    private final SendPasswordResetMailService sendPasswordResetMailService;
 
-    public ResetPasswordSendController(ResetPasswordSendService sendPasswordResetService) {
-        this.sendPasswordResetService = sendPasswordResetService;
+    public ResetPasswordSendController(SendPasswordResetMailService sendPasswordResetMailService) {
+        this.sendPasswordResetMailService = sendPasswordResetMailService;
     }
 
     @GetMapping
@@ -32,21 +31,12 @@ public class ResetPasswordSendController {
             final RedirectAttributes redirectAttributes,
             final ResetPasswordSendForm resetPasswordSendForm
     ) throws MessagingException, InsertFailedException {
-        sendPasswordResetService.execute(resetPasswordSendForm.getCurrentMailAddress());
+        sendPasswordResetMailService.execute(resetPasswordSendForm.getCurrentMailAddress());
 
         final String currentMailAddress = resetPasswordSendForm.getCurrentMailAddress();
         redirectAttributes.addFlashAttribute("currentMailAddress", currentMailAddress);
 
         return "redirect:password-reset/send";
-    }
-
-    @GetMapping("/send")
-    public String send(
-            @ModelAttribute("currentMailAddress") final String currentMailAddress,
-            final Model model
-    ) {
-        model.addAttribute("currentMailAddress", currentMailAddress);
-        return "user/password-reset/send";
     }
 }
 
