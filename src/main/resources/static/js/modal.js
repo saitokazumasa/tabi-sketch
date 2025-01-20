@@ -443,6 +443,51 @@ class ModalForm {
     }
 
     /**
+     * 終了地点のsubmitイベント
+     * @param e イベント
+     */
+    #endFormSubmit(e) {
+        e.preventDefault();
+
+        // 値の検証（nullがあるか）
+        if (!this.#endFormCheck()) {
+            document.getElementById('endError').textContent = '終了地点を正しく入力してください。';
+            return;
+        }
+        document.getElementById('endError').textContent = '';
+
+        const formData = new FormData(e.target);
+
+        // api/create-planに送信
+        this.postCreatePlaceAPI(formData, 'end');
+    }
+
+    /**
+     * 目的地のsubmitイベント
+     * @param e イベント
+     * @returns {Promise<void>}
+     */
+    async #placesFormSubmit(e) {
+        e.preventDefault();
+
+        const formId = e.target.id; // formのid取得
+        const formNum = Number(formId.replace('placeForm', '')); // placesSubmit{num}の数字だけ取得
+
+        // 値の検証（nullがあるか）
+        if (!this.#placeFormCheck(formNum)) {
+            document.getElementById(`placeError${formNum}`).textContent = '目的地を正しく入力してください。';
+            return;
+        }
+        document.getElementById(`placeError${formNum}`).textContent = '';
+
+        const formData = new FormData(e.target);
+        this.setEndTime(formNum, formData);
+
+        // Post処理 /api/create-places
+        await this.postCreatePlaceAPI(formData, 'places', formNum);
+    }
+
+    /**
      * 出発地点のrequiredチェック
      * @returns {boolean} すべて値が入ってたらtrue
      */
@@ -454,6 +499,32 @@ class ModalForm {
         const time = document.getElementById('startTime').value;
 
         return !!(placeName && placeId && lat && lng && time);
+    }
+
+    /**
+     * 終了地点のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #endFormCheck() {
+        const placeName = document.getElementById('endPlace').value;
+        const placeId = document.getElementById('endPlaceId').value;
+        const lat = document.getElementById('endLat').value;
+        const lng = document.getElementById('endLng').value;
+
+        return !!(placeName && placeId && lat && lng);
+    }
+
+    /**
+     * 目的地のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #placeFormCheck(num) {
+        const placeName = document.getElementById(`place${num}`).value;
+        const placeId = document.getElementById(`placeId${num}`).value;
+        const lat = document.getElementById(`placeLat${num}`).value;
+        const lng = document.getElementById(`placeLng${num}`).value;
+
+        return !!(placeName && placeId && lat && lng);
     }
 
     /**
@@ -549,77 +620,6 @@ class ModalForm {
         const formData = new FormData(e.target);
         // api/update-planに送信
         await this.postUpdatePlaceAPI(formData, 'places');
-    }
-
-    /**
-     * 終了地点のsubmitイベント
-     * @param e イベント
-     */
-    #endFormSubmit(e) {
-        e.preventDefault();
-
-        // 値の検証（nullがあるか）
-        if (!this.#endFormCheck()) {
-            document.getElementById('endError').textContent = '終了地点を正しく入力してください。';
-            return;
-        }
-        document.getElementById('endError').textContent = '';
-
-        const formData = new FormData(e.target);
-
-        // api/create-planに送信
-        this.postCreatePlaceAPI(formData, 'end');
-    }
-
-    /**
-     * 終了地点のrequiredチェック
-     * @returns {boolean} すべて値が入ってたらtrue
-     */
-    #endFormCheck() {
-        const placeName = document.getElementById('endPlace').value;
-        const placeId = document.getElementById('endPlaceId').value;
-        const lat = document.getElementById('endLat').value;
-        const lng = document.getElementById('endLng').value;
-
-        return !!(placeName && placeId && lat && lng);
-    }
-
-    /**
-     * 目的地のsubmitイベント
-     * @param e イベント
-     * @returns {Promise<void>}
-     */
-    async #placesFormSubmit(e) {
-        e.preventDefault();
-
-        const formId = e.target.id; // formのid取得
-        const formNum = Number(formId.replace('placeForm', '')); // placesSubmit{num}の数字だけ取得
-
-        // 値の検証（nullがあるか）
-        if (!this.#placeFormCheck(formNum)) {
-            document.getElementById(`placeError${formNum}`).textContent = '目的地を正しく入力してください。';
-            return;
-        }
-        document.getElementById(`placeError${formNum}`).textContent = '';
-
-        const formData = new FormData(e.target);
-        this.setEndTime(formNum, formData);
-
-        // Post処理 /api/create-places
-        await this.postCreatePlaceAPI(formData, 'places', formNum);
-    };
-
-    /**
-     * 目的地のrequiredチェック
-     * @returns {boolean} すべて値が入ってたらtrue
-     */
-    #placeFormCheck(num) {
-        const placeName = document.getElementById(`place${num}`).value;
-        const placeId = document.getElementById(`placeId${num}`).value;
-        const lat = document.getElementById(`placeLat${num}`).value;
-        const lng = document.getElementById(`placeLng${num}`).value;
-
-        return !!(placeName && placeId && lat && lng);
     }
 
     /**
