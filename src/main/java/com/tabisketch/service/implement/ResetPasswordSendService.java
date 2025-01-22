@@ -34,7 +34,6 @@ public class ResetPasswordSendService implements IResetPasswordSendService {
         final User user = usersMapper.selectByMailAddress(mailAddress);
         final PasswordResetToken token = PasswordResetToken.generate(user.getId());
         final int tokenInsertResult = passwordResetTokensMapper.insert(token);
-
         if (tokenInsertResult != 1) throw new InsertFailedException("PasswordResetTokenの追加に失敗しました。");
 
         final var mail = Mail.passwordResetMail(user.getMailAddress(), token.getToken());
