@@ -1,5 +1,6 @@
 package com.tabisketch.service;
 
+import com.tabisketch.bean.form.ExampleRegisterForm;
 import com.tabisketch.bean.form.RegisterForm;
 import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.mapper.IMAATokensMapper;
@@ -30,11 +31,7 @@ public class RegisterServiceTest {
         when(this.usersMapper.insert(any())).thenReturn(1);
         when(this.maaTokensMapper.insert(any())).thenReturn(1);
 
-        final var registerForm = new RegisterForm(
-                "sample@example.com",
-                "password",
-                "password"
-        );
+        final var registerForm = ExampleRegisterForm.generate();
 
         this.registerService.execute(registerForm);
 

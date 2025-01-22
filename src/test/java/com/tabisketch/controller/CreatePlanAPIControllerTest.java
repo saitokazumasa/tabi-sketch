@@ -1,6 +1,7 @@
 package com.tabisketch.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tabisketch.bean.form.ExampleCreatePlanForm;
 import com.tabisketch.bean.response.CreatePlanResponse;
 import com.tabisketch.bean.form.CreatePlanForm;
 import com.tabisketch.service.ICreatePlanService;
@@ -32,7 +33,7 @@ public class CreatePlanAPIControllerTest {
         final int planId = 1;
         when(this.createPlanService.execute(any())).thenReturn(planId);
 
-        final var createPlanForm = new CreatePlanForm("title", "sample@example.com");
+        final var createPlanForm = ExampleCreatePlanForm.generate();
         final String responseJson = this.objectMapper.writeValueAsString(CreatePlanResponse.success(planId));
 
         this.mockMvc.perform(MockMvcRequestBuilders

@@ -1,7 +1,9 @@
 package com.tabisketch.service;
 
+import com.tabisketch.bean.entity.ExampleUser;
 import com.tabisketch.bean.entity.User;
 import com.tabisketch.bean.form.CreatePlanForm;
+import com.tabisketch.bean.form.ExampleCreatePlanForm;
 import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.mapper.IPlansMapper;
 import com.tabisketch.mapper.IUsersMapper;
@@ -28,12 +30,12 @@ public class CreatePlanServiceTest {
     @Test
     @WithMockUser
     public void testExecute() throws InsertFailedException {
-        final var user = User.generate("", "");
+        final var user = ExampleUser.generate();
 
         when(this.usersMapper.selectByMailAddress(anyString())).thenReturn(user);
         when(this.plansMapper.insert(any())).thenReturn(1);
 
-        final var createPlanForm = new CreatePlanForm("", "");
+        final var createPlanForm = ExampleCreatePlanForm.generate();
         this.createPlanService.execute(createPlanForm);
 
         verify(this.usersMapper).selectByMailAddress(anyString());

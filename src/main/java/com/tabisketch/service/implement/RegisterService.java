@@ -37,7 +37,7 @@ public class RegisterService implements IRegisterService {
     @Transactional
     public void execute(final RegisterForm registerForm) throws InsertFailedException, MessagingException {
         final String encryptedPassword = this.passwordEncoder.encode(registerForm.getPassword());
-        final var user = User.generate(registerForm.getMailAddress(), encryptedPassword);
+        final var user = registerForm.toUser(encryptedPassword);
         final int userInsertResult = this.usersMapper.insert(user);
 
         final var maaToken = MAAToken.generate(user.getId());

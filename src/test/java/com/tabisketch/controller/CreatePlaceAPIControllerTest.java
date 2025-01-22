@@ -2,6 +2,7 @@ package com.tabisketch.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tabisketch.bean.form.CreatePlaceForm;
+import com.tabisketch.bean.form.ExampleCreatePlaceForm;
 import com.tabisketch.bean.response.CreatePlaceResponse;
 import com.tabisketch.service.ICreatePlaceService;
 import org.junit.jupiter.api.Test;
@@ -34,21 +35,7 @@ public class CreatePlaceAPIControllerTest {
         final int placeId = 1;
         when(this.createPlaceService.execute(any())).thenReturn(placeId);
 
-        final var createPlaceForm = new CreatePlaceForm(
-                "name",
-                "googlePlaceId",
-                0,
-                0,
-                1,
-                0,
-                LocalTime.of(10, 0),
-                LocalTime.of(11,0),
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        final var createPlaceForm = ExampleCreatePlaceForm.generate();
         final String responseJson = this.objectMapper.writeValueAsString(CreatePlaceResponse.success(placeId));
 
         this.mockMvc.perform(MockMvcRequestBuilders

@@ -1,5 +1,6 @@
 package com.tabisketch.service;
 
+import com.tabisketch.bean.entity.ExampleUser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +13,7 @@ public class EncryptPasswordServiceTest {
 
     @Test
     public void testExecute() {
-        final String password = "password";
+        final String password = ExampleUser.generate().getPassword();
         final String encryptedPassword = passwordEncoder.encode(password);
         assert passwordEncoder.matches(password, encryptedPassword);
     }

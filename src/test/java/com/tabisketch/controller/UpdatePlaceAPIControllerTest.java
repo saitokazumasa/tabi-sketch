@@ -1,6 +1,7 @@
 package com.tabisketch.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tabisketch.bean.form.ExampleUpdatePlaceForm;
 import com.tabisketch.bean.form.UpdatePlaceForm;
 import com.tabisketch.bean.response.UpdatePlaceResponse;
 import com.tabisketch.service.IUpdatePlaceService;
@@ -34,22 +35,7 @@ public class UpdatePlaceAPIControllerTest {
         final int placeId = 1;
         when(this.updatePlaceService.execute(any())).thenReturn(placeId);
 
-        final var updatePlaceForm = new UpdatePlaceForm(
-                placeId,
-                "name",
-                "googlePlaceId",
-                0,
-                0,
-                1,
-                0,
-                LocalTime.of(10, 0),
-                LocalTime.of(11,0),
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        final var updatePlaceForm = ExampleUpdatePlaceForm.generate();
         final String responseJson = this.objectMapper.writeValueAsString(UpdatePlaceResponse.success(placeId));
 
         this.mockMvc.perform(MockMvcRequestBuilders

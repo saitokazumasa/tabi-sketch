@@ -1,5 +1,6 @@
 package com.tabisketch.service;
 
+import com.tabisketch.bean.entity.ExampleUser;
 import com.tabisketch.bean.entity.Plan;
 import com.tabisketch.mapper.IPlansMapper;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ public class ListPlanServiceTest {
     public void testExecute() {
         when(this.plansMapper.selectByMailAddress(anyString())).thenReturn(new ArrayList<>());
 
-        final String mailAddress = "sample@example.com";
+        final String mailAddress = ExampleUser.generate().getMailAddress();
         final List<Plan> planList = this.listPlanService.execute(mailAddress);
 
         verify(this.plansMapper).selectByMailAddress(anyString());

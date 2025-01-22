@@ -1,5 +1,6 @@
 package com.tabisketch.mapper;
 
+import com.tabisketch.bean.entity.ExampleMAAToken;
 import com.tabisketch.bean.entity.MAAToken;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -18,7 +19,7 @@ public class MAATokensMapperTest {
     @Test
     @Sql("classpath:/sql/CreateUser.sql")
     public void testInsert() {
-        final var maaToken = MAAToken.generate(1);
+        final var maaToken = ExampleMAAToken.generate("");
         assert this.maaTokensMapper.insert(maaToken) == 1;
         assert maaToken.getId() != -1;
     }
@@ -29,7 +30,8 @@ public class MAATokensMapperTest {
             "classpath:/sql/CreateMAAToken.sql"
     })
     public void testSelect() {
-        final var token = UUID.fromString("a2e69add-9d95-4cf1-a59b-cedbb95dcd6b");
+        final var tokenStr = ExampleMAAToken.generate("").getToken().toString();
+        final var token = UUID.fromString(tokenStr);
         assert this.maaTokensMapper.selectByToken(token) != null;
     }
 
@@ -39,7 +41,7 @@ public class MAATokensMapperTest {
             "classpath:/sql/CreateMAAToken.sql"
     })
     public void testDelete() {
-        final int id = 1;
+        final int id = ExampleMAAToken.generate("").getId();
         assert this.maaTokensMapper.delete(id) == 1;
     }
 }

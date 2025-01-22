@@ -1,6 +1,8 @@
 package com.tabisketch.controller;
 
+import com.tabisketch.bean.entity.ExampleUser;
 import com.tabisketch.bean.form.EditMailAddressForm;
+import com.tabisketch.bean.form.ExampleEditMailAddressForm;
 import com.tabisketch.service.IEditMailAddressService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +38,7 @@ public class EditMailAddressControllerTest {
     @Test
     @WithMockUser(username = "sample@example.com", password = "$2a$10$G7Emd1ALL6ibttkgRZtBZeX6Qps6lgEGKq.njouwtiuE4uvjD2YMO")
     public void testPost() throws Exception {
-        final var editMailAddressForm = new EditMailAddressForm(
-                currentUserMailAddress(),
-                "sample2@example.com",
-                "password"
-        );
+        final var editMailAddressForm = ExampleEditMailAddressForm.generate();
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/user/edit/mail")
@@ -54,7 +52,7 @@ public class EditMailAddressControllerTest {
     @Test
     @WithMockUser
     public void testSend() throws Exception {
-        final String mailAddress = "sample@example.com";
+        final String mailAddress = ExampleUser.generate().getMailAddress();
         this.mockMvc.perform(MockMvcRequestBuilders
                         .get("/user/edit/mail/send")
                         .flashAttr("mailAddress", mailAddress)

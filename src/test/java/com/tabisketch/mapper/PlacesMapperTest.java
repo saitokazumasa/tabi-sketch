@@ -1,5 +1,8 @@
 package com.tabisketch.mapper;
 
+import com.tabisketch.bean.entity.ExampleDay;
+import com.tabisketch.bean.entity.ExamplePlace;
+import com.tabisketch.bean.entity.ExamplePlan;
 import com.tabisketch.bean.entity.Place;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -24,18 +27,7 @@ public class PlacesMapperTest {
             "classpath:/sql/CreateGooglePlace.sql",
     })
     public void testInsert() {
-        final var place = Place.generate(
-                1,
-                1,
-                0,
-                LocalTime.of(10, 0),
-                LocalTime.of(11, 0),
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        final var place = ExamplePlace.generate();
         assert this.placesMapper.insert(place) == 1;
         assert place.getId() != -1;
     }
@@ -49,10 +41,10 @@ public class PlacesMapperTest {
             "classpath:/sql/CreatePlace.sql"
     })
     public void testSelect() {
-        final int id = 1;
+        final int id = ExamplePlace.generate().getId();
         assert this.placesMapper.selectById(id) != null;
 
-        final int dayId = 1;
+        final int dayId = ExampleDay.generate().getId();
         final var placeList = this.placesMapper.selectByDayId(dayId);
         assert placeList != null;
         assert !placeList.isEmpty();
@@ -67,19 +59,8 @@ public class PlacesMapperTest {
             "classpath:/sql/CreatePlace.sql"
     })
     public void testUpdate() {
-        final var place = new Place(
-                1,
-                1,
-                1,
-                0,
-                LocalTime.of(11, 0),
-                LocalTime.of(12,0),
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        final var place = ExamplePlace.generate();
+        place.setBudget(2);
         assert this.placesMapper.update(place) == 1;
     }
 
@@ -92,7 +73,7 @@ public class PlacesMapperTest {
             "classpath:/sql/CreatePlace.sql"
     })
     public void testDelete() {
-        final var uuid = UUID.fromString("611d4008-4c0d-4b45-bd1b-21c97e7df3b2");
+        final var uuid = ExamplePlan.generate().getUuid();
         assert this.placesMapper.deleteByPlanUUID(uuid) >= 1;
     }
 }
