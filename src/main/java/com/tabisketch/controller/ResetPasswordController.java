@@ -1,7 +1,8 @@
 package com.tabisketch.controller;
 
-import com.tabisketch.bean.entity.PasswordResetToken;
 import com.tabisketch.bean.form.ResetPasswordForm;
+import com.tabisketch.exception.DeleteFailedException;
+import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.mapper.IPasswordResetTokensMapper;
 import com.tabisketch.service.IResetPasswordService;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.sql.SQLDataException;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -49,25 +52,12 @@ public class ResetPasswordController {
     public String post(
             @PathVariable final String token,
             final ResetPasswordForm resetPasswordForm
-    ) {
+    ) throws DeleteFailedException, UpdateFailedException, SQLDataException {
         final UUID tokenUUID = UUID.fromString(token);
-        final PasswordResetToken passwordResetToken = passwordResetTokensMapper.selectByToken(tokenUUID);
 
-        if (passwordResetToken == null) {
-            return "redirect:/login";
-        }
+        if (!Objects.equals(resetPasswordForm.getPassword(), resetPasswordForm.getRePassword())) return "redirect:/login";
 
-        if (!resetPasswordForm.getPassword().equals(resetPasswordForm.getRePassword())) {
-            return "redirect:/login";
-        }
-
-        // DBに新しいパスワードをセットする処理
-        System.out.println(token);
-
-        resetPasswordService.execute(passwordResetToken.getUserId(), resetPasswordForm.getPassword());
-
-        System.out.println(resetPasswordForm.getPassword());
-        System.out.println(resetPasswordForm.getRePassword());
+        resetPasswordService.execute(tokenUUID, resetPasswordForm.getPassword());
 
         return "redirect:/login";
     }
