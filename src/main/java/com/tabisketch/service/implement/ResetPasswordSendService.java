@@ -28,8 +28,8 @@ public class ResetPasswordSendService implements IResetPasswordSendService {
     }
 
     public void execute(final String mailAddress) throws InsertFailedException, MessagingException {
-        final boolean isExist = usersMapper.isExistMailAddress(mailAddress);
-        if (!isExist) throw new IllegalArgumentException("メールアドレスが存在しません");
+        final boolean isExistMailAddress = usersMapper.isExistMailAddress(mailAddress);
+        if (!isExistMailAddress) throw new IllegalArgumentException("メールアドレスが存在しません");
 
         final User user = usersMapper.selectByMailAddress(mailAddress);
         final PasswordResetToken token = PasswordResetToken.generate(user.getId());
@@ -37,7 +37,6 @@ public class ResetPasswordSendService implements IResetPasswordSendService {
 
         if (tokenInsertResult != 1) throw new InsertFailedException("PasswordResetTokenの追加に失敗しました。");
 
-        // メール送信
         final var mail = Mail.passwordResetMail(user.getMailAddress(), token.getToken());
         sendMailService.execute(mail);
     }
