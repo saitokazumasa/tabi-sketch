@@ -1,13 +1,13 @@
 package com.tabisketch.service.implement;
 
+import com.tabisketch.exception.DeleteFailedException;
+import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.mapper.IPasswordResetTokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.IResetPasswordService;
-import org.springframework.beans.factory.parsing.PassThroughSourceExtractor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class ResetPasswordService implements IResetPasswordService {
@@ -25,12 +25,13 @@ public class ResetPasswordService implements IResetPasswordService {
     }
 
     @Override
-    public void execute(final int userId, final String password) {
+    public void execute(final int userId, final String password) throws UpdateFailedException, DeleteFailedException {
         final String encryptedPassword = this.passwordEncoder.encode(password);
 
         final int passwordResetResult = usersMapper.updatePassword(userId, encryptedPassword);
-        if (passwordResetResult != 1) throw new IllegalArgumentException("パスワードの更新に失敗しました");
+        if (passwordResetResult != 1) throw new UpdateFailedException("パスワードの更新に失敗しました。");
 
         final int deleteTokenResult = passwordResetTokensMapper.deleteByUserId(userId);
+        if (deleteTokenResult != 1) throw new DeleteFailedException("PasswordResetTokenの削除に失敗しました。");
     }
 }
