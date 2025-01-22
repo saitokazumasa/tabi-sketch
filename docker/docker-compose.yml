@@ -9,6 +9,14 @@ services:
     volumes:
       - ./postgresql/sql:/docker-entrypoint-initdb.d
     restart: always
+  tailwindcss:
+    container_name: tailwindcss
+    image: node:22-alpine
+    tty: true
+    working_dir: /app
+    volumes:
+      - ../:/app
+    command: sh -c "npx tailwindcss -i ./src/main/resources/static/css/input.css -o ./src/main/resources/static/css/tailwind.css --watch"
 
 networks:
   tabisketch:
