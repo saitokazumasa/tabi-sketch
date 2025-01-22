@@ -18,5 +18,6 @@
 以下の手順をコマンドラインで実行する。
 1. `npm install`
 2. `.env.example` を `.env` として複製、値を書き換える
-3. `cd docker`
-4. `docker compose up -d`
+3. `npm run docker:build` でコンテナをビルドする
+4. `npm run docker:up` でコンテナを起動する
+5. `npm run docker:down` でコンテナを破棄する
