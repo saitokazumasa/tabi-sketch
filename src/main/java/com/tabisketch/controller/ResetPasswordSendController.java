@@ -15,10 +15,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/password-reset")
 public class ResetPasswordSendController {
-    private final ResetPasswordSendService sendPasswordResetMailService;
+    private final ResetPasswordSendService sendPasswordResetService;
 
-    public ResetPasswordSendController(ResetPasswordSendService sendPasswordResetMailService) {
-        this.sendPasswordResetMailService = sendPasswordResetMailService;
+    public ResetPasswordSendController(ResetPasswordSendService sendPasswordResetService) {
+        this.sendPasswordResetService = sendPasswordResetService;
     }
 
     @GetMapping
@@ -32,7 +32,7 @@ public class ResetPasswordSendController {
             final RedirectAttributes redirectAttributes,
             final ResetPasswordSendForm resetPasswordSendForm
     ) throws MessagingException, InsertFailedException {
-        sendPasswordResetMailService.execute(resetPasswordSendForm.getCurrentMailAddress());
+        sendPasswordResetService.execute(resetPasswordSendForm.getCurrentMailAddress());
 
         final String currentMailAddress = resetPasswordSendForm.getCurrentMailAddress();
         redirectAttributes.addFlashAttribute("currentMailAddress", currentMailAddress);
