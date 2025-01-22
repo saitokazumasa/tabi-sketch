@@ -13,4 +13,7 @@ public interface IPasswordResetTokensMapper {
 
     @Select("SELECT * FROM password_reset_tokens WHERE token = #{token}")
     PasswordResetToken selectByToken(final UUID token);
+
+    @Delete("DELETE FROM password_reset_tokens WHERE user_id = #{userId}")
+    int deleteByUserId(final int userId);
 }
