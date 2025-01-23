@@ -20,7 +20,8 @@ public class ResetPasswordService implements IResetPasswordService {
     private final PasswordEncoder passwordEncoder;
 
     public ResetPasswordService(
-            final IUsersMapper usersMapper, IPasswordResetTokensMapper passwordResetTokensMapper,
+            final IUsersMapper usersMapper,
+            final IPasswordResetTokensMapper passwordResetTokensMapper,
             final PasswordEncoder passwordEncoder
     ) {
         this.usersMapper = usersMapper;
