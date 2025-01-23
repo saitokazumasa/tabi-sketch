@@ -2,6 +2,7 @@ package com.tabisketch.service.implement;
 
 import com.tabisketch.bean.entity.PasswordResetToken;
 import com.tabisketch.bean.entity.User;
+import com.tabisketch.bean.form.ResetPasswordSendForm;
 import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.mapper.IPasswordResetTokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
@@ -27,7 +28,8 @@ public class ResetPasswordSendService implements IResetPasswordSendService {
         this.sendMailService = sendMailService;
     }
 
-    public void execute(final String mailAddress) throws InsertFailedException, MessagingException {
+    public void execute(final ResetPasswordSendForm resetPasswordSendForm) throws InsertFailedException, MessagingException {
+        final String mailAddress = resetPasswordSendForm.getCurrentMailAddress();
         final boolean isExistMailAddress = usersMapper.isExistMailAddress(mailAddress);
         if (!isExistMailAddress) throw new IllegalArgumentException("メールアドレスが存在しません");
 

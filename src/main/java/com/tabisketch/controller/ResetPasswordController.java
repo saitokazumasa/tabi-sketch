@@ -7,6 +7,8 @@ import com.tabisketch.mapper.IPasswordResetTokensMapper;
 import com.tabisketch.service.IResetPasswordService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,14 +21,11 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/password-reset/{token}")
 public class ResetPasswordController {
-    private final IPasswordResetTokensMapper passwordResetTokensMapper;
     private final IResetPasswordService resetPasswordService;
 
     public ResetPasswordController(
-            final IPasswordResetTokensMapper passwordResetTokensMapper,
             final IResetPasswordService resetPasswordService
     ) {
-        this.passwordResetTokensMapper = passwordResetTokensMapper;
         this.resetPasswordService = resetPasswordService;
     }
 
@@ -35,13 +34,6 @@ public class ResetPasswordController {
             @PathVariable final String token,
             final Model model
     ) {
-        final UUID tokenUUID = UUID.fromString(token);
-        System.out.println(passwordResetTokensMapper.selectByToken(tokenUUID));
-
-        if (passwordResetTokensMapper.selectByToken(tokenUUID) == null) {
-            return "redirect:/login";
-        }
-
         model.addAttribute("token", token);
         model.addAttribute("resetPasswordForm", ResetPasswordForm.empty());
 
@@ -51,13 +43,12 @@ public class ResetPasswordController {
     @PostMapping
     public String post(
             @PathVariable final String token,
-            final ResetPasswordForm resetPasswordForm
+            final @Validated ResetPasswordForm resetPasswordForm,
+            final BindingResult bindingResult
     ) throws DeleteFailedException, UpdateFailedException, SQLDataException {
-        final UUID tokenUUID = UUID.fromString(token);
+        if (bindingResult.hasErrors()) return "password-reset/index";
 
-        if (!Objects.equals(resetPasswordForm.getPassword(), resetPasswordForm.getRePassword())) return "redirect:/login";
-
-        resetPasswordService.execute(tokenUUID, resetPasswordForm.getPassword());
+        resetPasswordService.execute(token, resetPasswordForm.getPassword());
 
         return "redirect:/login";
     }

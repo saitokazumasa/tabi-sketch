@@ -8,5 +8,5 @@ import java.util.UUID;
 
 
 public interface IResetPasswordService {
-    void execute(final UUID token, final String mailAddress) throws UpdateFailedException, DeleteFailedException, SQLDataException;
+    void execute(final String token, final String mailAddress) throws UpdateFailedException, DeleteFailedException, SQLDataException;
 }
