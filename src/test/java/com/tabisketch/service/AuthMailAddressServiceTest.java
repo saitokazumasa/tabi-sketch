@@ -1,5 +1,7 @@
 package com.tabisketch.service;
 
+import com.tabisketch.bean.entity.ExampleMAAToken;
+import com.tabisketch.bean.entity.ExampleUser;
 import com.tabisketch.bean.entity.MAAToken;
 import com.tabisketch.bean.entity.User;
 import com.tabisketch.exception.DeleteFailedException;
@@ -26,8 +28,8 @@ public class AuthMailAddressServiceTest {
 
     @Test
     public void testExecute() throws DeleteFailedException, UpdateFailedException {
-        final var maaToken = MAAToken.generate(1, "sample2@example.com");
-        final var user = new User(1, "", "", false);
+        final var maaToken = ExampleMAAToken.generate("sample2@example.com");
+        final var user = ExampleUser.generate();
 
         when(this.maaTokensMapper.selectByToken(any())).thenReturn(maaToken);
         when(this.usersMapper.selectById(anyInt())).thenReturn(user);

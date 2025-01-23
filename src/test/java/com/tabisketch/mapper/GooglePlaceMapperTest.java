@@ -1,5 +1,6 @@
 package com.tabisketch.mapper;
 
+import com.tabisketch.bean.entity.ExampleGooglePlace;
 import com.tabisketch.bean.entity.GooglePlace;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -15,12 +16,7 @@ public class GooglePlaceMapperTest {
 
     @Test
     public void testInsert() {
-        final var googlePlace = GooglePlace.generate(
-                "example",
-                "",
-                0,
-                0
-        );
+        final var googlePlace = ExampleGooglePlace.generate();
         assert this.googlePlaceMapper.insert(googlePlace) == 1;
         assert googlePlace.getId() != -1;
     }
@@ -30,7 +26,7 @@ public class GooglePlaceMapperTest {
             "classpath:/sql/CreateGooglePlace.sql"
     })
     public void testSelect() {
-        final var placeId = "example";
+        final var placeId = ExampleGooglePlace.generate().getPlaceId();
         final var googlePlace = this.googlePlaceMapper.selectByPlaceId(placeId);
         assert googlePlace != null;
     }

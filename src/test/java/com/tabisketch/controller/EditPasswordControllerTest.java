@@ -1,6 +1,7 @@
 package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.EditPasswordForm;
+import com.tabisketch.bean.form.ExampleEditPasswordForm;
 import com.tabisketch.service.IEditPasswordService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,7 @@ public class EditPasswordControllerTest {
     @Test
     @WithMockUser(username = "sample@example.com", password = "$2a$10$G7Emd1ALL6ibttkgRZtBZeX6Qps6lgEGKq.njouwtiuE4uvjD2YMO")
     public void testPost() throws Exception {
-        final var editPasswordForm = new EditPasswordForm(
-                currentUserMailAddress(),
-                "password",
-                "password2",
-                "password2"
-        );
+        final var editPasswordForm = ExampleEditPasswordForm.generate();
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/user/edit/password")

@@ -2,6 +2,7 @@ package com.tabisketch.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tabisketch.bean.form.CreateDayForm;
+import com.tabisketch.bean.form.ExampleCreateDayForm;
 import com.tabisketch.bean.response.CreateDayResponse;
 import com.tabisketch.service.implement.CreateDayService;
 import org.junit.jupiter.api.Test;
@@ -32,14 +33,7 @@ public class CreateDayAPIControllerTest {
         final int dayId = 1;
         when(this.createDayService.execute(any())).thenReturn(dayId);
 
-        final var createDayForm = new CreateDayForm(
-                1,
-                1,
-                0,
-                "0000",
-                true,
-                true
-        );
+        final var createDayForm = ExampleCreateDayForm.generate();
         final String responseJson = this.objectMapper.writeValueAsString(CreateDayResponse.success(dayId));
 
         this.mockMvc.perform(MockMvcRequestBuilders

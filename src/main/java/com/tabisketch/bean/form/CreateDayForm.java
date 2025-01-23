@@ -1,5 +1,6 @@
 package com.tabisketch.bean.form;
 
+import com.tabisketch.bean.entity.Day;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -26,4 +27,13 @@ public class CreateDayForm {
 
     @NotNull
     private boolean useFerry;
+
+    public Day toDay() {
+        return Day.generate(
+                this.day,
+                this.planId,
+                this.walkThreshold,
+                this.preferTransportationListBinary
+        );
+    }
 }
