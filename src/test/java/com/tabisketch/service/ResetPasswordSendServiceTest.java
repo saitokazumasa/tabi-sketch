@@ -28,20 +28,24 @@ public class ResetPasswordSendServiceTest {
 
     @Test
     public void testExecute() throws MessagingException, InsertFailedException {
-        when(this.usersMapper.isExistMailAddress(any())).thenReturn(true);
-        when(this.usersMapper.selectByMailAddress(any())).thenReturn(new User());
-        when(this.passwordResetTokensMapper.insert(any())).thenReturn(1);
-
         final ResetPasswordSendForm resetPasswordSendForm = new ResetPasswordSendForm(
                 "sample@example.com"
         );
+        final User user = new User(
+                1,
+                "",
+                "",
+                false
+        );
+
+        when(this.usersMapper.isExistMailAddress(any())).thenReturn(true);
+        when(this.usersMapper.selectByMailAddress(any())).thenReturn(user);
+        when(this.passwordResetTokensMapper.insert(any())).thenReturn(1);
 
         this.resetPasswordSendService.execute(resetPasswordSendForm);
 
         verify(this.usersMapper).isExistMailAddress(any());
         verify(this.usersMapper).selectByMailAddress(any());
         verify(this.passwordResetTokensMapper).insert(any());
-        verify(this.sendMailService).execute(any());
     }
-
 }

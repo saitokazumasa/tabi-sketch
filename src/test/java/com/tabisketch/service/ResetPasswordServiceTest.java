@@ -5,6 +5,7 @@ import com.tabisketch.exception.DeleteFailedException;
 import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.mapper.IPasswordResetTokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
