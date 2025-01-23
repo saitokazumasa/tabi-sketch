@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/**/*.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docker:build": "docker compose -f docker/docker-compose.yml build",
+    "docker:up": "docker compose -f docker/docker-compose.yml up -d",
+    "docker:down": "docker compose -f docker/docker-compose.yml down -v"
   },
   "keywords": [],
   "author": "",
