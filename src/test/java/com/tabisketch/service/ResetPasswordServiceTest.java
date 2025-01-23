@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.sql.SQLDataException;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -30,12 +31,19 @@ public class ResetPasswordServiceTest {
 
     @Test
     public void testExecute() throws UpdateFailedException, DeleteFailedException, SQLDataException {
-        when(this.passwordResetTokensMapper.selectByToken(any())).thenReturn(new PasswordResetToken());
+        final String token = "67da4e4f-a427-4a02-b920-a0d399b75217";
+        final UUID tokenUUID = UUID.fromString(token);
+        final String password = "password";
+        final PasswordResetToken passwordResetToken = new PasswordResetToken(
+                1,
+                tokenUUID,
+                1,
+                null
+        );
+
+        when(this.passwordResetTokensMapper.selectByToken(any())).thenReturn(passwordResetToken);
         when(this.usersMapper.updatePassword(anyInt(), any())).thenReturn(1);
         when(this.passwordResetTokensMapper.deleteByUserId(anyInt())).thenReturn(1);
-
-        final String token = "67da4e4f-a427-4a02-b920-a0d399b75217";
-        final String password = "password";
 
         this.resetPasswordService.execute(token, password);
 

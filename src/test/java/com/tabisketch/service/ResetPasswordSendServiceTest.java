@@ -28,7 +28,6 @@ public class ResetPasswordSendServiceTest {
 
     @Test
     public void testExecute() throws MessagingException, InsertFailedException {
-        // Write your code here
         when(this.usersMapper.isExistMailAddress(any())).thenReturn(true);
         when(this.usersMapper.selectByMailAddress(any())).thenReturn(new User());
         when(this.passwordResetTokensMapper.insert(any())).thenReturn(1);
