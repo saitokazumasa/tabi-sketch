@@ -1,10 +1,9 @@
-package com.tabisketch.controller;
+package com.tabisketch.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tabisketch.bean.form.CreatePlaceForm;
-import com.tabisketch.bean.form.ExampleCreatePlaceForm;
-import com.tabisketch.bean.response.CreatePlaceResponse;
-import com.tabisketch.service.ICreatePlaceService;
+import com.tabisketch.bean.form.ExampleCreatePlanForm;
+import com.tabisketch.bean.response.CreatePlanResponse;
+import com.tabisketch.service.ICreatePlanService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,32 +14,30 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.time.LocalTime;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@WebMvcTest(CreatePlaceAPIController.class)
-public class CreatePlaceAPIControllerTest {
+@WebMvcTest(CreatePlanAPIController.class)
+public class CreatePlanAPIControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
     @MockitoBean
-    private ICreatePlaceService createPlaceService;
+    private ICreatePlanService createPlanService;
 
     @Test
     @WithMockUser
     public void testPost() throws Exception {
-        final int placeId = 1;
-        when(this.createPlaceService.execute(any())).thenReturn(placeId);
+        final int planId = 1;
+        when(this.createPlanService.execute(any())).thenReturn(planId);
 
-        final var createPlaceForm = ExampleCreatePlaceForm.generate();
-        final String responseJson = this.objectMapper.writeValueAsString(CreatePlaceResponse.success(placeId));
+        final var createPlanForm = ExampleCreatePlanForm.generate();
+        final String responseJson = this.objectMapper.writeValueAsString(CreatePlanResponse.success(planId));
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/create-place")
-                        .flashAttr("createPlaceForm", createPlaceForm)
+                        .post("/api/create-plan")
+                        .flashAttr("createPlanForm", createPlanForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(responseJson));

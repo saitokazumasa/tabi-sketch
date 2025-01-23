@@ -1,4 +1,4 @@
-package com.tabisketch.controller;
+package com.tabisketch.api;
 
 import com.tabisketch.bean.form.UpdatePlaceForm;
 import com.tabisketch.bean.response.UpdatePlaceResponse;
