@@ -1,10 +1,9 @@
-package com.tabisketch.controller;
+package com.tabisketch.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tabisketch.bean.form.ExampleCreatePlanForm;
-import com.tabisketch.bean.response.CreatePlanResponse;
-import com.tabisketch.bean.form.CreatePlanForm;
-import com.tabisketch.service.ICreatePlanService;
+import com.tabisketch.bean.form.ExampleCreateDayForm;
+import com.tabisketch.bean.response.CreateDayResponse;
+import com.tabisketch.service.implement.CreateDayService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,27 +17,27 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@WebMvcTest(CreatePlanAPIController.class)
-public class CreatePlanAPIControllerTest {
+@WebMvcTest(CreateDayAPIController.class)
+public class CreateDayAPIControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
     @MockitoBean
-    private ICreatePlanService createPlanService;
+    private CreateDayService createDayService;
 
     @Test
     @WithMockUser
     public void testPost() throws Exception {
-        final int planId = 1;
-        when(this.createPlanService.execute(any())).thenReturn(planId);
+        final int dayId = 1;
+        when(this.createDayService.execute(any())).thenReturn(dayId);
 
-        final var createPlanForm = ExampleCreatePlanForm.generate();
-        final String responseJson = this.objectMapper.writeValueAsString(CreatePlanResponse.success(planId));
+        final var createDayForm = ExampleCreateDayForm.generate();
+        final String responseJson = this.objectMapper.writeValueAsString(CreateDayResponse.success(dayId));
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/create-plan")
-                        .flashAttr("createPlanForm", createPlanForm)
+                        .post("/api/create-day")
+                        .flashAttr("createDayForm", createDayForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(responseJson));

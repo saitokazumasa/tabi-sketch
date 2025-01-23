@@ -1,8 +1,7 @@
-package com.tabisketch.controller;
+package com.tabisketch.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tabisketch.bean.form.ExampleUpdatePlaceForm;
-import com.tabisketch.bean.form.UpdatePlaceForm;
 import com.tabisketch.bean.response.UpdatePlaceResponse;
 import com.tabisketch.service.IUpdatePlaceService;
 import org.junit.jupiter.api.Test;
@@ -14,8 +13,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.time.LocalTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;

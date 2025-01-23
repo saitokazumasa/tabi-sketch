@@ -1,6 +1,5 @@
-package com.tabisketch.controller;
+package com.tabisketch.api;
 
-import com.tabisketch.bean.entity.Place;
 import com.tabisketch.bean.form.CreatePlaceForm;
 import com.tabisketch.bean.response.CreatePlaceResponse;
 import com.tabisketch.exception.InsertFailedException;
