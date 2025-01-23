@@ -37,8 +37,11 @@ public class ResetPasswordControllerTest {
     @WithMockUser
     public void testPost() throws Exception {
         final String token = "67da4e4f-a427-4a02-b920-a0d399b75217";
+        final ResetPasswordForm resetPasswordForm = new ResetPasswordForm("password", "password");
+
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/password-reset/" + token)
+                        .flashAttr("resetPasswordForm", resetPasswordForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.model().hasNoErrors())
