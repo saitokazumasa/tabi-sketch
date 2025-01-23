@@ -30,12 +30,13 @@ public class ResetPasswordService implements IResetPasswordService {
 
     @Override
     public void execute(
-            final UUID token,
+            final String token,
             final String password
     ) throws UpdateFailedException, DeleteFailedException, SQLDataException {
+        final UUID tokenUUID = UUID.fromString(token);
         final String encryptedPassword = this.passwordEncoder.encode(password);
 
-        final PasswordResetToken passwordResetToken = passwordResetTokensMapper.selectByToken(token);
+        final PasswordResetToken passwordResetToken = passwordResetTokensMapper.selectByToken(tokenUUID);
         if (passwordResetToken == null) throw new SQLDataException("トークンが見つかりませんでした。");
 
         final int userId = passwordResetToken.getUserId();

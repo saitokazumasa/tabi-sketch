@@ -7,6 +7,7 @@ import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,16 +32,13 @@ public class ResetPasswordSendController {
     @PostMapping
     public String post(
             final RedirectAttributes redirectAttributes,
-            final ResetPasswordSendForm resetPasswordSendForm,
+            final @Validated ResetPasswordSendForm resetPasswordSendForm,
             final BindingResult bindingResult
     ) throws MessagingException, InsertFailedException {
         if(bindingResult.hasErrors()) return "password-reset/send";
 
-        final String currentMailAddress = resetPasswordSendForm.getCurrentMailAddress();
-
-        resetPasswordSendService.execute(currentMailAddress);
-
-        redirectAttributes.addFlashAttribute("currentMailAddress", currentMailAddress);
+        resetPasswordSendService.execute(resetPasswordSendForm);
+        redirectAttributes.addFlashAttribute("currentMailAddress", resetPasswordSendForm.getCurrentMailAddress());
 
         return "redirect:password-reset/send";
     }
