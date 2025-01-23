@@ -35,10 +35,11 @@ public class ResetPasswordSendControllerTest {
     @WithMockUser
     public void testPost() throws Exception {
         final String currentMailAddress = "sample@example.com";
+        final var resetPasswordSendForm = new ResetPasswordSendForm(currentMailAddress);
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/password-reset")
-                        .flashAttr("currentMailAddress", currentMailAddress)
+                        .flashAttr("resetPasswordSendForm", resetPasswordSendForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.model().hasNoErrors())
