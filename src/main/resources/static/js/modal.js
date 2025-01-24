@@ -500,8 +500,10 @@ class ModalForm {
         }
         document.getElementById(`placeError${formNum}`).textContent = '';
 
+        // formDataの整形
         const formData = new FormData(e.target);
-        this.setEndTime(formNum, formData);
+        this.#setEndTime(formNum, formData);
+        formData.delete(`stayTime${formNum}`);
 
         // Post処理 /api/create-places
         await this.postCreatePlaceAPI(formData, ModalType.places, formNum);
