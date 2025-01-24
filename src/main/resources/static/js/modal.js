@@ -720,10 +720,15 @@ class ModalForm {
      * @param formNum {number | null} 送信するformの項番 placeFormのみ
      */
     async postCreatePlaceAPI(formData, modalType, formNum=null) {
+        const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+        const csrfHeaderName = document.querySelector('meta[name="_csrf_header"]').content;
         try {
             // 非同期でPOSTリクエストを送信
             const response = await fetch('/api/create-place', {
                 method: 'POST',
+                headers: {
+                    [csrfHeaderName]: csrfToken
+                },
                 body: formData,
             });
 
@@ -735,6 +740,7 @@ class ModalForm {
             // /api/create-placeでFailedが返される
             const data = await response.json();
             if (data.status === 'Failed') {
+                console.error(`APIエラー：${data}`);
                 throw new Error('エラーが発生しました。');
             }
 
@@ -747,6 +753,7 @@ class ModalForm {
                 await this.#placesCreateSuccess(formNum);
             }
         } catch (error) {
+            console.error(`エラー詳細：${error}`);
             const errorMessage = '送信中にエラーが発生しました。もう一度お試しください。';
             if (modalType === ModalType.start) {
                 document.getElementById('startError').textContent = errorMessage;
