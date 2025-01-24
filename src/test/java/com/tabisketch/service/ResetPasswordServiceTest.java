@@ -1,6 +1,8 @@
 package com.tabisketch.service;
 
+import com.tabisketch.bean.entity.ExamplePasswordResetToken;
 import com.tabisketch.bean.entity.PasswordResetToken;
+import com.tabisketch.bean.form.ExampleResetPasswordForm;
 import com.tabisketch.exception.DeleteFailedException;
 import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.mapper.IPasswordResetTokensMapper;
@@ -32,21 +34,16 @@ public class ResetPasswordServiceTest {
 
     @Test
     public void testExecute() throws UpdateFailedException, DeleteFailedException, SQLDataException {
-        final String token = "67da4e4f-a427-4a02-b920-a0d399b75217";
-        final UUID tokenUUID = UUID.fromString(token);
-        final String password = "password";
-        final PasswordResetToken passwordResetToken = new PasswordResetToken(
-                1,
-                tokenUUID,
-                1,
-                null
-        );
+        final var resetPasswordForm = ExampleResetPasswordForm.generate();
+        final var passwordResetToken = ExamplePasswordResetToken.generate();
+        final var token = passwordResetToken.getToken().toString();
+
 
         when(this.passwordResetTokensMapper.selectByToken(any())).thenReturn(passwordResetToken);
         when(this.usersMapper.updatePassword(anyInt(), any())).thenReturn(1);
         when(this.passwordResetTokensMapper.deleteByUserId(anyInt())).thenReturn(1);
 
-        this.resetPasswordService.execute(token, password);
+        this.resetPasswordService.execute(token, resetPasswordForm.getPassword());
 
         verify(this.usersMapper).updatePassword(anyInt(), any());
         verify(this.passwordResetTokensMapper).selectByToken(any());

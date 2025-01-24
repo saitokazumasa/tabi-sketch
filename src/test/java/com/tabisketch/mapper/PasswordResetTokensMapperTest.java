@@ -1,5 +1,6 @@
 package com.tabisketch.mapper;
 
+import com.tabisketch.bean.entity.ExamplePasswordResetToken;
 import com.tabisketch.bean.entity.PasswordResetToken;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -18,7 +19,7 @@ public class PasswordResetTokensMapperTest {
     @Test
     @Sql("classpath:/sql/CreateUser.sql")
     public void testInsert() {
-        final var passwordResetToken = PasswordResetToken.generate(1);
+        final var passwordResetToken = ExamplePasswordResetToken.generate();
         assert this.passwordResetTokensMapper.insert(passwordResetToken) == 1;
         assert passwordResetToken.getId() != -1;
     }
@@ -29,7 +30,7 @@ public class PasswordResetTokensMapperTest {
             "classpath:/sql/CreatePasswordResetToken.sql"
     })
     public void testSelect() {
-        final UUID tokenUUID = UUID.fromString("d3a460f2-5df4-48b6-b9e1-a550e319512f");
+        final var tokenUUID = ExamplePasswordResetToken.generate().getToken();
         final var token = passwordResetTokensMapper.selectByToken(tokenUUID);
         assert token != null;
     }
@@ -40,7 +41,7 @@ public class PasswordResetTokensMapperTest {
             "classpath:/sql/CreatePasswordResetToken.sql"
     })
     public void testDelete() {
-        final int id = 1;
-        assert this.passwordResetTokensMapper.deleteByUserId(id) == 1;
+        final int userId = ExamplePasswordResetToken.generate().getUserId();
+        assert this.passwordResetTokensMapper.deleteByUserId(userId) == 1;
     }
 }

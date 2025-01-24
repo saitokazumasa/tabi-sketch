@@ -1,5 +1,7 @@
 package com.tabisketch.controller;
 
+import com.tabisketch.bean.entity.ExamplePasswordResetToken;
+import com.tabisketch.bean.form.ExampleResetPasswordForm;
 import com.tabisketch.bean.form.ResetPasswordForm;
 import com.tabisketch.bean.form.ResetPasswordSendForm;
 import com.tabisketch.service.implement.ResetPasswordService;
@@ -27,8 +29,8 @@ public class ResetPasswordControllerTest {
     @Test
     @WithMockUser
     public void testGet() throws Exception {
-        final String token = "67da4e4f-a427-4a02-b920-a0d399b75217";
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/password-reset/" + token))
+        final var passwordResetToken = ExamplePasswordResetToken.generate();
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/password-reset/" + passwordResetToken.getToken()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("password-reset/index"));
     }
@@ -36,11 +38,11 @@ public class ResetPasswordControllerTest {
     @Test
     @WithMockUser
     public void testPost() throws Exception {
-        final String token = "67da4e4f-a427-4a02-b920-a0d399b75217";
-        final ResetPasswordForm resetPasswordForm = new ResetPasswordForm("password", "password");
+        final var passwordResetToken = ExamplePasswordResetToken.generate();
+        final var resetPasswordForm = ExampleResetPasswordForm.generate();
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/password-reset/" + token)
+                        .post("/password-reset/" + passwordResetToken.getToken())
                         .flashAttr("resetPasswordForm", resetPasswordForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
@@ -53,9 +55,10 @@ public class ResetPasswordControllerTest {
     @MethodSource("validationTestData")
     @WithMockUser
     public void testValidation(final ResetPasswordForm resetPasswordForm) throws Exception {
-        final String token = "67da4e4f-a427-4a02-b920-a0d399b75217";
+        final var passwordResetToken = ExamplePasswordResetToken.generate();
+
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/password-reset/" + token)
+                        .post("/password-reset/" + passwordResetToken.getToken())
                         .flashAttr("resetPasswordForm", resetPasswordForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().isOk())

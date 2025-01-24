@@ -1,5 +1,6 @@
 package com.tabisketch.controller;
 
+import com.tabisketch.bean.form.ExampleResetPasswordSendForm;
 import com.tabisketch.bean.form.ResetPasswordSendForm;
 import com.tabisketch.service.implement.ResetPasswordSendService;
 import org.junit.jupiter.api.Test;
@@ -34,8 +35,7 @@ public class ResetPasswordSendControllerTest {
     @Test
     @WithMockUser
     public void testPost() throws Exception {
-        final String currentMailAddress = "sample@example.com";
-        final var resetPasswordSendForm = new ResetPasswordSendForm(currentMailAddress);
+        final var resetPasswordSendForm = ExampleResetPasswordSendForm.generate();
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/password-reset")
