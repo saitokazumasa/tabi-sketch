@@ -420,6 +420,7 @@ class ModalForm {
     placeFormElement = [];
     #endFormElement;
     #startUpdateFormElement;
+    #endUpdateFormElement;
     #placesUpdateFormElement;
 
     constructor() {
@@ -465,7 +466,7 @@ class ModalForm {
      * 終了地点のsubmitイベント
      * @param e イベント
      */
-    #endFormSubmit(e) {
+    async #endFormSubmit(e) {
         e.preventDefault();
 
         // 値の検証（nullがあるか）
@@ -478,7 +479,7 @@ class ModalForm {
         const formData = new FormData(e.target);
 
         // api/create-planに送信
-        this.postCreatePlaceAPI(formData, ModalType.end);
+        await this.postCreatePlaceAPI(formData, ModalType.end);
     }
 
     /**
@@ -575,10 +576,23 @@ class ModalForm {
     /**
      * 終了地点の /api/create-placeが成功したとき
      */
-    #endPlaceCreateSuccess() {
+    async #endPlaceCreateSuccess() {
         // modal関連の動作
         modal.closeModal(ModalType.end);
         modal.changeEndDisplay();
+
+        // endUpdateFormフラグメントを追加
+        const fragment = new Fragment();
+        await fragment.initialize(); // 追加フラグメントの初期化
+        fragment.addEndUpdateForm(); // HTMLに追加
+        modal.setEndUpdateModal(); // 変数にElement追加・autocomplete適用
+
+        // endToggleの data-modal-target data-modal-toggleを変更
+        modal.changeToggleTarget(ModalType.end);
+
+        // formのsubmitイベントをアタッチ
+        this.#endUpdateFormElement = modal.getModal(ModalType.updateEnd);
+        this.#endUpdateFormElement.addEventListener('submit', (e) => this.#endUpdateFormSubmit(e));
     }
 
     /**
@@ -625,8 +639,21 @@ class ModalForm {
         document.getElementById('startUpdateError').textContent = '';
 
         const formData = new FormData(e.target);
-        // api/update-planに送信
         await this.postUpdatePlaceAPI(formData, ModalType.start);
+    }
+
+    /**
+     * 終了地点の更新submitイベント
+     * @param e
+     */
+    async #endUpdateFormSubmit(e) {
+        e.preventDefault();
+
+        // todo: 値の検証
+
+        // api/update-planに送信
+        const formData = new FormData(e.target);
+        await this.postUpdatePlaceAPI(formData, ModalType.end);
     }
 
     /**
@@ -674,6 +701,14 @@ class ModalForm {
         const endTime = `${endHours}:${endMinutes}`;
         // FormDataにendTimeをセット
         formData.set('endTime', endTime);
+    }
+
+    /**
+     * todo: stayTimeのvalueを更新
+     * @param formNum {number}
+     */
+    #setStayTime(formNum) {
+
     }
 
     /**
