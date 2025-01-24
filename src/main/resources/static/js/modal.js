@@ -31,6 +31,7 @@ class Fragment {
         this.#toggle = null;
         this.#form = null;
         this.#startUpdateForm = null;
+        this.#endUpdateForm = null;
         this.#placesUpdateForm = null;
     }
 
@@ -63,9 +64,17 @@ class Fragment {
         } catch (error) {
             throw new Error('initialize Error : ' + error);
         }
-        // 目的地更新form取得 /fragment/modal/placesUpdateForm
+        // 終了地点更新form取得 /fragment/modal/endUpdateForm
         try {
-            const response = await fetch('/fragment/modal/placesUpdateForm');
+            const response = await fetch('/fragment/modal/endUpdateForm');
+            if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
+            this.#endUpdateForm = await response.text();
+        } catch (error) {
+            throw new Error('initialize Error : ' + error);
+        }
+        // 目的地更新form取得 /fragment/modal/placesUpdateForm?num=
+        try {
+            const response = await fetch(`/fragment/modal/placesUpdateForm?num=${(placeNum.value())}`);
             if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
             this.#placesUpdateForm = await response.text();
         } catch (error) {
