@@ -552,13 +552,14 @@ class ModalForm {
     /**
      * 出発地点の /api/create-placeが成功したとき
      */
-    #startPlaceCreateSuccess() {
+    async #startPlaceCreateSuccess() {
         // modal関連の動作
         modal.closeModal(ModalType.start);
         modal.changeStartDisplay();
 
         // startUpdateFormを呼び出す
         const fragment = new Fragment();
+        await fragment.initialize(); // 追加フラグメントの初期化
         fragment.addStartUpdateForm(); // HTMLに追加
         modal.setStartUpdateModal(); // 変数にElement追加・autocomplete適用
 
@@ -600,14 +601,17 @@ class ModalForm {
         modal.closeModal(ModalType.places);
         modal.changePlaceDisplay();
 
-        if(formNum !== placeNum.value()) return; // 目的地再設定はreturn
-        await this.newAddFragment();
+        // 目的地追加フラグメント呼び出し
+        await this.newAddPlaceFragment();
 
         // placesUpdateFormを呼び出す
         const fragment = new Fragment();
+        await fragment.initialize(); // fragment初期化
         fragment.addPlacesUpdateForm(); // HTMLに追加
         modal.setPlacesUpdateModal(); // Elementを追加
 
+        // todo: stayTimeのvalueを更新
+        this.#setStayTime(formNum);
 
         // placesToggleの data-modal-target data-modal-toggleを変更
         modal.changeToggleTarget(ModalType.places, formNum);
@@ -656,16 +660,21 @@ class ModalForm {
     async #placeUpdateFormSubmit(e) {
         e.preventDefault();
 
-        const formData = new FormData(e.target);
+        const formId = e.target.id;
+        const formNum = Number(formId.replace('updatePlaceForm', ));
+
+        // todo: 値の検証
         // api/update-planに送信
-        await this.postUpdatePlaceAPI(formData, ModalType.places);
+        const formData = new FormData(e.target);
+        // todo: updatePlaceがdisabledだから手動で追加
+        await this.postUpdatePlaceAPI(formData, ModalType.places, formNum);
     }
 
     /**
      * 追加フラグメントを挿入
      * @returns {Promise<void>}
      */
-    async newAddFragment() {
+    async newAddPlaceFragment() {
         const newFragment = new Fragment();
         await newFragment.initialize();
 
@@ -679,7 +688,7 @@ class ModalForm {
     /**
      * endTimeを(startTime+stayTime)に
      */
-    setEndTime(formNum, formData) {
+    #setEndTime(formNum, formData) {
         const startTime = formData.get('startTime');
         const stayTime = formData.get(`stayTime${formNum}`);
         // startTimeをパースしてDate型に変換
