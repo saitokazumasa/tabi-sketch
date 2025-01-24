@@ -560,12 +560,7 @@ class ModalForm {
         // startUpdateFormを呼び出す
         const fragment = new Fragment();
         fragment.addStartUpdateForm(); // HTMLに追加
-        modal.setStartUpdateModal(); // Elementを追加
-
-        // updateFormのstartUpdatePlaceを更新
-        const updatePlace = document.getElementById('startUpdatePlace');
-        const startPlace = document.getElementById('startPlace');
-        updatePlace.value = startPlace.value;
+        modal.setStartUpdateModal(); // 変数にElement追加・autocomplete適用
 
         // startToggleの data-modal-target data-modal-toggleを変更
         modal.changeToggleTarget(ModalType.start);
@@ -613,10 +608,6 @@ class ModalForm {
         fragment.addPlacesUpdateForm(); // HTMLに追加
         modal.setPlacesUpdateModal(); // Elementを追加
 
-        // 場所名を取得して更新
-        const updatePlace = document.getElementById(`updatePlace${formNum}`);
-        const place = document.getElementById(`place${formNum}`);
-        updatePlace.value = place.value;
 
         // placesToggleの data-modal-target data-modal-toggleを変更
         modal.changeToggleTarget(ModalType.places, formNum);
