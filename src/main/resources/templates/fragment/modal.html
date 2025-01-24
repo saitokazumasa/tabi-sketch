@@ -86,7 +86,7 @@
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 sm:p-5 rounded-t border-b border-frame">
                     <h3 class="text-xl text-black">
-                        出発地点を入力する
+                        出発地点を更新する
                     </h3>
                     <button class="end-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                             data-modal-hide="startUpdateModal" id="startUpdateClose" type="button">
@@ -100,10 +100,9 @@
                 <form class="p-4 sm:p-5" th:object="${updateStartForm}" id="updateStartForm">
                     <span id="updateStartError" class="text-danger text-sm mb-2 flex justify-center"></span>
                     <div class="space-y-4 w-full">
-                        <div>
-                            <label class="block mb-2" for="startUpdatePlace">出発地点<span class="ml-2 text-sm text-danger">必須</span></label>
-                            <input class="w-full input focus:ring-0" id="startUpdatePlace" name="startUpdatePlace" type="text" disabled/>
-                        </div>
+                        <input th:field="*{googlePlaceId}" id="startUpdatePlaceId" class="hidden" type="text"/>
+                        <input th:field="*{latitude}" id="startUpdateLat" class="hidden" type="text"/>
+                        <input th:field="*{longitude}" id="startUpdateLng" class="hidden" type="text"/>
                         <input th:field="*{id}" id="startUpdateId" class="hidden" type="number">
                         <input th:field="*{dayId}" id="startUpdateDayId" class="hidden" type="number"/>
                         <input th:field="*{budget}" id="startUpdateBudget" class="hidden" type="number"/>
@@ -113,6 +112,10 @@
                         <input th:field="*{toPolyLine}" id="startUpdatePolyline" class="hidden" type="text"/>
                         <input th:field="*{toTravelTime}" id="startUpdateTravel" class="hidden" type="number"/>
                         <input th:field="*{toTransportation}" id="startUpdateTrans" class="hidden" type="text"/>
+                        <div>
+                            <label class="block mb-2" for="startUpdatePlace">出発地点<span class="ml-2 text-sm text-danger">必須</span></label>
+                            <input th:field="*{name}" class="w-full input focus:ring-0" id="startUpdatePlace" name="startUpdatePlace" type="text"/>
+                        </div>
                         <div class="w-1/2">
                             <label class="block mb-2" for="startTime">予定時間<span class="ml-2 text-sm text-danger">必須</span></label>
                             <div class="relative">
@@ -125,7 +128,7 @@
                             </div>
                         </div>
                         <div class="flex justify-center">
-                            <button class="button-primary" type="submit">登録</button>
+                            <button class="button-primary" type="submit">更新</button>
                         </div>
                     </div>
                 </form>
@@ -348,7 +351,7 @@
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 sm:p-5 rounded-t border-b border-frame">
                     <h3 class="text-xl text-black">
-                        目的地を追加する
+                        目的地を更新する
                     </h3>
                     <button class="end-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                             th:data-modal-hide="'placesUpdateModal'+${num}" th:id="'placesUpdateClose'+${num}" type="button">
@@ -362,16 +365,19 @@
                 <form class="p-4 sm:p-5" th:object="${updatePlaceForm}" th:id="'updatePlaceForm'+${num}">
                     <span th:id="'placeUpdateError'" class="text-danger text-sm mb-2 flex justify-center"></span>
                     <div class="space-y-4 w-full">
-                        <input th:field="*{id}" th:id="'placeUpdateId'+${num}" class="hidden" type="number">
-                        <input th:field="*{dayId}" th:id="'placeUpdateDayId'+${num}" class="hidden" type="number"/>
-                        <input th:field="*{startTime}" th:id="'placeUpdateStartTime'+${num}" class="hidden" type="time"/>
-                        <input th:field="*{endTime}" th:id="'placeUpdateEndTime'+${num}" class="hidden" type="time"/>
-                        <input th:field="*{toPolyLine}" th:id="'placeUpdatePolyline'+${num}" class="hidden" type="text"/>
-                        <input th:field="*{toTravelTime}" th:id="'placeUpdateTravel'+${num}" class="hidden" type="number"/>
-                        <input th:field="*{toTransportation}" th:id="'placeUpdateTrans'+${num}" class="hidden" type="text"/>
+                        <input th:field="*{googlePlaceId}" id="placeUpdatePlaceId" class="hidden" type="text"/>
+                        <input th:field="*{latitude}" id="placeUpdateLat" class="hidden" type="text"/>
+                        <input th:field="*{longitude}" id="placeUpdateLng" class="hidden" type="text"/>
+                        <input th:field="*{id}" class="hidden" type="number">
+                        <input th:field="*{dayId}" class="hidden" type="number"/>
+                        <input th:field="*{startTime}" class="hidden" type="time"/>
+                        <input th:field="*{endTime}" class="hidden" type="time"/>
+                        <input th:field="*{toPolyLine}" class="hidden" type="text"/>
+                        <input th:field="*{toTravelTime}" class="hidden" type="number"/>
+                        <input th:field="*{toTransportation}" class="hidden" type="text"/>
                         <div>
                             <label class="block mb-2" th:for="'updatePlace'+${num}">目的地<span class="ml-2 text-sm text-danger">必須</span></label>
-                            <input class="w-full input focus:ring-0" th:id="'updatePlace'+${num}" th:name="'updatePlace'+${num}" type="text" disabled/>
+                            <input th:field="*{name}" class="w-full input focus:ring-0" th:id="'updatePlace'+${num}" th:name="'updatePlace'+${num}" type="text" disabled/>
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="w-1/2 pr-3">
@@ -413,7 +419,7 @@
                             </div>
                         </div>
                         <div class="flex justify-center">
-                            <button class="button-primary" type="submit">追加</button>
+                            <button class="button-primary" type="submit">更新</button>
                         </div>
                     </div>
                 </form>
