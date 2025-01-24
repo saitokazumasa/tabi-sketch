@@ -1,4 +1,4 @@
-package com.tabisketch.controller;
+package com.tabisketch.api;
 
 import com.tabisketch.bean.form.CreateDayForm;
 import com.tabisketch.bean.response.CreateDayResponse;

@@ -15,7 +15,7 @@ public class EditUserControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @WithMockUser(username = "sample@example.com")
+    @WithMockUser
     public void testGet() throws Exception {
         final String mailAddress = currentUserMailAddress();
         this.mockMvc.perform(MockMvcRequestBuilders.get("/user/edit"))

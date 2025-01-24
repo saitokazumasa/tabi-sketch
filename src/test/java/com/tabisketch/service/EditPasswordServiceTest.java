@@ -1,7 +1,9 @@
 package com.tabisketch.service;
 
+import com.tabisketch.bean.entity.ExampleUser;
 import com.tabisketch.bean.entity.User;
 import com.tabisketch.bean.form.EditPasswordForm;
+import com.tabisketch.bean.form.ExampleEditPasswordForm;
 import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.mapper.IUsersMapper;
 import jakarta.mail.MessagingException;
@@ -28,14 +30,8 @@ public class EditPasswordServiceTest {
     @Test
     @WithMockUser
     public void testExecute() throws MessagingException, UpdateFailedException {
-        final var user =
-                User.generate("", "$2a$10$if7oiFZVmP9I59AOtzbSz.dWsdPUUuPTRkcIoR8iYhFpG/0COY.TO");
-        final var editPasswordForm = new EditPasswordForm(
-                "sample@example.com",
-                "password",
-                "password2",
-                "password2"
-        );
+        final var user = ExampleUser.generate();
+        final var editPasswordForm = ExampleEditPasswordForm.generate();
 
         when(this.usersMapper.selectByMailAddress(anyString())).thenReturn(user);
         when(this.usersMapper.update(any())).thenReturn(1);

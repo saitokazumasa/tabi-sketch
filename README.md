@@ -15,41 +15,33 @@
 
 # 開発
 ## 環境構築
-
-1. コマンドラインで `npm install` を実行
-2. DATABASEを作成
-    ```postgresql
-    CREATE DATABASE tabisketch;
-    ```
-3. .envファイルを作成
-    `.env.example` ファイルをコピーし、適切な値に書き換えて `.env` ファイルを作成する
-4. `./bin/CreateTable.sh` を実行
-
-## 各種コマンド
-
-### 実行
+以下の手順をコマンドラインで実行する。
+1. 依存パッケージをインストール
 ```shell
-./bin/BuildAndRun.sh
-```
-TailwindCSSも同時にビルドされる
-
-### Jar ビルド
-```shell
-./bin/BuildJar.sh
-```
-テストも実行される
-
-### TailwindCSS ビルド
-```shell
-./bin/BuildTailwindCss.sh
+npm install
 ```
 
-### Table一括作成
+2. `.env.example` を `.env` として複製、値を書き換え
+
+3. Dockerをビルド&起動
 ```shell
-./bin/CreateTable.sh
+npm run docker:build
+npm run docker:up
 ```
 
-### Table一括削除
+## カスタムコマンド
+
+### Docker ビルド
 ```shell
-./bin/DropTable.sh
+npm run docker:build
+```
+
+### Docker 起動
+```shell
+npm run docker:up
+```
+
+### Docker 停止
+```shell
+npm run docker:down
 ```

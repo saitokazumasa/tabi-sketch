@@ -1,5 +1,6 @@
 package com.tabisketch.controller;
 
+import com.tabisketch.bean.entity.ExamplePlan;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,7 +19,7 @@ public class EditPlanControllerTest {
     @Test
     @WithMockUser
     public void testGet() throws Exception {
-        final var uuid = UUID.randomUUID().toString();
+        final var uuid = ExamplePlan.generate().getUuid().toString();
         this.mockMvc.perform(MockMvcRequestBuilders.get("/plan/"+ uuid + "/edit"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("plan/edit"));

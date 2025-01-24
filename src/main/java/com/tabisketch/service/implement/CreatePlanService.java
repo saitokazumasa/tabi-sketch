@@ -26,7 +26,7 @@ public class CreatePlanService implements ICreatePlanService {
     public int execute(final CreatePlanForm createPlanForm) throws InsertFailedException {
         final User user = this.usersMapper.selectByMailAddress(createPlanForm.getUserMailAddress());
 
-        final var plan = Plan.generate(createPlanForm.getTitle(), user.getId());
+        final var plan = createPlanForm.toPlan(user.getId());
         final int result = this.plansMapper.insert(plan);
         if (result != 1) throw new InsertFailedException("Planの追加に失敗しました。");
 
