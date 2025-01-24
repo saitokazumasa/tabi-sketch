@@ -677,10 +677,10 @@ class ModalForm {
     }
 
     /**
-     *
-     * @param formData 送信するformのデータ
+     * /api/crate-placeに送信する
+     * @param formData {FormData} 送信するformのデータ
      * @param modalType {String} 送信するformのタイプ
-     * @param formNum 送信するformの項番 placeFormのみ
+     * @param formNum {number | null} 送信するformの項番 placeFormのみ
      */
     async postCreatePlaceAPI(formData, modalType, formNum=null) {
         try {
@@ -707,18 +707,27 @@ class ModalForm {
             } else if (modalType === ModalType.end) {
                 await this.#endPlaceCreateSuccess();
             } else {
-                await this.#placesCreateSuccess(formNum); // awaitで実行
+                await this.#placesCreateSuccess(formNum);
             }
         } catch (error) {
-            document.getElementById('Error').textContent = '送信中にエラーが発生しました。もう一度お試しください。';
+            const errorMessage = '送信中にエラーが発生しました。もう一度お試しください。';
+            if (modalType === ModalType.start) {
+                document.getElementById('startError').textContent = errorMessage;
+            } else if (modalType === ModalType.end) {
+                document.getElementById('endError').textContent = errorMessage;
+            } else {
+                document.getElementById(`placeError${formNum}`).textContent = errorMessage;
+            }
         }
     }
 
     /**
      * /api/update-placeに送信する
-     * @param formData 送信formData
+     * @param formData {FormData} 送信formData
+     * @param modalType {String} 更新するformのType
+     * @param formNum {number | null} 送信formの項番
      */
-    postUpdatePlaceAPI(formData) {
+    postUpdatePlaceAPI(formData, modalType, formNum=null) {
         try {
             // 非同期でPOSTリクエストを送信
             fetch('/api/update-place', {
@@ -734,10 +743,16 @@ class ModalForm {
                 .then(data => {
                     if (data.status === 'Failed')
                         throw new Error('エラーが発生しました。');
-                    // 成功時
                 });
         } catch (error) {
-            document.getElementById('Error').textContent = '送信中にエラーが発生しました。もう一度お試しください。';
+            const errorMessage = '送信中にエラーが発生しました。もう一度お試しください。';
+            if (modalType === ModalType.updateStart) {
+                document.getElementById('updateStartError').textContent = errorMessage;
+            } else if (modalType === ModalType.updateEnd) {
+                document.getElementById('updateEndError').textContent = errorMessage;
+            } else {
+                document.getElementById(`placesUpdateModal${formNum}`).textContent = errorMessage;
+            }
         }
     }
 }
