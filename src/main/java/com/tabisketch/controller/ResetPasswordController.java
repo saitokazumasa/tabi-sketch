@@ -44,7 +44,7 @@ public class ResetPasswordController {
     ) throws DeleteFailedException, UpdateFailedException, SQLDataException {
         if (bindingResult.hasErrors()) return "password-reset/index";
 
-        resetPasswordService.execute(token, resetPasswordForm.getPassword());
+        this.resetPasswordService.execute(token), resetPasswordForm.getPassword());
 
         return "redirect:/login";
     }
