@@ -2,8 +2,8 @@ package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.ResetPasswordForm;
 import com.tabisketch.exception.DeleteFailedException;
+import com.tabisketch.exception.SelectFailedException;
 import com.tabisketch.exception.UpdateFailedException;
-import com.tabisketch.mapper.IPasswordResetTokensMapper;
 import com.tabisketch.service.IResetPasswordService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.sql.SQLDataException;
-import java.util.Objects;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/password-reset/{token}")
@@ -41,10 +39,10 @@ public class ResetPasswordController {
     public String post(
             final @Validated ResetPasswordForm resetPasswordForm,
             final BindingResult bindingResult
-    ) throws DeleteFailedException, UpdateFailedException, SQLDataException {
+    ) throws DeleteFailedException, UpdateFailedException, SQLDataException, SelectFailedException {
         if (bindingResult.hasErrors()) return "password-reset/index";
 
-        this.resetPasswordService.execute(token), resetPasswordForm.getPassword());
+        this.resetPasswordService.execute(resetPasswordForm);
 
         return "redirect:/login";
     }

@@ -1,15 +1,18 @@
 package com.tabisketch.service.implement;
 
 import com.tabisketch.bean.entity.PasswordResetToken;
+import com.tabisketch.bean.entity.User;
+import com.tabisketch.bean.form.ResetPasswordForm;
 import com.tabisketch.exception.DeleteFailedException;
+import com.tabisketch.exception.SelectFailedException;
 import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.mapper.IPasswordResetTokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.IResetPasswordService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLDataException;
 import java.util.UUID;
 
 
@@ -30,22 +33,26 @@ public class ResetPasswordService implements IResetPasswordService {
     }
 
     @Override
-    public void execute(
-            final String token,
-            final String password
-    ) throws UpdateFailedException, DeleteFailedException, SQLDataException {
-        final UUID tokenUUID = UUID.fromString(token);
-        final String encryptedPassword = this.passwordEncoder.encode(password);
+    @Transactional
+    public void execute(final ResetPasswordForm resetPasswordForm) throws SelectFailedException, UpdateFailedException, DeleteFailedException {
+        // PasswordResetTokenが存在しなければエラー
+        final var token = UUID.fromString(resetPasswordForm.getToken());
+        final PasswordResetToken passwordResetToken = this.passwordResetTokensMapper.selectByToken(token);
+        if (passwordResetToken == null) throw new SelectFailedException("PasswordResetTokenの取得に失敗しました。");
 
-        final PasswordResetToken passwordResetToken = passwordResetTokensMapper.selectByToken(tokenUUID);
-        if (passwordResetToken == null) throw new SQLDataException("トークンが見つかりませんでした。");
+        // TODO: PasswordResetTokenの有効期限が切れていたらエラー
 
-        final int userId = passwordResetToken.getUserId();
+        // Userが存在しなければエラー
+        final User user = this.usersMapper.selectById(passwordResetToken.getUserId());
+        if (user == null) throw new SelectFailedException("Userの取得に失敗しました。");
 
-        final int passwordResetResult = usersMapper.updatePassword(userId, encryptedPassword);
-        if (passwordResetResult != 1) throw new UpdateFailedException("パスワードの更新に失敗しました。");
+        // Userのpasswordを更新
+        final String encryptedPassword = this.passwordEncoder.encode(resetPasswordForm.getPassword());
+        final int updateUserResult = this.usersMapper.updatePassword(user.getId(), encryptedPassword);
+        if (updateUserResult != 1) throw new UpdateFailedException("Userの更新に失敗しました。");
 
-        final int deleteTokenResult = passwordResetTokensMapper.deleteByUserId(userId);
-        if (deleteTokenResult != 1) throw new DeleteFailedException("PasswordResetTokenの削除に失敗しました。");
+        // PasswordResetTokenを削除
+        final int deletePasswordResetTokenResult = this.passwordResetTokensMapper.deleteByUserId(user.getId());
+        if (deletePasswordResetTokenResult != 1) throw new DeleteFailedException("PasswordResetTokenの削除に失敗しました。");
     }
 }

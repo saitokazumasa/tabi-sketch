@@ -1,12 +1,10 @@
 package com.tabisketch.service;
 
+import com.tabisketch.bean.form.ResetPasswordForm;
 import com.tabisketch.exception.DeleteFailedException;
+import com.tabisketch.exception.SelectFailedException;
 import com.tabisketch.exception.UpdateFailedException;
 
-import java.sql.SQLDataException;
-import java.util.UUID;
-
-
 public interface IResetPasswordService {
-    void execute(final String token, final String mailAddress) throws UpdateFailedException, DeleteFailedException, SQLDataException;
+    void execute(final ResetPasswordForm resetPasswordForm) throws SelectFailedException, UpdateFailedException, DeleteFailedException;
 }
