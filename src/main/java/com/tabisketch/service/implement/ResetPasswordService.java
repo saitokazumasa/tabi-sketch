@@ -61,7 +61,7 @@ public class ResetPasswordService implements IResetPasswordService {
         final int deletePasswordResetTokenResult = this.passwordResetTokensMapper.deleteByUserId(user.getId());
         if (deletePasswordResetTokenResult != 1) throw new DeleteFailedException("PasswordResetTokenの削除に失敗しました。");
 
-        // パスワード編集通知をメールで送信
+        // パスワード編集通知メールで送信
         final var mail = Mail.passwordEditNoticeMail(user.getMailAddress());
         this.sendMailService.execute(mail);
     }

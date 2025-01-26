@@ -33,7 +33,7 @@ public class ResetPasswordController {
         final var resetPasswordForm = ResetPasswordForm.empty();
         resetPasswordForm.setToken(token);
         model.addAttribute("resetPasswordForm", resetPasswordForm);
-        return "password-reset/index";
+        return "password-reset/reset";
     }
 
     @PostMapping
@@ -41,7 +41,7 @@ public class ResetPasswordController {
             final @Validated ResetPasswordForm resetPasswordForm,
             final BindingResult bindingResult
     ) throws DeleteFailedException, UpdateFailedException, SQLDataException, SelectFailedException, MessagingException {
-        if (bindingResult.hasErrors()) return "password-reset/index";
+        if (bindingResult.hasErrors()) return "password-reset/reset";
 
         this.resetPasswordService.execute(resetPasswordForm);
 
