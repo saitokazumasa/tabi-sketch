@@ -1,14 +1,11 @@
 package com.tabisketch.mapper;
 
 import com.tabisketch.bean.entity.ExamplePasswordResetToken;
-import com.tabisketch.bean.entity.PasswordResetToken;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.jdbc.Sql;
-
-import java.util.UUID;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -41,7 +38,7 @@ public class PasswordResetTokensMapperTest {
             "classpath:/sql/CreatePasswordResetToken.sql"
     })
     public void testDelete() {
-        final int userId = ExamplePasswordResetToken.generate().getUserId();
-        assert this.passwordResetTokensMapper.deleteByUserId(userId) == 1;
+        final int id = ExamplePasswordResetToken.generate().getId();
+        assert this.passwordResetTokensMapper.deleteById(id) == 1;
     }
 }
