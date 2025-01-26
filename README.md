@@ -41,7 +41,7 @@ npm run docker:build
 npm run docker:up
 ```
 
-### Docker 停止
+### Docker 破棄
 ```shell
 npm run docker:down
 ```
