@@ -72,6 +72,6 @@ public class SendResetPasswordControllerTest {
     public void testSend() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/password-reset/send"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("/password-reset/send"));
+                .andExpect(MockMvcResultMatchers.view().name("password-reset/send"));
     }
 }
