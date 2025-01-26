@@ -52,7 +52,7 @@ public class SendResetPasswordControllerTest {
     public void testValidation(final SendResetPasswordForm sendResetPasswordForm) throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/password-reset")
-                        .flashAttr("mailAddress", sendResetPasswordForm.getMailAddress())
+                        .flashAttr("sendResetPasswordForm", sendResetPasswordForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().hasErrors())
@@ -63,8 +63,8 @@ public class SendResetPasswordControllerTest {
 
     private static Stream<SendResetPasswordForm> validationTestData() {
         // mailAddressが未入力
-        final var resetPasswordSendForm1 = new SendResetPasswordForm("");
-        return Stream.of(resetPasswordSendForm1);
+        final var sendResetPasswordForm1 = new SendResetPasswordForm("");
+        return Stream.of(sendResetPasswordForm1);
     }
 
     @Test
