@@ -1,9 +1,10 @@
 package com.tabisketch.service;
 
 import com.tabisketch.bean.entity.ExamplePasswordResetToken;
-import com.tabisketch.bean.entity.PasswordResetToken;
+import com.tabisketch.bean.entity.ExampleUser;
 import com.tabisketch.bean.form.ExampleResetPasswordForm;
 import com.tabisketch.exception.DeleteFailedException;
+import com.tabisketch.exception.SelectFailedException;
 import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.mapper.IPasswordResetTokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
@@ -14,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.sql.SQLDataException;
-import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -24,29 +24,31 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class ResetPasswordServiceTest {
     @MockitoBean
-    private IUsersMapper usersMapper;
-    @MockitoBean
     private IPasswordResetTokensMapper passwordResetTokensMapper;
+    @MockitoBean
+    private IUsersMapper usersMapper;
     @MockitoBean
     private ISendMailService sendMailService;
     @Autowired
     private IResetPasswordService resetPasswordService;
 
     @Test
-    public void testExecute() throws UpdateFailedException, DeleteFailedException, SQLDataException {
-        final var resetPasswordForm = ExampleResetPasswordForm.generate();
+    public void testExecute() throws UpdateFailedException, DeleteFailedException, SQLDataException, MessagingException, SelectFailedException {
         final var passwordResetToken = ExamplePasswordResetToken.generate();
-        final var token = passwordResetToken.getToken().toString();
-
+        final var user = ExampleUser.generate();
 
         when(this.passwordResetTokensMapper.selectByToken(any())).thenReturn(passwordResetToken);
+        when(this.usersMapper.selectById(anyInt())).thenReturn(user);
         when(this.usersMapper.updatePassword(anyInt(), any())).thenReturn(1);
-        when(this.passwordResetTokensMapper.deleteByUserId(anyInt())).thenReturn(1);
+        when(this.passwordResetTokensMapper.deleteById(anyInt())).thenReturn(1);
 
-        this.resetPasswordService.execute(token, resetPasswordForm.getPassword());
+        final var resetPasswordForm = ExampleResetPasswordForm.generate();
+        this.resetPasswordService.execute(resetPasswordForm);
 
-        verify(this.usersMapper).updatePassword(anyInt(), any());
         verify(this.passwordResetTokensMapper).selectByToken(any());
-        verify(this.passwordResetTokensMapper).deleteByUserId(anyInt());
+        verify(this.usersMapper.selectById(anyInt()));
+        verify(this.usersMapper).updatePassword(anyInt(), any());
+        verify(this.passwordResetTokensMapper).deleteById(anyInt());
+        verify(this.sendMailService).execute(any());
     }
 }
