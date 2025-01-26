@@ -1,10 +1,9 @@
 package com.tabisketch.service;
 
 import com.tabisketch.bean.entity.ExampleUser;
-import com.tabisketch.bean.entity.User;
-import com.tabisketch.bean.form.ExampleResetPasswordSendForm;
-import com.tabisketch.bean.form.ResetPasswordSendForm;
+import com.tabisketch.bean.form.ExampleSendResetPasswordForm;
 import com.tabisketch.exception.InsertFailedException;
+import com.tabisketch.exception.SelectFailedException;
 import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.mapper.IPasswordResetTokensMapper;
 import jakarta.mail.MessagingException;
@@ -18,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class ResetPasswordSendServiceTest {
+public class SendResetPasswordServiceTest {
     @MockitoBean
     private IUsersMapper usersMapper;
     @MockitoBean
@@ -26,21 +25,20 @@ public class ResetPasswordSendServiceTest {
     @MockitoBean
     private ISendMailService sendMailService;
     @Autowired
-    private IResetPasswordSendService resetPasswordSendService;
+    private ISendResetPasswordService resetPasswordSendService;
 
     @Test
-    public void testExecute() throws MessagingException, InsertFailedException {
-        final var resetPasswordSendForm = ExampleResetPasswordSendForm.generate();
+    public void testExecute() throws MessagingException, InsertFailedException, SelectFailedException {
         final var user = ExampleUser.generate();
 
-        when(this.usersMapper.isExistMailAddress(any())).thenReturn(true);
         when(this.usersMapper.selectByMailAddress(any())).thenReturn(user);
         when(this.passwordResetTokensMapper.insert(any())).thenReturn(1);
 
-        this.resetPasswordSendService.execute(resetPasswordSendForm);
+        final var sendResetPasswordForm = ExampleSendResetPasswordForm.generate();
+        this.resetPasswordSendService.execute(sendResetPasswordForm);
 
-        verify(this.usersMapper).isExistMailAddress(any());
         verify(this.usersMapper).selectByMailAddress(any());
         verify(this.passwordResetTokensMapper).insert(any());
+        verify(this.sendMailService).execute(any());
     }
 }
