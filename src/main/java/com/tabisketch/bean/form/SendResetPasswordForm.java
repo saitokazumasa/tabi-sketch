@@ -7,12 +7,12 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ResetPasswordSendForm {
+public class SendResetPasswordForm {
     @Email
     @NotBlank
     private String mailAddress;
 
-    public static ResetPasswordSendForm empty() {
-        return new ResetPasswordSendForm("");
+    public static SendResetPasswordForm empty() {
+        return new SendResetPasswordForm("");
     }
 }
