@@ -66,17 +66,16 @@ public class ResetPasswordControllerTest {
     }
 
     private static Stream<ResetPasswordForm> validationTestData() {
+        // NOTE: URLにtokenが含まれるため、nullになることが起こりえない。
         final var token = ExamplePasswordResetToken.generate().getToken().toString();
         // 全て未入力
-        final var resetPasswordForm1 = new ResetPasswordForm("", "", "");
-        // tokenが未入力
-        final var resetPasswordForm2 = new ResetPasswordForm("", "password", "password");
+        final var resetPasswordForm1 = new ResetPasswordForm(token, "", "");
         // passwordが未入力
-        final var resetPasswordForm3 = new ResetPasswordForm(token, "", "password");
+        final var resetPasswordForm2 = new ResetPasswordForm(token, "", "password");
         // rePasswordが未入力
-        final var resetPasswordForm4 = new ResetPasswordForm(token, "password", "");
+        final var resetPasswordForm3 = new ResetPasswordForm(token, "password", "");
         // passwordとrePasswordが一致しない
-        final var resetPasswordForm5 = new ResetPasswordForm(token, "password", "pass");
-        return Stream.of(resetPasswordForm1, resetPasswordForm2, resetPasswordForm3, resetPasswordForm4, resetPasswordForm5);
+        final var resetPasswordForm4 = new ResetPasswordForm(token, "password", "pass");
+        return Stream.of(resetPasswordForm1, resetPasswordForm2, resetPasswordForm3, resetPasswordForm4);
     }
 }
