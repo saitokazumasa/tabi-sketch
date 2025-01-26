@@ -5,6 +5,7 @@ import com.tabisketch.exception.DeleteFailedException;
 import com.tabisketch.exception.SelectFailedException;
 import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.service.IResetPasswordService;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,7 +40,7 @@ public class ResetPasswordController {
     public String post(
             final @Validated ResetPasswordForm resetPasswordForm,
             final BindingResult bindingResult
-    ) throws DeleteFailedException, UpdateFailedException, SQLDataException, SelectFailedException {
+    ) throws DeleteFailedException, UpdateFailedException, SQLDataException, SelectFailedException, MessagingException {
         if (bindingResult.hasErrors()) return "password-reset/index";
 
         this.resetPasswordService.execute(resetPasswordForm);
