@@ -46,7 +46,7 @@ public class ResetPasswordServiceTest {
         this.resetPasswordService.execute(resetPasswordForm);
 
         verify(this.passwordResetTokensMapper).selectByToken(any());
-        verify(this.usersMapper.selectById(anyInt()));
+        verify(this.usersMapper).selectById(anyInt());
         verify(this.usersMapper).updatePassword(anyInt(), any());
         verify(this.passwordResetTokensMapper).deleteById(anyInt());
         verify(this.sendMailService).execute(any());
