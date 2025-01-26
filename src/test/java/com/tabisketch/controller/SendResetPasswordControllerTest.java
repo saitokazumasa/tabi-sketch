@@ -1,8 +1,8 @@
 package com.tabisketch.controller;
 
-import com.tabisketch.bean.form.ExampleResetPasswordSendForm;
-import com.tabisketch.bean.form.ResetPasswordSendForm;
-import com.tabisketch.service.implement.ResetPasswordSendService;
+import com.tabisketch.bean.form.ExampleSendResetPasswordForm;
+import com.tabisketch.bean.form.SendResetPasswordForm;
+import com.tabisketch.service.implement.SendResetPasswordService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -17,29 +17,29 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.stream.Stream;
 
-@WebMvcTest(ResetPasswordSendController.class)
-public class ResetPasswordSendControllerTest {
+@WebMvcTest(SendResetPasswordController.class)
+public class SendResetPasswordControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockitoBean
-    private ResetPasswordSendService __;
+    private SendResetPasswordService __;
 
     @Test
     @WithMockUser
     public void testGet() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/password-reset"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("password-reset/send"));
+                .andExpect(MockMvcResultMatchers.view().name("password-reset/index"));
     }
 
     @Test
     @WithMockUser
     public void testPost() throws Exception {
-        final var resetPasswordSendForm = ExampleResetPasswordSendForm.generate();
+        final var sendResetPasswordForm = ExampleSendResetPasswordForm.generate();
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/password-reset")
-                        .flashAttr("resetPasswordSendForm", resetPasswordSendForm)
+                        .flashAttr("sendResetPasswordForm", sendResetPasswordForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.model().hasNoErrors())
@@ -49,21 +49,21 @@ public class ResetPasswordSendControllerTest {
     @ParameterizedTest
     @MethodSource("validationTestData")
     @WithMockUser
-    public void testValidation(final ResetPasswordSendForm resetPasswordSendForm) throws Exception {
+    public void testValidation(final SendResetPasswordForm sendResetPasswordForm) throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/password-reset")
-                        .flashAttr("currentMailAddress", resetPasswordSendForm.getCurrentMailAddress())
+                        .flashAttr("mailAddress", sendResetPasswordForm.getMailAddress())
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().hasErrors())
-                .andExpect(MockMvcResultMatchers.model().attributeExists("resetPasswordSendForm"))
-                .andExpect(MockMvcResultMatchers.model().attribute("currentMailAddress", resetPasswordSendForm.getCurrentMailAddress()))
-                .andExpect(MockMvcResultMatchers.view().name("password-reset/send"));
+                .andExpect(MockMvcResultMatchers.model().attributeExists("sendResetPasswordForm"))
+                .andExpect(MockMvcResultMatchers.model().attribute("sendResetPasswordForm", sendResetPasswordForm))
+                .andExpect(MockMvcResultMatchers.view().name("password-reset/index"));
     }
 
-    private static Stream<ResetPasswordSendForm> validationTestData() {
-        // currentMailAddressが未入力
-        final var resetPasswordSendForm1 = new ResetPasswordSendForm("");
+    private static Stream<SendResetPasswordForm> validationTestData() {
+        // mailAddressが未入力
+        final var resetPasswordSendForm1 = new SendResetPasswordForm("");
         return Stream.of(resetPasswordSendForm1);
     }
 
@@ -72,6 +72,6 @@ public class ResetPasswordSendControllerTest {
     public void testSend() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/password-reset/send"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("user/password-reset/send"));
+                .andExpect(MockMvcResultMatchers.view().name("/password-reset/send"));
     }
 }
