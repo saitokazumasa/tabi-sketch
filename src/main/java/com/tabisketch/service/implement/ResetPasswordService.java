@@ -58,7 +58,7 @@ public class ResetPasswordService implements IResetPasswordService {
         if (updateUserResult != 1) throw new UpdateFailedException("Userの更新に失敗しました。");
 
         // PasswordResetTokenを削除
-        final int deletePasswordResetTokenResult = this.passwordResetTokensMapper.deleteByUserId(user.getId());
+        final int deletePasswordResetTokenResult = this.passwordResetTokensMapper.deleteById(passwordResetToken.getId());
         if (deletePasswordResetTokenResult != 1) throw new DeleteFailedException("PasswordResetTokenの削除に失敗しました。");
 
         // パスワード編集通知メールで送信
