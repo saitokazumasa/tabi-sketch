@@ -29,7 +29,7 @@ public class ResetPasswordControllerTest {
     @WithMockUser
     public void testGet() throws Exception {
         final var passwordResetToken = ExamplePasswordResetToken.generate();
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/password-reset/" + passwordResetToken.getToken()))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/password-reset/reset/" + passwordResetToken.getToken()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("password-reset/reset"));
     }
@@ -40,7 +40,7 @@ public class ResetPasswordControllerTest {
         final var token = ExamplePasswordResetToken.generate().getToken().toString();
         final var resetPasswordForm = ExampleResetPasswordForm.generate();
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/password-reset/" + token)
+                        .post("/password-reset/reset/" + token)
                         .flashAttr("resetPasswordForm", resetPasswordForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
@@ -55,7 +55,7 @@ public class ResetPasswordControllerTest {
     public void testValidation(final ResetPasswordForm resetPasswordForm) throws Exception {
         final var token = ExamplePasswordResetToken.generate().getToken().toString();
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/password-reset/" + token)
+                        .post("/password-reset/reset/" + token)
                         .flashAttr("resetPasswordForm", resetPasswordForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().isOk())

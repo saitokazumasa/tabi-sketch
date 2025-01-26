@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.sql.SQLDataException;
 
 @Controller
-@RequestMapping("/password-reset/{token}")
+@RequestMapping("/password-reset/reset/{token}")
 public class ResetPasswordController {
     private final IResetPasswordService resetPasswordService;
 
