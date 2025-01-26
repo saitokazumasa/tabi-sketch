@@ -30,19 +30,15 @@ public class ResetPasswordController {
     }
 
     @GetMapping
-    public String get(
-            @PathVariable final String token,
-            final Model model
-    ) {
-        model.addAttribute("token", token);
-        model.addAttribute("resetPasswordForm", ResetPasswordForm.empty());
-
+    public String get(final @PathVariable String token, final Model model) {
+        final var resetPasswordForm = ResetPasswordForm.empty();
+        resetPasswordForm.setToken(token);
+        model.addAttribute("resetPasswordForm", resetPasswordForm);
         return "password-reset/index";
     }
 
     @PostMapping
     public String post(
-            @PathVariable final String token,
             final @Validated ResetPasswordForm resetPasswordForm,
             final BindingResult bindingResult
     ) throws DeleteFailedException, UpdateFailedException, SQLDataException {
