@@ -52,6 +52,3 @@ public class SendResetPasswordController {
         return "password-reset/send";
     }
 }
-
-
-
