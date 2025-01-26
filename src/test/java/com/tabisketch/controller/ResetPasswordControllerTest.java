@@ -3,7 +3,6 @@ package com.tabisketch.controller;
 import com.tabisketch.bean.entity.ExamplePasswordResetToken;
 import com.tabisketch.bean.form.ExampleResetPasswordForm;
 import com.tabisketch.bean.form.ResetPasswordForm;
-import com.tabisketch.bean.form.ResetPasswordSendForm;
 import com.tabisketch.service.implement.ResetPasswordService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,17 +31,16 @@ public class ResetPasswordControllerTest {
         final var passwordResetToken = ExamplePasswordResetToken.generate();
         this.mockMvc.perform(MockMvcRequestBuilders.get("/password-reset/" + passwordResetToken.getToken()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("password-reset/index"));
+                .andExpect(MockMvcResultMatchers.view().name("password-reset/reset"));
     }
 
     @Test
     @WithMockUser
     public void testPost() throws Exception {
-        final var passwordResetToken = ExamplePasswordResetToken.generate();
+        final var token = ExamplePasswordResetToken.generate().getToken().toString();
         final var resetPasswordForm = ExampleResetPasswordForm.generate();
-
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/password-reset/" + passwordResetToken.getToken())
+                        .post("/password-reset/" + token)
                         .flashAttr("resetPasswordForm", resetPasswordForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
@@ -55,28 +53,30 @@ public class ResetPasswordControllerTest {
     @MethodSource("validationTestData")
     @WithMockUser
     public void testValidation(final ResetPasswordForm resetPasswordForm) throws Exception {
-        final var passwordResetToken = ExamplePasswordResetToken.generate();
-
+        final var token = ExamplePasswordResetToken.generate().getToken().toString();
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/password-reset/" + passwordResetToken.getToken())
+                        .post("/password-reset/" + token)
                         .flashAttr("resetPasswordForm", resetPasswordForm)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                 ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().hasErrors())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("resetPasswordForm"))
                 .andExpect(MockMvcResultMatchers.model().attribute("resetPasswordForm", resetPasswordForm))
-                .andExpect(MockMvcResultMatchers.view().name("password-reset/index"));
+                .andExpect(MockMvcResultMatchers.view().name("password-reset/reset"));
     }
 
     private static Stream<ResetPasswordForm> validationTestData() {
-        // 両方未入力
-        final var resetPasswordForm1 = new ResetPasswordForm("", "");
-        // rePasswordが未入力
-        final var resetPasswordForm2 = new ResetPasswordForm("password", "");
+        final var token = ExamplePasswordResetToken.generate().getToken().toString();
+        // 全て未入力
+        final var resetPasswordForm1 = new ResetPasswordForm("", "", "");
+        // tokenが未入力
+        final var resetPasswordForm2 = new ResetPasswordForm("", "password", "password");
         // passwordが未入力
-        final var resetPasswordForm3 = new ResetPasswordForm("", "password");
-        // passwordとrePasswordが異なる
-        final var resetPasswordForm4 = new ResetPasswordForm("password", "password1");
-        return Stream.of(resetPasswordForm1, resetPasswordForm2, resetPasswordForm3, resetPasswordForm4);
+        final var resetPasswordForm3 = new ResetPasswordForm(token, "", "password");
+        // rePasswordが未入力
+        final var resetPasswordForm4 = new ResetPasswordForm(token, "password", "");
+        // passwordとrePasswordが一致しない
+        final var resetPasswordForm5 = new ResetPasswordForm(token, "password", "pass");
+        return Stream.of(resetPasswordForm1, resetPasswordForm2, resetPasswordForm3, resetPasswordForm4, resetPasswordForm5);
     }
 }
