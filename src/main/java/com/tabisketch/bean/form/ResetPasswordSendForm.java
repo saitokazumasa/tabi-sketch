@@ -10,7 +10,7 @@ import lombok.Data;
 public class ResetPasswordSendForm {
     @Email
     @NotBlank
-    private String currentMailAddress;
+    private String mailAddress;
 
     public static ResetPasswordSendForm empty() {
         return new ResetPasswordSendForm("");
