@@ -56,25 +56,50 @@ class Fragment {
         } catch (error) {
             throw new Error('initialize Error : ' + error);
         }
+    }
+
+    /**
+     * 出発地点更新formフラグメントの初期化
+     * @param placeId placesテーブルのid
+     * @returns {Promise<void>}
+     */
+    async initStartUpdateForm(placeId) {
         // 出発地点更新form取得 /fragment/modal/startUpdateForm
         try {
-            const response = await fetch('/fragment/modal/startUpdateForm');
+            const response = await fetch(`/fragment/update-modal/startUpdateForm?placeId=${placeId}`);
             if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
             this.#startUpdateForm = await response.text();
         } catch (error) {
             throw new Error('initialize Error : ' + error);
         }
+    }
+
+    /**
+     * 終了地点更新formフラグメントの初期化
+     * @param placeId placesテーブルのid
+     * @returns {Promise<void>}
+     */
+    async initEndUpdateForm(placeId) {
         // 終了地点更新form取得 /fragment/modal/endUpdateForm
         try {
-            const response = await fetch('/fragment/modal/endUpdateForm');
+            const response = await fetch(`/fragment/update-modal/endUpdateForm?placeId=${placeId}`);
             if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
             this.#endUpdateForm = await response.text();
         } catch (error) {
             throw new Error('initialize Error : ' + error);
         }
+    }
+
+    /**
+     * 目的地更新formフラグメントの初期化
+     * @param placeId placesテーブルのid
+     * @param formNum formの項番
+     * @returns {Promise<void>}
+     */
+    async initPlacesUpdateForm(placeId, formNum) {
         // 目的地更新form取得 /fragment/modal/placesUpdateForm?num=
         try {
-            const response = await fetch(`/fragment/modal/placesUpdateForm?num=${(placeNum.value())}`);
+            const response = await fetch(`/fragment/update-modal/placesUpdateForm?placeId=${placeId}&num=${formNum}`);
             if (!response.ok) { throw new Error('フラグメントの取得に失敗しました'); }
             this.#placesUpdateForm = await response.text();
         } catch (error) {
@@ -551,15 +576,16 @@ class ModalForm {
 
     /**
      * 出発地点の /api/create-placeが成功したとき
+     * @param placeId {number} placesテーブルのid
      */
-    async #startPlaceCreateSuccess() {
+    async #startPlaceCreateSuccess(placeId) {
         // modal関連の動作
         modal.closeModal(ModalType.start);
         modal.changeStartDisplay();
 
         // startUpdateFormを呼び出す
         const fragment = new Fragment();
-        await fragment.initialize(); // 追加フラグメントの初期化
+        await fragment.initStartUpdateForm(placeId); // 追加フラグメントの初期化
         fragment.addStartUpdateForm(); // HTMLに追加
         modal.setStartUpdateModal(); // 変数にElement追加・autocomplete適用
 
@@ -573,15 +599,16 @@ class ModalForm {
 
     /**
      * 終了地点の /api/create-placeが成功したとき
+     * @param placeId {number} placesテーブルのid
      */
-    async #endPlaceCreateSuccess() {
+    async #endPlaceCreateSuccess(placeId) {
         // modal関連の動作
         modal.closeModal(ModalType.end);
         modal.changeEndDisplay();
 
         // endUpdateFormフラグメントを追加
         const fragment = new Fragment();
-        await fragment.initialize(); // 追加フラグメントの初期化
+        await fragment.initEndUpdateForm(placeId); // 追加フラグメントの初期化
         fragment.addEndUpdateForm(); // HTMLに追加
         modal.setEndUpdateModal(); // 変数にElement追加・autocomplete適用
 
@@ -595,8 +622,11 @@ class ModalForm {
 
     /**
      * 目的地の /api/create-placeが成功したとき
+     * @param placeId {number} placesテーブルのid
+     * @param formNum {number} formの項番
      */
-    async #placesCreateSuccess(formNum) {
+    async #placesCreateSuccess(placeId, formNum) {
+        console.log(200);
         // modal関連の動作
         modal.closeModal(ModalType.places);
         modal.changePlaceDisplay();
@@ -606,7 +636,7 @@ class ModalForm {
 
         // placesUpdateFormを呼び出す
         const fragment = new Fragment();
-        await fragment.initialize(); // fragment初期化
+        await fragment.initPlacesUpdateForm(placeId, formNum); // fragment初期化
         fragment.addPlacesUpdateForm(); // HTMLに追加
         modal.setPlacesUpdateModal(); // Elementを追加
 
@@ -707,7 +737,7 @@ class ModalForm {
 
     /**
      * todo: stayTimeのvalueを更新
-     * @param formNum {number}
+     * @param formNum {number} formの項番
      */
     #setStayTime(formNum) {
 
@@ -722,6 +752,7 @@ class ModalForm {
     async postCreatePlaceAPI(formData, modalType, formNum=null) {
         const csrfToken = document.querySelector('meta[name="_csrf"]').content;
         const csrfHeaderName = document.querySelector('meta[name="_csrf_header"]').content;
+        let placeId = null;
         try {
             // 非同期でPOSTリクエストを送信
             const response = await fetch('/api/create-place', {
@@ -743,14 +774,14 @@ class ModalForm {
                 console.error(`APIエラー：${data}`);
                 throw new Error('エラーが発生しました。');
             }
-
             // 成功時の処理
+            placeId = data.placeId;
             if (modalType === ModalType.start) {
-                await this.#startPlaceCreateSuccess();
+                await this.#startPlaceCreateSuccess(placeId);
             } else if (modalType === ModalType.end) {
-                await this.#endPlaceCreateSuccess();
+                await this.#endPlaceCreateSuccess(placeId);
             } else {
-                await this.#placesCreateSuccess(formNum);
+                await this.#placesCreateSuccess(placeId, formNum);
             }
         } catch (error) {
             console.error(`エラー詳細：${error}`);
