@@ -9,7 +9,9 @@ class MapDisplayController {
         }
 
         this.directionsService = new google.maps.DirectionsService();
-        this.directionsRenderer = new google.maps.DirectionsRenderer();
+        this.directionsRenderer = new google.maps.DirectionsRenderer({
+            suppressMarkers: true // マーカーを表示しない設定
+        });
 
         this.initEventListeners();
     }
@@ -28,14 +30,6 @@ class MapDisplayController {
         } else {
             console.error(`Element with ID "${elementId}" not found.`);
         }
-    }
-
-    addInvisibleMarker(position) {
-        const marker = new google.maps.Marker({
-            position: position,
-            map: this.directionsRenderer.getMap(),
-            visible: false // マーカーを非表示に設定
-        });
     }
 
     async displayDirectionsByPlaceIds(placeIds, travelModes, options) {
@@ -67,7 +61,9 @@ class MapDisplayController {
 
             await this.directionsService.route(request, (result, status) => {
                 if (status === 'OK') {
-                    const renderer = new google.maps.DirectionsRenderer();
+                    const renderer = new google.maps.DirectionsRenderer({
+                        suppressMarkers: true // マーカーを表示しない設定
+                    });
                     renderer.setMap(this.directionsRenderer.getMap());
                     renderer.setDirections(result);
 
@@ -80,10 +76,6 @@ class MapDisplayController {
 
                     if (totalWalkingTime <= options.maxWalkingTime) {
                         directionsRendererArray.push(renderer);
-
-                        // 経路の始点と終点に非表示のマーカーを追加
-                        this.addInvisibleMarker(result.routes[0].legs[0].start_location);
-                        this.addInvisibleMarker(result.routes[0].legs[0].end_location);
                     } else {
                         console.warn(`合計徒歩時間が最大時間を超えました: ${totalWalkingTime} 分`);
                     }
@@ -120,11 +112,11 @@ class MapDisplayController {
 
     initMap(placeIds, travelModes, options) {
         const map = this.displayMap('map');
-        if (placeIds && placeIds.length === 0 && travelModes && travelModes.length === 0) {
-            console.error('placeIdの数が足りないです');
-            return;
+        if (placeIds && placeIds.length > 0 && travelModes && travelModes.length > 0) {
+            this.displayDirectionsByPlaceIds(placeIds, travelModes, options);
+        } else {
+            this.displayDirections({ lat: 35.681236, lng: 139.767125 }, { lat: 35.689487, lng: 139.691706 });
         }
-        this.displayDirectionsByPlaceIds(placeIds, travelModes, options);
     }
 
     initEventListeners() {
