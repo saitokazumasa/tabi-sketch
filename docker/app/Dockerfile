@@ -3,7 +3,7 @@ FROM node:latest AS build-tailwindcss
 WORKDIR /app
 COPY ../../src ./src
 COPY ../../package.json ../../package-lock.json ../../tailwind.config.js ./
-RUN npm install
+RUN npm ci
 RUN npx tailwindcss -i src/main/resources/static/css/input.css -o src/main/resources/static/css/tailwind.css
 
 # Build jar
