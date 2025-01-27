@@ -7,16 +7,24 @@
 <body>
 <th:block th:fragment="googleMapsAPI">
     <script
-        th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapsApiKey} + '&callback=initialize&libraries=places&v=weekly'"
-        async
-        defer
+            th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapsApiKey} + '&callback=initialize&libraries=places&v=weekly'"
+            async
+            defer
     ></script>
     <script>
         function initialize() {
+            const placeIds = ['ChIJh7eDrwCPGGARCs9fpCkKS2U', 'ChIJ35ov0dCOGGARKvdDH7NPHX0', 'ChIJszdHEQN9GGARy9MJ1TY22eQ'];
+            const travelModes = ['DRIVING', 'DRIVING'];
+            const options = {
+                useHighway: false,
+                useFerry: false,
+            };
             initAutoComplete();
-            initializeMaps();
+            initializeMaps(placeIds, travelModes, options);
         }
     </script>
+
+
 </th:block>
 
 <th:block th:fragment="header">
