@@ -46,4 +46,14 @@ public class Mail {
         final String content = "パスワードが変更されました。";
         return new Mail(toMailAddress,subject, content);
     }
+
+    /**
+     * パスワードリセットメールを生成する
+     */
+    public static Mail passwordResetMail(final String toMailAddress, final UUID token) {
+        final String subject = "たびすけっち パスワードリセットのメール";
+        final String content = "パスワードリセットのために以下のURLをクリックして、パスワードをリセットしてください。" +
+                "https://tabisketch.com/password-reset/reset/" + token.toString();
+        return new Mail(toMailAddress, subject, content);
+    }
 }
