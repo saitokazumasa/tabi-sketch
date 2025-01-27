@@ -38,4 +38,12 @@ public class UsersMapperTest {
         user.setMailAddressAuthenticated(true);
         assert this.usersMapper.update(user) == 1;
     }
+
+    @Test
+    @Sql("classpath:/sql/CreateUser.sql")
+    public void testUpdatePassword() {
+        final var user = ExampleUser.generate();
+        final var newPassword = "newPassword";
+        assert this.usersMapper.updatePassword(user.getId(), newPassword) == 1;
+    }
 }

@@ -21,4 +21,9 @@ public interface IUsersMapper {
             "       mail_address_authenticated = #{mailAddressAuthenticated} " +
             "   WHERE id = #{id}")
     int update(final User user);
+
+    @Update("UPDATE users " +
+            "   SET password = #{password} " +
+            "   WHERE id = #{id}")
+    int updatePassword(final int id, final String password);
 }
