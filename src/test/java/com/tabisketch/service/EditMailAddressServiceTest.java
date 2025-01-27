@@ -1,7 +1,9 @@
 package com.tabisketch.service;
 
+import com.tabisketch.bean.entity.ExampleUser;
 import com.tabisketch.bean.entity.User;
 import com.tabisketch.bean.form.EditMailAddressForm;
+import com.tabisketch.bean.form.ExampleEditMailAddressForm;
 import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
@@ -30,13 +32,8 @@ public class EditMailAddressServiceTest {
     @Test
     @WithMockUser
     public void testExecute() throws MessagingException, InsertFailedException {
-        final var user =
-                User.generate("", "$2a$10$if7oiFZVmP9I59AOtzbSz.dWsdPUUuPTRkcIoR8iYhFpG/0COY.TO");
-        final var editMailAddressForm = new EditMailAddressForm(
-                "sample@example.com",
-                "sample2@example.com",
-                "password"
-        );
+        final var user = ExampleUser.generate();
+        final var editMailAddressForm = ExampleEditMailAddressForm.generate();
 
         when(this.usersMapper.selectByMailAddress(editMailAddressForm.getCurrentMailAddress())).thenReturn(user);
         when(this.usersMapper.selectByMailAddress(editMailAddressForm.getNewMailAddress())).thenReturn(null);

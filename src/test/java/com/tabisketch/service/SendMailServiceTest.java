@@ -1,5 +1,6 @@
 package com.tabisketch.service;
 
+import com.tabisketch.bean.entity.ExampleUser;
 import com.tabisketch.valueobject.Mail;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ public class SendMailServiceTest {
     @Test
     @WithMockUser
     public void testExist() throws MessagingException {
-        final String mailAddress = "sample@example.com";
+        final String mailAddress = ExampleUser.generate().getMailAddress();
 
         final Mail registrationMail = Mail.registrationMail(mailAddress, UUID.randomUUID());
         this.sendMailService.execute(registrationMail);

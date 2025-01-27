@@ -30,4 +30,7 @@ body {
     .svg-train {
         @apply items-center w-16 peer-checked:text-interactive;
     }
+    .error-message {
+        @apply text-red-500;
+    }
 }

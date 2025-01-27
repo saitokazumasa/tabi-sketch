@@ -1,5 +1,6 @@
 package com.tabisketch.controller;
 
+import com.tabisketch.bean.entity.ExamplePlan;
 import com.tabisketch.service.IDeletePlanService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.UUID;
-
 @WebMvcTest(DeletePlanController.class)
 public class DeletePlanControllerTest {
     @Autowired
@@ -23,7 +22,7 @@ public class DeletePlanControllerTest {
     @Test
     @WithMockUser
     public void testDelete() throws Exception {
-        final var uuid = UUID.randomUUID().toString();
+        final var uuid = ExamplePlan.generate().getUuid().toString();
         mockMvc.perform(MockMvcRequestBuilders
                     .delete("/share/" + uuid)
                     .with(SecurityMockMvcRequestPostProcessors.csrf())

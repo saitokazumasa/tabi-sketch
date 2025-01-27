@@ -5,6 +5,9 @@
         <meta charset="UTF-8">
         <!--レスポンシブデザインを適用するための設定-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--CSRF対策用の設定-->
+        <meta name="_csrf" th:content="${_csrf.token}">
+        <meta name="_csrf_header" th:content="${_csrf.headerName}">
         <!--タイトルの設定-->
         <title th:text="${title}">Welcome</title>
         <!--tailwind.cssよみこみ-->
