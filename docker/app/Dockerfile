@@ -14,7 +14,7 @@ COPY ./pom.xml ./
 RUN mvn package -Dmaven.test.skip=true
 
 # Run jar
-FROM openjdk:22 AS run-jar
+FROM eclipse-temurin:22-jre-alpine AS run-jar
 WORKDIR /app
 COPY --from=build-jar /app/target/tabisketch-0.0.1-SNAPSHOT.jar ./app.jar
 CMD ["java", "-jar", "./app.jar"]
