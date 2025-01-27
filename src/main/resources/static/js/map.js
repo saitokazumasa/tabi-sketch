@@ -50,6 +50,7 @@ class MapDisplayController {
         }
 
         const directionsRendererArray = [];
+        let totalWalkingTime = 0;
 
         for (let i = 0; i < placeIds.length - 1; i++) {
             const request = {
@@ -69,11 +70,23 @@ class MapDisplayController {
                     const renderer = new google.maps.DirectionsRenderer();
                     renderer.setMap(this.directionsRenderer.getMap());
                     renderer.setDirections(result);
-                    directionsRendererArray.push(renderer);
 
-                    // 経路の始点と終点に非表示のマーカーを追加
-                    this.addInvisibleMarker(result.routes[0].legs[0].start_location);
-                    this.addInvisibleMarker(result.routes[0].legs[0].end_location);
+                    // 経路内の徒歩時間を合計
+                    result.routes[0].legs[0].steps.forEach(step => {
+                        if (step.travel_mode === 'WALKING') {
+                            totalWalkingTime += this.calculateWalkingTime(step);
+                        }
+                    });
+
+                    if (totalWalkingTime <= options.maxWalkingTime) {
+                        directionsRendererArray.push(renderer);
+
+                        // 経路の始点と終点に非表示のマーカーを追加
+                        this.addInvisibleMarker(result.routes[0].legs[0].start_location);
+                        this.addInvisibleMarker(result.routes[0].legs[0].end_location);
+                    } else {
+                        console.warn(`合計徒歩時間が最大時間を超えました: ${totalWalkingTime} 分`);
+                    }
                 } else {
                     console.error('Directions request failed due to ' + status);
                 }
@@ -81,6 +94,13 @@ class MapDisplayController {
         }
 
         this.directionsRendererArray = directionsRendererArray;
+    }
+
+    calculateWalkingTime(step) {
+        const walkingSpeed = 5; // km/h
+        const distanceKm = step.distance.value / 1000; // メートルをキロメートルに変換
+        const timeMinutes = (distanceKm / walkingSpeed) * 60; // 時間を分に変換
+        return timeMinutes;
     }
 
     openPopup() {
@@ -100,11 +120,11 @@ class MapDisplayController {
 
     initMap(placeIds, travelModes, options) {
         const map = this.displayMap('map');
-        if (placeIds && placeIds.length > 0 && travelModes && travelModes.length > 0) {
-            this.displayDirectionsByPlaceIds(placeIds, travelModes, options);
-        } else {
-            this.displayDirections({ lat: 35.681236, lng: 139.767125 }, { lat: 35.689487, lng: 139.691706 });
+        if (placeIds && placeIds.length === 0 && travelModes && travelModes.length === 0) {
+            console.error('placeIdの数が足りないです');
+            return;
         }
+        this.displayDirectionsByPlaceIds(placeIds, travelModes, options);
     }
 
     initEventListeners() {
