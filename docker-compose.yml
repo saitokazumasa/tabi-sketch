@@ -2,25 +2,25 @@ services:
   postgresql:
     container_name: postgresql
     build:
-      context: ../
+      context: ./
       dockerfile: docker/postgresql/Dockerfile
     ports:
       - "5432:5432"
     env_file:
-      - ../.env
+      - .env
     restart: always
 
   app:
     container_name: app
     build:
-      context: ../
+      context: ./
       dockerfile: docker/app/Dockerfile
     depends_on:
       - postgresql
     ports:
       - "8080:8080"
     env_file:
-      - ../.env
+      - .env
     environment:
       POSTGRES_HOST: postgresql
 
