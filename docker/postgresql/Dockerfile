@@ -1,3 +1,3 @@
 FROM postgres:17
 WORKDIR /postgresql
-COPY ./sql/ /docker-entrypoint-initdb.d/
+COPY ./docker/postgresql/sql/ /docker-entrypoint-initdb.d/
