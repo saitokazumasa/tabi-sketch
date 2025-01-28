@@ -1,5 +1,5 @@
 # Build tailwindCSS
-FROM node:latest AS build-tailwindcss
+FROM node:22 AS build-tailwindcss
 WORKDIR /app
 COPY ./src ./src
 COPY ./package.json ./package-lock.json ./tailwind.config.js ./
