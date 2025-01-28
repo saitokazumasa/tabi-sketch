@@ -461,77 +461,66 @@ class ModalForm {
      * #startFormElement placeFormElement #endFormElementにsubmitイベント割り当て
      */
     initFormEvent() {
-        if (this.#startFormElement) this.#startFormElement.addEventListener('submit', (e) => this.#startFormSubmit(e) );
-        if (this.#endFormElement) this.#endFormElement.addEventListener('submit', (e) => this.#endFormSubmit(e) );
+        if (this.#startFormElement) this.#startFormElement.addEventListener('submit', (e) => this.#createFormSubmit(e, ModalType.start) );
+        if (this.#endFormElement) this.#endFormElement.addEventListener('submit', (e) => this.#createFormSubmit(e, ModalType.end) );
         if (this.placeFormElement) this.placeFormElement.forEach((element) =>
-            element.addEventListener('submit', async(e) => await this.#placesFormSubmit(e)));
+            element.addEventListener('submit', async(e) => await this.#createFormSubmit(e, ModalType.places)));
     }
 
     /**
-     * 出発地点のsubmitイベント
-     * @param e イベント
-     */
-    async #startFormSubmit(e) {
-        e.preventDefault();
-
-        // 値の検証（nullがあるか）
-        if (!this.#startFormCheck()) {
-            // エラーメッセージ表示
-            document.getElementById('startError').textContent = '出発地点・予定時間を正しく入力してください。';
-            return;
-        }
-        document.getElementById('startError').textContent = '';
-
-        // api/create-planに送信
-        const formData = new FormData(e.target);
-        await this.postCreatePlaceAPI(formData, ModalType.start);
-    }
-
-    /**
-     * 終了地点のsubmitイベント
-     * @param e イベント
-     */
-    async #endFormSubmit(e) {
-        e.preventDefault();
-
-        // 値の検証（nullがあるか）
-        if (!this.#endFormCheck()) {
-            document.getElementById('endError').textContent = '終了地点を正しく入力してください。';
-            return;
-        }
-        document.getElementById('endError').textContent = '';
-
-        const formData = new FormData(e.target);
-
-        // api/create-planに送信
-        await this.postCreatePlaceAPI(formData, ModalType.end);
-    }
-
-    /**
-     * 目的地のsubmitイベント
-     * @param e イベント
+     * CreateFormのsubmitイベント
+     * @param e
+     * @param modalType
+     * @param formNum
      * @returns {Promise<void>}
      */
-    async #placesFormSubmit(e) {
+    async #createFormSubmit(e, modalType, formNum=null) {
         e.preventDefault();
-
-        const formId = e.target.id; // formのid取得
-        const formNum = Number(formId.replace('placeForm', '')); // placesSubmit{num}の数字だけ取得
+        if (modalType === ModalType.places) {
+            formNum = Number(e.target.id.replace('placeForm'));
+        }
 
         // 値の検証（nullがあるか）
-        if (!this.#placeFormCheck(formNum)) {
-            document.getElementById(`placeError${formNum}`).textContent = '目的地を正しく入力してください。';
-            return;
+        switch (modalType) {
+        case ModalType.start:
+            if (!this.#startFormCheck()) {
+                this.#setErrorMessage('startError', '出発地点・予定時間を正しく入力してください。');
+                return;
+            }
+            this.#setErrorMessage('startError', '');
+            break;
+        case ModalType.end:
+            if (!this.#endFormCheck()) {
+                this.#setErrorMessage('endError', '終了地点を正しく入力してください。');
+                return;
+            }
+            this.#setErrorMessage('endError', '');
+            break;
+        case ModalType.places:
+            if (!this.#placeFormCheck(formNum)) {
+                this.#setErrorMessage(`placeError${formNum}`, '目的地を正しく入力してください。');
+                return;
+            }
+            this.#setErrorMessage(`placeError${formNum}`, '');
+            break;
         }
-        document.getElementById(`placeError${formNum}`).textContent = '';
 
-        // formDataの整形
+        // api/create-planに送信
         const formData = new FormData(e.target);
-        this.#setEndTime(formNum, formData);
-        formData.delete(`stayTime${formNum}`);
+        if (modalType === ModalType.places) {
+            this.#setEndTime(formNum, formData);
+            formData.delete(`stayTime${formNum}`);
+        }
+        await this.postCreatePlaceAPI(formData, modalType, formNum);
+    }
 
-        // Post処理 /api/create-places
-        await this.postCreatePlaceAPI(formData, ModalType.places, formNum);
+    /**
+     * エラーメッセージの設定
+     * @param {string} elementId エラーメッセージを表示する要素のID
+     * @param {string} message エラーメッセージ
+     */
+    #setErrorMessage(elementId, message) {
+        document.getElementById(elementId).textContent = message;
     }
 
     /**
@@ -602,11 +591,11 @@ class ModalForm {
     }
 
     /**
-     * 目的地のrequiredチェック
+     * 目的地更新のrequiredチェック
      * @returns {boolean} すべて値が入ってたらtrue
      */
     #updatePlaceFormCheck(num) {
-        const placeName = document.getElementById(`place${num}`).value;
+        const placeName = document.getElementById(`updatePlace${num}`).value;
         const placeId = document.getElementById(`placeUpdatePlaceId${num}`).value;
         const lat = document.getElementById(`placeUpdateLat${num}`).value;
         const lng = document.getElementById(`placeUpdateLng${num}`).value;
@@ -666,7 +655,6 @@ class ModalForm {
      * @param formNum {number} formの項番
      */
     async #placesCreateSuccess(placeId, formNum) {
-        console.log(200);
         // modal関連の動作
         modal.closeModal(ModalType.places);
         modal.changePlaceDisplay();
