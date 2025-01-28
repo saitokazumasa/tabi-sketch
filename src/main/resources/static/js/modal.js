@@ -680,8 +680,8 @@ class ModalForm {
         fragment.addPlacesUpdateForm(); // HTMLに追加
         modal.setPlacesUpdateModal(); // Elementを追加
 
-        // todo: stayTimeのvalueを更新
-        this.#setStayTime(formNum);
+        // stayTimeのvalueを更新
+        this.#setStayTimeValue(formNum);
 
         // placesToggleの data-modal-target data-modal-toggleを変更
         modal.changeToggleTarget(ModalType.places, formNum);
@@ -787,11 +787,24 @@ class ModalForm {
     }
 
     /**
-     * todo: stayTimeのvalueを更新
-     * @param formNum {number} formの項番
+     * 更新用FormのstayTimeのvalueを更新
+     * @param num {number} formの項番
      */
-    #setStayTime(formNum) {
+    #setStayTimeValue(num) {
+        const stayTimeInput = document.getElementById(`updateStayTime${num}`);
+        const startTime = document.getElementById(`placeUpdateStartTime${num}`).value;
+        const endTime = document.getElementById(`placeUpdateEndTime${num}`).value;
 
+        // 開始時間の分数取得
+        const [startHours, startMinutes] = startTime.split(':').map(Number);
+        const startMin = startHours * 60 + startMinutes;
+
+        // 終了時間の分数取得
+        const [endHours, endMinutes] = endTime.split(':').map(Number);
+        const endMin = endHours * 60 + endMinutes;
+
+        // 終了時間と開始時間の差分を value に設定
+        stayTimeInput.value = endMin - startMin;
     }
 
     /**

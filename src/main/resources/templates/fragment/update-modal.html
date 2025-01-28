@@ -181,13 +181,13 @@
                 <form class="p-4 sm:p-5" th:object="${updatePlaceForm}" th:id="'updatePlaceForm'+${num}">
                     <span th:id="'placeUpdateError'+${num}" class="text-danger text-sm mb-2 flex justify-center"></span>
                     <div class="space-y-4 w-full">
-                        <input th:field="*{googlePlaceId}" id="placeUpdatePlaceId" class="hidden" type="text"/>
-                        <input th:field="*{latitude}" id="placeUpdateLat" class="hidden" type="text"/>
-                        <input th:field="*{longitude}" id="placeUpdateLng" class="hidden" type="text"/>
+                        <input th:field="*{googlePlaceId}" th:id="'placeUpdatePlaceId'+${num}" class="hidden" type="text"/>
+                        <input th:field="*{latitude}" th:id="'placeUpdateLat'+${num}" class="hidden" type="text"/>
+                        <input th:field="*{longitude}" th:id="'placeUpdateLng'+${num}" class="hidden" type="text"/>
                         <input th:field="*{id}" class="hidden" type="number">
                         <input th:field="*{dayId}" class="hidden" type="number"/>
-                        <input th:field="*{startTime}" class="hidden" type="time"/>
-                        <input th:field="*{endTime}" class="hidden" type="time"/>
+                        <input th:field="*{startTime}" th:id="'placeUpdateStartTime'+${num}" class="hidden" type="time"/>
+                        <input th:field="*{endTime}" th:if="'placeUpdateEndTime'+${num}" class="hidden" type="time"/>
                         <input th:field="*{toPolyLine}" class="hidden" type="text"/>
                         <input th:field="*{toTravelTime}" class="hidden" type="number"/>
                         <input th:field="*{toTransportation}" class="hidden" type="text"/>
