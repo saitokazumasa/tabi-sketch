@@ -575,6 +575,46 @@ class ModalForm {
     }
 
     /**
+     * 出発地点更新のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #updateStartFormCheck() {
+        const placeName = document.getElementById('startUpdatePlace').value;
+        const placeId = document.getElementById('startUpdatePlaceId').value;
+        const lat = document.getElementById('startUpdateLat').value;
+        const lng = document.getElementById('startUpdateLng').value;
+        const time = document.getElementById('startUpdateTime').value;
+
+        return !!(placeName && placeId && lat && lng && time);
+    }
+
+    /**
+     * 終了地点更新のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #updateEndFormCheck() {
+        const placeName = document.getElementById('endUpdatePlace').value;
+        const placeId = document.getElementById('endUpdatePlaceId').value;
+        const lat = document.getElementById('endUpdateLat').value;
+        const lng = document.getElementById('endUpdateLng').value;
+
+        return !!(placeName && placeId && lat && lng);
+    }
+
+    /**
+     * 目的地のrequiredチェック
+     * @returns {boolean} すべて値が入ってたらtrue
+     */
+    #updatePlaceFormCheck(num) {
+        const placeName = document.getElementById(`place${num}`).value;
+        const placeId = document.getElementById(`placeUpdatePlaceId${num}`).value;
+        const lat = document.getElementById(`placeUpdateLat${num}`).value;
+        const lng = document.getElementById(`placeUpdateLng${num}`).value;
+
+        return !!(placeName && placeId && lat && lng);
+    }
+
+    /**
      * 出発地点の /api/create-placeが成功したとき
      * @param placeId {number} placesテーブルのid
      */
@@ -658,12 +698,12 @@ class ModalForm {
     async #startUpdateFormSubmit(e) {
         e.preventDefault();
 
-        // 値の検証（startUpdateTimeがあるか）
-        if (!document.getElementById('startUpdateTime')) {
-            document.getElementById('startUpdateError').textContent = '予定時間を正しく入力してください。';
+        // 値の検証
+        if (!this.#updateStartFormCheck()) {
+            document.getElementById('updateStartError').textContent = '予定時間を正しく入力してください。';
             return;
         }
-        document.getElementById('startUpdateError').textContent = '';
+        document.getElementById('updateStartError').textContent = '';
 
         const formData = new FormData(e.target);
         await this.postUpdatePlaceAPI(formData, ModalType.start);
@@ -676,7 +716,12 @@ class ModalForm {
     async #endUpdateFormSubmit(e) {
         e.preventDefault();
 
-        // todo: 値の検証
+        // 値の検証
+        if (!this.#updateEndFormCheck()) {
+            document.getElementById('updateEndError').textContent = '予定時間を正しく入力してください。';
+            return;
+        }
+        document.getElementById('updateEndError').textContent = '';
 
         // api/update-planに送信
         const formData = new FormData(e.target);
@@ -693,7 +738,13 @@ class ModalForm {
         const formId = e.target.id;
         const formNum = Number(formId.replace('updatePlaceForm', ));
 
-        // todo: 値の検証
+        // 値の検証
+        if (!this.#updatePlaceFormCheck(formNum)) {
+            document.getElementById(`placeUpdateError${formNum}`).textContent = '予定時間を正しく入力してください。';
+            return;
+        }
+        document.getElementById(`placeUpdateError${formNum}`).textContent = '';
+
         // api/update-planに送信
         const formData = new FormData(e.target);
         // todo: updatePlaceがdisabledだから手動で追加
