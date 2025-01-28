@@ -4,25 +4,7 @@ steps:
     entrypoint: 'bash'
     args: [
       '-c',
-      'docker build -t gcr.io/$PROJECT_ID/tabisketch:$COMMIT_SHA -f ./docker/app/Dockerfile . 
-        --build-arg _POSTGRES_HOST=$$POSTGRES_HOST
-        --build-arg _POSTGRES_PORT=$$POSTGRES_PORT
-        --build-arg _POSTGRES_DB=$$POSTGRES_DB
-        --build-arg _POSTGRES_USER=$$POSTGRES_USER 
-        --build-arg _POSTGRES_PASSWORD=$$POSTGRES_PASSWORD
-        --build-arg _GOOGLE_MAPS_API_KEY=$$GOOGLE_MAPS_API_KEY
-        --build-arg _MAIL_PASSWORD=$$MAIL_PASSWORD
-        --build-arg _MAIL_USERNAME=$$MAIL_USERNAME'
-    ]
-    secretEnv: [
-      'POSTGRES_HOST',
-      'POSTGRES_PORT',
-      'POSTGRES_DB',
-      'POSTGRES_USER',
-      'POSTGRES_PASSWORD',
-      'GOOGLE_MAPS_API_KEY',
-      'MAIL_PASSWORD',
-      'MAIL_USERNAME'
+      'docker build -t gcr.io/$PROJECT_ID/tabisketch:$COMMIT_SHA -f ./docker/app/Dockerfile . '
     ]
 
   # DockerイメージをArtifact RegistryへPush
@@ -51,7 +33,26 @@ steps:
       '--vpc-egress',
       'all',
       '--allow-unauthenticated',
-      '--no-cpu-throttling'
+      '--no-cpu-throttling',
+      '--set-env-vars',
+      'POSTGRES_HOST=$$POSTGRES_HOST,
+      POSTGRES_PORT=$$POSTGRES_PORT,
+      POSTGRES_DB=$$POSTGRES_DB,
+      POSTGRES_USER=$$POSTGRES_USER,
+      POSTGRES_PASSWORD=$$POSTGRES_PASSWORD,
+      GOOGLE_MAPS_API_KEY=$$GOOGLE_MAPS_API_KEY,
+      MAIL_PASSWORD=$$MAIL_PASSWORD,
+      MAIL_USERNAME=$$MAIL_USERNAME'
+    ]
+    secretEnv: [
+      'POSTGRES_HOST',
+      'POSTGRES_PORT',
+      'POSTGRES_DB',
+      'POSTGRES_USER',
+      'POSTGRES_PASSWORD',
+      'GOOGLE_MAPS_API_KEY',
+      'MAIL_PASSWORD',
+      'MAIL_USERNAME'
     ]
 
 # Secret Managerから環境変数を取得
