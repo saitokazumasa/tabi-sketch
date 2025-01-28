@@ -16,5 +16,5 @@ RUN mvn package -Dmaven.test.skip=true
 # Run jar
 FROM eclipse-temurin:22-jre-alpine AS run-jar
 WORKDIR /app
-COPY --from=build-jar /app/target/tabisketch-0.0.1-SNAPSHOT.jar ./app.jar
+COPY --from=build-jar /app/target/tabisketch-*.jar ./app.jar
 CMD ["java", "-jar", "./app.jar"]
