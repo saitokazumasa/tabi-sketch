@@ -18,6 +18,7 @@ public class CreatePlanController {
             final @AuthenticationPrincipal(expression = "username") String mailAddress,
             final Model model
     ) {
+        model.addAttribute("mailAddress", mailAddress);
         model.addAttribute("googleMapsApiKey", googleMapsApiKey);
         return "plan/present-create";
     }
