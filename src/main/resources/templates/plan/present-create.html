@@ -14,9 +14,7 @@
             </div>
         </div>
         <div class="flex flex-col">
-            <label class="text-center flex justify-center items-center w-full bg-gray-500" style="aspect-ratio: 5/1">
-                <th:block th:replace="~{fragment/popup :: cover-image}"/>
-            </label>
+            <th:block th:replace="~{fragment/popup :: cover-image}"/>
             <div class="flex">
                 <div class="sm:border-b-2 border-b w-1/2 text-center mx-auto my-10">
                     <input type="text" placeholder="タイトルを入力してください" class="w-full sm:text-3xl text-xl text-center" style="border: none">
@@ -51,10 +49,9 @@
                                 おすすめ目的地を追加
                             </summary>
                             <hr class="my-2 scale-x-150"/>
-<!--                        おすすめ目的地（東京タワー）    -->
                             <div class="sm:text-lg text-base -m-4 -mt-2 p-4">
-                                <button class="input border-interactive text-center text-label max-w-md w-4/5 flex justify-between items-center h-10 sm:h-12"
-                                        data-modal-target="recommendModal1" data-modal-toggle="recommendModal1" type="button">
+                                <button class="input border-interactive text-center text-label max-w-md w-4/5 justify-between items-center h-10 sm:h-12 hidden"
+                                        data-modal-target="recommendModal1" data-modal-toggle="recommendModal1" id="recommendButton" type="button">
                                     <span class="absolute block text-[10px] sm:text-base">
                                         <th:block th:replace="~{fragment/svg :: plus}"/>
                                     </span>
@@ -66,79 +63,79 @@
                                 </button>
                                 <div aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full sm:inset-0 h-[calc(100%-1rem)] max-h-full text-label text-base"
                                      id="recommendModal1" tabindex="-1">
-                                        <div class="relative p-4 w-full max-w-md max-h-full">
-                                            <!-- Modal content -->
-                                            <div class="relative bg-white rounded-lg shadow">
-                                                <!-- Modal header -->
-                                                <div class="flex items-center justify-between p-4 sm:p-5 rounded-t border-b border-frame">
-                                                    <h3 class="text-xl text-black">
-                                                        おすすめ目的地を追加する
-                                                    </h3>
-                                                    <button class="end-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
-                                                            data-modal-hide="recommendModal1" type="button">
-                                                        <svg aria-hidden="true" class="w-3 h-3" fill="none" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-                                                        </svg>
-                                                        <span class="sr-only">Close modal</span>
-                                                    </button>
-                                                </div>
-                                                <!-- Modal body -->
-                                                <div class="p-4 sm:p-5">
-                                                    <div class="space-y-4 w-full">
-                                                        <input class="hidden" id="recommendPlaceId1" value="1" type="text"/>
-                                                        <input class="hidden" id="recommendLat1" value="1" type="text"/>
-                                                        <input class="hidden" id="recommendLng1" value="1" type="text"/>
-                                                        <div>
-                                                            <label class="block mb-2" for="recommend1">目的地<span class="ml-2 text-sm text-danger">必須</span></label>
-                                                            <input class="w-full input focus:ring-0 bg-gray-100" disabled id="recommend1" name="recommend1" value="東京ディズニーランド" type="text"/>
+                                    <div class="relative p-4 w-full max-w-md max-h-full">
+                                        <!-- Modal content -->
+                                        <div class="relative bg-white rounded-lg shadow">
+                                            <!-- Modal header -->
+                                            <div class="flex items-center justify-between p-4 sm:p-5 rounded-t border-b border-frame">
+                                                <h3 class="text-xl text-black">
+                                                    おすすめ目的地を追加する
+                                                </h3>
+                                                <button class="end-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                                                        data-modal-hide="recommendModal1" type="button">
+                                                    <svg aria-hidden="true" class="w-3 h-3" fill="none" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                                    </svg>
+                                                    <span class="sr-only">Close modal</span>
+                                                </button>
+                                            </div>
+                                            <!-- Modal body -->
+                                            <div class="p-4 sm:p-5">
+                                                <div class="space-y-4 w-full">
+                                                    <input class="hidden" id="recommendPlaceId1" value="1" type="text"/>
+                                                    <input class="hidden" id="recommendLat1" value="1" type="text"/>
+                                                    <input class="hidden" id="recommendLng1" value="1" type="text"/>
+                                                    <div>
+                                                        <label class="block mb-2" for="recommend1">目的地<span class="ml-2 text-sm text-danger">必須</span></label>
+                                                        <input class="w-full input focus:ring-0 bg-gray-100" disabled id="recommend1" name="recommend1" value="東京ディズニーランド" type="text"/>
+                                                    </div>
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="w-1/2 pr-3">
+                                                            <label class="block mb-2" for="recommendBudget1">予算</label>
+                                                            <div class="flex items-end">
+                                                                <input class="w-full input focus:ring-0" id="recommendBudget1" name="recommendBudget1" value="2000" type="number"/>
+                                                                <span>円</span>
+                                                            </div>
                                                         </div>
+                                                        <div class="w-1/2 pl-3">
+                                                            <label class="block mb-2" for="recommendStayTime1">滞在時間</label>
+                                                            <div class="flex items-end">
+                                                                <input class="w-full input focus:ring-0" id="recommendStayTime1" name="recommendStayTime1" value="60" type="number" />
+                                                                <span>分</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label class="block" for="recommendDesiredStartTime1">希望時間</label>
+                                                        <p class="text-sm mb-2">入力された時刻の範囲内で目的地に向かうことが出来ます</p>
                                                         <div class="flex items-center justify-between">
-                                                            <div class="w-1/2 pr-3">
-                                                                <label class="block mb-2" for="recommendBudget1">予算</label>
-                                                                <div class="flex items-end">
-                                                                    <input class="w-full input focus:ring-0" id="recommendBudget1" name="recommendBudget1" value="2000" type="number"/>
-                                                                    <span>円</span>
+                                                            <div class="relative w-1/2">
+                                                                <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
+                                                                    </svg>
                                                                 </div>
+                                                                <input class="w-full input focus:ring-0" max="23:59" min="00:00" placeholder="--:--" id="recommendDesiredStartTime1" name="recommendDesiredStartTime1" type="time"/>
                                                             </div>
-                                                            <div class="w-1/2 pl-3">
-                                                                <label class="block mb-2" for="recommendStayTime1">滞在時間</label>
-                                                                <div class="flex items-end">
-                                                                    <input class="w-full input focus:ring-0" id="recommendStayTime1" name="recommendStayTime1" value="60" type="number" />
-                                                                    <span>分</span>
+                                                            <span class="pr-3 pl-3">～</span>
+                                                            <div class="relative w-1/2">
+                                                                <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
+                                                                    </svg>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <label class="block" for="recommendDesiredStartTime1">希望時間</label>
-                                                            <p class="text-sm mb-2">入力された時刻の範囲内で目的地に向かうことが出来ます</p>
-                                                            <div class="flex items-center justify-between">
-                                                                <div class="relative w-1/2">
-                                                                    <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-                                                                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                            <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
-                                                                        </svg>
-                                                                    </div>
-                                                                    <input class="w-full input focus:ring-0" max="23:59" min="00:00" placeholder="--:--" id="recommendDesiredStartTime1" name="recommendDesiredStartTime1" type="time"/>
-                                                                </div>
-                                                                <span class="pr-3 pl-3">～</span>
-                                                                <div class="relative w-1/2">
-                                                                    <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-                                                                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                            <path clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" fill-rule="evenodd"/>
-                                                                        </svg>
-                                                                    </div>
-                                                                    <input class="w-full input focus:ring-0" max="23:59" min="00:00" placeholder="--:--" id="recommendDesiredEndTime1" name="recommendDesiredEndTime1" type="time"/>
-                                                                </div>
+                                                                <input class="w-full input focus:ring-0" max="23:59" min="00:00" placeholder="--:--" id="recommendDesiredEndTime1" name="recommendDesiredEndTime1" type="time"/>
                                                             </div>
                                                         </div>
-                                                        <div class="flex justify-center">
-                                                            <button class="button-primary recommend" id="recommendSubmit1" type="submit">追加</button>
-                                                        </div>
+                                                    </div>
+                                                    <div class="flex justify-center">
+                                                        <button class="button-primary recommend" id="recommendSubmit1" type="submit">追加</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </div>
                         </details>
                     </section>
@@ -195,5 +192,13 @@
 <th:block th:replace="~{fragment/script :: modal}"/>
 <th:block th:replace="~{fragment/script :: check}"/>
 <th:block th:replace="~{fragment/script :: svgCheckbox}"/>
+<th:block th:replace="~{fragment/script :: previewImage}"/>
+<script>
+    function changeHidden() {
+        const button = document.getElementById('recommendButton');
+        button.classList.remove('hidden');
+        button.classList.add('flex');
+    }
+</script>
 </body>
 </html>
