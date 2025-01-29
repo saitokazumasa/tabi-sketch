@@ -1,7 +1,7 @@
 # Build tailwindCSS
 FROM node:22.13.1 AS build-tailwindcss
 WORKDIR /app
-COPY ./src ./src
+COPY ./src/main/ ./src/main/
 COPY ./package.json ./package-lock.json ./tailwind.config.js ./
 RUN npm ci
 RUN npx tailwindcss -i src/main/resources/static/css/input.css -o src/main/resources/static/css/tailwind.css
@@ -9,7 +9,7 @@ RUN npx tailwindcss -i src/main/resources/static/css/input.css -o src/main/resou
 # Build jar
 FROM maven:3.9.9-eclipse-temurin-22 AS build-jar
 WORKDIR /app
-COPY --from=build-tailwindcss /app/src ./src
+COPY --from=build-tailwindcss /app/src/main/ ./src/main/
 COPY ./pom.xml ./
 RUN mvn package -DskipTests
 
