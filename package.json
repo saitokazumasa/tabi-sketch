@@ -6,10 +6,10 @@
   "scripts": {
     "lint": "eslint src/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docker:build": "docker compose -f ./docker/docker-compose.yml build",
-    "docker:up": "docker compose -f ./docker/docker-compose.yml up -d postgresql app",
-    "docker:test": "docker compose -f ./docker/docker-compose.yml up test",
-    "docker:down": "docker compose -f ./docker/docker-compose.yml down -v"
+    "docker:build": "docker compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.test.yml build",
+    "docker:up": "docker compose -f ./docker/docker-compose.yml up",
+    "docker:test": "docker compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.test.yml up test",
+    "docker:down": "docker compose -f ./docker/docker-compose.yml -f ./docker/docker-compose.test.yml down -v"
   },
   "keywords": [],
   "author": "",
