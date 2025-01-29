@@ -31,10 +31,9 @@ public class EditMailAddressServiceTest {
 
     @Test
     @WithMockUser
-    public void testExecute() throws MessagingException, InsertFailedException {
+    public void testExecute() throws Exception {
         final var user = ExampleUser.generate();
         final var editMailAddressForm = ExampleEditMailAddressForm.generate();
-
         when(this.usersMapper.selectByMailAddress(editMailAddressForm.getCurrentMailAddress())).thenReturn(user);
         when(this.usersMapper.selectByMailAddress(editMailAddressForm.getNewMailAddress())).thenReturn(null);
         when(this.maaTokensMapper.insert(any())).thenReturn(1);
