@@ -20,6 +20,6 @@ public class CreatePlanController {
     ) {
         model.addAttribute("mailAddress", mailAddress);
         model.addAttribute("googleMapsApiKey", googleMapsApiKey);
-        return "plan/present-create";
+        return "plan/create";
     }
 }
