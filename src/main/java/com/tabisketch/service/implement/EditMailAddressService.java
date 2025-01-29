@@ -1,14 +1,18 @@
 package com.tabisketch.service.implement;
 
+import com.tabisketch.bean.entity.MAAToken;
 import com.tabisketch.bean.entity.User;
 import com.tabisketch.bean.form.EditMailAddressForm;
+import com.tabisketch.exception.InvalidMailAddressException;
 import com.tabisketch.exception.InsertFailedException;
+import com.tabisketch.exception.InvalidPasswordException;
 import com.tabisketch.exception.SelectFailedException;
 import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.IEditMailAddressService;
 import com.tabisketch.service.ISendMailService;
 import com.tabisketch.valueobject.Mail;
+import jakarta.mail.MessagingException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,23 +38,23 @@ public class EditMailAddressService implements IEditMailAddressService {
 
     @Override
     @Transactional
-    public void execute(final EditMailAddressForm editMailAddressForm) throws Exception {
+    public void execute(final EditMailAddressForm editMailAddressForm) throws SelectFailedException, InvalidMailAddressException, InvalidPasswordException, InsertFailedException, MessagingException {
         // Userが存在しなければエラー
         final User user = this.usersMapper.selectByMailAddress(editMailAddressForm.getCurrentMailAddress());
-        if (user == null) throw new SelectFailedException("Userの取得に失敗しました。");
+        if (user == null) throw new SelectFailedException(User.class.getName());
 
         // 新しいメールアドレスが使われていればエラー
         final boolean isUsedMailAddress = this.usersMapper.selectByMailAddress(editMailAddressForm.getNewMailAddress()) != null;
-        if (isUsedMailAddress) throw new Exception("既に使用されているメールアドレスが指定されました。");
+        if (isUsedMailAddress) throw new InvalidMailAddressException();
 
         // パスワードが一致していなければエラー
         final boolean isNotMatchPassword = !this.passwordEncoder.matches(editMailAddressForm.getPassword(), user.getPassword());
-        if (isNotMatchPassword) throw new Exception("パスワードが一致しません。");
+        if (isNotMatchPassword) throw new InvalidPasswordException();
 
         // MAATokenを追加
         final var maaToken = editMailAddressForm.toMAAToken(user.getId());
         final int insertMAATokenResult = this.maaTokensMapper.insert(maaToken);
-        if (insertMAATokenResult != 1) throw new InsertFailedException("MAATokenの追加に失敗しました。");
+        if (insertMAATokenResult != 1) throw new InsertFailedException(MAAToken.class.getName());
 
         // メールアドレス認証メールを送信
         final var mail = Mail.mailAddressEditMail(maaToken.getNewMailAddress(), maaToken.getToken());

@@ -1,7 +1,11 @@
 package com.tabisketch.controller;
 
 import com.tabisketch.bean.form.EditPasswordForm;
+import com.tabisketch.exception.InvalidPasswordException;
+import com.tabisketch.exception.SelectFailedException;
+import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.service.IEditPasswordService;
+import jakarta.mail.MessagingException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +36,7 @@ public class EditPasswordController {
     public String post(
             final @Validated EditPasswordForm editPasswordForm,
             final BindingResult bindingResult
-    ) throws Exception {
+    ) throws MessagingException, SelectFailedException, InvalidPasswordException, UpdateFailedException {
         if (bindingResult.hasErrors()) return "user/edit/password/index";
 
         this.editPasswordService.execute(editPasswordForm);

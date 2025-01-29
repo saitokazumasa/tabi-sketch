@@ -1,8 +1,11 @@
 package com.tabisketch.service;
 
 import com.tabisketch.bean.form.ExampleRegisterForm;
+import com.tabisketch.exception.InsertFailedException;
+import com.tabisketch.exception.InvalidMailAddressException;
 import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +28,7 @@ public class RegisterServiceTest {
     private IRegisterService registerService;
 
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() throws InvalidMailAddressException, MessagingException, InsertFailedException {
         when(this.usersMapper.selectByMailAddress(anyString())).thenReturn(null);
         when(this.usersMapper.insert(any())).thenReturn(1);
         when(this.maaTokensMapper.insert(any())).thenReturn(1);
