@@ -1,0 +1,82 @@
+steps:
+  # Dockerイメージの作成
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: [
+      '-c',
+      'docker build -t gcr.io/$PROJECT_ID/tabisketch:$COMMIT_SHA -f ./docker/app/Dockerfile . '
+    ]
+
+  # DockerイメージをArtifact RegistryへPush
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: [
+      '-c',
+      'docker push gcr.io/$PROJECT_ID/tabisketch:$COMMIT_SHA'
+    ]
+
+  # Cloud Runにデプロイ
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: [
+      'run',
+      'deploy',
+      'tabisketch',
+      '--image',
+      'gcr.io/$PROJECT_ID/tabisketch:$COMMIT_SHA',
+      '--region',
+      'asia-northeast1',
+      '--add-cloudsql-instances',
+      '$PROJECT_ID:us-northeast1:tabisketch',
+      '--vpc-connector',
+      'tabisketch-vpc-connector',
+      '--vpc-egress',
+      'all',
+      '--allow-unauthenticated',
+      '--no-cpu-throttling',
+      '--set-env-vars',
+      'POSTGRES_HOST=$$POSTGRES_HOST,
+      POSTGRES_PORT=$$POSTGRES_PORT,
+      POSTGRES_DB=$$POSTGRES_DB,
+      POSTGRES_USER=$$POSTGRES_USER,
+      POSTGRES_PASSWORD=$$POSTGRES_PASSWORD,
+      GOOGLE_MAPS_API_KEY=$$GOOGLE_MAPS_API_KEY,
+      MAIL_PASSWORD=$$MAIL_PASSWORD,
+      MAIL_USERNAME=$$MAIL_USERNAME'
+    ]
+    secretEnv: [
+      'POSTGRES_HOST',
+      'POSTGRES_PORT',
+      'POSTGRES_DB',
+      'POSTGRES_USER',
+      'POSTGRES_PASSWORD',
+      'GOOGLE_MAPS_API_KEY',
+      'MAIL_PASSWORD',
+      'MAIL_USERNAME'
+    ]
+
+# Secret Managerから環境変数を取得
+availableSecrets:
+  secretManager:
+    - versionName: projects/499665473392/secrets/POSTGRES_HOST/versions/latest
+      env: 'POSTGRES_HOST'
+    - versionName: projects/499665473392/secrets/POSTGRES_PORT/versions/latest
+      env: 'POSTGRES_PORT'
+    - versionName: projects/499665473392/secrets/POSTGRES_DB/versions/latest
+      env: 'POSTGRES_DB'
+    - versionName: projects/499665473392/secrets/POSTGRES_USER/versions/latest
+      env: 'POSTGRES_USER'
+    - versionName: projects/499665473392/secrets/POSTGRES_PASSWORD/versions/latest
+      env: 'POSTGRES_PASSWORD'
+    - versionName: projects/499665473392/secrets/GOOGLE_MAPS_API_KEY/versions/latest
+      env: 'GOOGLE_MAPS_API_KEY'
+    - versionName: projects/499665473392/secrets/MAIL_PASSWORD/versions/latest
+      env: 'MAIL_PASSWORD'
+    - versionName: projects/499665473392/secrets/MAIL_USERNAME/versions/latest
+      env: 'MAIL_USERNAME'
+
+images:
+  - 'gcr.io/$PROJECT_ID/tabisketch:$COMMIT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
