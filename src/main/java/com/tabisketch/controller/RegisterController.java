@@ -33,7 +33,7 @@ public class RegisterController {
             final @Validated RegisterForm registerForm,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-    ) throws InsertFailedException, MessagingException {
+    ) throws Exception {
         if (bindingResult.hasErrors()) return "register/index";
 
         this.registerService.execute(registerForm);
