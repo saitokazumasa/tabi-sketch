@@ -11,7 +11,7 @@ FROM maven:3.9.9-eclipse-temurin-22 AS build-jar
 WORKDIR /app
 COPY --from=build-tailwindcss /app/src ./src
 COPY ./pom.xml ./
-RUN mvn package -Dmaven.test.skip=true
+RUN mvn package -DskipTests
 
 # Run jar
 FROM eclipse-temurin:22-jre-alpine AS run-jar
