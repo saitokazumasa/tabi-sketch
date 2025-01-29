@@ -19,6 +19,7 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(a -> a
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/", "/top").permitAll()
+                        .requestMatchers("/fragment/**").permitAll()
                         .requestMatchers("/register/**").permitAll()
                         .requestMatchers("/mail/**").permitAll()
                         .requestMatchers("/password-reset/**").permitAll()
