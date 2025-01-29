@@ -50,17 +50,18 @@
                             </summary>
                             <hr class="my-2 scale-x-150"/>
                             <div class="sm:text-lg text-base -m-4 -mt-2 p-4">
-                                <button class="input border-interactive text-center text-label max-w-md w-4/5 justify-between items-center h-10 sm:h-12 hidden"
-                                        data-modal-target="recommendModal1" data-modal-toggle="recommendModal1" id="recommendButton" type="button">
+                                <button class="input border-interactive text-center text-label max-w-md w-4/5 justify-between items-center h-10 sm:h-12 my-5 hidden recommend-buttons"
+                                        data-modal-target="recommendModal1" data-modal-toggle="recommendModal1" type="button">
                                     <span class="absolute block text-[10px] sm:text-base">
                                         <th:block th:replace="~{fragment/svg :: plus}"/>
                                     </span>
                                     <span class="flex-1 text-base sm:text-xl truncate ... px-2">東京ディズニーランド</span>
                                     <span class="flex flex-col items-end text-[8px] sm:text-xs">
-                                        <span class="block">平均予算：2000円</span>
-                                        <span class="block">平均滞在時間：60分</span>
+                                        <span class="block">平均予算：10000円</span>
+                                        <span class="block">平均滞在時間：300分</span>
                                     </span>
                                 </button>
+                                <p class="h-5"></p>
                                 <div aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full sm:inset-0 h-[calc(100%-1rem)] max-h-full text-label text-base"
                                      id="recommendModal1" tabindex="-1">
                                     <div class="relative p-4 w-full max-w-md max-h-full">
@@ -136,6 +137,29 @@
                                         </div>
                                     </div>
                                 </div>
+                                <button class="input border-interactive text-center text-label max-w-md w-4/5 justify-between items-center h-10 sm:h-12 my-5 hidden recommend-buttons"
+                                        type="button">
+                                    <span class="absolute block text-[10px] sm:text-base">
+                                        <th:block th:replace="~{fragment/svg :: plus}"/>
+                                    </span>
+                                    <span class="flex-1 text-base sm:text-xl truncate ... px-2">東京タワー</span>
+                                    <span class="flex flex-col items-end text-[8px] sm:text-xs">
+                                        <span class="block">平均予算：2000円</span>
+                                        <span class="block">平均滞在時間：60分</span>
+                                    </span>
+                                </button>
+                                <p class="h-5"></p>
+                                <button class="input border-interactive text-center text-label max-w-md w-4/5 justify-between items-center h-10 sm:h-12 my-5 hidden recommend-buttons"
+                                        type="button">
+                                    <span class="absolute block text-[10px] sm:text-base">
+                                        <th:block th:replace="~{fragment/svg :: plus}"/>
+                                    </span>
+                                    <span class="flex-1 text-base sm:text-xl truncate ... px-2">東京スカイツリー</span>
+                                    <span class="flex flex-col items-end text-[8px] sm:text-xs">
+                                        <span class="block">平均予算：2000円</span>
+                                        <span class="block">平均滞在時間：60分</span>
+                                    </span>
+                                </button>
                             </div>
                         </details>
                     </section>
@@ -195,9 +219,12 @@
 <th:block th:replace="~{fragment/script :: previewImage}"/>
 <script>
     function changeHidden() {
-        const button = document.getElementById('recommendButton');
-        button.classList.remove('hidden');
-        button.classList.add('flex');
+        const buttons = document.getElementsByClassName('recommend-buttons');
+
+        Array.from(buttons).forEach(button => {
+            button.classList.remove('hidden');
+            button.classList.add('flex');
+        })
     }
 </script>
 </body>
