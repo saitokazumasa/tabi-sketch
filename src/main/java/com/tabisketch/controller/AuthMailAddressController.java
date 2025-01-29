@@ -1,6 +1,7 @@
 package com.tabisketch.controller;
 
 import com.tabisketch.exception.DeleteFailedException;
+import com.tabisketch.exception.SelectFailedException;
 import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.service.IAuthMailAddressService;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ public class AuthMailAddressController {
     }
 
     @GetMapping
-    public String get(final @PathVariable String token) throws DeleteFailedException, UpdateFailedException {
+    public String get(final @PathVariable String token) throws DeleteFailedException, UpdateFailedException, SelectFailedException {
         this.authMailAddressService.execute(token);
         return "mail/confirm";
     }

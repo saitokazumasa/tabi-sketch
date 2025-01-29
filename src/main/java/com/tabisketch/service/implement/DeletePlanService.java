@@ -29,13 +29,14 @@ public class DeletePlanService implements IDeletePlanService {
     @Override
     @Transactional
     public void execute(final String planUUID) throws DeleteFailedException {
+        // Placeを削除
         final var uuid = UUID.fromString(planUUID);
-
-        // NOTE: Place, Dayは0の場合があるため、結果の検証を行わない
         this.placesMapper.deleteByPlanUUID(uuid);
-        this.daysMapper.deleteByPlanUUID(uuid);
-        final int deleteResult = this.plansMapper.deleteByUUID(uuid);
+        // Placeは0*であるため、結果の検証を行わない
 
-        if (deleteResult != 1) throw new DeleteFailedException("Planの削除に失敗しました。");
+        // dayを削除
+        this.daysMapper.deleteByPlanUUID(uuid);
+        final int deleteDayResult = this.plansMapper.deleteByUUID(uuid);
+        if (deleteDayResult != 1) throw new DeleteFailedException("Planの削除に失敗しました。");
     }
 }

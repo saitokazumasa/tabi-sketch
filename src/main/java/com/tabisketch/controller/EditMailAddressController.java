@@ -37,7 +37,7 @@ public class EditMailAddressController {
             final @Validated EditMailAddressForm editMailAddressForm,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-    ) throws MessagingException, InsertFailedException {
+    ) throws Exception {
         if (bindingResult.hasErrors()) return "user/edit/mail/index";
 
         this.editMailAddressService.execute(editMailAddressForm);
