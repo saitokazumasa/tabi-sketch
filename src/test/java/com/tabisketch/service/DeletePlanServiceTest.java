@@ -30,7 +30,6 @@ public class DeletePlanServiceTest {
         when(this.plansMapper.deleteByUUID(any())).thenReturn(1);
 
         final var uuid = ExamplePlan.generate().getUuid().toString();
-
         this.deletePlanService.execute(uuid);
 
         verify(this.placesMapper).deleteByPlanUUID(any());
