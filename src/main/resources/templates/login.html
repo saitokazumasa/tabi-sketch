@@ -3,7 +3,7 @@
 <th:block th:replace="~{fragment/head :: head(ログイン)}"/>
 <body class="flex flex-col min-h-screen">
 <th:block th:replace="~{fragment/header :: header}"/>
-<main class="flex flex-col items-center mt-10 flex-grow">
+<main class="flex flex-col items-center mt-10 grow">
     <h2 class="text-center sm:text-3xl text-2xl font-medium">ログイン</h2>
     <div th:if="${param.error}">
         <p class="pt-4 text-red-600">メールアドレス、またはパスワードが違います</p>
