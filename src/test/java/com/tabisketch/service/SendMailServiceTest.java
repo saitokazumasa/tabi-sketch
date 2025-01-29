@@ -20,15 +20,25 @@ public class SendMailServiceTest {
     private ISendMailService sendMailService;
 
     // NOTE: アドレスエラーは検出されない
+
     @Test
-    @WithMockUser
-    public void testExist() throws MessagingException {
-        final String mailAddress = ExampleUser.generate().getMailAddress();
-
-        final Mail registrationMail = Mail.registrationMail(mailAddress, UUID.randomUUID());
+    public void testExecuteRegistrationMail() throws MessagingException {
+        final var mailAddress = ExampleUser.generate().getMailAddress();
+        final var registrationMail = Mail.registrationMail(mailAddress, UUID.randomUUID());
         this.sendMailService.execute(registrationMail);
+    }
 
-        final Mail mailAddressEditMail = Mail.mailAddressEditMail(mailAddress, UUID.randomUUID());
+    @Test
+    public void testExecuteMailAddressEditMail() throws MessagingException {
+        final var mailAddress = ExampleUser.generate().getMailAddress();
+        final var mailAddressEditMail = Mail.mailAddressEditMail(mailAddress, UUID.randomUUID());
         this.sendMailService.execute(mailAddressEditMail);
+    }
+
+    @Test
+    public void testExecutePasswordResetMail() throws MessagingException {
+        final var mailAddress = ExampleUser.generate().getMailAddress();
+        final var passwordResetMail = Mail.passwordResetMail(mailAddress, UUID.randomUUID());
+        this.sendMailService.execute(passwordResetMail);
     }
 }

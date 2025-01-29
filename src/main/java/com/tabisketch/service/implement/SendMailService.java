@@ -22,14 +22,15 @@ public class SendMailService implements ISendMailService {
     @Override
     @Async
     public void execute(final Mail mail) throws MessagingException {
+        // メールを作成
         final var message = this.mailSender.createMimeMessage();
         final var messageHelper = new MimeMessageHelper(message, true);
-
         messageHelper.setFrom(this.fromMailAddress);
         messageHelper.setTo(mail.getToMailAddress());
         messageHelper.setSubject(mail.getSubject());
         messageHelper.setText(mail.getContent());
 
+        // 送信
         this.mailSender.send(message);
     }
 }

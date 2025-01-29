@@ -1,6 +1,5 @@
 package com.tabisketch.service;
 
-import com.tabisketch.bean.form.CreateDayForm;
 import com.tabisketch.bean.form.ExampleCreateDayForm;
 import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.mapper.IDaysMapper;
