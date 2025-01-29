@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker:build": "docker compose -f ./docker/docker-compose.yml build",
     "docker:up": "docker compose -f ./docker/docker-compose.yml up -d postgresql app",
-    "docker:up-test": "docker compose -f ./docker/docker-compose.yml up test",
+    "docker:test": "docker compose -f ./docker/docker-compose.yml up test",
     "docker:down": "docker compose -f ./docker/docker-compose.yml down -v"
   },
   "keywords": [],
