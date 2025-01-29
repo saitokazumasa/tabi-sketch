@@ -2,9 +2,8 @@ package com.tabisketch.service;
 
 import com.tabisketch.bean.entity.ExampleMAAToken;
 import com.tabisketch.bean.entity.ExampleUser;
-import com.tabisketch.bean.entity.MAAToken;
-import com.tabisketch.bean.entity.User;
 import com.tabisketch.exception.DeleteFailedException;
+import com.tabisketch.exception.SelectFailedException;
 import com.tabisketch.exception.UpdateFailedException;
 import com.tabisketch.mapper.IMAATokensMapper;
 import com.tabisketch.mapper.IUsersMapper;
@@ -27,20 +26,40 @@ public class AuthMailAddressServiceTest {
     private IAuthMailAddressService authMailAddressService;
 
     @Test
-    public void testExecute() throws DeleteFailedException, UpdateFailedException {
+    public void testExecute() throws DeleteFailedException, UpdateFailedException, SelectFailedException {
         final var maaToken = ExampleMAAToken.generate("sample2@example.com");
         final var user = ExampleUser.generate();
 
         when(this.maaTokensMapper.selectByToken(any())).thenReturn(maaToken);
         when(this.usersMapper.selectById(anyInt())).thenReturn(user);
-        when(this.usersMapper.update(any())).thenReturn(1);
+        when(this.usersMapper.updateMailAddress(anyInt(), anyString())).thenReturn(1);
+        when(this.usersMapper.updateMailAddressAuthenticated(anyInt(), anyBoolean())).thenReturn(1);
         when(this.maaTokensMapper.delete(anyInt())).thenReturn(1);
 
         this.authMailAddressService.execute(maaToken.getToken().toString());
 
         verify(this.maaTokensMapper).selectByToken(any());
         verify(this.usersMapper).selectById(anyInt());
-        verify(this.usersMapper).update(any());
+        verify(this.usersMapper).updateMailAddress(anyInt(), anyString());
+        verify(this.usersMapper).updateMailAddressAuthenticated(anyInt(), anyBoolean());
+        verify(this.maaTokensMapper).delete(anyInt());
+    }
+
+    @Test
+    public void testExecuteWhenEmptyMailAddress() throws DeleteFailedException, UpdateFailedException, SelectFailedException {
+        final var maaToken = ExampleMAAToken.generate("");
+        final var user = ExampleUser.generate();
+
+        when(this.maaTokensMapper.selectByToken(any())).thenReturn(maaToken);
+        when(this.usersMapper.selectById(anyInt())).thenReturn(user);
+        when(this.usersMapper.updateMailAddressAuthenticated(anyInt(), anyBoolean())).thenReturn(1);
+        when(this.maaTokensMapper.delete(anyInt())).thenReturn(1);
+
+        this.authMailAddressService.execute(maaToken.getToken().toString());
+
+        verify(this.maaTokensMapper).selectByToken(any());
+        verify(this.usersMapper).selectById(anyInt());
+        verify(this.usersMapper).updateMailAddressAuthenticated(anyInt(), anyBoolean());
         verify(this.maaTokensMapper).delete(anyInt());
     }
 }

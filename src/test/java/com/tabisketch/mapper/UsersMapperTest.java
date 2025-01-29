@@ -23,27 +23,36 @@ public class UsersMapperTest {
 
     @Test
     @Sql("classpath:/sql/CreateUser.sql")
-    public void testSelect() {
+    public void testSelectById() {
         final int id = ExampleUser.generate().getId();
         assert this.usersMapper.selectById(id) != null;
+    }
 
+    @Test
+    @Sql("classpath:/sql/CreateUser.sql")
+    public void testSelectByMailAddress() {
         final String mailAddress = ExampleUser.generate().getMailAddress();
         assert this.usersMapper.selectByMailAddress(mailAddress) != null;
     }
 
     @Test
     @Sql("classpath:/sql/CreateUser.sql")
-    public void testUpdate() {
+    public void testUpdateMailAddress() {
         final var user = ExampleUser.generate();
-        user.setMailAddressAuthenticated(true);
-        assert this.usersMapper.update(user) == 1;
+        assert this.usersMapper.updateMailAddress(user.getId(), "new_" + user.getMailAddress()) == 1;
     }
 
     @Test
     @Sql("classpath:/sql/CreateUser.sql")
     public void testUpdatePassword() {
         final var user = ExampleUser.generate();
-        final var newPassword = "newPassword";
-        assert this.usersMapper.updatePassword(user.getId(), newPassword) == 1;
+        assert this.usersMapper.updatePassword(user.getId(), "new_" + user.getPassword()) == 1;
+    }
+
+    @Test
+    @Sql("classpath:/sql/CreateUser.sql")
+    public void testUpdateMailAddressAuthenticated() {
+        final var user = ExampleUser.generate();
+        assert this.usersMapper.updateMailAddressAuthenticated(user.getId(), !user.getMailAddressAuthenticated()) == 1;
     }
 }
