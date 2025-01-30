@@ -2,6 +2,7 @@ package com.tabisketch.service.implement;
 
 import com.tabisketch.bean.entity.GooglePlace;
 import com.tabisketch.bean.entity.Place;
+import com.tabisketch.bean.entity.Plan;
 import com.tabisketch.bean.form.UpdatePlaceForm;
 import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.exception.UpdateFailedException;
@@ -33,7 +34,7 @@ public class UpdatePlaceService implements IUpdatePlaceService {
         if (googlePlace != null) {
             final var place = updatePlaceForm.toPlace(googlePlace.getId());
             final int updatePlaceResult = this.placesMapper.update(place);
-            if (updatePlaceResult != 1) throw new UpdateFailedException("Placeの更新に失敗しました。");
+            if (updatePlaceResult != 1) throw new UpdateFailedException(Plan.class.getName());
 
             return place.getId();
         }
@@ -41,12 +42,12 @@ public class UpdatePlaceService implements IUpdatePlaceService {
         // GooglePlaceを追加
         final var createdGooglePlace = updatePlaceForm.toGooglePlace();
         final int insertGooglePlaceResult = this.googlePlaceMapper.insert(createdGooglePlace);
-        if (insertGooglePlaceResult != 1) throw new InsertFailedException("GooglePlaceの追加に失敗しました。");
+        if (insertGooglePlaceResult != 1) throw new InsertFailedException(GooglePlace.class.getName());
 
         // Placeを追加
         final var place = updatePlaceForm.toPlace(createdGooglePlace.getId());
         final int updatePlaceResult = this.placesMapper.update(place);
-        if (updatePlaceResult != 1) throw new UpdateFailedException("Placeの更新に失敗しました。");
+        if (updatePlaceResult != 1) throw new UpdateFailedException(Place.class.getName());
 
         return place.getId();
     }
