@@ -6,10 +6,10 @@
   "scripts": {
     "lint": "eslint src/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docker:build": "sh bin/docker/docker_compose_build.sh ./docker",
-    "docker:up": "sh bin/docker/docker_compose_up.sh ./docker",
-    "docker:test": "sh bin/docker/docker_compose_test.sh ./docker",
-    "docker:down": "sh bin/docker/docker_compose_down.sh ./docker"
+    "docker:build": "sh docker/bin/docker_compose_build.sh ./docker",
+    "docker:up": "sh docker/bin/docker_compose_up.sh ./docker",
+    "docker:test": "sh docker/bin/docker_compose_test.sh ./docker",
+    "docker:down": "sh docker/bin/docker_compose_down.sh ./docker"
   },
   "keywords": [],
   "author": "",
