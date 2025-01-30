@@ -18,6 +18,9 @@ for SQL in $SQL_LIST; do
   psql -f "$SQL"
 done
 
+echo "Sql list: $SQL_LIST"
+echo "Postgres host: $POSTGRES_HOST"
+
 #psql -f docker/postgresql/sql/01-create-users-table.sql
 #psql -f docker/postgresql/sql/02-create-password-reset-tokens-table.sql
 #psql -f docker/postgresql/sql/03-create-maa-tokens-table.sql
