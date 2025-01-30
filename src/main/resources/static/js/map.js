@@ -4,13 +4,12 @@ class MapDisplayController {
         this.defaultZoom = 12;
 
         if (typeof google === 'undefined') {
-            console.error('Google Maps APIが読み込まれていません。');
             return;
         }
 
         this.directionsService = new google.maps.DirectionsService();
         this.directionsRenderer = new google.maps.DirectionsRenderer({
-            suppressMarkers: true // マーカーを表示しない設定
+            suppressMarkers: true,
         });
 
         this.initEventListeners();
@@ -27,19 +26,15 @@ class MapDisplayController {
             const map = new google.maps.Map(mapElement, mapOptions);
             this.directionsRenderer.setMap(map);
             return map;
-        } else {
-            console.error(`Element with ID "${elementId}" not found.`);
         }
     }
 
     async displayDirectionsByPlaceIds(placeIds, travelModes, options) {
-        if (placeIds.length < 2) {
-            console.error('少なくとも2つのplaceIdを指定してください。');
+        if (!placeIds || placeIds.length < 2) {
             return;
         }
 
-        if (travelModes.length !== placeIds.length - 1) {
-            console.error('travelModesの長さはplaceIdsの長さ-1でなければなりません。');
+        if (!travelModes || travelModes.length !== placeIds.length - 1) {
             return;
         }
 
@@ -51,24 +46,27 @@ class MapDisplayController {
                 origin: { placeId: placeIds[i] },
                 destination: { placeId: placeIds[i + 1] },
                 travelMode: travelModes[i],
+                transitOptions: {
+                    modes: ['BUS', 'RAIL', 'SUBWAY', 'TRAIN', 'TRAM'],
+                    routingPreference: 'FEWER_TRANSFERS',
+                },
                 drivingOptions: {
                     departureTime: new Date(Date.now()),
-                    trafficModel: 'pessimistic'
+                    trafficModel: 'pessimistic',
                 },
-                avoidHighways: options.useHighway ? false : true,
-                avoidFerries: options.useFerry ? false : true
+                avoidHighways: !options.useHighway,
+                avoidFerries: !options.useFerry,
             };
 
             await this.directionsService.route(request, (result, status) => {
                 if (status === 'OK') {
                     const renderer = new google.maps.DirectionsRenderer({
-                        suppressMarkers: true // マーカーを表示しない設定
+                        suppressMarkers: true,
                     });
                     renderer.setMap(this.directionsRenderer.getMap());
                     renderer.setDirections(result);
 
-                    // 経路内の徒歩時間を合計
-                    result.routes[0].legs[0].steps.forEach(step => {
+                    result.routes[0].legs[0].steps.forEach((step) => {
                         if (step.travel_mode === 'WALKING') {
                             totalWalkingTime += this.calculateWalkingTime(step);
                         }
@@ -76,23 +74,32 @@ class MapDisplayController {
 
                     if (totalWalkingTime <= options.maxWalkingTime) {
                         directionsRendererArray.push(renderer);
-                    } else {
-                        console.warn(`合計徒歩時間が最大時間を超えました: ${totalWalkingTime} 分`);
                     }
-                } else {
-                    console.error('Directions request failed due to ' + status);
+                } else if (status === 'ZERO_RESULTS') {
+
+                    // 徒歩での移動を試みる
+                    if (travelModes[i] !== 'WALKING') {
+                        request.travelMode = 'WALKING';
+                        this.directionsService.route(request, (altResult, altStatus) => {
+                            if (altStatus === 'OK') {
+                                const renderer = new google.maps.DirectionsRenderer({
+                                    suppressMarkers: true,
+                                });
+                                renderer.setMap(this.directionsRenderer.getMap());
+                                renderer.setDirections(altResult);
+                                directionsRendererArray.push(renderer);
+                            }
+                        });
+                    }
                 }
             });
         }
-
-        this.directionsRendererArray = directionsRendererArray;
     }
 
     calculateWalkingTime(step) {
-        const walkingSpeed = 5; // km/h
-        const distanceKm = step.distance.value / 1000; // メートルをキロメートルに変換
-        const timeMinutes = (distanceKm / walkingSpeed) * 60; // 時間を分に変換
-        return timeMinutes;
+        const walkingSpeed = 5;
+        const distanceKm = step.distance.value / 1000;
+        return (distanceKm / walkingSpeed) * 60;
     }
 
     openPopup() {
@@ -115,7 +122,7 @@ class MapDisplayController {
         if (placeIds && placeIds.length > 0 && travelModes && travelModes.length > 0) {
             this.displayDirectionsByPlaceIds(placeIds, travelModes, options);
         } else {
-            this.displayDirections({ lat: 35.681236, lng: 139.767125 }, { lat: 35.689487, lng: 139.691706 });
+            this.displayMap('map');
         }
     }
 
