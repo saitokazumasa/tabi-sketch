@@ -43,7 +43,7 @@ npm run docker:up
 
 ### Docker テスト実行
 ```shell
-npm run docker:up-test
+npm run docker:test
 ```
 
 ### Docker 破棄

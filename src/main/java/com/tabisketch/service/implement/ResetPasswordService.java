@@ -44,22 +44,22 @@ public class ResetPasswordService implements IResetPasswordService {
         // PasswordResetTokenが存在しなければエラー
         final var token = UUID.fromString(resetPasswordForm.getToken());
         final PasswordResetToken passwordResetToken = this.passwordResetTokensMapper.selectByToken(token);
-        if (passwordResetToken == null) throw new SelectFailedException("PasswordResetTokenの取得に失敗しました。");
+        if (passwordResetToken == null) throw new SelectFailedException(PasswordResetToken.class.getName());
 
         // TODO: PasswordResetTokenの有効期限が切れていたらエラー
 
         // Userが存在しなければエラー
         final User user = this.usersMapper.selectById(passwordResetToken.getUserId());
-        if (user == null) throw new SelectFailedException("Userの取得に失敗しました。");
+        if (user == null) throw new SelectFailedException(User.class.getName());
 
         // Userのpasswordを更新
         final String encryptedPassword = this.passwordEncoder.encode(resetPasswordForm.getPassword());
         final int updateUserResult = this.usersMapper.updatePassword(user.getId(), encryptedPassword);
-        if (updateUserResult != 1) throw new UpdateFailedException("Userの更新に失敗しました。");
+        if (updateUserResult != 1) throw new UpdateFailedException(User.class.getName());
 
         // PasswordResetTokenを削除
         final int deletePasswordResetTokenResult = this.passwordResetTokensMapper.deleteById(passwordResetToken.getId());
-        if (deletePasswordResetTokenResult != 1) throw new DeleteFailedException("PasswordResetTokenの削除に失敗しました。");
+        if (deletePasswordResetTokenResult != 1) throw new DeleteFailedException(PasswordResetToken.class.getName());
 
         // パスワード編集通知メールを送信
         final var mail = Mail.passwordEditNoticeMail(user.getMailAddress());
