@@ -22,17 +22,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up docker
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-#      - name: Build and push Docker images
-#        uses: docker/build-push-action@v2
+#      - name: Build and push
+#        uses: docker/build-push-action@v6
 #        with:
-#          context: .
-#          file: ./Dockerfile
+#          context: ./
+#          file: ./docker/
 #          push: false
-#          tags: myapp:latest
-#
+#          tags: app:latest
+
+      - name: Build Docker
+        run: sh ./bin/docker/docker_compose_build.sh ./docker
+
 #      - name: Run docker-compose
 #        run: docker-compose up --build -d
 #
