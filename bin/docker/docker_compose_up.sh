@@ -9,8 +9,8 @@ DOCKER_COMMAND="docker compose "
 for DOCKER_COMPOSE in $DOCKER_COMPOSE_LIST; do
   DOCKER_COMMAND+="-f $DOCKER_COMPOSE "
 done
-DOCKER_COMMAND+="up"
+DOCKER_COMMAND+="up postgresql app"
 
 # Run
-echo "run \"$DOCKER_COMMAND\""
+echo "> run \"$DOCKER_COMMAND\""
 $DOCKER_COMMAND

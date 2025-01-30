@@ -12,5 +12,5 @@ done
 DOCKER_COMMAND+="down -v"
 
 # Run
-echo "run \"$DOCKER_COMMAND\""
+echo "> run \"$DOCKER_COMMAND\""
 $DOCKER_COMMAND
