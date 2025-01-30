@@ -5,5 +5,5 @@ import com.tabisketch.exception.InsertFailedException;
 import jakarta.mail.MessagingException;
 
 public interface IRegisterService {
-    void execute(final RegisterForm registerForm) throws InsertFailedException, MessagingException;
+    void execute(final RegisterForm registerForm) throws Exception;
 }
