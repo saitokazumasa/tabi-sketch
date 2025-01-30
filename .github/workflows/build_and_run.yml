@@ -2,9 +2,7 @@ name: Build And Run
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
 
 env:
   SITE_URL: ${{ secrets.SITE_URL }}
@@ -35,7 +33,7 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -49,7 +47,7 @@ jobs:
           cache: maven
 
       - name: Initialize database
-        run: bin/CreateTables.sh
+        run: .github/workflows/bin/init_db.sh
 
       - name: Build and test
-        run: bin/BuildJar.sh
+        run: mvn test
