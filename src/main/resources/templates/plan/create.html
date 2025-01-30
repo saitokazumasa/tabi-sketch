@@ -211,6 +211,11 @@
 </main>
 <th:block th:replace="~{fragment/footer :: footer}"/>
 <th:block th:replace="~{fragment/script :: flowbite}"/>
+<th:block th:replace="~{fragment/script :: map}"/>
+<th:block th:replace="~{fragment/script :: modal}"/>
+<th:block th:replace="~{fragment/script :: check}"/>
+<th:block th:replace="~{fragment/script :: svgCheckbox}"/>
+<th:block th:replace="~{fragment/script :: previewImage}"/>
 <script
     th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapsApiKey} + '&callback=initialize&libraries=places&v=weekly'"
     async
@@ -230,11 +235,6 @@
         initializeMaps(placeIds, travelModes, options);
     }
 </script>
-<th:block th:replace="~{fragment/script :: map}"/>
-<th:block th:replace="~{fragment/script :: modal}"/>
-<th:block th:replace="~{fragment/script :: check}"/>
-<th:block th:replace="~{fragment/script :: svgCheckbox}"/>
-<th:block th:replace="~{fragment/script :: previewImage}"/>
 <script>
     function changeHidden() {
         const buttons = document.getElementsByClassName('recommend-buttons');
