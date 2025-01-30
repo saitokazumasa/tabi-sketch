@@ -2,9 +2,7 @@ name: Build And Run 2
 
 on:
   push:
-    branches: [*]
   pull_request:
-    branches: [*]
 
 env:
   POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
