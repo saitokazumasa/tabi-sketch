@@ -1,12 +1,11 @@
 #!/bin/bash
 
 # Get all .sql files
-SQL_DIRECTORY=$1
+SQL_DIRECTORY="./docker/postgresql/sql"
 SQL_LIST=$(find "$SQL_DIRECTORY" -type f -name ".sql")
 
 # Set env
 set -o allexport
-source .env
 PGHOST="$POSTGRES_HOST"
 PGPORT="$POSTGRES_PORT"
 PGDATABASE="$POSTGRES_DB"
