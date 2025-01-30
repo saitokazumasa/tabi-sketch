@@ -211,7 +211,25 @@
 </main>
 <th:block th:replace="~{fragment/footer :: footer}"/>
 <th:block th:replace="~{fragment/script :: flowbite}"/>
-<th:block th:replace="~{fragment/script :: googleMapsAPI}"/>
+<script
+    th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapsApiKey} + '&callback=initialize&libraries=places&v=weekly'"
+    async
+    defer
+></script>
+<script>
+    function initialize() {
+        // TODO: 以下を参照にControllerから引数として受け取る
+        const placeIds = [];
+        const travelModes = ['DRIVING', 'DRIVING', 'DRIVING'];
+        const options = {
+            useHighway: false,
+            useFerry: false,
+            maxWalkingTime: 1
+        };
+        initAutoComplete();
+        initializeMaps(placeIds, travelModes, options);
+    }
+</script>
 <th:block th:replace="~{fragment/script :: map}"/>
 <th:block th:replace="~{fragment/script :: modal}"/>
 <th:block th:replace="~{fragment/script :: check}"/>
