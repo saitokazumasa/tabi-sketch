@@ -49,4 +49,4 @@ jobs:
         run: ./bin/github_workflows/init_db.sh
 
       - name: Build and test
-        run: mvn package
+        run: mvn test
