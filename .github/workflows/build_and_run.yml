@@ -1,54 +1,52 @@
-#name: Build And Run
-#
-#on:
-#  push:
-#    branches: [ "main" ]
-#  pull_request:
-#    branches: [ "main" ]
-#
-#env:
-#  POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-#  POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-#  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-#  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-#  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-#  MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
-#  MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
-#  GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
-#
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#
-#    services:
-#      postgres:
-#        image: postgres
-#        env:
-#          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-#          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-#          POSTGRES_DB: ${{ env.POSTGRES_DB }}
-#        options: >-
-#          --health-cmd pg_isready
-#          --health-interval 10s
-#          --health-timeout 5s
-#          --health-retries 5
-#        ports:
-#          - 5432:5432
-#
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#
-#      - name: Set up JDK
-#        uses: actions/setup-java@v4
-#        with:
-#          java-version: '22'
-#          distribution: 'temurin'
-#          architecture: x64
-#          cache: maven
-#
-#      - name: Initialize database
-#        run: bin/CreateTables.sh
-#
-#      - name: Build and test
-#        run: bin/BuildJar.sh
+name: Build And Run
+
+on:
+  push:
+  pull_request:
+
+env:
+  POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+  POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+  MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+  GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '22'
+          distribution: 'temurin'
+          architecture: x64
+          cache: maven
+
+      - name: Initialize database
+        run: sh bin/github_workflows/init_db.sh docker/postgresql/sql
+
+      - name: Build and test
+        run: sh bin/github_workflows/build_and_test_jar.sh

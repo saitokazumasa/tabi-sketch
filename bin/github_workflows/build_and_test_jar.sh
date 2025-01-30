@@ -5,4 +5,5 @@ set -o allexport
 source .env
 set +o allexport
 
-./mvnw package -e
+# Run test
+./mvnw test
