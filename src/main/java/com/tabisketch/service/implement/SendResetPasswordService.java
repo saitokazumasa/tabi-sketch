@@ -11,10 +11,16 @@ import com.tabisketch.service.ISendMailService;
 import com.tabisketch.service.ISendResetPasswordService;
 import com.tabisketch.valueobject.Mail;
 import jakarta.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SendResetPasswordService implements ISendResetPasswordService {
+    @Value("${SITE_URL}")
+    private String siteURL;
+    @Value("${spring.mail.username}")
+    private String fromMailAddress;
+
     private final IUsersMapper usersMapper;
     private final IPasswordResetTokensMapper passwordResetTokensMapper;
     private final ISendMailService sendMailService;
@@ -40,7 +46,7 @@ public class SendResetPasswordService implements ISendResetPasswordService {
         if (insertPasswordResetTokenResult != 1) throw new InsertFailedException(PasswordResetToken.class.getName());
 
         // パスワードリセットメールを送信
-        final var mail = Mail.passwordResetMail(user.getMailAddress(), passwordResetToken.getToken());
+        final var mail = Mail.passwordResetMail(this.siteURL, this.fromMailAddress, user.getMailAddress(), passwordResetToken.getToken());
         this.sendMailService.execute(mail);
     }
 }
