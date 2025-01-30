@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Get all .sql files
-SQL_DIRECTORY="./docker/postgresql/sql"
-SQL_LIST=$(find "$SQL_DIRECTORY" -type f -name ".sql")
+SQL_DIRECTORY="docker/postgresql/sql"
+SQL_LIST=$(find "$SQL_DIRECTORY" -type f -name "*.sql")
 
 # Set env
 set -o allexport
@@ -19,7 +19,6 @@ for SQL in $SQL_LIST; do
 done
 
 echo "Sql list: $SQL_LIST"
-echo "Postgres host: $POSTGRES_HOST"
 
 #psql -f docker/postgresql/sql/01-create-users-table.sql
 #psql -f docker/postgresql/sql/02-create-password-reset-tokens-table.sql
