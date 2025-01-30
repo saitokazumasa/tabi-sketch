@@ -11,12 +11,18 @@ import com.tabisketch.mapper.IUsersMapper;
 import com.tabisketch.service.IRegisterService;
 import com.tabisketch.service.ISendMailService;
 import jakarta.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegisterService implements IRegisterService {
+    @Value("${SITE_URL}")
+    private String siteURL;
+    @Value("${spring.mail.username}")
+    private String fromMailAddress;
+
     private final IUsersMapper usersMapper;
     private final IMAATokensMapper maaTokensMapper;
     private final ISendMailService sendMailService;
@@ -53,7 +59,7 @@ public class RegisterService implements IRegisterService {
         if (insertMAATokenResult != 1) throw new InsertFailedException(MAAToken.class.getName());
 
         // メールアドレス認証メールを送信
-        final var mail = Mail.registrationMail(user.getMailAddress(), maaToken.getToken());
+        final var mail = Mail.mailAddressAuthMail(this.siteURL, this.fromMailAddress, user.getMailAddress(), maaToken.getToken());
         this.sendMailService.execute(mail);
     }
 }
