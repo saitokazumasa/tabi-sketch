@@ -40,7 +40,7 @@
                 <div class="flex flex-col mt-6 mb-10">
                     <div class="mb-6">
                         <p class="mb-2 sm:text-lg text-base">出発地点<span class="sm:ml-2 ml-1 text-sm text-danger">必須</span></p>
-                        <button class="input text-center text-label max-w-md w-4/5 h-10 sm:h-12 flex justify-between items-center" data-modal-target="startModal" data-modal-toggle="startModal" id="startToggle" type="button">
+                        <button class="input text-center text-label max-w-md w-4/5 h-10 sm:h-12 flex justify-between items-center" id="startToggle" type="button">
                             <span class="text-[10px] sm:text-base">09:00</span>
                             <span class="flex-1 text-base sm:text-xl truncate ... px-2">中野駅北口駅前広場</span>
                             <span></span>
@@ -99,7 +99,7 @@
                         <p class="mb-2 sm:text-lg text-base">終了地点</p>
                         <button class="input text-center text-label max-w-md w-4/5 h-10 sm:h-12 flex justify-between items-center" type="button">
                             <span class="text-[10px] sm:text-base">13:00</span>
-                            <span class="flex-1 text-base sm:text-xl truncate ... px-2">新宿駅 東南口広場</span>
+                            <span class="flex-1 text-base sm:text-xl truncate ... px-2">東京駅丸の内駅前広場</span>
                             <span></span>
                         </button>
                         <div class="flex justify-center">
@@ -175,8 +175,26 @@
 
 <th:block th:replace="~{fragment/footer :: footer}"/>
 <th:block th:replace="~{fragment/script :: flowbite}"/>
+<script
+    th:src="'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapsApiKey} + '&callback=initialize&libraries=places&v=weekly'"
+    async
+    defer
+></script>
+<script>
+    function initialize() {
+        // TODO: 以下を参照にControllerから引数として受け取る
+        const placeIds = ['ChIJD5lWsZbyGGARzqwWY4ofrIw', 'ChIJCQ1BhNqMGGARcOEMFoKAMb0', 'ChIJ8T1GpMGOGGARDYGSgpooDWw', 'ChIJAylxefmLGGARmouNFJGoD3E'];
+        const travelModes = ['DRIVING', 'DRIVING', 'DRIVING'];
+        const options = {
+            useHighway: false,
+            useFerry: false,
+            maxWalkingTime: 1
+        };
+        initAutoComplete();
+        initializeMaps(placeIds, travelModes, options);
+    }
+</script>
 <th:block th:replace="~{fragment/script :: map}"/>
-<th:block th:replace="~{fragment/script :: googleMapsAPI}"/>
 <th:block th:replace="~{fragment/script :: modal}"/>
 <th:block th:replace="~{fragment/script :: check}"/>
 <th:block th:replace="~{fragment/script :: svgRadioButton}"/>
