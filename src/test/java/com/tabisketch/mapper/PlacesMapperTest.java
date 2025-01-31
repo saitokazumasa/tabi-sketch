@@ -36,10 +36,20 @@ public class PlacesMapperTest {
             "classpath:/sql/CreateGooglePlace.sql",
             "classpath:/sql/CreatePlace.sql"
     })
-    public void testSelect() {
+    public void testSelectById() {
         final int id = ExamplePlace.generate().getId();
         assert this.placesMapper.selectById(id) != null;
+    }
 
+    @Test
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql",
+            "classpath:/sql/CreateDay.sql",
+            "classpath:/sql/CreateGooglePlace.sql",
+            "classpath:/sql/CreatePlace.sql"
+    })
+    public void testSelectByDayId() {
         final int dayId = ExampleDay.generate().getId();
         final var placeList = this.placesMapper.selectByDayId(dayId);
         assert placeList != null;
