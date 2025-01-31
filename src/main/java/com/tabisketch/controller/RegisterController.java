@@ -47,8 +47,7 @@ public class RegisterController {
 
     @GetMapping("/send")
     public String send(final Model model) {
-        if (!model.containsAttribute("mailAddress"))
-            model.addAttribute("mailAddress", "");
+        if (!model.containsAttribute("mailAddress")) return "register/index";
 
         return "register/send";
     }
