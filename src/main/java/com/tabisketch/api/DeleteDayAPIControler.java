@@ -1,17 +1,14 @@
 package com.tabisketch.api;
 
-import com.tabisketch.bean.form.DeleteDayForm;
-import com.tabisketch.bean.response.implement.DeleteDayResponse;
 import com.tabisketch.exception.DeleteFailedException;
 import com.tabisketch.service.IDeleteDayService;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/delete-day")
+@RequestMapping("/api/delete-day/{id}")
 public class DeleteDayAPIControler {
     private final IDeleteDayService deleteDayService;
 
@@ -20,13 +17,7 @@ public class DeleteDayAPIControler {
     }
 
     @PostMapping
-    public DeleteDayResponse post(
-            final @Validated DeleteDayForm deleteDayForm,
-            final BindingResult bindingResult
-    ) throws DeleteFailedException {
-        if (bindingResult.hasErrors()) return DeleteDayResponse.failed();
-
-        this.deleteDayService.execute(deleteDayForm);
-        return DeleteDayResponse.success();
+    public void post(final @PathVariable int id) throws DeleteFailedException {
+        this.deleteDayService.execute(id);
     }
 }

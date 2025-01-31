@@ -1,8 +1,6 @@
 package com.tabisketch.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tabisketch.bean.form.ExampleDeleteDayForm;
-import com.tabisketch.bean.response.implement.DeleteDayResponse;
+import com.tabisketch.bean.entity.ExampleDay;
 import com.tabisketch.service.IDeleteDayService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +16,16 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class DeleteDayAPIControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
     @MockitoBean
     private IDeleteDayService __; // DIで使用
 
     @Test
     @WithMockUser
     public void testPost() throws Exception {
-        final var deleteDayForm = ExampleDeleteDayForm.generate();
-        final String responseJson = this.objectMapper.writeValueAsString(DeleteDayResponse.success());
-
+        final var id = ExampleDay.generate().getId();
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/delete-day")
-                        .flashAttr("deleteDayForm", deleteDayForm)
+                        .post("/api/delete-day/" + id)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
-                ).andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(responseJson));
+                ).andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

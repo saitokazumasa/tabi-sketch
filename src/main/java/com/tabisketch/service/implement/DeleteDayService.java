@@ -1,7 +1,6 @@
 package com.tabisketch.service.implement;
 
 import com.tabisketch.bean.entity.Day;
-import com.tabisketch.bean.form.DeleteDayForm;
 import com.tabisketch.exception.DeleteFailedException;
 import com.tabisketch.mapper.IDaysMapper;
 import com.tabisketch.service.IDeleteDayService;
@@ -16,8 +15,8 @@ public class DeleteDayService implements IDeleteDayService {
     }
 
     @Override
-    public void execute(final DeleteDayForm deleteDayForm) throws DeleteFailedException {
-        final int deleteDayResult = this.daysMapper.deleteById(deleteDayForm.getDayId());
+    public void execute(final int id) throws DeleteFailedException {
+        final int deleteDayResult = this.daysMapper.deleteById(id);
         if (deleteDayResult != 1) throw new DeleteFailedException(Day.class.getName());
     }
 }
