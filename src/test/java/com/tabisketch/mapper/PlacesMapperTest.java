@@ -3,15 +3,11 @@ package com.tabisketch.mapper;
 import com.tabisketch.bean.entity.ExampleDay;
 import com.tabisketch.bean.entity.ExamplePlace;
 import com.tabisketch.bean.entity.ExamplePlan;
-import com.tabisketch.bean.entity.Place;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.jdbc.Sql;
-
-import java.time.LocalTime;
-import java.util.UUID;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -72,7 +68,20 @@ public class PlacesMapperTest {
             "classpath:/sql/CreateGooglePlace.sql",
             "classpath:/sql/CreatePlace.sql"
     })
-    public void testDelete() {
+    public void testDeleteById() {
+        final var placeId = ExamplePlace.generate().getId();
+        assert this.placesMapper.deleteById(placeId) == 1;
+    }
+
+    @Test
+    @Sql({
+            "classpath:/sql/CreateUser.sql",
+            "classpath:/sql/CreatePlan.sql",
+            "classpath:/sql/CreateDay.sql",
+            "classpath:/sql/CreateGooglePlace.sql",
+            "classpath:/sql/CreatePlace.sql"
+    })
+    public void testDeleteByPlanId() {
         final var uuid = ExamplePlan.generate().getUuid();
         assert this.placesMapper.deleteByPlanUUID(uuid) >= 1;
     }
