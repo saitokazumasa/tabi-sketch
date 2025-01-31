@@ -477,7 +477,7 @@ class ModalForm {
     async #createFormSubmit(e, modalType, formNum=null) {
         e.preventDefault();
         if (modalType === ModalType.places) {
-            formNum = Number(e.target.id.replace('placeForm'));
+            formNum = Number(e.target.id.replace('placeForm',''));
         }
 
         // 値の検証（nullがあるか）
