@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class DeletePlaceForm {
+public class DeleteDayForm {
     @Min(1)
-    private int placeId;
+    private int dayId;
 }
