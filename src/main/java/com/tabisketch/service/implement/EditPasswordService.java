@@ -10,12 +10,18 @@ import com.tabisketch.service.IEditPasswordService;
 import com.tabisketch.service.ISendMailService;
 import com.tabisketch.valueobject.Mail;
 import jakarta.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EditPasswordService implements IEditPasswordService {
+    @Value("${SITE_URL}")
+    private String siteURL;
+    @Value("${spring.mail.username}")
+    private String fromMailAddress;
+
     private final IUsersMapper usersMapper;
     private final ISendMailService sendMailService;
     private final PasswordEncoder passwordEncoder;
@@ -47,7 +53,7 @@ public class EditPasswordService implements IEditPasswordService {
         if (updateUserResult != 1) throw new UpdateFailedException(User.class.getName());
 
         // パスワード編集通知メールを送信
-        final var mail = Mail.passwordEditNoticeMail(user.getMailAddress());
+        final var mail = Mail.passwordEditedNoticeMail(this.siteURL, this.fromMailAddress, user.getMailAddress());
         this.sendMailService.execute(mail);
     }
 }
