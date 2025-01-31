@@ -733,9 +733,11 @@ class ModalForm {
         }
         document.getElementById(`placeUpdateError${formNum}`).textContent = '';
 
-        // api/update-planに送信
         const formData = new FormData(e.target);
-        // todo: updatePlaceがdisabledだから手動で追加
+        // updatePlaceがdisabledなので手動で追加
+        const updateNameInput = document.getElementById(`updatePlace${formNum}`);
+        formData.append(updateNameInput.name, updateNameInput.value);
+        // api/update-planに送信
         await this.postUpdatePlaceAPI(formData, ModalType.places, formNum);
     }
 
