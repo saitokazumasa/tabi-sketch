@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class DeletePlaceForm {
-    @Min(1)
+    @Min(0)
     private int placeId;
 }
