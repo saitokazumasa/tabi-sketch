@@ -1,13 +1,28 @@
 services:
   postgresql:
     container_name: postgresql
-    image: postgres:17
+    build:
+      context: ../
+      dockerfile: ./docker/postgresql/Dockerfile
     ports:
       - "5432:5432"
     env_file:
       - ../.env
-    volumes:
-      - ./postgresql/sql:/docker-entrypoint-initdb.d
+    restart: always
+
+  app:
+    container_name: app
+    build:
+      context: ../
+      dockerfile: ./docker/app/Dockerfile
+    depends_on:
+      - postgresql
+    ports:
+      - "8080:8080"
+    env_file:
+      - ../.env
+    environment:
+      POSTGRES_HOST: postgresql
     restart: always
 
 networks:

@@ -10,7 +10,6 @@
     </parent>
     <groupId>com.tabisketch</groupId>
     <artifactId>tabisketch</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>tabisketch</name>
     <description>tabisketch</description>
     <url/>
@@ -101,5 +100,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <finalName>app</finalName>
     </build>
 </project>

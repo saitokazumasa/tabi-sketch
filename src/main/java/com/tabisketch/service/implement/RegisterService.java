@@ -3,6 +3,7 @@ package com.tabisketch.service.implement;
 import com.tabisketch.bean.entity.MAAToken;
 import com.tabisketch.bean.entity.User;
 import com.tabisketch.bean.form.RegisterForm;
+import com.tabisketch.exception.InvalidMailAddressException;
 import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.valueobject.Mail;
 import com.tabisketch.mapper.IMAATokensMapper;
@@ -35,17 +36,23 @@ public class RegisterService implements IRegisterService {
 
     @Override
     @Transactional
-    public void execute(final RegisterForm registerForm) throws InsertFailedException, MessagingException {
+    public void execute(final RegisterForm registerForm) throws InvalidMailAddressException, InsertFailedException, MessagingException {
+        // メールアドレスが使われていればエラー
+        final boolean isUsedMailAddress = this.usersMapper.selectByMailAddress(registerForm.getMailAddress()) != null;
+        if (isUsedMailAddress) throw new InvalidMailAddressException();
+
+        // Userを追加
         final String encryptedPassword = this.passwordEncoder.encode(registerForm.getPassword());
         final var user = registerForm.toUser(encryptedPassword);
-        final int userInsertResult = this.usersMapper.insert(user);
+        final int insertUserResult = this.usersMapper.insert(user);
+        if (insertUserResult != 1) throw new InsertFailedException(User.class.getName());
 
+        // MAATokenを追加
         final var maaToken = MAAToken.generate(user.getId());
-        final int maaTokenInsertResult = this.maaTokensMapper.insert(maaToken);
+        final int insertMAATokenResult = this.maaTokensMapper.insert(maaToken);
+        if (insertMAATokenResult != 1) throw new InsertFailedException(MAAToken.class.getName());
 
-        if (userInsertResult != 1) throw new InsertFailedException("Userの追加に失敗しました。");
-        if (maaTokenInsertResult != 1) throw new InsertFailedException("MAATokenの追加に失敗しました。");
-
+        // メールアドレス認証メールを送信
         final var mail = Mail.registrationMail(user.getMailAddress(), maaToken.getToken());
         this.sendMailService.execute(mail);
     }

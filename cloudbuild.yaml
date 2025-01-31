@@ -1,0 +1,51 @@
+steps:
+  # Dockerイメージの作成
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: [
+      '-c',
+      'docker build -t gcr.io/$PROJECT_ID/tabisketch:$COMMIT_SHA -f ./docker/app/Dockerfile . '
+    ]
+
+  # DockerイメージをArtifact RegistryへPush
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: [
+      '-c',
+      'docker push gcr.io/$PROJECT_ID/tabisketch:$COMMIT_SHA'
+    ]
+
+  # Cloud Runにデプロイ
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: [
+      'run',
+      'deploy',
+      'tabisketch',
+      '--image',
+      'gcr.io/$PROJECT_ID/tabisketch:$COMMIT_SHA',
+      '--region',
+      'asia-northeast1',
+      '--add-cloudsql-instances',
+      '$PROJECT_ID:us-northeast1:tabisketch',
+      '--vpc-connector',
+      'tabisketch-vpc-connector',
+      '--vpc-egress',
+      'all',
+      '--allow-unauthenticated',
+      '--no-cpu-throttling',
+      '--set-secrets=POSTGRES_HOST=projects/499665473392/secrets/POSTGRES_HOST/versions/latest',
+      '--set-secrets=POSTGRES_PORT=projects/499665473392/secrets/POSTGRES_PORT/versions/latest',
+      '--set-secrets=POSTGRES_DB=projects/499665473392/secrets/POSTGRES_DB/versions/latest',
+      '--set-secrets=POSTGRES_USER=projects/499665473392/secrets/POSTGRES_USER/versions/latest',
+      '--set-secrets=POSTGRES_PASSWORD=projects/499665473392/secrets/POSTGRES_PASSWORD/versions/latest',
+      '--set-secrets=GOOGLE_MAPS_API_KEY=projects/499665473392/secrets/GOOGLE_MAPS_API_KEY/versions/latest',
+      '--set-secrets=MAIL_PASSWORD=projects/499665473392/secrets/MAIL_PASSWORD/versions/latest',
+      '--set-secrets=MAIL_USERNAME=projects/499665473392/secrets/MAIL_USERNAME/versions/latest'
+    ]
+
+images:
+  - 'gcr.io/$PROJECT_ID/tabisketch:$COMMIT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

@@ -32,12 +32,12 @@ public class SendResetPasswordService implements ISendResetPasswordService {
     public void execute(final SendResetPasswordForm sendResetPasswordForm) throws InsertFailedException, MessagingException, SelectFailedException {
         // Userが存在しなければエラー
         final User user = this.usersMapper.selectByMailAddress(sendResetPasswordForm.getMailAddress());
-        if (user == null) throw new SelectFailedException("Userの取得に失敗しました。");
+        if (user == null) throw new SelectFailedException(User.class.getName());
 
         // PasswordResetTokenを追加
         final PasswordResetToken passwordResetToken = PasswordResetToken.generate(user.getId());
         final int insertPasswordResetTokenResult = this.passwordResetTokensMapper.insert(passwordResetToken);
-        if (insertPasswordResetTokenResult != 1) throw new InsertFailedException("PasswordResetTokenの追加に失敗しました。");
+        if (insertPasswordResetTokenResult != 1) throw new InsertFailedException(PasswordResetToken.class.getName());
 
         // パスワードリセットメールを送信
         final var mail = Mail.passwordResetMail(user.getMailAddress(), passwordResetToken.getToken());
