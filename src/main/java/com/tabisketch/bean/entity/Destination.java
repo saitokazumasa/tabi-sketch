@@ -28,5 +28,5 @@ public class Destination {
     /** 予算 */
     private int budget = 0;
     /** 関連する「目的地リスト」の識別子 */
-    private int deilyDestinationListId = -1;
+    private int destinationListId = -1;
 }
