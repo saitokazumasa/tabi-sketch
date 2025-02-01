@@ -12,21 +12,21 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class Destination {
     /** 識別子 */
-    private int id = -1;
+    private int id;
     /** GoogleMapのPlaceId */
-    private String googleMapPlaceId = "";
+    private String googleMapPlaceId;
     /** 順番 */
-    private int order = -1;
+    private int order;
     /** 訪れる時間 */
-    private LocalTime startTime = null;
+    private LocalTime startTime;
     /** ユーザーが指定した訪れる時間 */
-    private LocalTime specifiedStartTime = null;
+    private LocalTime specifiedStartTime;
     /** ここへ向かうまでの交通手段 */
     private String transportationMethod;
     /** 滞在時間 */
-    private int duration = 0;
+    private int duration;
     /** 予算 */
-    private int budget = 0;
+    private int budget;
     /** 関連する「目的地リスト」の識別子 */
-    private int destinationListId = -1;
+    private int destinationListId;
 }

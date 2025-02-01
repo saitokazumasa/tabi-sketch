@@ -16,5 +16,5 @@ public class DestinationList {
     /** 有効な移動手段の2進数リスト */
     private String availableTransportationListBinary;
     /** 関連する「旅行プラン」の識別子 */
-    private int travelPlanId = -1;
+    private int travelPlanId;
 }
