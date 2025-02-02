@@ -15,8 +15,8 @@ public class Destination {
     private int id;
     /** GoogleMapのPlaceId */
     private String placeId;
-    /** 順番 */
-    private int order;
+    /** 訪れる順番 */
+    private int visitOrder;
     /** ユーザーが指定した訪れる時間 */
     private LocalTime specifiedStartTime;
     /** 訪れる時間 */

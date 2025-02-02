@@ -12,7 +12,7 @@ public class DestinationList {
     /** 識別子 */
     private int id;
     /** 日にち */
-    private int day;
+    private int travelDay;
     /** 有効な移動手段の2進数リスト */
     private String availableTransportationListBinary;
     /** 関連する「旅行プラン」の識別子 */

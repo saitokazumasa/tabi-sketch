@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 public class Belonging {
     /** 識別子 */
     private int id;
-    /** 名前 */
-    private String name;
+    /** 項目名 */
+    private String label;
     /** 関連する「旅行プラン」の識別子 */
     private int travelPlanId;
 }

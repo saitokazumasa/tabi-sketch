@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS belongings (
     id             SERIAL      PRIMARY KEY,
-    name           VARCHAR(64) NOT NULL,
-    travel_plan_id INT         NOT NULL REFERENCES travel_plans(id)
+    label          VARCHAR(64) NOT NULL,
+    travel_plan_id INT         NOT NULL,
+    FOREIGN KEY (travel_plan_id) REFERENCES travel_plans (id)
 );

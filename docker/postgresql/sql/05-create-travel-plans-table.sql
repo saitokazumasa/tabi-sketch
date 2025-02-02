@@ -2,8 +2,9 @@ CREATE TABLE IF NOT EXISTS travel_plans (
     id                SERIAL      PRIMARY KEY,
     uuid              UUID        NOT NULL UNIQUE DEFAULT GEN_RANDOM_UUID(),
     title             VARCHAR(64) NOT NULL,
-    date              DATE        NOT NULL,
+    actionDate        DATE        NOT NULL,
     editable          BOOLEAN     NOT NULL DEFAULT TRUE,
     publicly_viewable BOOLEAN     NOT NULL DEFAULT FALSE,
-    user_id           INT         NOT NULL REFERENCES users(id)
+    user_id           INT         NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id)
 );
