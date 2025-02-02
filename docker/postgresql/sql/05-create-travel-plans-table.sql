@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS travel_plans (
     date              DATE        NOT NULL,
     editable          BOOLEAN     NOT NULL DEFAULT TRUE,
     publicly_viewable BOOLEAN     NOT NULL DEFAULT FALSE,
-    user_id           INT         NOT NULL REFERENCES users(id),
+    user_id           INT         NOT NULL REFERENCES users(id)
 );

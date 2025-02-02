@@ -14,18 +14,16 @@ public class Destination {
     /** 識別子 */
     private int id;
     /** GoogleMapのPlaceId */
-    private String googleMapPlaceId;
+    private String placeId;
     /** 順番 */
     private int order;
-    /** 訪れる時間 */
-    private LocalTime startTime;
     /** ユーザーが指定した訪れる時間 */
     private LocalTime specifiedStartTime;
-    /** ここへ向かうまでの交通手段 */
-    private String transportationMethod;
-    /** 滞在時間 */
-    private int duration;
-    /** 予算 */
+    /** 訪れる時間 */
+    private LocalTime startTime;
+    /** 滞在時間（分） */
+    private int durationMinutes;
+    /** 予算（円） */
     private int budget;
     /** 関連する「目的地リスト」の識別子 */
     private int destinationListId;

@@ -14,7 +14,7 @@ public class StartPlace {
     /** 識別子 */
     private int id;
     /** GoogleMapのPlaceId */
-    private String googleMapPlaceId;
+    private String placeId;
     /** 出発時間 */
     private LocalTime departureTime;
     /** 関連する「目的地リスト」の識別子 */
