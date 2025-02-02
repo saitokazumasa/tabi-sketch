@@ -5,7 +5,7 @@ import com.tabisketch.bean.response.CreateDestinationListAPIResponse;
 import com.tabisketch.exception.FailedInsertException;
 import com.tabisketch.exception.InvailedRequestException;
 import com.tabisketch.service.ICreateDestinationListService;
-import com.tabisketch.util.EntityClassUtils;
+import com.tabisketch.util.RequestClassUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +28,7 @@ public class CreateDestinationListAPIController {
     ) throws InvailedRequestException, FailedInsertException {
         if (bindingResult.hasErrors()) throw new InvailedRequestException("Invalid request.");
 
-        final var entity = EntityClassUtils.parseToDestinationList(request);
+        final var entity = RequestClassUtils.parseToEntityClass(request);
         final var updatedEntity = this.createDestinationListService.execute(entity);
 
         return new CreateDestinationListAPIResponse(updatedEntity);

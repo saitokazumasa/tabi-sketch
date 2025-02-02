@@ -18,10 +18,6 @@ public class CreateDestinationListAPIRequest {
     @NotBlank
     @Range(min = 4, max = 4)
     private String availableTransportationListBinary;
-    /** 開始地点 */
-    @NotNull
-    @Valid
-    private CreateStartPlaceRequest createStartPlaceRequest;
     /** 関連する「旅行プラン」の識別子 */
     @Min(1)
     private int travelPlanId;
