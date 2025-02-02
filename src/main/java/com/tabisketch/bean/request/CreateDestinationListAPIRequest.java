@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
-/** 目的地リスト作成APIのリクエスト */
 @Data
 @NoArgsConstructor
 public class CreateDestinationListAPIRequest {

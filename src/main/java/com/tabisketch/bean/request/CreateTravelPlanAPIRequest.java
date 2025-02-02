@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-/** 旅行プラン作成APIのリクエスト */
 @Data
 @NoArgsConstructor
 public class CreateTravelPlanAPIRequest {
