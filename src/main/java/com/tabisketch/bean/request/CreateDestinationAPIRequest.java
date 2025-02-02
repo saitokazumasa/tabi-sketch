@@ -2,7 +2,7 @@ package com.tabisketch.bean.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,13 +10,12 @@ import java.time.LocalTime;
 
 /** 目的地作成リクエスト */
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
 public class CreateDestinationAPIRequest {
     /** GoogleMapのPlaceId */
     @NotBlank
     private String placeId;
     /** ユーザーが指定した訪れる時間 */
-    @NotNull
     private LocalTime specifiedStartTime;
     /** 滞在時間（分） */
     @Min(0)

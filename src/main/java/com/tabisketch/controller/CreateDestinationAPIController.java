@@ -9,6 +9,7 @@ import com.tabisketch.util.RequestClassUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,10 +24,10 @@ public class CreateDestinationAPIController {
 
     @PostMapping
     public CreateDestinationAPIResponse post(
-            final @Validated CreateDestinationAPIRequest request,
+            final @RequestBody @Validated CreateDestinationAPIRequest request,
             final BindingResult bindingResult
     ) throws InvailedRequestException, FailedInsertException {
-        if (bindingResult.hasErrors()) throw new InvailedRequestException("Invalid request.");
+        if (bindingResult.hasErrors()) throw new InvailedRequestException("Invalid request.:" + request);
 
         final var entity = RequestClassUtils.parseToEntityClass(request);
         final var updatedEntity = this.createDestinationService.execute(entity);
