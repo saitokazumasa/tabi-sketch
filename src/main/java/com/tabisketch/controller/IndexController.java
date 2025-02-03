@@ -5,10 +5,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping
 public class IndexController {
-    @GetMapping
-    public String get() {
-        return "redirect:/top";
+    @GetMapping("/")
+    public String index() {
+        return "top";
+    }
+
+    @GetMapping("/top")
+    public String top() {
+        return "top";
     }
 }

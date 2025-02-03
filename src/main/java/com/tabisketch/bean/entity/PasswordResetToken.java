@@ -7,21 +7,15 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/** パスワードリセットトークン */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PasswordResetToken {
-    private int id;
-    private UUID token;
-    private int userId;
+    /** 識別子文字列 */
+    private UUID uuid;
+    /** 作成日 */
     private LocalDateTime createdAt;
-
-    public static PasswordResetToken generate(final int userId) {
-        return new PasswordResetToken(
-                -1,
-                UUID.randomUUID(),
-                userId,
-                LocalDateTime.now()
-        );
-    }
+    /** 関連する「ユーザー」の識別子 */
+    private int userId;
 }
