@@ -9,12 +9,14 @@ import org.apache.ibatis.annotations.Options;
 public interface IDestinationsMapper {
     @Insert("INSERT INTO destinations (" +
             "   place_id, " +
+            "   visit_order, " +
             "   specified_start_time, " +
             "   duration_minutes, " +
             "   budget, " +
             "   destination_list_id" +
             ") VALUES (" +
             "   #{placeId}, " +
+            "   #{visitOrder}, " +
             "   #{specifiedStartTime}, " +
             "   #{durationMinutes}, " +
             "   #{budget}, " +

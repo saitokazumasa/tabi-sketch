@@ -7,7 +7,7 @@ public class ExampleEditTravelPlanAPIRequest {
 
     public static EditTravelPlanAPIRequest generate() {
         return new EditTravelPlanAPIRequest(
-                1,
+                99,
                 "edited",
                 LocalDate.now(),
                 false,

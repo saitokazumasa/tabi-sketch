@@ -9,7 +9,7 @@ public class ExampleStartPlaceAPIRequest {
         return new CreateStartPlaceAPIRequest(
                 "placeId",
                 LocalTime.now(),
-                1
+                99
         );
     }
 }

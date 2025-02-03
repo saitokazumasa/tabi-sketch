@@ -9,7 +9,7 @@ public class ExampleCreateTravelPlanAPIRequest {
         return new CreateTravelPlanAPIRequest(
                 "title",
                 LocalDate.now(),
-                1
+                99
         );
     }
 }

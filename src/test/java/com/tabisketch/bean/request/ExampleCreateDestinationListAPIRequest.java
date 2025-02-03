@@ -7,7 +7,7 @@ public class ExampleCreateDestinationListAPIRequest {
         return new CreateDestinationListAPIRequest(
                 1,
                 "1111",
-                1
+                99
         );
     }
 }
