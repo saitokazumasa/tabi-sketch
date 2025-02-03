@@ -2,8 +2,8 @@ package com.tabisketch.bean.request;
 
 import java.time.LocalDate;
 
-public class ExampleTravelPlanAPIRequest {
-    private ExampleTravelPlanAPIRequest() {}
+public class ExampleCreateTravelPlanAPIRequest {
+    private ExampleCreateTravelPlanAPIRequest() {}
 
     public static CreateTravelPlanAPIRequest generate() {
         return new CreateTravelPlanAPIRequest(
