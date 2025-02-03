@@ -25,6 +25,12 @@
    mise install
    ```
 
+   mise の task runner を使って、各種タスクを実行できる
+
+3. ```shell
+   mise run
+   ```
+
 ## 環境構築
 以下の手順をコマンドラインで実行する。
 1. 依存パッケージをインストール
@@ -36,28 +42,28 @@ npm install
 
 3. Dockerをビルド&起動
 ```shell
-npm run docker:build
-npm run docker:up
+mise run docker:build
+mise run docker:up
 ```
 
 ## カスタムコマンド
 
 ### Docker ビルド
 ```shell
-npm run docker:build
+mise run docker:build
 ```
 
 ### Docker 起動
 ```shell
-npm run docker:up
+mise run docker:up
 ```
 
 ### Docker テスト実行
 ```shell
-npm run docker:test
+mise run docker:test
 ```
 
 ### Docker 破棄
 ```shell
-npm run docker:down
+mise run docker:down
 ```
