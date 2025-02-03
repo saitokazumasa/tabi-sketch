@@ -1,7 +1,7 @@
 package com.tabisketch.exception;
 
 public class FailedUpdateException extends Exception {
-    public FailedUpdateException(String message) {
+    public FailedUpdateException(final String message) {
         super(message);
     }
 }
