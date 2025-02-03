@@ -13,8 +13,16 @@
     ></script>
     <script>
         function initialize() {
+            // TODO: 以下を参照にControllerから引数として受け取る
+            // const placeIds = ['ChIJh7eDrwCPGGARCs9fpCkKS2U', 'ChIJ9cqtKHTpGGAR48XfvUWXx5M', 'ChIJx289pMEqC18Ri7aK56qxdio'];
+            // const travelModes = ['DRIVING', 'DRIVING'];
+            // const options = {
+            //     useHighway: true,
+            //     useFerry: true,
+            //     maxWalkingTime: 1
+            // };
             initAutoComplete();
-            initializeMaps();
+            initializeMaps(placeIds, travelModes, options);
         }
     </script>
 </th:block>
@@ -49,12 +57,24 @@
     <script src="/js/svgRadioButton.js"></script>
 </th:block>
 
-<th:blocl th:fragment="redirect">
+<th:block th:fragment="redirect">
     <script src="/js/redirect.js"></script>
-</th:blocl>
+</th:block>
 
 <th:block th:fragment="previewImage">
     <script src="/js/previewImage.js"></script>
+</th:block>
+
+<th:block th:fragment="closeMailConfirm">
+    <script>
+        function closeMailConfirm() {
+            document.getElementById('popup').classList.add('hidden');
+        }
+    </script>
+</th:block>
+
+<th:block th:fragment="top">
+    <script src="/js/top.js"></script>
 </th:block>
 </body>
 </html>

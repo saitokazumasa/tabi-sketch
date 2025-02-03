@@ -21,4 +21,19 @@ public interface IUsersMapper {
             "       mail_address_authenticated = #{mailAddressAuthenticated} " +
             "   WHERE id = #{id}")
     int update(final User user);
+
+    @Update("UPDATE users " +
+            "   SET mail_address = #{mailAddress} " +
+            "   WHERE id = #{id}")
+    int updateMailAddress(final int id, final String mailAddress);
+
+    @Update("UPDATE users " +
+            "   SET password = #{password} " +
+            "   WHERE id = #{id}")
+    int updatePassword(final int id, final String password);
+
+    @Update("UPDATE users " +
+            "   SET mail_address_authenticated = #{mailAddressAuthenticated} " +
+            "   WHERE id = #{id}")
+    int updateMailAddressAuthenticated(final int id, final boolean mailAddressAuthenticated);
 }

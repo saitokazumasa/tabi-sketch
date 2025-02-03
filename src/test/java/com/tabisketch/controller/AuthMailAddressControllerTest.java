@@ -1,5 +1,6 @@
 package com.tabisketch.controller;
 
+import com.tabisketch.bean.entity.ExampleMAAToken;
 import com.tabisketch.service.implement.AuthMailAddressService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class AuthMailAddressControllerTest {
     @Test
     @WithMockUser
     public void testGet() throws Exception {
-        final String token = "a2e69add-9d95-4cf1-a59b-cedbb95dcd6b";
+        final String token = ExampleMAAToken.generate("").getToken().toString();
         this.mockMvc.perform(MockMvcRequestBuilders.get("/mail/confirm/" + token))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("mail/confirm"));

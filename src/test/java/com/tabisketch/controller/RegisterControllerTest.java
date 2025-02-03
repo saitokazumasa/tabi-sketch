@@ -1,5 +1,6 @@
 package com.tabisketch.controller;
 
+import com.tabisketch.bean.form.ExampleRegisterForm;
 import com.tabisketch.bean.form.RegisterForm;
 import com.tabisketch.service.IRegisterService;
 import org.junit.jupiter.api.Test;
@@ -34,11 +35,7 @@ public class RegisterControllerTest {
     @Test
     @WithMockUser
     public void testPost() throws Exception {
-        final var registerForm = new RegisterForm(
-                "sample@example.com",
-                "password",
-                "password"
-        );
+        final var registerForm = ExampleRegisterForm.generate();
 
         this.mockMvc.perform(MockMvcRequestBuilders
                         .post("/register")

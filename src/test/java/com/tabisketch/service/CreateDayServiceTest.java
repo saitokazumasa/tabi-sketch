@@ -1,6 +1,6 @@
 package com.tabisketch.service;
 
-import com.tabisketch.bean.form.CreateDayForm;
+import com.tabisketch.bean.form.ExampleCreateDayForm;
 import com.tabisketch.exception.InsertFailedException;
 import com.tabisketch.mapper.IDaysMapper;
 import org.junit.jupiter.api.Test;
@@ -23,14 +23,7 @@ public class CreateDayServiceTest {
     public void testExecute() throws InsertFailedException {
         when(this.daysMapper.insert(any())).thenReturn(1);
 
-        final var createDayForm = new CreateDayForm(
-                1,
-                1,
-                0,
-                "0000",
-                true,
-                true
-        );
+        final var createDayForm = ExampleCreateDayForm.generate();
         this.createDayService.execute(createDayForm);
 
         verify(this.daysMapper).insert(any());

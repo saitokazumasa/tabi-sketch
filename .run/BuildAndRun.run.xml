@@ -1,7 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="BuildAndRun" type="CompoundRunConfigurationType">
-    <toRun name="TailwindCSSBuild" type="ShConfigurationType" />
-    <toRun name="TabisketchApplication" type="SpringBootApplicationConfigurationType" />
-    <method v="2" />
-  </configuration>
-</component>

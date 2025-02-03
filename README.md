@@ -1,5 +1,6 @@
 # たびすけっち
 
+# 規則
 ## ブランチ
 
 - main ... メインブランチ
@@ -12,36 +13,40 @@
 - MailAddressAuthenticationToken -> MAAToken  
   メールアドレス認証トークン
 
+# 開発
 ## 環境構築
-
-1. コマンドラインで `npm install` を実行する
-2. DATABASEを作成する
-    ```postgresql
-    CREATE DATABASE tabisketch;
-    ```
-3. 環境変数を設定する
-
-## 環境変数
-
-```
-DATABASE_URL        データベースのURL
-DATABASE_USERNAME   データベースのユーザー名
-DATABASE_PASSWORD   データベースのパスワード
-MAIL_USERNAME       Gmailアカウントのユーザー名
-MAIL_PASSWORD       Gmailアカウントのアプリパスワード
-GOOGLE_MAPS_API_KEY GoogleMapのAPIキー
+以下の手順をコマンドラインで実行する。
+1. 依存パッケージをインストール
+```shell
+npm install
 ```
 
-## 各種コマンド
+2. `.env.example` を `.env` として複製、値を書き換え
 
-#### TailwindCSSビルド
+3. Dockerをビルド&起動
+```shell
+npm run docker:build
+npm run docker:up
+```
 
-`.run/bin/BuildTailwindCss.sh`
+## カスタムコマンド
 
-#### テーブル一括作成
+### Docker ビルド
+```shell
+npm run docker:build
+```
 
-`.run/bin/CreateTables.sh [PostgreSQLのユーザー名] [PostgreSQLのパスワード] tabisketch`
+### Docker 起動
+```shell
+npm run docker:up
+```
 
-#### テーブル一括削除
+### Docker テスト実行
+```shell
+npm run docker:test
+```
 
-`.run/bin/DropTables.sh [PostgreSQLのユーザー名] [PostgreSQLのパスワード] tabisketch`
+### Docker 破棄
+```shell
+npm run docker:down
+```

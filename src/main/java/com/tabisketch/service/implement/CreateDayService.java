@@ -17,15 +17,10 @@ public class CreateDayService implements ICreateDayService {
 
     @Override
     public int execute(final CreateDayForm createDayForm) throws InsertFailedException {
-        final Day day = Day.generate(
-                createDayForm.getDay(),
-                createDayForm.getPlanId(),
-                createDayForm.getWalkThreshold(),
-                createDayForm.getPreferTransportationListBinary()
-        );
-
+        // dayを追加
+        final var day = createDayForm.toDay();
         final int result = this.daysMapper.insert(day);
-        if (result != 1) throw new InsertFailedException("Dayの追加に失敗しました。");
+        if (result != 1) throw new InsertFailedException(Day.class.getName());
 
         return day.getId();
     }

@@ -1,5 +1,6 @@
 package com.tabisketch.bean.form;
 
+import com.tabisketch.bean.entity.User;
 import com.tabisketch.util.StringUtils;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
@@ -30,5 +31,12 @@ public class RegisterForm {
         if (StringUtils.nullAndEmpty(this.rePassword)) return false;
 
         return password.equals(rePassword);
+    }
+
+    public User toUser(final String encryptPassword) {
+        return User.generate(
+                this.mailAddress,
+                encryptPassword
+        );
     }
 }
