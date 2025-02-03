@@ -9,7 +9,10 @@
     "docker:build": "sh docker/bin/docker_compose_build.sh ./docker",
     "docker:up": "sh docker/bin/docker_compose_up.sh ./docker",
     "docker:test": "sh docker/bin/docker_compose_test.sh ./docker",
-    "docker:down": "sh docker/bin/docker_compose_down.sh ./docker"
+    "docker:down": "sh docker/bin/docker_compose_down.sh ./docker",
+    "docker:e2e:build": "docker compose -f ./docker/01-docker-compose.yml -f ./docker/docker-compose.e2e.yml build",
+    "docker:e2e:run": "docker compose -f ./docker/01-docker-compose.yml -f ./docker/docker-compose.e2e.yml run --rm playwright",
+    "docker:e2e:down": "docker compose -f ./docker/01-docker-compose.yml -f ./docker/docker-compose.e2e.yml down -v"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +21,7 @@
     "@eslint/js": "9.16.0",
     "eslint": "9.17.0",
     "globals": "15.14.0",
+    "playwright": "1.50.1",
     "tailwindcss": "3.4.17"
   },
   "dependencies": {

@@ -1,0 +1,21 @@
+services:
+  app:
+    networks:
+      default:
+        aliases:
+          - app.local
+  playwright:
+    container_name: playwright
+    build:
+      context: ../
+      dockerfile: ./docker/e2e/Dockerfile
+    depends_on:
+      - app
+      - postgresql
+    env_file:
+      - ../.env
+    environment:
+      POSTGRES_HOST: postgresql
+    volumes:
+      - ../:/app
+    tty: true
