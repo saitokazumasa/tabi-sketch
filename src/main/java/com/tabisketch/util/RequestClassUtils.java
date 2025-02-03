@@ -9,17 +9,6 @@ import com.tabisketch.bean.request.*;
 public class RequestClassUtils {
     private RequestClassUtils() {}
 
-    public static TravelPlan parseToEntityClass(final CreateTravelPlanAPIRequest request) {
-        return new TravelPlan(
-                -1,
-                null,
-                "",
-                true,
-                false,
-                request.getUserId()
-        );
-    }
-
     public static DestinationList parseToEntityClass(final CreateDestinationListAPIRequest request) {
         return new DestinationList(
                 -1,

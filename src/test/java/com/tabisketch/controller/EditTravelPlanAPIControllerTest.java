@@ -1,11 +1,8 @@
 package com.tabisketch.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tabisketch.bean.request.CreateTravelPlanAPIRequest;
 import com.tabisketch.bean.request.EditTravelPlanAPIRequest;
-import com.tabisketch.bean.request.ExampleCreateTravelPlanAPIRequest;
 import com.tabisketch.bean.request.ExampleEditTravelPlanAPIRequest;
-import com.tabisketch.bean.response.CreateTravelPlanAPIResponse;
 import com.tabisketch.bean.response.EditTravelPlanAPIResponse;
 import com.tabisketch.exception.InvalidRequestBodyException;
 import com.tabisketch.service.IEditTravelPlanService;
@@ -25,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.time.LocalDate;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
@@ -83,7 +79,6 @@ public class EditTravelPlanAPIControllerTest {
     private static Stream<Arguments> validationTestDate() {
         final var data1 = new EditTravelPlanAPIRequest(0, "title", true, false);
         final var data2 = new EditTravelPlanAPIRequest(1, "", true, false);
-        final var data3 = new EditTravelPlanAPIRequest(1, "title",  true, false);
-        return Stream.of(Arguments.of(data1), Arguments.of(data2), Arguments.of(data3));
+        return Stream.of(Arguments.of(data1), Arguments.of(data2));
     }
 }
