@@ -14,6 +14,17 @@
   メールアドレス認証トークン
 
 # 開発
+
+## 事前準備
+
+1. [mise-en-place](https://mise.jdx.dev/getting-started.html)をインストールする  
+
+2. mise を使って node.js と openjdk をインストールする
+
+   ```shell
+   mise install
+   ```
+
 ## 環境構築
 以下の手順をコマンドラインで実行する。
 1. 依存パッケージをインストール
