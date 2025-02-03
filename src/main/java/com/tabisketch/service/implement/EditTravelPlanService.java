@@ -15,7 +15,7 @@ public class EditTravelPlanService implements IEditTravelPlanService {
     }
 
     @Override
-    public TravelPlan execute(final TravelPlan travelPlan) {
+    public TravelPlan execute(final TravelPlan travelPlan) throws FailedUpdateException {
         final int result = this.travelPlansMapper.update(travelPlan);
         if (result != 1) throw new FailedUpdateException("Failed update travel_plans.");
         return travelPlan;
