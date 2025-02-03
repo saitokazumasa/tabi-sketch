@@ -13,7 +13,7 @@ public class RequestClassUtils {
         return new TravelPlan(
                 -1,
                 null,
-                request.getTitle(),
+                "",
                 request.getActionDate(),
                 true,
                 false,

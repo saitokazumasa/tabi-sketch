@@ -7,7 +7,6 @@ public class ExampleCreateTravelPlanAPIRequest {
 
     public static CreateTravelPlanAPIRequest generate() {
         return new CreateTravelPlanAPIRequest(
-                "title",
                 LocalDate.now(),
                 99
         );

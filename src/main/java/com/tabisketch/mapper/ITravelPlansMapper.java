@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface ITravelPlansMapper {
-    @Insert("INSERT INTO travel_plans (title, action_date, user_id) " +
-            "   VALUES (#{title}, #{actionDate}, #{userId})")
+    @Insert("INSERT INTO travel_plans (action_date, user_id) " +
+            "   VALUES (#{actionDate}, #{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "id,uuid")
     int insert(final TravelPlan record);
 
