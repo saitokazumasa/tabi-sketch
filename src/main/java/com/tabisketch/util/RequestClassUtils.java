@@ -63,4 +63,13 @@ public class RequestClassUtils {
                 -1
         );
     }
+
+    public static DestinationList parseToEntityClass(final EditDestinationListAPIRequest request) {
+        return new DestinationList(
+                request.getId(),
+                -1,
+                request.getAvailableTransportationListBinary(),
+                -1
+        );
+    }
 }
