@@ -50,3 +50,8 @@ npm run docker:test
 ```shell
 npm run docker:down
 ```
+
+### Docker E2E テスト実行
+```shell
+npm run docker:e2e:run
+```
