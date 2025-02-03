@@ -1,0 +1,6 @@
+[tools]
+java = "openjdk-22.0.2"
+node = "22.13.1"
+
+[env]
+_.file = '.env'
