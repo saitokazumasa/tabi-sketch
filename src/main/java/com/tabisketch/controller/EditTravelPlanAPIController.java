@@ -3,7 +3,7 @@ package com.tabisketch.controller;
 import com.tabisketch.bean.request.EditTravelPlanAPIRequest;
 import com.tabisketch.bean.response.EditTravelPlanAPIResponse;
 import com.tabisketch.exception.FailedUpdateException;
-import com.tabisketch.exception.InvailedRequestException;
+import com.tabisketch.exception.InvalidRequestBodyException;
 import com.tabisketch.service.IEditTravelPlanService;
 import com.tabisketch.util.RequestClassUtils;
 import org.springframework.validation.BindingResult;
@@ -26,8 +26,8 @@ public class EditTravelPlanAPIController {
     public EditTravelPlanAPIResponse post(
             final @RequestBody @Validated EditTravelPlanAPIRequest request,
             final BindingResult bindingResult
-    ) throws InvailedRequestException, FailedUpdateException {
-        if (bindingResult.hasErrors()) throw new InvailedRequestException("Invalid request.:" + request);
+    ) throws InvalidRequestBodyException, FailedUpdateException {
+        if (bindingResult.hasErrors()) throw new InvalidRequestBodyException("Invalid request.:" + request);
 
         final var entity = RequestClassUtils.parseToEntityClass(request);
         final var updatedEntity = this.editTravelPlanService.execute(entity);

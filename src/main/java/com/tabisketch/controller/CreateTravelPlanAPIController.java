@@ -3,7 +3,7 @@ package com.tabisketch.controller;
 import com.tabisketch.bean.request.CreateTravelPlanAPIRequest;
 import com.tabisketch.bean.response.CreateTravelPlanAPIResponse;
 import com.tabisketch.exception.FailedInsertException;
-import com.tabisketch.exception.InvailedRequestException;
+import com.tabisketch.exception.InvalidRequestBodyException;
 import com.tabisketch.service.ICreateTravelPlanService;
 import com.tabisketch.util.RequestClassUtils;
 import org.springframework.validation.BindingResult;
@@ -26,8 +26,8 @@ public class CreateTravelPlanAPIController {
     public CreateTravelPlanAPIResponse post(
             final @RequestBody @Validated CreateTravelPlanAPIRequest request,
             final BindingResult bindingResult
-    ) throws InvailedRequestException, FailedInsertException {
-        if (bindingResult.hasErrors()) throw new InvailedRequestException("Invalid request.:" + request);
+    ) throws InvalidRequestBodyException, FailedInsertException {
+        if (bindingResult.hasErrors()) throw new InvalidRequestBodyException("Invalid request.:" + request);
 
         final var entity = RequestClassUtils.parseToEntityClass(request);
         final var updatedEntity = this.createTravelPlanService.execute(entity);
