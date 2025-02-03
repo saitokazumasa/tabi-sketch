@@ -2,7 +2,7 @@ package com.tabisketch.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tabisketch.bean.request.CreateStartPlaceAPIRequest;
-import com.tabisketch.bean.request.ExampleStartPlaceAPIRequest;
+import com.tabisketch.bean.request.ExampleCreateStartPlaceAPIRequest;
 import com.tabisketch.bean.response.CreateStartPlaceAPIResponse;
 import com.tabisketch.exception.InvalidRequestBodyException;
 import com.tabisketch.service.ICreateStartPlaceService;
@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
@@ -39,7 +39,7 @@ public class CreateStartPlaceAPIControllerTest {
     @Test
     @WithMockUser
     public void testPost() throws Exception {
-        final var request = ExampleStartPlaceAPIRequest.generate();
+        final var request = ExampleCreateStartPlaceAPIRequest.generate();
         final var entity = RequestClassUtils.parseToEntityClass(request);
         final var json = this.objectMapper.writeValueAsString(request);
         final var response = this.objectMapper.writeValueAsString(new CreateStartPlaceAPIResponse(entity));
@@ -78,9 +78,9 @@ public class CreateStartPlaceAPIControllerTest {
     }
 
     private static Stream<Arguments> validationTestDate() {
-        final var data1 = new CreateStartPlaceAPIRequest("", LocalTime.now(), 1);
+        final var data1 = new CreateStartPlaceAPIRequest("", LocalDateTime.now(), 1);
         final var data2 = new CreateStartPlaceAPIRequest("placeId", null, 1);
-        final var data3 = new CreateStartPlaceAPIRequest("placeId", LocalTime.now(), 0);
+        final var data3 = new CreateStartPlaceAPIRequest("placeId", LocalDateTime.now(), 0);
         return Stream.of(Arguments.of(data1), Arguments.of(data2), Arguments.of(data3));
     }
 }

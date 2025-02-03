@@ -1,6 +1,6 @@
 package com.tabisketch.bean.entity;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 public class ExampleStartPlace {
     private ExampleStartPlace() {}
@@ -9,7 +9,7 @@ public class ExampleStartPlace {
         return new StartPlace(
                 99,
                 "placeId",
-                LocalTime.now(),
+                LocalDateTime.now(),
                 99
         );
     }

@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.time.LocalDate;
-
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class TravelPlanMapperTest {
@@ -40,7 +38,6 @@ public class TravelPlanMapperTest {
     public void testUpdate() {
         final var entity = ExampleTravelPlan.generate();
         entity.setTitle("edited");
-        entity.setActionDate(LocalDate.now());
         entity.setEditable(false);
         entity.setPubliclyViewable(true);
         assert this.mapper.update(entity) == 1;

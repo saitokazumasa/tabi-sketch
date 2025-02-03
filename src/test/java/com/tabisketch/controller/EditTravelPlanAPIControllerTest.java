@@ -81,9 +81,9 @@ public class EditTravelPlanAPIControllerTest {
     }
 
     private static Stream<Arguments> validationTestDate() {
-        final var data1 = new EditTravelPlanAPIRequest(0, "title", LocalDate.now(), true, false);
-        final var data2 = new EditTravelPlanAPIRequest(1, "", LocalDate.now(), true, false);
-        final var data3 = new EditTravelPlanAPIRequest(1, "title", null, true, false);
+        final var data1 = new EditTravelPlanAPIRequest(0, "title", true, false);
+        final var data2 = new EditTravelPlanAPIRequest(1, "", true, false);
+        final var data3 = new EditTravelPlanAPIRequest(1, "title",  true, false);
         return Stream.of(Arguments.of(data1), Arguments.of(data2), Arguments.of(data3));
     }
 }

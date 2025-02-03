@@ -14,7 +14,6 @@ public class RequestClassUtils {
                 -1,
                 null,
                 "",
-                request.getActionDate(),
                 true,
                 false,
                 request.getUserId()
@@ -47,7 +46,7 @@ public class RequestClassUtils {
         return new StartPlace(
                 -1,
                 request.getPlaceId(),
-                request.getDepartureTime(),
+                request.getDepartureDateTime(),
                 request.getDestinationListId()
         );
     }
@@ -57,7 +56,6 @@ public class RequestClassUtils {
                 request.getId(),
                 null,
                 request.getTitle(),
-                request.getActionDate(),
                 request.isEditable(),
                 request.isPubliclyViewable(),
                 -1

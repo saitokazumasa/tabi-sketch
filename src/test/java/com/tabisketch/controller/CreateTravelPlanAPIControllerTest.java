@@ -78,8 +78,8 @@ public class CreateTravelPlanAPIControllerTest {
     }
 
     private static Stream<Arguments> validationTestDate() {
-        final var data1 = new CreateTravelPlanAPIRequest(null, 1);
-        final var data2 = new CreateTravelPlanAPIRequest(LocalDate.now(), 0);
+        final var data1 = new CreateTravelPlanAPIRequest(1);
+        final var data2 = new CreateTravelPlanAPIRequest(0);
         return Stream.of(Arguments.of(data1), Arguments.of(data2));
     }
 }

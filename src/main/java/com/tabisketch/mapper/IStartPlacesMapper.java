@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface IStartPlacesMapper {
-    @Insert("INSERT INTO start_places (place_id, departure_time, destination_list_id) " +
-            "   VALUES (#{placeId}, #{departureTime}, #{destinationListId})")
+    @Insert("INSERT INTO start_places (place_id, departure_datetime, destination_list_id) " +
+            "   VALUES (#{placeId}, #{departureDateTime}, #{destinationListId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(final StartPlace record);
 

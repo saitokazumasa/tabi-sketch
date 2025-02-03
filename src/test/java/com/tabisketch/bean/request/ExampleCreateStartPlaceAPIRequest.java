@@ -1,14 +1,14 @@
 package com.tabisketch.bean.request;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
-public class ExampleStartPlaceAPIRequest {
-    private ExampleStartPlaceAPIRequest() {}
+public class ExampleCreateStartPlaceAPIRequest {
+    private ExampleCreateStartPlaceAPIRequest() {}
 
     public static CreateStartPlaceAPIRequest generate() {
         return new CreateStartPlaceAPIRequest(
                 "placeId",
-                LocalTime.now(),
+                LocalDateTime.now(),
                 99
         );
     }

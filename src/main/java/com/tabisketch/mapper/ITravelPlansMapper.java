@@ -5,9 +5,9 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface ITravelPlansMapper {
-    @Insert("INSERT INTO travel_plans (action_date, user_id) " +
-            "   VALUES (#{actionDate}, #{userId})")
-    @Options(useGeneratedKeys = true, keyProperty = "id,uuid")
+    @Insert("INSERT INTO travel_plans (user_id) " +
+            "   VALUES (#{userId})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(final TravelPlan record);
 
     @Select("SELECT * FROM travel_plans WHERE id = #{id}")
@@ -15,7 +15,6 @@ public interface ITravelPlansMapper {
 
     @Update("UPDATE travel_plans SET " +
             "   title = #{title}, " +
-            "   action_date = #{actionDate}, " +
             "   editable = #{editable}, " +
             "   publicly_viewable = #{publiclyViewable} " +
             "WHERE id = #{id}")
