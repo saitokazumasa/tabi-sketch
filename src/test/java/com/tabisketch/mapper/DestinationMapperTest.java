@@ -23,4 +23,16 @@ public class DestinationMapperTest {
         final var entity = ExampleDestination.generate();
         assert this.mapper.insert(entity) == 1;
     }
+
+    @Test
+    @Sql({
+            "classpath:/sql/InsertExampleUser.sql",
+            "classpath:/sql/InsertExampleTravelPlan.sql",
+            "classpath:/sql/InsertExampleDestinationList.sql",
+            "classpath:/sql/InsertExampleDestination.sql"
+    })
+    public void testSelect() {
+        final var entity = ExampleDestination.generate();
+        assert this.mapper.selectById(entity.getId()) != null;
+    }
 }

@@ -1,10 +1,7 @@
 package com.tabisketch.mapper;
 
 import com.tabisketch.bean.entity.TravelPlan;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface ITravelPlansMapper {
@@ -12,6 +9,9 @@ public interface ITravelPlansMapper {
             "   VALUES (#{actionDate}, #{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "id,uuid")
     int insert(final TravelPlan record);
+
+    @Select("SELECT * FROM travel_plans WHERE id = #{id}")
+    TravelPlan selectById(final int id);
 
     @Update("UPDATE travel_plans SET " +
             "   title = #{title}, " +

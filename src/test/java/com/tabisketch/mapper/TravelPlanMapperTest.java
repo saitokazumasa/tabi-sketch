@@ -27,6 +27,16 @@ public class TravelPlanMapperTest {
             "classpath:/sql/InsertExampleUser.sql",
             "classpath:/sql/InsertExampleTravelPlan.sql"
     })
+    public void testSelect() {
+        final var entity = ExampleTravelPlan.generate();
+        assert this.mapper.selectById(entity.getId()) != null;
+    }
+
+    @Test
+    @Sql({
+            "classpath:/sql/InsertExampleUser.sql",
+            "classpath:/sql/InsertExampleTravelPlan.sql"
+    })
     public void testUpdate() {
         final var entity = ExampleTravelPlan.generate();
         entity.setTitle("edited");

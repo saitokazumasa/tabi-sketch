@@ -3,6 +3,7 @@ package com.tabisketch.controller;
 import com.tabisketch.bean.request.CreateDestinationListAPIRequest;
 import com.tabisketch.bean.response.CreateDestinationListAPIResponse;
 import com.tabisketch.exception.FailedInsertException;
+import com.tabisketch.exception.FailedSelectException;
 import com.tabisketch.exception.InvalidRequestBodyException;
 import com.tabisketch.service.ICreateDestinationListService;
 import com.tabisketch.util.RequestClassUtils;
@@ -26,7 +27,7 @@ public class CreateDestinationListAPIController {
     public CreateDestinationListAPIResponse post(
             final @RequestBody @Validated CreateDestinationListAPIRequest request,
             final BindingResult bindingResult
-    ) throws InvalidRequestBodyException, FailedInsertException {
+    ) throws InvalidRequestBodyException, FailedInsertException, FailedSelectException {
         if (bindingResult.hasErrors()) throw new InvalidRequestBodyException("Invalid request.:" + request);
 
         final var entity = RequestClassUtils.parseToEntityClass(request);

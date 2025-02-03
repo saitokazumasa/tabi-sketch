@@ -4,6 +4,7 @@ import com.tabisketch.bean.entity.Destination;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface IDestinationsMapper {
@@ -24,4 +25,7 @@ public interface IDestinationsMapper {
             ")")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(final Destination record);
+
+    @Select("SELECT * FROM destinations WHERE id = #{id}")
+    Destination selectById(final int id);
 }

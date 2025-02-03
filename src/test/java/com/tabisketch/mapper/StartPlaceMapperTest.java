@@ -23,4 +23,16 @@ public class StartPlaceMapperTest {
         final var entity = ExampleStartPlace.generate();
         assert this.mapper.insert(entity) == 1;
     }
+
+    @Test
+    @Sql({
+            "classpath:/sql/InsertExampleUser.sql",
+            "classpath:/sql/InsertExampleTravelPlan.sql",
+            "classpath:/sql/InsertExampleDestinationList.sql",
+            "classpath:/sql/InsertExampleStartPlace.sql"
+    })
+    public void testSelect() {
+        final var entity = ExampleStartPlace.generate();
+        assert this.mapper.selectById(entity.getId()) != null;
+    }
 }

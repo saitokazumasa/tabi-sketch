@@ -1,10 +1,12 @@
 package com.tabisketch.service.implement;
 
 import com.tabisketch.bean.entity.TravelPlan;
+import com.tabisketch.exception.FailedSelectException;
 import com.tabisketch.exception.FailedUpdateException;
 import com.tabisketch.mapper.ITravelPlansMapper;
 import com.tabisketch.service.IEditTravelPlanService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EditTravelPlanService implements IEditTravelPlanService {
@@ -15,9 +17,13 @@ public class EditTravelPlanService implements IEditTravelPlanService {
     }
 
     @Override
-    public TravelPlan execute(final TravelPlan travelPlan) throws FailedUpdateException {
-        final int result = this.travelPlansMapper.update(travelPlan);
-        if (result != 1) throw new FailedUpdateException("Failed update travel_plans.");
-        return travelPlan;
+    @Transactional
+    public TravelPlan execute(final TravelPlan entity) throws FailedUpdateException, FailedSelectException {
+        final int result = this.travelPlansMapper.update(entity);
+        if (result != 1) throw new FailedUpdateException("Failed update " + entity.getClass().getName());
+
+        final var updatedEntity = this.travelPlansMapper.selectById(entity.getId());
+        if (updatedEntity == null) throw new FailedSelectException("Failed select " + entity.getClass().getName());
+        return updatedEntity;
     }
 }

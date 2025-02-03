@@ -4,6 +4,7 @@ import com.tabisketch.bean.entity.StartPlace;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface IStartPlacesMapper {
@@ -11,4 +12,7 @@ public interface IStartPlacesMapper {
             "   VALUES (#{placeId}, #{departureTime}, #{destinationListId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(final StartPlace record);
+
+    @Select("SELECT * FROM start_places WHERE id = #{id}")
+    StartPlace selectById(final int id);
 }

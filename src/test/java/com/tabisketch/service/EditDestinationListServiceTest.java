@@ -1,6 +1,7 @@
 package com.tabisketch.service;
 
 import com.tabisketch.bean.entity.ExampleDestinationList;
+import com.tabisketch.exception.FailedSelectException;
 import com.tabisketch.exception.FailedUpdateException;
 import com.tabisketch.mapper.IDestinationListsMapper;
 import org.junit.jupiter.api.Test;
@@ -19,12 +20,14 @@ public class EditDestinationListServiceTest {
     private IEditDestinationListService service;
 
     @Test
-    public void testExecute() throws FailedUpdateException {
+    public void testExecute() throws FailedUpdateException, FailedSelectException {
         final var entity = ExampleDestinationList.generate();
 
         when(this.mapper.update(entity)).thenReturn(1);
+        when(this.mapper.selectById(entity.getId())).thenReturn(entity);
         this.service.execute(entity);
 
         verify(this.mapper).update(entity);
+        verify(this.mapper).selectById(entity.getId());
     }
 }

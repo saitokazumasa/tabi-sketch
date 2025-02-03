@@ -32,6 +32,17 @@ public class DestinationListMapperTest {
             "classpath:/sql/InsertExampleTravelPlan.sql",
             "classpath:/sql/InsertExampleDestinationList.sql"
     })
+    public void testSelect() {
+        final var entity = ExampleTravelPlan.generate();
+        assert this.mapper.selectById(entity.getId()) != null;
+    }
+
+    @Test
+    @Sql({
+            "classpath:/sql/InsertExampleUser.sql",
+            "classpath:/sql/InsertExampleTravelPlan.sql",
+            "classpath:/sql/InsertExampleDestinationList.sql"
+    })
     public void testUpdate() {
         final var entity = ExampleDestinationList.generate();
         entity.setAvailableTransportationListBinary("0000");
